@@ -9,6 +9,8 @@ public class LogoutOutputData {
     private boolean useCaseFailed;
 
     public LogoutOutputData(String username, boolean useCaseFailed) {
+        this.username = username;
+        this.useCaseFailed = useCaseFailed;
         // TODO: save the parameters in the instance variables.
     }
 
