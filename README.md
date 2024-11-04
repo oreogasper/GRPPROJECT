@@ -37,3 +37,29 @@ outcome of the game, they can win or lose tokens
 
 - Emma: A user wants to see their stats (current tokens, wins, losses, win %, etc.). The user also wants to check the 
 leaderboard to compare their stats against the top users.
+
+***
+
+# Proposed Entities
+
+### User
+- UserID: int
+- Username: String
+- Password: String
+- Age: int
+- Stats card: StatsCard
+- Wallet: float
+### Game
+- Bet: int
+- Rules: String(?)
+- Minimum: int
+### Leaderboard
+- Users: List[Users]
+### Stats card
+- UserID: int
+- Wins: int
+- Losses: int
+- TotalPlays: int
+- Wallet: int
+- WinRate: float
+- AverageBet: float
