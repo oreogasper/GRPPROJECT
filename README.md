@@ -12,6 +12,11 @@
 - jashvirr (Jashvir)
 - halstent (Halsten)
 
+## Project description
+A new platform in which you are able to gamble virtual tokens in 3 different games.
+A user is able to get daily tokens and check their stats against other players.
+It's time to gamble!
+
 ## User Stories
 - Team: A welcome page where a new user signs up for our system or logs in if they already have an account. 
 The user can log out after logging in.
@@ -32,4 +37,3 @@ outcome of the game, they can win or lose tokens
 
 - Emma: A user wants to see their stats (current tokens, wins, losses, win %, etc.). The user also wants to check the 
 leaderboard to compare their stats against the top users.
-
