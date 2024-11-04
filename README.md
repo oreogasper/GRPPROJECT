@@ -5,12 +5,15 @@
 - Emma Chow
 - Jashvir Rathore
 - Halsten Tilk
+- Samjir Bhuiyan
 
 ## GitHub Usernames 
 - ValKim712 (Valerie)
 - oreogasper (Emma)
 - jashvirr (Jashvir)
 - halstent (Halsten)
+- samjirbh (Samjir)
+
 
 ## Project description
 A new platform in which you are able to gamble virtual tokens in 3 different games.
@@ -37,3 +40,4 @@ outcome of the game, they can win or lose tokens
 
 - Emma: A user wants to see their stats (current tokens, wins, losses, win %, etc.). The user also wants to check the 
 leaderboard to compare their stats against the top users.
+
