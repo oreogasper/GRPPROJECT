@@ -11,3 +11,8 @@
 - oreogasper (Emma)
 - jashvirr (Jashvir)
 - halstent (Halsten)
+
+## Project description
+A new platform in which you are able to gamble virtual tokens in 3 different games.
+A user is able to get daily tokens and check their stats against other players.
+It's time to gamble!
