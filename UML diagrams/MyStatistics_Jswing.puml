@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor User
+participant MainPage
+participant StatisticsPage
+participant Controller
+participant Database
+
+User -> MainPage : click "Statistics"
+MainPage -> StatisticsPage : open statistics()
+StatisticsPage -> Controller : request user stats
+
+Controller -> Database : fetch user stats (games, wins, tokens, etc.)
+
+Database --> Controller : return stats data
+Controller --> StatisticsPage : send stats data
+
+StatisticsPage -> StatisticsPage : display user stats
+StatisticsPage -> StatisticsPage : show time until next hourly tokens
+@enduml
