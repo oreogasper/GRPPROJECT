@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+/'autonumber
+
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response'/
+
+/'abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
+
+List <|-- AbstractList
+Collection <|-- AbstractCollection
+
+Collection <|- List
+AbstractCollection <|- AbstractList
+AbstractList <|-- ArrayList
+
+class ArrayList {
+Object[] elementData
+size()
+}
+
+enum TimeUnit {
+DAYS
+HOURS
+MINUTES
+}'/
+actor User
+participant Menu
+participant Global_Rankings
+participant Controller
+participant Database
+
+User -> Menu : click "Leaderboard"
+Menu -> Global_Rankings : open leaderboard()
+Global_Rankings -> Controller : request global rankings
+Controller -> Database : fetch rankings
+
+Database --> Controller : return rankings data
+Controller --> Global_Rankings : send rankings data
+
+Global_Rankings -> Global_Rankings : display rankings
+Global_Rankings -> Global_Rankings : highlight user's ranking
+
+User -> Global_Rankings : select sort option (by wins/games/tokens)
+Global_Rankings -> Controller : request sorted rankings
+Controller -> Database : fetch sorted rankings
+
+Database --> Controller : return sorted data
+Controller --> Global_Rankings : send sorted data
+
+Global_Rankings -> Global_Rankings : update display with sorted rankings
+
+
+@enduml
