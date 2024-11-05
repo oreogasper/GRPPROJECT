@@ -40,9 +40,13 @@ Depending on whether they win or lose, the bet will be deducted or added to thei
 - As a player, I want to make a guess from rock, paper or scissors, so I can make my final bet. 
 - As a user, I want to see my results, so I can see if I won my bet.
 
+
 **Jashvir:** 
-- A user wants to play blackjack (standard rules). Once again, the user will make a bet and depending on the
-outcome of the game, they can win or lose tokens
+- As a user, I want to play blackjack (standard rules). As a player, I want to bet a certain amount that I 
+either win or lose depending on the outcome of the game. As a player, I want to be able to see my hand and be able to
+stand, ending my turn, or hit, adding a card to my hand. As a player, I want to be able to see the outcome of the game
+depending on the moves I have made and my hand.
+
 
 **Emma:** 
 - As a user, I want to be able to see my profile, so I can view all my statistics (current tokens, wins, losses, win %, etc.)
