@@ -1,0 +1,44 @@
+@startuml
+
+actor User
+participant MenuPage
+participant ShopPage
+participant Controller
+participant Database
+
+'A user opens the shop'
+User -> MenuPage : click "Shop"
+MenuPage -> ShopPage : open shop()
+ShopPage -> Controller : request user stats
+Controller -> Database : fetch user stats
+Database --> Controller : return user stats
+Controller --> ShopPage : send user stats
+ShopPage -> ShopPage : display user balance
+ShopPage -> ShopPage : show time until next spin
+
+'A user spins the wheel'
+User -> ShopPage : click "Spin Wheel"
+ShopPage -> Controller : request wheel spin
+Controller -> Database : fetch spin result
+Database --> Controller : return spin result
+Controller --> ShopPage : send spin result
+ShopPage -> ShopPage : display spin result
+ShopPage -> Controller : request current time
+Controller -> Database : fetch current time
+Database --> Controller : return current time
+Controller --> ShopPage : send current time
+ShopPage -> ShopPage : update time until next spin
+
+'A user clicks the button'
+User -> ShopPage : click "Get tokens" button
+ShopPage -> Controller : request click accumulation
+Controller -> Database : note click accumulation
+Database --> Controller : return click accumulation
+Controller --> ShopPage : send click accumulation
+ShopPage -> ShopPage : display click accumulation
+
+'A user leaves the shop'
+User -> ShopPage : click "Back to menu"
+ShopPage --> MenuPage : close shop()
+
+@enduml

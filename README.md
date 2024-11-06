@@ -20,13 +20,22 @@ A new platform in which you are able to gamble virtual tokens in 3 different gam
 A user is able to get daily tokens and check their stats against other players.
 It's time to gamble!
 
+***
+
 ## User Stories
-- Team: A welcome page where a new user signs up for our system or logs in if they already have an account. 
-The user can log out after logging in.
+**Team:** 
+- As a new user, I want to sign up for a membership with a personalized username and a password.
+- As a returning user, I want to log in with my username and password.
+- As a returning user, I want to be able to change my password if I forget it (but remember my username).
+- As a user, I want to be able to close return to the login page from the main application menu screen.
+- As a user, I want to be able to navigate between the signup/login pages if I forget/remember my credentials.
 
 **Halsten:** 
-- A user wants to get tokens, so they navigate to the shop and can either spin the hourly token wheel to 
-receive different bundles of tokens (can range from 1-100 tokens) or click a button for one token.
+- As a user, I want to get more tokens! I want to go to the shop to increase my balance.
+- As a user, I want to claim my hourly tokens by spinning the chance wheel, which will give me some amount 
+between 1-100 tokens.
+- As a user, I want a non-timed method to increase my token count, so I want to click a button which adds 0.1 to my 
+token count (only adding whole numbers).
 
 **Samjir:** 
 - A user wants to play the over/under card game (guess if the next card will be higher or lower than the 
@@ -54,7 +63,7 @@ depending on the moves I have made and my hand.
 
 ***
 
-# Proposed Entities
+## Proposed Entities
 
 ### User
 - UserID: int
@@ -63,6 +72,7 @@ depending on the moves I have made and my hand.
 - Age: int
 - Stats card: StatsCard
 - Wallet: float
+- PrevSpin: DateTime
 ### Game
 - Bet: int
 - Rules: String(?)
