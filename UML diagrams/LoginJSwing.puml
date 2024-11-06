@@ -1,0 +1,59 @@
+@startuml
+
+actor User
+participant WelcomePage
+participant SignupPage
+participant LoginPage
+participant MenuPage
+participant PasswordPage
+participant Controller
+participant Database
+
+'A user signs up'
+User -> WelcomePage : click "Sign up"
+WelcomePage -> SignupPage : open signup()
+User -> SignupPage : enter new username
+User -> SignupPage : enter new password
+User -> SignupPage : confirm new password
+User -> SignupPage : click "Continue"
+SignupPage -> Controller : request username check
+Controller -> Database : compare to existing usernames
+Database --> Controller : return boolean
+Controller --> SignupPage : send uniqueness check
+SignupPage -> SignupPage : display "username taken" (if so)
+SignupPage -> MenuPage : open menu()
+User -> MenuPage : click "Exit menu"
+MenuPage --> WelcomePage : close menu()
+
+'A user logs in'
+User -> WelcomePage : click "Log in"
+WelcomePage -> LoginPage : open login()
+User -> LoginPage : enter username
+User -> LoginPage : enter password
+User -> LoginPage : click "Continue"
+LoginPage -> Controller : request account check
+Controller -> Database : compare to existing accounts
+Database --> Controller : return boolean
+Controller --> LoginPage : send login success outcome
+LoginPage -> LoginPage : display "incorrect password" (if so)
+LoginPage -> MenuPage : open menu()
+User -> MenuPage : click "Exit menu"
+MenuPage --> WelcomePage : close menu()
+
+'A user changes their password'
+User -> MenuPage : a user is in the menu
+User -> MenuPage : click "Change password"
+MenuPage -> PasswordPage : open passwordChange()
+User -> PasswordPage : enter new password
+User -> PasswordPage : confirm new password
+PasswordPage -> Controller : request password change
+Controller -> Database : fetch change success outcome
+Database --> Controller : return boolean
+Controller --> PasswordPage : send change success outcome
+PasswordPage -> PasswordPage : display "new password cannot be old" (if so)
+User -> PasswordPage : click "return to menu"
+PasswordPage --> MenuPage : close passwordChange()
+User -> MenuPage : click "Exit menu"
+MenuPage --> WelcomePage : close menu()
+
+@enduml
