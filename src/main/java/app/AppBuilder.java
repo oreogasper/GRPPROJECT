@@ -37,6 +37,7 @@ import view.LoggedInView;
 import view.LoginView;
 import view.SignupView;
 import view.ViewManager;
+import view.WelcomeView;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -66,11 +67,21 @@ public class AppBuilder {
     private LoggedInViewModel loggedInViewModel;
     private LoggedInView loggedInView;
     private LoginView loginView;
+    private WelcomeView welcomeView;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
+    /**
+     * Adds the Welcome View to the application.
+     * @return this builder
+     */
+    public AppBuilder addWelcomeView() {
+        welcomeView = new WelcomeView();
+        cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
     /**
      * Adds the Signup View to the application.
      * @return this builder
