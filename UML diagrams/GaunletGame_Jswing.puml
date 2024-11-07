@@ -8,38 +8,34 @@ Bob --> Alice: Authentication Response
 
 Alice -> Bob: Another authentication Request
 Alice <-- Bob: another authentication Response'/
-title Gauntlet Game Sequence Diagram
+title Gauntlet GameController Sequence Diagram
 
 actor User
-participant Game
+participant GameController
 participant Bet
-participant Coin
-participant Dice
-participant RockPaperScissors
+participant CoinInteractor
+participant DiceInteractor
+participant RPSInteractor
+participant GamePresenter
 
-User -> Game : placeBet(bet, flipGuess, rollGuess, rpsGuess)
-Game -> Bet : isValidBet(bet)
+User -> GameController : placeBet(bet, flipGuess, rollGuess, rpsGuess)
+GameController -> Bet : isValidBet(bet)
 alt bet is invalid
-    Bet --> Game : false
-    Game --> User : "Bet must meet minimum requirement"
+    Bet --> GamePresenter : false
+    GamePresenter --> User : "Bet must meet minimum requirement"
 else bet is valid
-    Bet --> Game : true
-    Game -> Coin : flip()
-    Coin --> Game : coinResult
-    Game -> Dice : roll()
-    Dice --> Game : diceResult
-    Game -> RockPaperScissors : play()
-    RockPaperScissors --> Game : rpsResult
-Game -> Bet : check if all guesses matches result
-
+    Bet --> GameController : true
+    GameController -> CoinInteractor : flip()
+    CoinInteractor --> GameController : coinResult
+    GameController -> DiceInteractor : roll()
+    DiceInteractor --> GameController : diceResult
+    GameController -> RPSInteractor : play()
+    RPSInteractor --> GameController : rpsResult
+    GameController -> GamePresenter : showResults(coinResult, diceResult, rpsResult)
     alt all guesses correct
-        Game -> Bet : returnWinnings(amount)
-        Bet --> Game : winnings
-        Game --> User : "You won! Total winnings: $winnings"
+        GameController -> GamePresenter : "You won! Total winnings: $winnings"
     else one or more guesses incorrect
-        Game -> Bet : loseBet(amount)
-        Bet --> Game : "Bet lost"
-        Game --> User : "You lost. Try again!"
+        GameController -> GamePresenter : "You lost. Try again!"
     end
 end
 @enduml
