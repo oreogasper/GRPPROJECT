@@ -1,0 +1,62 @@
+@startuml
+title Blackjack Game Sequence Diagram
+
+actor Player
+participant Game
+participant Deck
+participant Hand
+participant Dealer
+
+Player -> Game : startGame()
+Game -> Deck : shuffle()
+Deck --> Game : shuffledDeck
+
+Player -> Game : placeBet(amount)
+Game -> Player : acceptBet or "Bet must meet minimum requirement"
+
+== Deal Initial Cards ==
+Game -> Deck : dealCard()
+Deck --> Hand : card for player
+Game -> Deck : dealCard()
+Deck --> Dealer : card for dealer
+Game -> Deck : dealCard()
+Deck --> Hand : card for player
+Game -> Deck : dealCard()
+Deck --> Dealer : card for dealer
+
+Player -> Game : chooseAction(hit or stand)
+alt Player hits
+    loop until player stands or busts
+        Game -> Deck : dealCard()
+        Deck --> Hand : card for player
+        Game -> Hand : checkBust()
+        alt player busts
+            Game --> Player : "Bust! You lose the bet."
+            break
+        end
+    end
+
+else Player stands
+    Game -> Dealer : playTurn()
+    loop until dealer stands or busts
+        Dealer -> Deck : dealCard()
+        Deck --> Dealer : card for dealer
+        Dealer -> Dealer : checkBust()
+        alt dealer busts
+            Game -> Player : "Dealer busts! You win!"
+            break
+        end
+    end
+end
+
+== Determine Winner ==
+Game -> Hand : compareHands(playerHand, dealerHand)
+alt player wins
+    Game -> Player : "You win! Payout: $amount"
+else dealer wins
+    Game -> Player : "You lose. Better luck next time!"
+else draw
+    Game -> Player : "Push. Your bet is returned."
+end
+
+@enduml
