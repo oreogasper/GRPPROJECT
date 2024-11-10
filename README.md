@@ -37,10 +37,10 @@ between 1-100 tokens.
 - As a user, I want a non-timed method to increase my token count, so I want to click a button which adds 0.1 to my 
 token count (only adding whole numbers).
 
-**Samjir:** 
-- A user wants to play the over/under card game (guess if the next card will be higher or lower than the 
-current card). The user must enter a bet (must be at least the minimum bet) prior to playing the game. 
-Depending on whether they win or lose, the bet will be deducted or added to their total tokens
+**Samjir:**
+- As a user, I want to play the over/under card game, so I can test my luck and prediction skills.
+- As a user, I want to place a bet before playing, ensuring my bet meets the minimum requirement, so I can start the game with a valid wager.
+- As a user, I want the game to deduct or add my bet amount to my total tokens based on whether I win or lose, so my tokens reflect the outcome of the game.
 
 **Val:**
 - As a user, I want to play the 50/50 gauntlet game, so I can have the opportunity to win tokens. 
