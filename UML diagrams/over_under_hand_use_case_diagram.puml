@@ -1,0 +1,11 @@
+@startuml
+actor User
+rectangle "Over/Under Card Game" {
+    User -- (Place Bet)
+    User -- (Make Prediction)
+    User --- (See Result)
+    User -- (Update Tokens)
+    User -- (Main Menu)
+    User -- (Exit)
+}
+@enduml
