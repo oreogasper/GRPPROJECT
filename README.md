@@ -51,10 +51,10 @@ Depending on whether they win or lose, the bet will be deducted or added to thei
 
 
 **Jashvir:** 
-- As a user, I want to play blackjack (standard rules). As a player, I want to bet a certain amount that I 
-either win or lose depending on the outcome of the game. As a player, I want to be able to see my hand and be able to
-stand, ending my turn, or hit, adding a card to my hand. As a player, I want to be able to see the outcome of the game
-depending on the moves I have made and my hand.
+- As a user, I want to play blackjack (standard rules). 
+- As a player, I want to bet a certain amount that I either win or lose depending on the outcome of the game. 
+- As a player, I want to be able to see my hand and be able to stand, ending my turn, or hit, adding a card to my hand. 
+- As a player, I want to be able to see the outcome of the game depending on the moves I have made and my hand.
 
 
 **Emma:** 
