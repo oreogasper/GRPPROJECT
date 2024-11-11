@@ -1,0 +1,30 @@
+@startuml
+class User {
+    +tokens: int
+    +betAmount: int
+    +placeBet(bet: Bet)
+    +updateTokens(result: String)
+}
+
+class Game {
+    +currentCard: String
+    +nextCard: String
+    +gameResult: String
+    +playGame(bet: Bet): String
+}
+
+class Bet {
+    +amount: int
+    +isValid(): boolean
+}
+
+class Tokens {
+    +balance: int
+    +updateBalance(amount: int)
+}
+
+User "1" -- "1..*" Bet : places
+User "1" -- "1" Game : plays
+User "1" -- "1" Tokens : has
+Game "1" -- "1" Tokens : updates
+@enduml

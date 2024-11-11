@@ -1,0 +1,16 @@
+@startuml
+actor User
+participant GameController
+participant BetInteractor
+participant GameInteractor
+participant TokensInteractor
+
+User -> GameController: Start game
+GameController -> BetInteractor: Validate bet
+BetInteractor -> GameController: Return bet status
+GameController -> GameInteractor: Play game
+GameInteractor -> TokensInteractor: Update tokens
+TokensInteractor -> GameInteractor: Return updated tokens
+GameInteractor -> GameController: Return result
+GameController -> User: Display result
+@enduml

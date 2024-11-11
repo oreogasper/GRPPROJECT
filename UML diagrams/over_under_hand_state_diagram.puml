@@ -1,0 +1,8 @@
+@startuml
+[*] --> Idle
+Idle --> Betting : User places bet
+Idle -> Leave
+Betting --> Playing : Game starts
+Playing --> GameOver : Game ends
+GameOver --> Idle : User returns to idle
+@enduml

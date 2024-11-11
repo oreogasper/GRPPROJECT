@@ -1,0 +1,19 @@
+@startuml
+start
+:Place Bet;
+:Validate Bet;
+if (Bet Valid?) then (yes)
+    :Play Game;
+    :Update Tokens;
+    :Display Result;
+else (no)
+    :Show Error;
+    :Place Bet;
+endif
+:Play Again;
+if (yes) then (yes)
+    :Place Bet;
+else (no)
+    :Main Menu;
+endif
+@enduml
