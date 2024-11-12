@@ -1,6 +1,5 @@
 package use_case.cancel;
 
-
 /**
  * The Logout Interactor.
  */
