@@ -4,7 +4,7 @@ package use_case.cancel;
 /**
  * The Logout Interactor.
  */
-public class CancelInteractor {
+public class CancelInteractor implements CancelInputBoundary {
     private final CancelOutputBoundary logoutPresenter;
 
     public CancelInteractor(CancelOutputBoundary logoutOutputBoundary) {
