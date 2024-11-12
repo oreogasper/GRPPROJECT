@@ -10,6 +10,8 @@ import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.cancel.CancelController;
+import interface_adapter.cancel.CancelPresenter;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
@@ -21,6 +23,9 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import use_case.cancel.CancelInputBoundary;
+import use_case.cancel.CancelInteractor;
+import use_case.cancel.CancelOutputBoundary;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -181,5 +186,23 @@ public class AppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
+    }
+
+
+    /**
+     * Adds the Cancel Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addCancelUseCase() {
+        final CancelOutputBoundary cancelOutputBoundary = new CancelPresenter(viewManagerModel,
+                loginViewModel, signupViewModel);
+
+        final CancelInputBoundary cancelInteractor =
+                new CancelInteractor(cancelOutputBoundary);
+
+        final CancelController cancelController = new CancelController(cancelInteractor);
+
+        loginView.setCancelController(cancelController);
+        return this;
     }
 }
