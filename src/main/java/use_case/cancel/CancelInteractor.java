@@ -4,10 +4,10 @@ package use_case.cancel;
  * The Logout Interactor.
  */
 public class CancelInteractor implements CancelInputBoundary {
-    private final CancelOutputBoundary logoutPresenter;
+    private final CancelOutputBoundary cancelPresenter;
 
-    public CancelInteractor(CancelOutputBoundary logoutOutputBoundary) {
-        this.logoutPresenter = logoutOutputBoundary;
+    public CancelInteractor(CancelOutputBoundary cancelOutputBoundary) {
+        this.cancelPresenter = cancelOutputBoundary;
     }
 
     @Override
@@ -16,6 +16,6 @@ public class CancelInteractor implements CancelInputBoundary {
         final CancelOutputData logoutData = new CancelOutputData(false);
 
         // * tell the presenter to prepare a success view.
-        logoutPresenter.prepareSuccessView(logoutData);
+        cancelPresenter.prepareSuccessView(logoutData);
     }
 }
