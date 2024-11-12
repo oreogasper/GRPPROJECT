@@ -15,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import interface_adapter.cancel.CancelController;
+import interface_adapter.change_password.LoggedInState;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
@@ -36,6 +38,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private final JButton logIn;
     private final JButton cancel;
     private LoginController loginController;
+    private CancelController cancelController;
 
     public LoginView(LoginViewModel loginViewModel) {
 
@@ -123,6 +126,15 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
             }
         });
 
+        cancel.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(cancel)) {
+                        this.cancelController.execute();
+                    }
+                }
+        );
+
         this.add(title);
         this.add(usernameInfo);
         this.add(usernameErrorField);
@@ -157,4 +169,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     public void setLoginController(LoginController loginController) {
         this.loginController = loginController;
     }
+
+    public void setCancelController(CancelController cancelController) {
+        this.cancelController = cancelController; }
 }
