@@ -1,6 +1,5 @@
 package use_case.cancel;
 
-
 /**
  * The output boundary for the Cancel Use Case.
  */
