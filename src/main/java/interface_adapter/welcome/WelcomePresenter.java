@@ -4,7 +4,6 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupViewModel;
-import interface_adapter.statistics.StatisticsViewModel;
 import use_case.welcome.WelcomeOutputBoundary;
 
 /**
@@ -16,18 +15,16 @@ public class WelcomePresenter implements WelcomeOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final LoginViewModel loginViewModel;
     private final SignupViewModel signupViewModel;
-    private final StatisticsViewModel statisticsViewModel;
 
     public WelcomePresenter(ViewManagerModel viewManagerModel,
                             LoggedInViewModel loggedInViewModel,
                             LoginViewModel loginViewModel,
-                            SignupViewModel signupViewModel, StatisticsViewModel statisticsViewModel) {
+                            SignupViewModel signupViewModel) {
         // TODO: assign to the three instance variables.
         this.viewManagerModel = viewManagerModel;
         // this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
         this.signupViewModel = signupViewModel;
-        this.statisticsViewModel = statisticsViewModel;
     }
 
     @Override
@@ -55,9 +52,4 @@ public class WelcomePresenter implements WelcomeOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-    @Override
-    public void switchToStatisticsView() {
-        viewManagerModel.setState(statisticsViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
-    }
 }
