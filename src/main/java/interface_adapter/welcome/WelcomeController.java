@@ -20,4 +20,8 @@ public class WelcomeController {
     public void switchToLoginView() {
         userWelcomeUseCaseInteractor.switchToLoginView();
     }
+    public void switchToStatisticsView() {
+        userWelcomeUseCaseInteractor.switchToStatisticsView();
+    }
+
 }

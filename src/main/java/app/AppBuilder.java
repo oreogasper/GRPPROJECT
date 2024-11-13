@@ -21,6 +21,9 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.statistics.StatisticsController;
+import interface_adapter.statistics.StatisticsPresenter;
+import interface_adapter.statistics.StatisticsViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
@@ -36,6 +39,9 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.statistics.StatisticsInputBoundary;
+import use_case.statistics.StatisticsInteractor;
+import use_case.statistics.StatisticsOutputBoundary;
 import use_case.welcome.WelcomeInputBoundary;
 import use_case.welcome.WelcomeInteractor;
 import use_case.welcome.WelcomeOutputBoundary;
@@ -72,6 +78,8 @@ public class AppBuilder {
 
     private WelcomeView welcomeView;
     private WelcomeViewModel welcomeViewModel;
+    private StatsView statsView;
+    private StatisticsViewModel statisticsViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -122,12 +130,23 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Statistics View to the application.
+     * @return this builder
+     */
+    public AppBuilder addStatisticsView() {
+        statisticsViewModel = new StatisticsViewModel();
+        statsView = new StatsView(statisticsViewModel);
+        cardPanel.add(statsView, statsView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Welcome Use Case to the application.
      * @return this builder
      */
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, signupViewModel);
+                loggedInViewModel, loginViewModel, signupViewModel, statisticsViewModel);
         final WelcomeInputBoundary userWelcomeInteractor = new WelcomeInteractor(
                 welcomeOutputBoundary);
 
@@ -200,7 +219,21 @@ public class AppBuilder {
     }
 
     /**
-     * Creates the JFrame for the application and initially sets the SignupView to be displayed.
+     * Adds the Statistics Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addStatisticsUseCase() {
+        final StatisticsOutputBoundary statisticsOutputBoundary = new StatisticsPresenter(viewManagerModel,
+                statisticsViewModel, loginViewModel, welcomeViewModel);
+        final StatisticsInputBoundary userStatisticsInteractor = new StatisticsInteractor(
+                statisticsOutputBoundary);
+
+        final StatisticsController statisticsController = new StatisticsController(userStatisticsInteractor);
+        statsView.setStatisticsController(statisticsController);
+        return this;
+    }
+    /**
+     * Creates the JFrame for the application and initially sets the WelcomeView to be displayed.
      * @return the application
      */
     public JFrame build() {
