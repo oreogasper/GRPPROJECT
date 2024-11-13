@@ -1,5 +1,8 @@
 package app;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import javax.swing.JFrame;
 
 /**
@@ -11,12 +14,22 @@ public class Main {
      * @param args unused arguments
      */
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        e.printStackTrace();
+        }
         final AppBuilder appBuilder = new AppBuilder();
         // TODO: add the Logout Use Case to the app using the appBuilder
         final JFrame application = appBuilder
                                             .addLoginView()
                                             .addSignupView()
                                             .addLoggedInView()
+                                            .addWelcomeView()
+                                            .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             .addChangePasswordUseCase()

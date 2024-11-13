@@ -21,6 +21,9 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.welcome.WelcomeController;
+import interface_adapter.welcome.WelcomePresenter;
+import interface_adapter.welcome.WelcomeViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -33,10 +36,10 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.LoggedInView;
-import view.LoginView;
-import view.SignupView;
-import view.ViewManager;
+import use_case.welcome.WelcomeInputBoundary;
+import use_case.welcome.WelcomeInteractor;
+import use_case.welcome.WelcomeOutputBoundary;
+import view.*;
 
 /**
  * The AppBuilder class is responsible for putting together the pieces of
@@ -67,8 +70,22 @@ public class AppBuilder {
     private LoggedInView loggedInView;
     private LoginView loginView;
 
+    private WelcomeView welcomeView;
+    private WelcomeViewModel welcomeViewModel;
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
+    }
+
+    /**
+     * Adds the Welcome View to the application.
+     * @return this builder
+     */
+    public AppBuilder addWelcomeView() {
+        welcomeViewModel = new WelcomeViewModel();
+        welcomeView = new WelcomeView(welcomeViewModel);
+        cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
     }
 
     /**
@@ -105,12 +122,27 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Welcome Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addWelcomeUseCase() {
+        final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
+                loggedInViewModel, loginViewModel, signupViewModel);
+        final WelcomeInputBoundary userWelcomeInteractor = new WelcomeInteractor(
+                welcomeOutputBoundary);
+
+        final WelcomeController welcomecontroller = new WelcomeController(userWelcomeInteractor);
+        welcomeView.setWelcomeController(welcomecontroller);
+        return this;
+    }
+
+    /**
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel);
+                signupViewModel, loginViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -125,7 +157,7 @@ public class AppBuilder {
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel);
+                loggedInViewModel, loginViewModel, welcomeViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
@@ -157,7 +189,7 @@ public class AppBuilder {
      */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel);
+                loggedInViewModel, loginViewModel, welcomeViewModel);
 
         final LogoutInputBoundary logoutInteractor =
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
@@ -177,7 +209,7 @@ public class AppBuilder {
 
         application.add(cardPanel);
 
-        viewManagerModel.setState(signupView.getViewName());
+        viewManagerModel.setState(welcomeView.getViewName());
         viewManagerModel.firePropertyChanged();
 
         return application;

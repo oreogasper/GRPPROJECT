@@ -5,6 +5,7 @@ import interface_adapter.change_password.LoggedInState;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.welcome.WelcomeViewModel;
 import use_case.logout.LogoutOutputBoundary;
 import use_case.logout.LogoutOutputData;
 
@@ -15,15 +16,18 @@ public class LogoutPresenter implements LogoutOutputBoundary {
 
     private final LoggedInViewModel loggedInViewModel;
     private final ViewManagerModel viewManagerModel;
-    private LoginViewModel loginViewModel;
+    private final LoginViewModel loginViewModel;
+    private final WelcomeViewModel welcomeViewModel;
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
-                          LoggedInViewModel loggedInViewModel,
-                           LoginViewModel loginViewModel) {
+                           LoggedInViewModel loggedInViewModel,
+                           LoginViewModel loginViewModel,
+                           WelcomeViewModel welcomeViewModel) {
         // TODO: assign to the three instance variables.
         this.viewManagerModel = viewManagerModel;
         this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
+        this.welcomeViewModel = welcomeViewModel;
     }
 
     @Override
@@ -56,7 +60,7 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         loginViewModel.firePropertyChanged();
 
         // This code tells the View Manager to switch to the LoginView.
-        this.viewManagerModel.setState(loginViewModel.getViewName());
+        this.viewManagerModel.setState(welcomeViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
