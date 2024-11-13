@@ -18,6 +18,9 @@ import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.logout.LogoutPresenter;
+import interface_adapter.menu.MenuController;
+import interface_adapter.menu.MenuPresenter;
+import interface_adapter.menu.MenuViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -36,6 +39,9 @@ import use_case.login.LoginOutputBoundary;
 import use_case.logout.LogoutInputBoundary;
 import use_case.logout.LogoutInteractor;
 import use_case.logout.LogoutOutputBoundary;
+import use_case.menu.MenuInputBoundary;
+import use_case.menu.MenuInteractor;
+import use_case.menu.MenuOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -80,6 +86,8 @@ public class AppBuilder {
     private WelcomeViewModel welcomeViewModel;
     private StatsView statsView;
     private StatisticsViewModel statisticsViewModel;
+    private MenuView menuView;
+    private MenuViewModel menuViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -119,6 +127,17 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Menu View to the application.
+     * @return this builder
+     */
+    public AppBuilder addMenuView() {
+        menuViewModel = new MenuViewModel();
+        menuView = new MenuView(menuViewModel);
+        cardPanel.add(menuView, menuView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the LoggedIn View to the application.
      * @return this builder
      */
@@ -146,7 +165,7 @@ public class AppBuilder {
      */
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, signupViewModel, statisticsViewModel);
+                loggedInViewModel, loginViewModel, signupViewModel);
         final WelcomeInputBoundary userWelcomeInteractor = new WelcomeInteractor(
                 welcomeOutputBoundary);
 
@@ -176,12 +195,27 @@ public class AppBuilder {
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, welcomeViewModel);
+                loggedInViewModel, loginViewModel, welcomeViewModel, menuViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
         final LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
+        return this;
+    }
+
+    /**
+     * Adds the Menu Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addMenuUseCase() {
+        final MenuOutputBoundary menuOutputBoundary = new MenuPresenter(viewManagerModel,
+                loginViewModel, statisticsViewModel);
+        final MenuInputBoundary userMenuInteractor = new MenuInteractor(
+                menuOutputBoundary);
+
+        final MenuController menucontroller = new MenuController(userMenuInteractor);
+        menuView.setMenuController(menucontroller);
         return this;
     }
 
@@ -232,6 +266,7 @@ public class AppBuilder {
         statsView.setStatisticsController(statisticsController);
         return this;
     }
+
     /**
      * Creates the JFrame for the application and initially sets the WelcomeView to be displayed.
      * @return the application

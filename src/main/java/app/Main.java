@@ -23,19 +23,20 @@ public class Main {
         e.printStackTrace();
         }
         final AppBuilder appBuilder = new AppBuilder();
-        // TODO: add the Logout Use Case to the app using the appBuilder
         final JFrame application = appBuilder
                                             .addLoginView()
                                             .addSignupView()
                                             .addLoggedInView()
                                             .addWelcomeView()
                                             .addStatisticsView()
+                                            .addMenuView()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()
                                             .addStatisticsUseCase()
                                             .addChangePasswordUseCase()
                                             .addLogoutUseCase()
+                                            .addMenuUseCase()
                                             .build();
 
         application.pack();
