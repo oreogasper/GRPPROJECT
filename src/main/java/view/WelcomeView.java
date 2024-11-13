@@ -32,6 +32,13 @@ public class WelcomeView extends JPanel {
     private final JButton signUp;
     private final JButton toLogin;
 
+    // TEMPORARY BUTTONS
+    private final JButton stats;
+    private final JButton blackjack;
+    private final JButton gauntlet;
+    private final JButton overUnder;
+    private final JButton shop;
+
     public WelcomeView(WelcomeViewModel welcomeViewModel) {
         // welcomeViewModel.addPropertyChangeListener(this);
 
@@ -43,6 +50,19 @@ public class WelcomeView extends JPanel {
         buttons.add(signUp);
         toLogin = new JButton(WelcomeViewModel.TO_LOGIN_BUTTON_LABEL);
         buttons.add(toLogin);
+
+        // TEMPORARY BUTTONS
+        final JPanel tButtons = new JPanel();
+        stats = new JButton(WelcomeViewModel.STATS_BUTTON_LABEL);
+        tButtons.add(stats);
+        blackjack = new JButton(WelcomeViewModel.BLACKJACK_BUTTON_LABEL);
+        tButtons.add(blackjack);
+        gauntlet = new JButton(WelcomeViewModel.GAUNTLET_BUTTON_LABEL);
+        tButtons.add(gauntlet);
+        overUnder = new JButton(WelcomeViewModel.OVERUNDER_BUTTON_LABEL);
+        tButtons.add(overUnder);
+        shop = new JButton(WelcomeViewModel.SHOP_BUTTON_LABEL);
+        tButtons.add(shop);
 
         toLogin.addActionListener(
                 new ActionListener() {
@@ -61,10 +81,49 @@ public class WelcomeView extends JPanel {
                 }
         );
 
+        // TEMPORARY BUTTON ACTION LISTENERS
+
+        stats.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        welcomeController.switchToLoginView();
+                    }
+                }
+        );
+        blackjack.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        welcomeController.switchToLoginView();
+                    }
+                }
+        );
+        gauntlet.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        welcomeController.switchToLoginView();
+                    }
+                }
+        );
+        overUnder.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        welcomeController.switchToLoginView();
+                    }
+                }
+        );
+        shop.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        welcomeController.switchToLoginView();
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
         this.add(buttons);
+        this.add(tButtons);
     }
 
     public String getViewName() {
