@@ -1,12 +1,11 @@
 package view;
 
-import interface_adapter.menu.MenuController;
-import interface_adapter.menu.MenuViewModel;
-
-import javax.swing.*;
-import java.awt.*;
+import interface_adapter.gamemenu.GameMenuController;
+import interface_adapter.gamemenu.GameMenuViewModel;
 import java.awt.event.ActionEvent;
+import java.awt.*;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 /**
  * The View for the game menu.
@@ -18,39 +17,48 @@ public class GameMenuView extends JPanel {
     private final JButton blackjack;
     private final JButton gauntlet;
     private final JButton overUnder;
+    private final JButton back;
 
     public GameMenuView(GameMenuViewModel gameMenuViewModel) {
         // welcomeViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel(MenuViewModel.TITLE_LABEL);
+        final JLabel title = new JLabel(GameMenuViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel tButtons = new JPanel();
-        blackjack = new JButton(MenuViewModel.BLACKJACK_BUTTON_LABEL);
+        blackjack = new JButton(GameMenuViewModel.BLACKJACK_BUTTON_LABEL);
         tButtons.add(blackjack);
-        gauntlet = new JButton(MenuViewModel.GAUNTLET_BUTTON_LABEL);
+        gauntlet = new JButton(GameMenuViewModel.GAUNTLET_BUTTON_LABEL);
         tButtons.add(gauntlet);
-        overUnder = new JButton(MenuViewModel.OVERUNDER_BUTTON_LABEL);
+        overUnder = new JButton(GameMenuViewModel.OVERUNDER_BUTTON_LABEL);
         tButtons.add(overUnder);
+        back = new JButton(GameMenuViewModel.BACK_BUTTON_LABEL);
 
         blackjack.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        GameMenuController.switchToLoginView();
+                        gameMenuController.switchToLoginView();
                     }
                 }
         );
         gauntlet.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        GameMenuController.switchToLoginView();
+                        gameMenuController.switchToLoginView();
                     }
                 }
         );
         overUnder.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        GameMenuController.switchToLoginView();
+                        gameMenuController.switchToLoginView();
+                    }
+                }
+        );
+        back.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        gameMenuController.switchToMenuView();
                     }
                 }
         );
@@ -66,6 +74,6 @@ public class GameMenuView extends JPanel {
     }
 
     public void setGameMenuController(GameMenuController controller) {
-        this.GameMenuController = controller;
+        this.gameMenuController = controller;
     }
 }
