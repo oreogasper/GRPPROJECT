@@ -258,7 +258,7 @@ public class AppBuilder {
      */
     public AppBuilder addStatisticsUseCase() {
         final StatisticsOutputBoundary statisticsOutputBoundary = new StatisticsPresenter(viewManagerModel,
-                statisticsViewModel, loginViewModel, welcomeViewModel);
+                statisticsViewModel, loginViewModel, welcomeViewModel, menuViewModel);
         final StatisticsInputBoundary userStatisticsInteractor = new StatisticsInteractor(
                 statisticsOutputBoundary);
 

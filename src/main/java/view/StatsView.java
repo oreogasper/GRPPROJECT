@@ -52,7 +52,7 @@ public class StatsView extends JPanel {
         cancel.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        statisticsController.switchToWelcomeView();
+                        statisticsController.switchToMenuView();
                     }
                 }
         );
