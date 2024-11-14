@@ -33,6 +33,7 @@ public class GameMenuView extends JPanel {
         overUnder = new JButton(GameMenuViewModel.OVERUNDER_BUTTON_LABEL);
         tButtons.add(overUnder);
         back = new JButton(GameMenuViewModel.BACK_BUTTON_LABEL);
+        tButtons.add(back);
 
         blackjack.addActionListener(
                 new ActionListener() {
