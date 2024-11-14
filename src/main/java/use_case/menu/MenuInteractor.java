@@ -1,7 +1,6 @@
 package use_case.menu;
 
 import use_case.menu.MenuInputBoundary;
-import use_case.menu.MenuOutputBoundary;
 
 /**
  * The Menu Interactor.
@@ -20,6 +19,11 @@ public class MenuInteractor implements MenuInputBoundary {
     @Override
     public void switchToLoginView() {
         userPresenter.switchToLoginView();
+    }
+
+    @Override
+    public void switchToGameMenuView() {
+        userPresenter.switchToGameMenuView();
     }
 }
 
