@@ -13,6 +13,9 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.gamemenu.GameMenuController;
+import interface_adapter.gamemenu.GameMenuViewModel;
+import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -33,6 +36,9 @@ import interface_adapter.welcome.WelcomeViewModel;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
+import use_case.gamemenu.GameMenuInputBoundary;
+import use_case.gamemenu.GameMenuInteractor;
+import use_case.gamemenu.GameMenuOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -81,7 +87,8 @@ public class AppBuilder {
     private LoggedInViewModel loggedInViewModel;
     private LoggedInView loggedInView;
     private LoginView loginView;
-
+    private GameMenuViewModel gameMenuViewModel;
+    private GameMenuView gameMenuView;
     private WelcomeView welcomeView;
     private WelcomeViewModel welcomeViewModel;
     private StatsView statsView;
@@ -101,6 +108,17 @@ public class AppBuilder {
         welcomeViewModel = new WelcomeViewModel();
         welcomeView = new WelcomeView(welcomeViewModel);
         cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Game Menu View to the application.
+     * @return this builder
+     */
+    public AppBuilder addGameMenuView() {
+        gameMenuViewModel = new GameMenuViewModel();
+        gameMenuView = new GameMenuView(gameMenuViewModel);
+        cardPanel.add(gameMenuView, gameMenuView.getViewName());
         return this;
     }
 
@@ -210,12 +228,27 @@ public class AppBuilder {
      */
     public AppBuilder addMenuUseCase() {
         final MenuOutputBoundary menuOutputBoundary = new MenuPresenter(viewManagerModel,
-                loginViewModel, statisticsViewModel);
+                loginViewModel, statisticsViewModel, gameMenuViewModel);
         final MenuInputBoundary userMenuInteractor = new MenuInteractor(
                 menuOutputBoundary);
 
         final MenuController menucontroller = new MenuController(userMenuInteractor);
         menuView.setMenuController(menucontroller);
+        return this;
+    }
+
+    /**
+     * Adds the Game Menu Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addGameMenuUseCase() {
+        final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
+                loginViewModel, menuViewModel);
+        final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
+                gameMenuOutputBoundary);
+
+        final GameMenuController gameMenucontroller = new GameMenuController(userGameMenuInteractor);
+        gameMenuView.setGameMenuController(gameMenucontroller);
         return this;
     }
 
@@ -272,7 +305,7 @@ public class AppBuilder {
      * @return the application
      */
     public JFrame build() {
-        final JFrame application = new JFrame("Login Example");
+        final JFrame application = new JFrame("LoseYourMoney.com");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         application.add(cardPanel);

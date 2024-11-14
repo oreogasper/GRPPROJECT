@@ -16,18 +16,22 @@ public class GameMenuInteractor implements GameMenuInputBoundary {
     public void switchToMenuView() {
         userPresenter.switchToMenuView();
     }
+
     @Override
     public void switchToLoginView() {
         userPresenter.switchToLoginView();
     }
+
     @Override
     public void switchToGaunletView() {
         userPresenter.switchToGaunletView();
     }
+
     @Override
     public void switchToBlackjackView() {
         userPresenter.switchToBlackjackView();
     }
+
     @Override
     public void switchToOverUnderView() {
         userPresenter.switchToOverUnderView();

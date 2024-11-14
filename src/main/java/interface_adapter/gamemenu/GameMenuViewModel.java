@@ -1,7 +1,7 @@
 package interface_adapter.gamemenu;
 
 import interface_adapter.ViewModel;
-import interface_adapter.gamemenu.GameMenuState;
+
 
 /**
  * The ViewModel for the Game Menu View.
@@ -16,7 +16,7 @@ public class GameMenuViewModel extends ViewModel<GameMenuState> {
 
     public GameMenuViewModel() {
         super("game menu");
-        // setState(new WelcomeState());
+        setState(new GameMenuState());
     }
 
 }
