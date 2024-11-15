@@ -15,19 +15,23 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * The View for the Gaunlet bet Use Case.
+ * The View for the Signup Use Case.
  */
-public class GaunletBetView extends JPanel implements ActionListener, PropertyChangeListener {
-    private final String viewName = "Gaunlet bet";
+public class GuessesView extends JPanel implements ActionListener, PropertyChangeListener {
+    private final String viewName = "Gaunlet guess";
 
-    private final GaunletBetViewModel gaunletBetViewModel;
-    private final JTextField betInputField = new JTextField(8);
-    private final JButton continueToGame;
-    private final JButton back;
+    private final SignupViewModel signupViewModel;
+    private final JTextField usernameInputField = new JTextField(15);
+    private final JPasswordField passwordInputField = new JPasswordField(15);
+    private final JPasswordField repeatPasswordInputField = new JPasswordField(15);
+    private SignupController signupController;
 
-    public GaunletBetView(GaunletBetViewModel gaunletBetViewModel) {
-        this.gaunletBetViewModel = gaunletBetViewModel;
-        gaunletBetViewModel.addPropertyChangeListener(this);
+    private final JButton signUp;
+    private final JButton cancel;
+
+    public GuessesView(SignupViewModel signupViewModel) {
+        this.signupViewModel = signupViewModel;
+        signupViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
