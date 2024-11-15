@@ -16,9 +16,7 @@ public class MenuView extends JPanel {
 
     private MenuController menuController;
     private final JButton stats;
-    private final JButton blackjack;
-    private final JButton gauntlet;
-    private final JButton overUnder;
+    private final JButton gamble;
     private final JButton shop;
 
     public MenuView(MenuViewModel welcomeViewModel) {
@@ -30,12 +28,8 @@ public class MenuView extends JPanel {
         final JPanel tButtons = new JPanel();
         stats = new JButton(MenuViewModel.STATS_BUTTON_LABEL);
         tButtons.add(stats);
-        blackjack = new JButton(MenuViewModel.BLACKJACK_BUTTON_LABEL);
-        tButtons.add(blackjack);
-        gauntlet = new JButton(MenuViewModel.GAUNTLET_BUTTON_LABEL);
-        tButtons.add(gauntlet);
-        overUnder = new JButton(MenuViewModel.OVERUNDER_BUTTON_LABEL);
-        tButtons.add(overUnder);
+        gamble = new JButton(MenuViewModel.GAMBLE_BUTTON_LABEL);
+        tButtons.add(gamble);
         shop = new JButton(MenuViewModel.SHOP_BUTTON_LABEL);
         tButtons.add(shop);
 
@@ -46,24 +40,10 @@ public class MenuView extends JPanel {
                     }
                 }
         );
-        blackjack.addActionListener(
+        gamble.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToLoginView();
-                    }
-                }
-        );
-        gauntlet.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToLoginView();
-                    }
-                }
-        );
-        overUnder.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToLoginView();
+                        menuController.switchToGameMenuView();
                     }
                 }
         );

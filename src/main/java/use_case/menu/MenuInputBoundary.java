@@ -10,5 +10,6 @@ public interface MenuInputBoundary {
      */
     void switchToStatisticsView();
     void switchToLoginView();
+    void switchToGameMenuView();
 
 }

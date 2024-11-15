@@ -30,6 +30,8 @@ public class Main {
                                             .addWelcomeView()
                                             .addStatisticsView()
                                             .addMenuView()
+                                            .addGameMenuView()
+                                            .addGameMenuUseCase()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addLoginUseCase()

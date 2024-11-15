@@ -20,4 +20,7 @@ public class MenuController {
         userMenuUseCaseInteractor.switchToStatisticsView();
     }
 
+    public void switchToGameMenuView() {
+        userMenuUseCaseInteractor.switchToGameMenuView();
+    }
 }

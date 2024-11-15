@@ -22,4 +22,5 @@ public interface MenuOutputBoundary {
     void switchToStatisticsView();
 
     void switchToLoginView();
+    public void switchToGameMenuView();
 }
