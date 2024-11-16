@@ -1,11 +1,16 @@
 package view;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuViewModel;
-import java.awt.event.ActionEvent;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import javax.swing.*;
 
 /**
  * The View for the game menu.
@@ -45,7 +50,7 @@ public class GameMenuView extends JPanel {
         gauntlet.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gameMenuController.switchToLoginView();
+                        gameMenuController.switchToGaunletView();
                     }
                 }
         );

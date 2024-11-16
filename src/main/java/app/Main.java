@@ -1,9 +1,8 @@
 package app;
 
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import javax.swing.JFrame;
 
 /**
  * The Main class of our application.
@@ -16,10 +15,12 @@ public class Main {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        } catch (UnsupportedLookAndFeelException e) {
+        }
+        catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
 
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+        }
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
         e.printStackTrace();
         }
         final AppBuilder appBuilder = new AppBuilder();
@@ -30,10 +31,12 @@ public class Main {
                                             .addWelcomeView()
                                             .addStatisticsView()
                                             .addMenuView()
+                                            .addGaunletBetView()
                                             .addGameMenuView()
                                             .addGameMenuUseCase()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
+                                            .addGaunletBetUseCase()
                                             .addLoginUseCase()
                                             .addStatisticsUseCase()
                                             .addChangePasswordUseCase()
