@@ -1,10 +1,8 @@
 package view;
 
 import interface_adapter.gaunlet_bet.GaunletBetController;
+import interface_adapter.gaunlet_bet.GaunletBetState;
 import interface_adapter.gaunlet_bet.GaunletBetViewModel;
-import interface_adapter.signup.SignupController;
-import interface_adapter.signup.SignupState;
-import interface_adapter.signup.SignupViewModel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -27,9 +25,9 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
     private final JButton back;
     private GaunletBetController gaunletBetController;
 
-    public GaunletBetView(GaunletBetViewModel gaunletBetViewModel) {
-        this.gaunletBetViewModel = gaunletBetViewModel;
-        gaunletBetViewModel.addPropertyChangeListener(this);
+    public GaunletBetView(GaunletBetViewModel gauntletBetViewModel) {
+        this.gaunletBetViewModel = gauntletBetViewModel;
+        gauntletBetViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(GaunletBetViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -46,7 +44,7 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
         continueToGame.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gaunletBetController.switchToGauntletGuessView();
+                        gaunletBetController.switchToGameMenuView();
                     }
                 }
         );
@@ -86,9 +84,9 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
         betInputField.getDocument().addDocumentListener(new DocumentListener() {
 
             private void documentListenerHelper() {
-                final BetState currentState = betViewModel.getState();
-                currentState.setBetAmount(betAmountInputField.getText());
-                betViewModel.setState(currentState);
+                final GaunletBetState currentState = gaunletBetViewModel.getState();
+                currentState.setBet(betInputField.getText());
+                gaunletBetViewModel.setState(currentState);
             }
 
             @Override
@@ -110,22 +108,27 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final BetState state = (BetState) evt.getNewValue();
+        final GaunletBetState state = (GaunletBetState) evt.getNewValue();
         setFields(state);
         if (state.getBetError() != null) {
             JOptionPane.showMessageDialog(this, state.getBetError());
         }
     }
 
-    private void setFields(BetState state) {
-        betInputField.setText(state.getBetAmount());
+    private void setFields(GaunletBetState state) {
+        betInputField.setText(state.getBet());
     }
 
     public String getViewName() {
         return viewName;
     }
 
-    public void setBetController(BetController controller) {
-        this.betController = controller;
+    public void setGaunletBetController(GaunletBetController controller) {
+        this.gaunletBetController = controller;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
     }
 }

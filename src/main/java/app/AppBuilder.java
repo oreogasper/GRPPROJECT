@@ -14,8 +14,11 @@ import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.gamemenu.GameMenuController;
-import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.gamemenu.GameMenuPresenter;
+import interface_adapter.gamemenu.GameMenuViewModel;
+import interface_adapter.gaunlet_bet.GaunletBetController;
+import interface_adapter.gaunlet_bet.GaunletBetPresenter;
+import interface_adapter.gaunlet_bet.GaunletBetViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -39,6 +42,9 @@ import use_case.change_password.ChangePasswordOutputBoundary;
 import use_case.gamemenu.GameMenuInputBoundary;
 import use_case.gamemenu.GameMenuInteractor;
 import use_case.gamemenu.GameMenuOutputBoundary;
+import use_case.gaunlet_bet.GaunletBetInputBoundary;
+import use_case.gaunlet_bet.GaunletBetInteractor;
+import use_case.gaunlet_bet.GaunletBetOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -80,7 +86,6 @@ public class AppBuilder {
 
     // thought question: is the hard dependency below a problem?
     private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
-
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -95,6 +100,8 @@ public class AppBuilder {
     private StatisticsViewModel statisticsViewModel;
     private MenuView menuView;
     private MenuViewModel menuViewModel;
+    private GaunletBetView gaunletBetView;
+    private GaunletBetViewModel gaunletBetViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -108,6 +115,17 @@ public class AppBuilder {
         welcomeViewModel = new WelcomeViewModel();
         welcomeView = new WelcomeView(welcomeViewModel);
         cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Gaunlet Bet View to the application.
+     * @return this builder
+     */
+    public AppBuilder addGaunletBetView() {
+        gaunletBetViewModel = new GaunletBetViewModel();
+        gaunletBetView = new GaunletBetView(gaunletBetViewModel);
+        cardPanel.add(gaunletBetView, gaunletBetView.getViewName());
         return this;
     }
 
@@ -193,6 +211,20 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Gaunlet Bet Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addGaunletBetUseCase() {
+        final GaunletBetOutputBoundary gaunletBetOutputBoundary = new GaunletBetPresenter(
+                viewManagerModel, signupViewModel, gaunletBetViewModel, gameMenuViewModel);
+        final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(gaunletBetOutputBoundary);
+
+        final GaunletBetController gaunletBetcontroller = new GaunletBetController(userGaunletBetInteractor);
+        gaunletBetView.setGaunletBetController(gaunletBetcontroller);
+        return this;
+    }
+
+    /**
      * Adds the Signup Use Case to the application.
      * @return this builder
      */
@@ -243,7 +275,7 @@ public class AppBuilder {
      */
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
-                loginViewModel, menuViewModel);
+                loginViewModel, menuViewModel, gaunletBetViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 

@@ -45,7 +45,7 @@ public class GameMenuView extends JPanel {
         gauntlet.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gameMenuController.switchToLoginView();
+                        gameMenuController.switchToGaunletView();
                     }
                 }
         );

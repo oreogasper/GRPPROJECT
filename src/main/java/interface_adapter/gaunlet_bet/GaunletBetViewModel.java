@@ -1,9 +1,11 @@
 package interface_adapter.gaunlet_bet;
 
 import interface_adapter.ViewModel;
-import interface_adapter.signup.SignupState;
 
-public class GaunletBetViewModel extends ViewModel<GaunletBetState>{
+/**
+ * The ViewModel for the Gaunlet Bet View.
+ */
+public class GaunletBetViewModel extends ViewModel<GaunletBetState> {
     public static final String TITLE_LABEL = "ENTER YOUR BET";
     public static final String BET_LABEL = "Bet amount";
     public static final String CONTINUE_BUTTON_LABEL = "continue";
@@ -15,4 +17,4 @@ public class GaunletBetViewModel extends ViewModel<GaunletBetState>{
     }
 
 }
-}
+
