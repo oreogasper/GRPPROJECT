@@ -1,7 +1,6 @@
-package interface_adapter.gaunlet_bet;
+package interface_adapter.gaunlet.bet;
 
 import use_case.gaunlet_bet.GaunletBetInputBoundary;
-import use_case.gaunlet_bet.GaunletBetInputData;
 
 /**
  * Controller for the Gaunlet Bet Use Case.

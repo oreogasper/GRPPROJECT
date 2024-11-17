@@ -1,16 +1,11 @@
-package interface_adapter.gaunlet_bet;
+package interface_adapter.gaunlet.bet;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.gamemenu.GameMenuViewModel;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.signup.SignupState;
 import interface_adapter.signup.SignupViewModel;
-import interface_adapter.welcome.WelcomeViewModel;
 import use_case.gaunlet_bet.GaunletBetOutputBoundary;
 import use_case.gaunlet_bet.GaunletBetOutputData;
-import use_case.signup.SignupOutputBoundary;
-import use_case.signup.SignupOutputData;
 
 /**
  * The Presenter for the Gaunlet Bet Use Case.

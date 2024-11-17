@@ -1,4 +1,4 @@
-package interface_adapter.gaunlet_bet;
+package interface_adapter.gaunlet.bet;
 
 /**
  * The state for the gaunlet bet View Model.
