@@ -1,4 +1,4 @@
-package use_case.gaunlet_bet;
+package use_case.gaunlet.bet;
 
 /**
  * The Gaunlet Bet Interactor.
@@ -23,6 +23,11 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
         // GaunletBetInputData.getBet(), false);
             // userPresenter.prepareSuccessView(gaunletBetOutputData);
         // }
+    }
+
+    @Override
+    public void switchToGaunletGuessView() {
+        userPresenter.switchToGaunletGuessView();
     }
 
     @Override

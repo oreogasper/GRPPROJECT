@@ -1,8 +1,8 @@
 package view;
 
-import interface_adapter.gaunlet_bet.GaunletBetController;
-import interface_adapter.gaunlet_bet.GaunletBetState;
-import interface_adapter.gaunlet_bet.GaunletBetViewModel;
+import interface_adapter.gaunlet.bet.GaunletBetController;
+import interface_adapter.gaunlet.bet.GaunletBetState;
+import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -44,7 +44,7 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
         continueToGame.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gaunletBetController.switchToGameMenuView();
+                        gaunletBetController.switchToGaunletGuessView();
                     }
                 }
         );

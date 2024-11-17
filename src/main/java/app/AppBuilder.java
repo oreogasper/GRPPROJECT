@@ -16,9 +16,12 @@ import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
-import interface_adapter.gaunlet_bet.GaunletBetController;
-import interface_adapter.gaunlet_bet.GaunletBetPresenter;
-import interface_adapter.gaunlet_bet.GaunletBetViewModel;
+import interface_adapter.gaunlet.bet.GaunletBetController;
+import interface_adapter.gaunlet.bet.GaunletBetPresenter;
+import interface_adapter.gaunlet.bet.GaunletBetViewModel;
+import interface_adapter.gaunlet.guess.GaunletGuessController;
+import interface_adapter.gaunlet.guess.GaunletGuessPresenter;
+import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -42,9 +45,12 @@ import use_case.change_password.ChangePasswordOutputBoundary;
 import use_case.gamemenu.GameMenuInputBoundary;
 import use_case.gamemenu.GameMenuInteractor;
 import use_case.gamemenu.GameMenuOutputBoundary;
-import use_case.gaunlet_bet.GaunletBetInputBoundary;
-import use_case.gaunlet_bet.GaunletBetInteractor;
-import use_case.gaunlet_bet.GaunletBetOutputBoundary;
+import use_case.gaunlet.bet.GaunletBetInputBoundary;
+import use_case.gaunlet.bet.GaunletBetInteractor;
+import use_case.gaunlet.bet.GaunletBetOutputBoundary;
+import use_case.gaunlet.guess.GaunletGuessInputBoundary;
+import use_case.gaunlet.guess.GaunletGuessInteractor;
+import use_case.gaunlet.guess.GaunletGuessOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -102,6 +108,8 @@ public class AppBuilder {
     private MenuViewModel menuViewModel;
     private GaunletBetView gaunletBetView;
     private GaunletBetViewModel gaunletBetViewModel;
+    private GaunletGuessView gaunletGuessView;
+    private GaunletGuessViewModel gaunletGuessViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -115,6 +123,17 @@ public class AppBuilder {
         welcomeViewModel = new WelcomeViewModel();
         welcomeView = new WelcomeView(welcomeViewModel);
         cardPanel.add(welcomeView, welcomeView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Gaunlet guess View to the application.
+     * @return this builder
+     */
+    public AppBuilder addGaunletGuessView() {
+        gaunletGuessViewModel = new GaunletGuessViewModel();
+        gaunletGuessView = new GaunletGuessView(gaunletGuessViewModel);
+        cardPanel.add(gaunletGuessView, gaunletGuessView.getViewName());
         return this;
     }
 
@@ -211,12 +230,27 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Gaunlet Guess Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addGaunletGuessUseCase() {
+        final GaunletGuessOutputBoundary gaunletGuessOutputBoundary = new GaunletGuessPresenter(viewManagerModel,
+                signupViewModel, gaunletGuessViewModel, gameMenuViewModel);
+        final GaunletGuessInputBoundary userGaunletGuessInteractor = new GaunletGuessInteractor(
+                gaunletGuessOutputBoundary);
+
+        final GaunletGuessController gaunletGuesscontroller = new GaunletGuessController(userGaunletGuessInteractor);
+        gaunletGuessView.setGaunletGuessController(gaunletGuesscontroller);
+        return this;
+    }
+
+    /**
      * Adds the Gaunlet Bet Use Case to the application.
      * @return this builder
      */
     public AppBuilder addGaunletBetUseCase() {
         final GaunletBetOutputBoundary gaunletBetOutputBoundary = new GaunletBetPresenter(
-                viewManagerModel, signupViewModel, gaunletBetViewModel, gameMenuViewModel);
+                viewManagerModel, gameMenuViewModel, gaunletBetViewModel, gaunletGuessViewModel);
         final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(gaunletBetOutputBoundary);
 
         final GaunletBetController gaunletBetcontroller = new GaunletBetController(userGaunletBetInteractor);

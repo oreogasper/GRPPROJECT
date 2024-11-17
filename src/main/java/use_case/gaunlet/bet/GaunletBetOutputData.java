@@ -1,4 +1,4 @@
-package use_case.gaunlet_bet;
+package use_case.gaunlet.bet;
 
 /**
  * Output Data for the Gaunlet Bet Use Case.
