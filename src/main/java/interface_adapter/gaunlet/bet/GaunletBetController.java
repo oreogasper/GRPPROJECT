@@ -1,6 +1,6 @@
 package interface_adapter.gaunlet.bet;
 
-import use_case.gaunlet_bet.GaunletBetInputBoundary;
+import use_case.gaunlet.bet.GaunletBetInputBoundary;
 
 /**
  * Controller for the Gaunlet Bet Use Case.
@@ -31,6 +31,10 @@ public class GaunletBetController {
     /**
      * Executes the "switch to menu" Use Case.
      */
+    public void switchToGaunletGuessView() {
+        userGaunletBetUseCaseInteractor.switchToGaunletGuessView();
+    }
+
     public void switchToGameMenuView() {
         userGaunletBetUseCaseInteractor.switchToGameMenuView();
     }

@@ -1,9 +1,11 @@
-package use_case.gaunlet_bet;
+package use_case.gaunlet.guess;
+
+import use_case.gaunlet.bet.GaunletBetOutputData;
 
 /**
- * The output boundary for the Gaunlet Bet Use Case.
+ * The output boundary for the Gaunlet guess Use Case.
  */
-public interface GaunletBetOutputBoundary {
+public interface GaunletGuessOutputBoundary {
 
     /**
      * Prepares the success view for the Signup Use Case.
@@ -20,5 +22,5 @@ public interface GaunletBetOutputBoundary {
     /**
      * Switches to the Login View.
      */
-    void switchToGameMenuView();
+    void switchToLoginView();
 }

@@ -1,11 +1,11 @@
-package use_case.gaunlet_bet;
+package use_case.gaunlet.guess;
 
 import entity.User;
 
 /**
  * DAO for the Signup Use Case.
  */
-public interface GaunletBetUserDataAccessInterface {
+public interface GaunletGuessUserDataAccessInterface {
 
     /**
      * Checks if the given bet is valid bet.

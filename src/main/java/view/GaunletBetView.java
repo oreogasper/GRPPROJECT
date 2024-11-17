@@ -44,7 +44,7 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
         continueToGame.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gaunletBetController.switchToGameMenuView();
+                        gaunletBetController.switchToGaunletGuessView();
                     }
                 }
         );
