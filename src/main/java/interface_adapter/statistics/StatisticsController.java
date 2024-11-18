@@ -21,6 +21,9 @@ public class StatisticsController {
         userStatisticsUseCaseInteractor.switchToWelcomeView();
     }
 
+    /**
+     * Executes the "switch to MenuView" Use Case.
+     */
     public void switchToMenuView() {
         userStatisticsUseCaseInteractor.switchToMenuView();
     }
