@@ -2,9 +2,9 @@ package interface_adapter.menu;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.gamemenu.GameMenuViewModel;
-import interface_adapter.login.LoginViewModel;
 import interface_adapter.shop.ShopViewModel;
 import interface_adapter.statistics.StatisticsViewModel;
+import interface_adapter.welcome.WelcomeViewModel;
 import use_case.menu.MenuOutputBoundary;
 import view.GameMenuView;
 
@@ -13,18 +13,18 @@ import view.GameMenuView;
  */
 public class MenuPresenter implements MenuOutputBoundary {
     private final ViewManagerModel viewManagerModel;
-    private final LoginViewModel loginViewModel;
+    private final WelcomeViewModel welcomeViewModel;
     private final StatisticsViewModel statisticsViewModel;
     private final GameMenuViewModel gameMenuViewModel;
     private final ShopViewModel shopViewModel;
 
     public MenuPresenter(ViewManagerModel viewManagerModel,
-                         LoginViewModel loginViewModel,
+                         WelcomeViewModel welcomeViewModel,
                          StatisticsViewModel statisticsViewModel,
                          GameMenuViewModel gameMenuViewModel,
                          ShopViewModel shopViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.loginViewModel = loginViewModel;
+        this.welcomeViewModel = welcomeViewModel;
         this.statisticsViewModel = statisticsViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
         this.shopViewModel = shopViewModel;
@@ -39,8 +39,8 @@ public class MenuPresenter implements MenuOutputBoundary {
     }
 
     @Override
-    public void switchToLoginView() {
-        viewManagerModel.setState(loginViewModel.getViewName());
+    public void switchToWelcomeView() {
+        viewManagerModel.setState(welcomeViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

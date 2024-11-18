@@ -14,10 +14,10 @@ public class MenuController {
     }
 
     /**
-     * Switches to the login view, back to the login screen.
+     * Switches back to the welcome view, the signup/login screen.
      */
-    public void switchToLoginView() {
-        userMenuUseCaseInteractor.switchToLoginView();
+    public void switchToWelcomeView() {
+        userMenuUseCaseInteractor.switchToWelcomeView();
     }
 
     /**

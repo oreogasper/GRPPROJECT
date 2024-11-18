@@ -13,7 +13,7 @@ public interface MenuInputBoundary {
     /**
      * Executes the switch to login view use case.
      */
-    void switchToLoginView();
+    void switchToWelcomeView();
 
     /**
      * Executes the switch to gambling menu view use case.

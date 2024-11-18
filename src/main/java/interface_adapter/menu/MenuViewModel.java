@@ -12,6 +12,7 @@ public class MenuViewModel extends ViewModel<MenuState> {
     public static final String STATS_BUTTON_LABEL = "MY STATISTICS";
     public static final String GAMBLE_BUTTON_LABEL = "GAMBLE";
     public static final String SHOP_BUTTON_LABEL = "SHOP";
+    public static final String BACK_BUTTON_LABEL = "BACK";
 
     public MenuViewModel() {
         super("menu");
