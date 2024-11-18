@@ -34,6 +34,9 @@ public class Main {
                                             .addGaunletBetView()
                                             .addGameMenuView()
                                             .addGaunletGuessView()
+                                            .addShopMainView()
+                                            .addShopButtonView()
+                                            .addShopWheelView()
                                             .addGameMenuUseCase()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
@@ -44,6 +47,9 @@ public class Main {
                                             .addLogoutUseCase()
                                             .addMenuUseCase()
                                             .addGaunletGuessUseCase()
+                                            .addShopUseCase()
+                                            .addShopButtonUseCase()
+                                            .addShopWheelUseCase()
                                             .build();
 
         application.pack();

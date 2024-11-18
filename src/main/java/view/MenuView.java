@@ -18,6 +18,7 @@ public class MenuView extends JPanel {
     private final JButton stats;
     private final JButton gamble;
     private final JButton shop;
+    private final JButton back;
 
     public MenuView(MenuViewModel welcomeViewModel) {
         // welcomeViewModel.addPropertyChangeListener(this);
@@ -32,6 +33,8 @@ public class MenuView extends JPanel {
         tButtons.add(gamble);
         shop = new JButton(MenuViewModel.SHOP_BUTTON_LABEL);
         tButtons.add(shop);
+        back = new JButton(MenuViewModel.BACK_BUTTON_LABEL);
+        tButtons.add(back);
 
         stats.addActionListener(
                 new ActionListener() {
@@ -50,7 +53,14 @@ public class MenuView extends JPanel {
         shop.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToLoginView();
+                        menuController.switchToShopView();
+                    }
+                }
+        );
+        back.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        menuController.switchToWelcomeView();
                     }
                 }
         );
