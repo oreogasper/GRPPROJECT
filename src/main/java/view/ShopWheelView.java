@@ -16,7 +16,7 @@ import interface_adapter.shop.wheel.ShopWheelViewModel;
  * The View for the shop wheel screen.
  */
 public class ShopWheelView extends JPanel {
-    private final String viewName = "shop wheeling";
+    private final String viewName = "shop wheel";
 
     private ShopWheelController shopWheelController;
     private final JButton spinner;

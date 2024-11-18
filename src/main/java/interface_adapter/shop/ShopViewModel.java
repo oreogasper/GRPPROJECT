@@ -2,7 +2,6 @@ package interface_adapter.shop;
 
 import interface_adapter.ViewModel;
 
-
 /**
  * The ViewModel for the shop main menu View.
  */

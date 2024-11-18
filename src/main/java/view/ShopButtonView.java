@@ -16,7 +16,7 @@ import interface_adapter.shop.button.ShopButtonViewModel;
  * The View for the shop button screen.
  */
 public class ShopButtonView extends JPanel {
-    private final String viewName = "shop buttoning";
+    private final String viewName = "shop button";
 
     private ShopButtonController shopButtonController;
     private final JButton clicker;
