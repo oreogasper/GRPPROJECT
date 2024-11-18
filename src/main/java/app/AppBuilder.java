@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.InMemoryUserDataAccessObject;
+import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
@@ -121,7 +121,7 @@ public class AppBuilder {
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    private final DBUserDataAccessObject userDataAccessObject;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -154,6 +154,7 @@ public class AppBuilder {
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
+        userDataAccessObject = new DBUserDataAccessObject(userFactory);
     }
 
     /**
@@ -265,11 +266,11 @@ public class AppBuilder {
         cardPanel.add(blackjackBetView, blackjackBetView.getViewName());
         return this;
     }
-     
-    /**
-      * Adds the shop main menu view to the application.
-      * @return this builder
-      * */
+
+      /**
+     * Adds the shop main menu view to the application.
+     * @return this builder
+     */
     public AppBuilder addShopMainView() {
         shopMainViewModel = new ShopViewModel();
         shopMainView = new ShopMainView(shopMainViewModel);
@@ -287,11 +288,11 @@ public class AppBuilder {
         cardPanel.add(blackjackGameView, blackjackGameView.getViewName());
         return this;
     }
-     
-    /**
-    * Adds the shop button view to the application.
-    * @return this builder
-    */
+
+     /**
+     * Adds the shop button view to the application.
+     * @return this builder
+     */
     public AppBuilder addShopButtonView() {
         shopButtonViewModel = new ShopButtonViewModel();
         shopButtonView = new ShopButtonView(shopButtonViewModel);
@@ -453,7 +454,7 @@ public class AppBuilder {
      */
     public AppBuilder addStatisticsUseCase() {
         final StatisticsOutputBoundary statisticsOutputBoundary = new StatisticsPresenter(viewManagerModel,
-                statisticsViewModel, loginViewModel, welcomeViewModel);
+                statisticsViewModel, loginViewModel, welcomeViewModel, menuViewModel);
         final StatisticsInputBoundary userStatisticsInteractor = new StatisticsInteractor(
                 statisticsOutputBoundary);
 
@@ -475,11 +476,13 @@ public class AppBuilder {
         blackjackBetView.setBlackjackBetController(blackjackBetController);
         return this;
     }
-      
-    /**
-    * Adds the shop main menu use case to the application.
-    * @return this builder
-    */
+
+     /**
+     * Adds the shop main menu use case to the application.
+     * @return this builder
+     */
+
+ 
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel);
@@ -504,7 +507,7 @@ public class AppBuilder {
         blackjackGameView.setBlackjackGameController(blackjackGameController);
         return this;
     }
-      
+
     /**
      * Adds the shop button use case to the application.
      * @return this builder
