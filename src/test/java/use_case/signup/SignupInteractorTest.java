@@ -6,8 +6,6 @@ import entity.User;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SignupInteractorTest {
@@ -29,6 +27,11 @@ class SignupInteractorTest {
             @Override
             public void prepareFailView(String error) {
                 fail("Use case failure is unexpected.");
+            }
+
+            @Override
+            public void switchToWelcomeView() {
+
             }
 
             @Override
@@ -57,6 +60,11 @@ class SignupInteractorTest {
             @Override
             public void prepareFailView(String error) {
                 assertEquals("Passwords don't match.", error);
+            }
+
+            @Override
+            public void switchToWelcomeView() {
+
             }
 
             @Override
@@ -90,6 +98,11 @@ class SignupInteractorTest {
             @Override
             public void prepareFailView(String error) {
                 assertEquals("User already exists.", error);
+            }
+
+            @Override
+            public void switchToWelcomeView() {
+
             }
 
             @Override
