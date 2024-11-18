@@ -20,4 +20,8 @@ public class StatisticsController {
     public void switchToWelcomeView() {
         userStatisticsUseCaseInteractor.switchToWelcomeView();
     }
+
+    public void switchToMenuView() {
+        userStatisticsUseCaseInteractor.switchToMenuView();
+    }
 }
