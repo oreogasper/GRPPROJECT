@@ -29,7 +29,7 @@ public class StatsView extends JPanel {
         final JPanel buttons = new JPanel();
         leaderboard = new JButton(StatisticsViewModel.TO_LEADERBOARD_BUTTON_LABEL);
         buttons.add(leaderboard);
-        cancel = new JButton(StatisticsViewModel.CANCEL_BUTTON_LABEL);
+        cancel = new JButton(StatisticsViewModel.RETURN_MENU_BUTTON_LABEL);
         buttons.add(cancel);
 
         // TEMPORARY BUTTONS

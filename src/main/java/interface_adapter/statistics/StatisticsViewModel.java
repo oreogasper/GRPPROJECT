@@ -18,7 +18,7 @@ public class StatisticsViewModel extends ViewModel<StatisticsState> {
     public static final String GAMES_LABEL = "GAMES TOTAL AHAHA";
 
     public static final String WINPERCENTAGE_LABEL = "WIN %";
-    public static final String CANCEL_BUTTON_LABEL = "Cancel";
+    public static final String RETURN_MENU_BUTTON_LABEL = "Return to Menu";
 
     public static final String TO_LEADERBOARD_BUTTON_LABEL = "LEADERBOARD BUTTON WIP";
 
