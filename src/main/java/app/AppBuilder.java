@@ -264,9 +264,10 @@ public class AppBuilder {
         blackjackBetView = new BlackjackBetView(blackjackBetViewModel);
         cardPanel.add(blackjackBetView, blackjackBetView.getViewName());
         return this;
+    }
 
-     
-      /***
+
+      /**
      * Adds the shop main menu view to the application.
      * @return this builder
      */
@@ -286,7 +287,8 @@ public class AppBuilder {
         blackjackGameView = new BlackjackGameView(blackjackGameViewModel);
         cardPanel.add(blackjackGameView, blackjackGameView.getViewName());
         return this;
-     
+    }
+
      /**
      * Adds the shop button view to the application.
      * @return this builder
@@ -473,7 +475,8 @@ public class AppBuilder {
         final BlackjackBetController blackjackBetController = new BlackjackBetController(blackjackBetInteractor);
         blackjackBetView.setBlackjackBetController(blackjackBetController);
         return this;
-      
+    }
+
      /**
      * Adds the shop main menu use case to the application.
      * @return this builder
@@ -501,7 +504,8 @@ public class AppBuilder {
         final BlackjackGameController blackjackGameController = new BlackjackGameController(blackjackGameInteractor);
         blackjackGameView.setBlackjackGameController(blackjackGameController);
         return this;
-      
+    }
+
     /**
      * Adds the shop button use case to the application.
      * @return this builder
