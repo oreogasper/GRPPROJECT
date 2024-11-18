@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Date;
+
 /**
  * The representation of a user in our program.
  */
@@ -12,9 +14,78 @@ public interface User {
     String getName();
 
     /**
+     * Sets the name of the user.
+     * @param name is the new name of the user.
+     */
+    void setName(String name);
+
+    /**
      * Returns the password of the user.
      * @return the password of the user.
      */
     String getPassword();
+
+    /**
+     * Sets the password of the user.
+     * @param password is the new password of the user.
+     */
+    void setPassword(String password);
+
+    /**
+     * Returns the token count of the user.
+     * @return the token count of the user.
+     */
+    int getBalance();
+
+    /**
+     * Updates the token count of the user.
+     * @param amount is the amount won or lost.
+     */
+    void updateBalance(int amount);
+
+    /**
+     * Returns the game win count of the user.
+     * @return the game win count of the user.
+     */
+    int getWins();
+
+    /**
+     * Updates that the user won a game.
+     */
+    void wonGame();
+
+    /**
+     * Returns the game loss count of the user.
+     * @return the game loss count of the user.
+     */
+    int getLosses();
+
+    /**
+     * Updates that the user lost a game.
+     */
+    void lostGame();
+
+    /**
+     * Returns the game play count of the user.
+     * @return the game play count of the user.
+     */
+    int getGames();
+
+    /**
+     * Updates that the user played a game.
+     */
+    void playedGame();
+
+    /**
+     * Returns the last time the user spun the wheel.
+     * @return the last time the user spun the wheel.
+     */
+    Date getLastSpin();
+
+    /**
+     * Updates the last time the user spun the wheel.
+     * @param lastSpin is the time of last spin.
+     */
+    void setLastSpin(Date lastSpin);
 
 }

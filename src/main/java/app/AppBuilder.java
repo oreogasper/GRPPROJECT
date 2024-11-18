@@ -267,7 +267,6 @@ public class AppBuilder {
         return this;
     }
 
-
       /**
      * Adds the shop main menu view to the application.
      * @return this builder
@@ -482,6 +481,8 @@ public class AppBuilder {
      * Adds the shop main menu use case to the application.
      * @return this builder
      */
+
+ 
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel);
