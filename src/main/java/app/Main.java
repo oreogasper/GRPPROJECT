@@ -32,6 +32,8 @@ public class Main {
                                             .addStatisticsView()
                                             .addMenuView()
                                             .addGaunletBetView()
+                                            .addBlackjackBetView()
+                                            .addBlackjackGameView()
                                             .addGameMenuView()
                                             .addGaunletGuessView()
                                             .addGameMenuUseCase()
@@ -44,6 +46,9 @@ public class Main {
                                             .addLogoutUseCase()
                                             .addMenuUseCase()
                                             .addGaunletGuessUseCase()
+                                            .addGaunletBetUseCase()
+                                            .addBlackjackBetUseCase()
+                                            .addBlackjackGameUseCase()
                                             .build();
 
         application.pack();
