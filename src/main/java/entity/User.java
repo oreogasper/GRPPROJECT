@@ -14,10 +14,22 @@ public interface User {
     String getName();
 
     /**
+     * Sets the name of the user.
+     * @param name is the new name of the user.
+     */
+    void setName(String name);
+
+    /**
      * Returns the password of the user.
      * @return the password of the user.
      */
     String getPassword();
+
+    /**
+     * Sets the password of the user.
+     * @param password is the new password of the user.
+     */
+    void setPassword(String password);
 
     /**
      * Returns the token count of the user.

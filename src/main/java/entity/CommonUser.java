@@ -7,8 +7,8 @@ import java.util.Date;
  */
 public class CommonUser implements User {
 
-    private final String username;
-    private final String password;
+    private String username;
+    private String password;
     private int balance;
     private int wins;
     private int losses;
@@ -31,8 +31,18 @@ public class CommonUser implements User {
     }
 
     @Override
+    public void setName(String name) {
+        this.username = name;
+    }
+
+    @Override
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
