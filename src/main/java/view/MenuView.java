@@ -50,7 +50,7 @@ public class MenuView extends JPanel {
         shop.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToLoginView();
+                        menuController.switchToShopView();
                     }
                 }
         );

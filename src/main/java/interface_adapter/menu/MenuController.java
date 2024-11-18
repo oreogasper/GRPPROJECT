@@ -13,14 +13,31 @@ public class MenuController {
         this.userMenuUseCaseInteractor = menuUseCaseInteractor;
     }
 
+    /**
+     * Switches to the login view, back to the login screen.
+     */
     public void switchToLoginView() {
         userMenuUseCaseInteractor.switchToLoginView();
     }
+
+    /**
+     * Switches to the stats screen.
+     */
     public void switchToStatisticsView() {
         userMenuUseCaseInteractor.switchToStatisticsView();
     }
 
+    /**
+     * Switches to the gambling game menu screen.
+     */
     public void switchToGameMenuView() {
         userMenuUseCaseInteractor.switchToGameMenuView();
+    }
+
+    /**
+     * Switches to the shop main menu screen.
+     */
+    public void switchToShopView() {
+        userMenuUseCaseInteractor.switchToShopView();
     }
 }

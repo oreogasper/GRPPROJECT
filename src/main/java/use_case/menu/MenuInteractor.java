@@ -16,6 +16,7 @@ public class MenuInteractor implements MenuInputBoundary {
     public void switchToStatisticsView() {
         userPresenter.switchToStatisticsView();
     }
+
     @Override
     public void switchToLoginView() {
         userPresenter.switchToLoginView();
@@ -25,5 +26,9 @@ public class MenuInteractor implements MenuInputBoundary {
     public void switchToGameMenuView() {
         userPresenter.switchToGameMenuView();
     }
-}
 
+    @Override
+    public void switchToShopView() {
+        userPresenter.switchToShopView();
+    }
+}

@@ -3,6 +3,7 @@ package interface_adapter.menu;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.shop.ShopViewModel;
 import interface_adapter.statistics.StatisticsViewModel;
 import use_case.menu.MenuOutputBoundary;
 import view.GameMenuView;
@@ -15,14 +16,18 @@ public class MenuPresenter implements MenuOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final StatisticsViewModel statisticsViewModel;
     private final GameMenuViewModel gameMenuViewModel;
+    private final ShopViewModel shopViewModel;
 
     public MenuPresenter(ViewManagerModel viewManagerModel,
                          LoginViewModel loginViewModel,
-                         StatisticsViewModel statisticsViewModel, GameMenuViewModel gameMenuViewModel) {
+                         StatisticsViewModel statisticsViewModel,
+                         GameMenuViewModel gameMenuViewModel,
+                         ShopViewModel shopViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loginViewModel = loginViewModel;
         this.statisticsViewModel = statisticsViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
+        this.shopViewModel = shopViewModel;
     }
 
     @Override
@@ -48,6 +53,12 @@ public class MenuPresenter implements MenuOutputBoundary {
     @Override
     public void switchToStatisticsView() {
         viewManagerModel.setState(statisticsViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToShopView() {
+        viewManagerModel.setState(shopViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

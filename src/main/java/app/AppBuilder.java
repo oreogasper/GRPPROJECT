@@ -30,6 +30,15 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.menu.MenuController;
 import interface_adapter.menu.MenuPresenter;
 import interface_adapter.menu.MenuViewModel;
+import interface_adapter.shop.ShopController;
+import interface_adapter.shop.ShopPresenter;
+import interface_adapter.shop.ShopViewModel;
+import interface_adapter.shop.button.ShopButtonController;
+import interface_adapter.shop.button.ShopButtonPresenter;
+import interface_adapter.shop.button.ShopButtonViewModel;
+import interface_adapter.shop.wheel.ShopWheelController;
+import interface_adapter.shop.wheel.ShopWheelPresenter;
+import interface_adapter.shop.wheel.ShopWheelViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -60,6 +69,15 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.menu.MenuInputBoundary;
 import use_case.menu.MenuInteractor;
 import use_case.menu.MenuOutputBoundary;
+import use_case.shop.ShopInputBoundary;
+import use_case.shop.ShopInteractor;
+import use_case.shop.ShopOutputBoundary;
+import use_case.shopbutton.ShopButtonInputBoundary;
+import use_case.shopbutton.ShopButtonInteractor;
+import use_case.shopbutton.ShopButtonOutputBoundary;
+import use_case.shopwheel.ShopWheelInputBoundary;
+import use_case.shopwheel.ShopWheelInteractor;
+import use_case.shopwheel.ShopWheelOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -110,6 +128,12 @@ public class AppBuilder {
     private GaunletBetViewModel gaunletBetViewModel;
     private GaunletGuessView gaunletGuessView;
     private GaunletGuessViewModel gaunletGuessViewModel;
+    private ShopMainView shopMainView;
+    private ShopViewModel shopMainViewModel;
+    private ShopButtonView shopButtonView;
+    private ShopButtonViewModel shopButtonViewModel;
+    private ShopWheelView shopWheelView;
+    private ShopWheelViewModel shopWheelViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -215,6 +239,39 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the shop main menu view to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopMainView() {
+        shopMainViewModel = new ShopViewModel();
+        shopMainView = new ShopMainView(shopMainViewModel);
+        cardPanel.add(shopMainView, shopMainView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the shop button view to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopButtonView() {
+        shopButtonViewModel = new ShopButtonViewModel();
+        shopButtonView = new ShopButtonView(shopButtonViewModel);
+        cardPanel.add(shopButtonView, shopButtonView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the shop wheel view to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopWheelView() {
+        shopWheelViewModel = new ShopWheelViewModel();
+        shopWheelView = new ShopWheelView(shopWheelViewModel);
+        cardPanel.add(shopWheelView, shopWheelView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Welcome Use Case to the application.
      * @return this builder
      */
@@ -294,7 +351,7 @@ public class AppBuilder {
      */
     public AppBuilder addMenuUseCase() {
         final MenuOutputBoundary menuOutputBoundary = new MenuPresenter(viewManagerModel,
-                loginViewModel, statisticsViewModel, gameMenuViewModel);
+                loginViewModel, statisticsViewModel, gameMenuViewModel, shopMainViewModel);
         final MenuInputBoundary userMenuInteractor = new MenuInteractor(
                 menuOutputBoundary);
 
@@ -363,6 +420,48 @@ public class AppBuilder {
 
         final StatisticsController statisticsController = new StatisticsController(userStatisticsInteractor);
         statsView.setStatisticsController(statisticsController);
+        return this;
+    }
+
+    /**
+     * Adds the shop main menu use case to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopUseCase() {
+        final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
+                shopWheelViewModel, menuViewModel, shopButtonViewModel);
+        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary);
+
+        final ShopController shopController = new ShopController(userShopInteractor);
+        shopMainView.setShopController(shopController);
+        return this;
+    }
+
+    /**
+     * Adds the shop button use case to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopButtonUseCase() {
+        final ShopButtonOutputBoundary shopButtonOutputBoundary = new ShopButtonPresenter(viewManagerModel,
+                shopMainViewModel);
+        final ShopButtonInputBoundary userShopButtonInteractor = new ShopButtonInteractor(shopButtonOutputBoundary);
+
+        final ShopButtonController shopButtonController = new ShopButtonController(userShopButtonInteractor);
+        shopButtonView.setShopButtonController(shopButtonController);
+        return this;
+    }
+
+    /**
+     * Adds the shop wheel use case to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopWheelUseCase() {
+        final ShopWheelOutputBoundary shopWheelOutputBoundary = new ShopWheelPresenter(viewManagerModel,
+                shopMainViewModel);
+        final ShopWheelInputBoundary userShopWheelInteractor = new ShopWheelInteractor(shopWheelOutputBoundary);
+
+        final ShopWheelController shopWheelController = new ShopWheelController(userShopWheelInteractor);
+        shopWheelView.setShopWheelController(shopWheelController);
         return this;
     }
 
