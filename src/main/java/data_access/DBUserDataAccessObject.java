@@ -33,6 +33,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     private static final String MESSAGE = "message";
     private final UserFactory userFactory;
 
+    // TODO:
+    private String currentUsername;
+
     public DBUserDataAccessObject(UserFactory userFactory) {
         this.userFactory = userFactory;
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
@@ -70,6 +73,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     @Override
     public void setCurrentUsername(String name) {
         // this isn't implemented for the lab
+        this.currentUsername = name;
     }
 
     @Override
@@ -160,6 +164,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     @Override
     public String getCurrentUsername() {
-        return null;
+        return this.currentUsername;
     }
 }
