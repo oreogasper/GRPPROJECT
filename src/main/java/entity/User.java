@@ -1,5 +1,7 @@
 package entity;
 
+import java.util.Date;
+
 /**
  * The representation of a user in our program.
  */
@@ -16,5 +18,62 @@ public interface User {
      * @return the password of the user.
      */
     String getPassword();
+
+    /**
+     * Returns the token count of the user.
+     * @return the token count of the user.
+     */
+    int getBalance();
+
+    /**
+     * Updates the token count of the user.
+     * @param amount is the amount won or lost.
+     */
+    void updateBalance(int amount);
+
+    /**
+     * Returns the game win count of the user.
+     * @return the game win count of the user.
+     */
+    int getWins();
+
+    /**
+     * Updates that the user won a game.
+     */
+    void wonGame();
+
+    /**
+     * Returns the game loss count of the user.
+     * @return the game loss count of the user.
+     */
+    int getLosses();
+
+    /**
+     * Updates that the user lost a game.
+     */
+    void lostGame();
+
+    /**
+     * Returns the game play count of the user.
+     * @return the game play count of the user.
+     */
+    int getGames();
+
+    /**
+     * Updates that the user played a game.
+     */
+    void playedGame();
+
+    /**
+     * Returns the last time the user spun the wheel.
+     * @return the last time the user spun the wheel.
+     */
+    Date getLastSpin();
+
+    /**
+     * Updates the last time the user spun the wheel.
+     * @param lastSpin is the time of last spin.
+     */
+    void setLastSpin(Date lastSpin);
 
 }
