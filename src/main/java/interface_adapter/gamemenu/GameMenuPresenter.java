@@ -1,6 +1,7 @@
 package interface_adapter.gamemenu;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.menu.MenuViewModel;
@@ -15,14 +16,17 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final MenuViewModel menuViewModel;
     private final GaunletBetViewModel gaunletBetViewModel;
+    private final BlackjackBetViewModel blackjackBetViewModel;
 
     public GameMenuPresenter(ViewManagerModel viewManagerModel,
                          LoginViewModel loginViewModel,
-                         MenuViewModel menuViewModel, GaunletBetViewModel gaunletBetViewModel) {
+                         MenuViewModel menuViewModel, GaunletBetViewModel gaunletBetViewModel,
+                             BlackjackBetViewModel blackjackBetViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loginViewModel = loginViewModel;
         this.menuViewModel = menuViewModel;
         this.gaunletBetViewModel = gaunletBetViewModel;
+        this.blackjackBetViewModel = blackjackBetViewModel;
     }
 
     @Override
@@ -53,7 +57,8 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
 
     @Override
     public void switchToBlackjackView() {
-
+        viewManagerModel.setState(blackjackBetViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
     }
 
     @Override
