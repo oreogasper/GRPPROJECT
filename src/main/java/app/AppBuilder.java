@@ -10,6 +10,12 @@ import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.blackjack.bet.BlackjackBetController;
+import interface_adapter.blackjack.bet.BlackjackBetPresenter;
+import interface_adapter.blackjack.bet.BlackjackBetViewModel;
+import interface_adapter.blackjack.game.BlackjackGameController;
+import interface_adapter.blackjack.game.BlackjackGamePresenter;
+import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
@@ -48,6 +54,12 @@ import interface_adapter.statistics.StatisticsViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import use_case.blackjack.bet.BlackjackBetInputBoundary;
+import use_case.blackjack.bet.BlackjackBetInteractor;
+import use_case.blackjack.bet.BlackjackBetOutputBoundary;
+import use_case.blackjack.game.BlackjackGameInputBoundary;
+import use_case.blackjack.game.BlackjackGameInteractor;
+import use_case.blackjack.game.BlackjackGameOutputBoundary;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -128,12 +140,17 @@ public class AppBuilder {
     private GaunletBetViewModel gaunletBetViewModel;
     private GaunletGuessView gaunletGuessView;
     private GaunletGuessViewModel gaunletGuessViewModel;
+    private BlackjackBetViewModel blackjackBetViewModel;
+    private BlackjackBetView blackjackBetView;
+    private BlackjackGameViewModel blackjackGameViewModel;
+    private BlackjackGameView blackjackGameView;
     private ShopMainView shopMainView;
     private ShopViewModel shopMainViewModel;
     private ShopButtonView shopButtonView;
     private ShopButtonViewModel shopButtonViewModel;
     private ShopWheelView shopWheelView;
     private ShopWheelViewModel shopWheelViewModel;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -239,6 +256,17 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Blackjack Bet View to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackBetView() {
+        blackjackBetViewModel = new BlackjackBetViewModel();
+        blackjackBetView = new BlackjackBetView(blackjackBetViewModel);
+        cardPanel.add(blackjackBetView, blackjackBetView.getViewName());
+        return this;
+
+     
+      /***
      * Adds the shop main menu view to the application.
      * @return this builder
      */
@@ -250,6 +278,16 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Blackjack Game View to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackGameView() {
+        blackjackGameViewModel = new BlackjackGameViewModel();
+        blackjackGameView = new BlackjackGameView(blackjackGameViewModel);
+        cardPanel.add(blackjackGameView, blackjackGameView.getViewName());
+        return this;
+     
+     /**
      * Adds the shop button view to the application.
      * @return this builder
      */
@@ -366,7 +404,7 @@ public class AppBuilder {
      */
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
-                loginViewModel, menuViewModel, gaunletBetViewModel);
+                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 
@@ -424,6 +462,19 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Blackjack Bet Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackBetUseCase() {
+        final BlackjackBetOutputBoundary blackjackBetOutputBoundary = new BlackjackBetPresenter(
+                gameMenuViewModel, blackjackBetViewModel, blackjackGameViewModel, viewManagerModel);
+        final BlackjackBetInputBoundary blackjackBetInteractor = new BlackjackBetInteractor(blackjackBetOutputBoundary);
+
+        final BlackjackBetController blackjackBetController = new BlackjackBetController(blackjackBetInteractor);
+        blackjackBetView.setBlackjackBetController(blackjackBetController);
+        return this;
+      
+     /**
      * Adds the shop main menu use case to the application.
      * @return this builder
      */
@@ -437,6 +488,20 @@ public class AppBuilder {
         return this;
     }
 
+    /**
+     * Adds the Blackjack Game Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackGameUseCase() {
+        final BlackjackGameOutputBoundary blackjackGameOutputBoundary = new BlackjackGamePresenter(
+                signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel);
+        final BlackjackGameInputBoundary blackjackGameInteractor = new BlackjackGameInteractor(
+                blackjackGameOutputBoundary);
+
+        final BlackjackGameController blackjackGameController = new BlackjackGameController(blackjackGameInteractor);
+        blackjackGameView.setBlackjackGameController(blackjackGameController);
+        return this;
+      
     /**
      * Adds the shop button use case to the application.
      * @return this builder
