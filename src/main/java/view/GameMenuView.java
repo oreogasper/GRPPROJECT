@@ -43,7 +43,7 @@ public class GameMenuView extends JPanel {
         blackjack.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gameMenuController.switchToLoginView();
+                        gameMenuController.switchToBlackjackView();
                     }
                 }
         );
