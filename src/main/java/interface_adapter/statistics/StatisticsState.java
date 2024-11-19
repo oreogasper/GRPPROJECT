@@ -1,5 +1,7 @@
 package interface_adapter.statistics;
 
+import interface_adapter.change_password.LoggedInState;
+
 /**
  * The state for the Signup View Model.
  */
@@ -9,6 +11,18 @@ public class StatisticsState {
     private Integer wins = 0;
     private Integer losses = 0;
     private Integer games = 0;
+
+    public StatisticsState(StatisticsState copy) {
+        username = copy.username;
+        password = copy.password;
+        wins = copy.wins;
+        losses = copy.losses;
+        games = copy.games;
+    }
+
+    public StatisticsState() {
+
+    }
 
     public String getUsername() {
         return username;
@@ -41,7 +55,6 @@ public class StatisticsState {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     @Override
     public String toString() {

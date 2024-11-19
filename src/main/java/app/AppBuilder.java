@@ -16,8 +16,8 @@ import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.blackjack.game.BlackjackGameController;
 import interface_adapter.blackjack.game.BlackjackGamePresenter;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
-import interface_adapter.change_password.ChangePasswordController;
-import interface_adapter.change_password.ChangePasswordPresenter;
+import interface_adapter.statistics.ChangePasswordController;
+import interface_adapter.statistics.ChangePasswordPresenter;
 import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
@@ -125,8 +125,8 @@ public class AppBuilder {
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
-    private LoggedInViewModel loggedInViewModel;
-    private LoggedInView loggedInView;
+    /* private LoggedInViewModel loggedInViewModel;
+    private LoggedInView loggedInView;*/
     private LoginView loginView;
     private GameMenuViewModel gameMenuViewModel;
     private GameMenuView gameMenuView;
@@ -238,12 +238,12 @@ public class AppBuilder {
      * Adds the LoggedIn View to the application.
      * @return this builder
      */
-    public AppBuilder addLoggedInView() {
+    /* public AppBuilder addLoggedInView() {
         loggedInViewModel = new LoggedInViewModel();
         loggedInView = new LoggedInView(loggedInViewModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
-    }
+    }*/
 
     /**
      * Adds the Statistics View to the application.
@@ -317,7 +317,7 @@ public class AppBuilder {
      */
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, signupViewModel);
+                loginViewModel, signupViewModel);
         final WelcomeInputBoundary userWelcomeInteractor = new WelcomeInteractor(
                 welcomeOutputBoundary);
 
@@ -376,7 +376,7 @@ public class AppBuilder {
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, welcomeViewModel, menuViewModel);
+                statisticsViewModel, loginViewModel, welcomeViewModel, menuViewModel);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
@@ -421,14 +421,14 @@ public class AppBuilder {
      */
     public AppBuilder addChangePasswordUseCase() {
         final ChangePasswordOutputBoundary changePasswordOutputBoundary =
-                new ChangePasswordPresenter(loggedInViewModel);
+                new ChangePasswordPresenter(statisticsViewModel);
 
         final ChangePasswordInputBoundary changePasswordInteractor =
                 new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary, userFactory);
 
         final ChangePasswordController changePasswordController =
                 new ChangePasswordController(changePasswordInteractor);
-        loggedInView.setChangePasswordController(changePasswordController);
+        statsView.setChangePasswordController(changePasswordController);
         return this;
     }
 
@@ -438,13 +438,13 @@ public class AppBuilder {
      */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, welcomeViewModel);
+                statisticsViewModel, loginViewModel, welcomeViewModel);
 
         final LogoutInputBoundary logoutInteractor =
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
-        loggedInView.setLogoutController(logoutController);
+        statsView.setLogoutController(logoutController);
         return this;
     }
 

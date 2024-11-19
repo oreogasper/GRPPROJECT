@@ -1,4 +1,4 @@
-package interface_adapter.change_password;
+package interface_adapter.statistics;
 
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInputData;
