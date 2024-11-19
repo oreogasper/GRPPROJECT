@@ -151,7 +151,6 @@ public class AppBuilder {
     private ShopWheelView shopWheelView;
     private ShopWheelViewModel shopWheelViewModel;
 
-
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
         userDataAccessObject = new DBUserDataAccessObject(userFactory);
@@ -267,7 +266,7 @@ public class AppBuilder {
         return this;
     }
 
-      /**
+    /**
      * Adds the shop main menu view to the application.
      * @return this builder
      */
@@ -289,7 +288,7 @@ public class AppBuilder {
         return this;
     }
 
-     /**
+    /**
      * Adds the shop button view to the application.
      * @return this builder
      */
@@ -361,7 +360,7 @@ public class AppBuilder {
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel, welcomeViewModel);
+                signupViewModel, menuViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -477,12 +476,10 @@ public class AppBuilder {
         return this;
     }
 
-     /**
+    /**
      * Adds the shop main menu use case to the application.
      * @return this builder
      */
-
- 
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel);

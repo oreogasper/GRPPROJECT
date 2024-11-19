@@ -40,4 +40,10 @@ public class SignupInteractor implements SignupInputBoundary {
     public void switchToWelcomeView() {
         userPresenter.switchToWelcomeView();
     }
+
+    @Override
+    public void switchToMenuView() {
+        userPresenter.switchToMenuView();
+    }
+
 }
