@@ -27,4 +27,7 @@ public class StatisticsController {
     public void switchToMenuView() {
         userStatisticsUseCaseInteractor.switchToMenuView();
     }
+
+    public void execute(String username) {
+    }
 }
