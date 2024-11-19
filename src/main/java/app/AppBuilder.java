@@ -18,7 +18,6 @@ import interface_adapter.blackjack.game.BlackjackGamePresenter;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import interface_adapter.statistics.ChangePasswordController;
 import interface_adapter.statistics.ChangePasswordPresenter;
-import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
@@ -151,7 +150,6 @@ public class AppBuilder {
     private ShopWheelView shopWheelView;
     private ShopWheelViewModel shopWheelViewModel;
 
-
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
         userDataAccessObject = new DBUserDataAccessObject(userFactory);
@@ -267,7 +265,7 @@ public class AppBuilder {
         return this;
     }
 
-      /**
+    /**
      * Adds the shop main menu view to the application.
      * @return this builder
      */
@@ -289,7 +287,7 @@ public class AppBuilder {
         return this;
     }
 
-     /**
+    /**
      * Adds the shop button view to the application.
      * @return this builder
      */
@@ -477,11 +475,10 @@ public class AppBuilder {
         return this;
     }
 
-     /**
+    /**
      * Adds the shop main menu use case to the application.
      * @return this builder
      */
-
  
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
