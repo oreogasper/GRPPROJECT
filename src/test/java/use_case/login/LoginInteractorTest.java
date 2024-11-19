@@ -6,6 +6,7 @@ import entity.User;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
 
+
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +34,11 @@ class LoginInteractorTest {
             public void prepareFailView(String error) {
                 fail("Use case failure is unexpected.");
             }
+
+            @Override
+            public void switchToWelcomeView() {
+
+            }
         };
 
         LoginInputBoundary interactor = new LoginInteractor(userRepository, successPresenter);
@@ -59,6 +65,11 @@ class LoginInteractorTest {
             @Override
             public void prepareFailView(String error) {
                 fail("Use case failure is unexpected.");
+            }
+
+            @Override
+            public void switchToWelcomeView() {
+
             }
         };
 
@@ -91,6 +102,11 @@ class LoginInteractorTest {
             public void prepareFailView(String error) {
                 assertEquals("Incorrect password for \"Paul\".", error);
             }
+
+            @Override
+            public void switchToWelcomeView() {
+
+            }
         };
 
         LoginInputBoundary interactor = new LoginInteractor(userRepository, failurePresenter);
@@ -115,6 +131,11 @@ class LoginInteractorTest {
             @Override
             public void prepareFailView(String error) {
                 assertEquals("Paul: Account does not exist.", error);
+            }
+
+            @Override
+            public void switchToWelcomeView() {
+
             }
         };
 

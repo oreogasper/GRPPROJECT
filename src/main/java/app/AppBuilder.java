@@ -359,7 +359,7 @@ public class AppBuilder {
      */
     public AppBuilder addSignupUseCase() {
         final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel, welcomeViewModel);
+                signupViewModel, menuViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -479,7 +479,6 @@ public class AppBuilder {
      * Adds the shop main menu use case to the application.
      * @return this builder
      */
- 
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel);
