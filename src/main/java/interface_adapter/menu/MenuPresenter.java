@@ -56,6 +56,7 @@ public class MenuPresenter implements MenuOutputBoundary {
 
         final GameMenuState gameMenuState = gameMenuViewModel.getState();
         gameMenuState.setUser(menuViewModel.getState().getUser());
+        this.gameMenuViewModel.setState(gameMenuState);
         this.gameMenuViewModel.firePropertyChanged();
 
         viewManagerModel.setState(gameMenuViewModel.getViewName());
@@ -67,6 +68,7 @@ public class MenuPresenter implements MenuOutputBoundary {
 
         final StatisticsState statisticsState = statisticsViewModel.getState();
         statisticsState.setUser(menuViewModel.getState().getUser());
+        this.statisticsViewModel.setState(statisticsState);
         this.statisticsViewModel.firePropertyChanged();
 
         viewManagerModel.setState(statisticsViewModel.getViewName());
@@ -78,6 +80,7 @@ public class MenuPresenter implements MenuOutputBoundary {
 
         final ShopState shopState = shopViewModel.getState();
         shopState.setUser(menuViewModel.getState().getUser());
+        this.shopViewModel.setState(shopState);
         this.shopViewModel.firePropertyChanged();
 
         viewManagerModel.setState(shopViewModel.getViewName());

@@ -44,6 +44,7 @@ public class ShopPresenter implements ShopOutputBoundary {
 
         final MenuState menuState = menuViewModel.getState();
         menuState.setUser(shopViewModel.getState().getUser());
+        this.menuViewModel.setState(menuState);
         this.menuViewModel.firePropertyChanged();
 
         viewManagerModel.setState(menuViewModel.getViewName());
@@ -55,6 +56,7 @@ public class ShopPresenter implements ShopOutputBoundary {
 
         final ShopWheelState shopWheelState = shopWheelViewModel.getState();
         shopWheelState.setUser(shopViewModel.getState().getUser());
+        this.shopWheelViewModel.setState(shopWheelState);
         this.shopWheelViewModel.firePropertyChanged();
 
         viewManagerModel.setState(shopWheelViewModel.getViewName());
@@ -66,6 +68,7 @@ public class ShopPresenter implements ShopOutputBoundary {
 
         final ShopButtonState shopButtonState = shopButtonViewModel.getState();
         shopButtonState.setUser(shopViewModel.getState().getUser());
+        this.shopButtonViewModel.setState(shopButtonState);
         this.shopButtonViewModel.firePropertyChanged();
 
         viewManagerModel.setState(shopButtonViewModel.getViewName());

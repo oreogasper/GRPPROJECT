@@ -8,6 +8,7 @@ import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
+import interface_adapter.statistics.StatisticsState;
 import use_case.gamemenu.GameMenuOutputBoundary;
 
 /**
@@ -48,6 +49,7 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
 
         final MenuState menuState = menuViewModel.getState();
         menuState.setUser(gameMenuViewModel.getState().getUser());
+        this.menuViewModel.setState(menuState);
         this.menuViewModel.firePropertyChanged();
 
         viewManagerModel.setState(menuViewModel.getViewName());
@@ -65,6 +67,7 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
 
         final GaunletBetState gaunletBetState = gaunletBetViewModel.getState();
         gaunletBetState.setUser(gameMenuViewModel.getState().getUser());
+        this.gaunletBetViewModel.setState(gaunletBetState);
         this.gaunletBetViewModel.firePropertyChanged();
 
         viewManagerModel.setState(gaunletBetViewModel.getViewName());
@@ -76,6 +79,7 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
 
         final BlackjackBetState blackjackBetState = blackjackBetViewModel.getState();
         blackjackBetState.setUser(gameMenuViewModel.getState().getUser());
+        this.blackjackBetViewModel.setState(blackjackBetState);
         this.blackjackBetViewModel.firePropertyChanged();
 
         viewManagerModel.setState(blackjackBetViewModel.getViewName());

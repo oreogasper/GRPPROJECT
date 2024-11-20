@@ -34,6 +34,7 @@ public class ShopButtonPresenter implements ShopButtonOutputBoundary {
 
         final ShopState shopState = shopViewModel.getState();
         shopState.setUser(shopButtonViewModel.getState().getUser());
+        this.shopViewModel.setState(shopState);
         this.shopViewModel.firePropertyChanged();
 
         viewManagerModel.setState(shopViewModel.getViewName());

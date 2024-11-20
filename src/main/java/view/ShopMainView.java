@@ -70,15 +70,18 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         );
 
         // Bottom panel for username and balance
-        username = new JLabel("username unknown");
-        balance = new JLabel("balance unknown");
+        username = new JLabel("unknown username");
+        balance = new JLabel("unknown balance");
 
         // Update labels when state changes
         shopViewModel.addPropertyChangeListener(evt -> {
             if ("state".equals(evt.getPropertyName())) {
                 final ShopState updatedState = (ShopState) evt.getNewValue();
-                username.setText("Currently logged in: " + updatedState.getUsername());
-                balance.setText("Current balance: " + updatedState.getBalance());
+                final String updatedName = updatedState.getUser().getName();
+                final String updatedBalance = String.valueOf(updatedState.getUser().getBalance());
+
+                username.setText("Currently logged in: " + updatedName);
+                balance.setText("Current balance: " + updatedBalance);
             }
         });
 

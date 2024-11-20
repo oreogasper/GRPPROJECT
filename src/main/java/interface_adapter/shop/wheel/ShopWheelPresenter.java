@@ -34,6 +34,7 @@ public class ShopWheelPresenter implements ShopWheelOutputBoundary {
 
         final ShopState shopState = shopViewModel.getState();
         shopState.setUser(shopWheelViewModel.getState().getUser());
+        this.shopViewModel.setState(shopState);
         this.shopViewModel.firePropertyChanged();
 
         viewManagerModel.setState(shopViewModel.getViewName());
