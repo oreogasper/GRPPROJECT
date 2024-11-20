@@ -1,9 +1,12 @@
 package interface_adapter.gamemenu;
 
+import entity.User;
+
 /**
  * The State information representing the logged-in user.
  */
 public class GameMenuState {
+    private User user;
     private String username = "";
 
     private String password = "";
@@ -18,6 +21,14 @@ public class GameMenuState {
     // Because of the previous copy constructor, the default constructor must be explicit.
     public GameMenuState() {
 
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String getUsername() {

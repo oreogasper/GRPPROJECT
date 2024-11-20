@@ -1,9 +1,12 @@
 package interface_adapter.shop;
 
+import entity.User;
+
 /**
  * The State information representing the logged-in user.
  */
 public class ShopState {
+    private User user;
     private int balance;
     private String username;
 
@@ -15,6 +18,14 @@ public class ShopState {
     // Because of the previous copy constructor, the default constructor must be explicit.
     public ShopState() {
 
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String getUsername() {

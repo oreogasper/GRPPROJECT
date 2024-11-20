@@ -1,9 +1,12 @@
 package interface_adapter.menu;
 
+import entity.User;
+
 /**
  * The State information representing the logged-in user.
  */
 public class MenuState {
+    private User user;
     private String username = "";
 
     private String password = "";
@@ -20,16 +23,24 @@ public class MenuState {
 
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     public String getUsername() {
-        return username;
+        return user.getName();
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.user.setName(username);
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.user.setPassword(password);
     }
 
     public void setPasswordError(String passwordError) {
@@ -37,6 +48,6 @@ public class MenuState {
     }
 
     public String getPassword() {
-        return password;
+        return this.user.getPassword();
     }
 }

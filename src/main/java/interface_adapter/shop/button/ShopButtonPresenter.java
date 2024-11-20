@@ -1,6 +1,7 @@
 package interface_adapter.shop.button;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.shop.ShopState;
 import interface_adapter.shop.ShopViewModel;
 import use_case.shopbutton.ShopButtonOutputBoundary;
 
@@ -10,11 +11,14 @@ import use_case.shopbutton.ShopButtonOutputBoundary;
 public class ShopButtonPresenter implements ShopButtonOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final ShopViewModel shopViewModel;
+    private final ShopButtonViewModel shopButtonViewModel;
 
     public ShopButtonPresenter(ViewManagerModel viewManagerModel,
-                         ShopViewModel shopViewModel) {
+                               ShopViewModel shopViewModel,
+                               ShopButtonViewModel shopButtonViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.shopViewModel = shopViewModel;
+        this.shopButtonViewModel = shopButtonViewModel;
     }
 
     @Override
@@ -27,6 +31,11 @@ public class ShopButtonPresenter implements ShopButtonOutputBoundary {
 
     @Override
     public void switchToShopView() {
+
+        final ShopState shopState = shopViewModel.getState();
+        shopState.setUser(shopButtonViewModel.getState().getUser());
+        this.shopViewModel.firePropertyChanged();
+
         viewManagerModel.setState(shopViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

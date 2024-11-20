@@ -390,7 +390,7 @@ public class AppBuilder {
      */
     public AppBuilder addMenuUseCase() {
         final MenuOutputBoundary menuOutputBoundary = new MenuPresenter(viewManagerModel,
-                welcomeViewModel, statisticsViewModel, gameMenuViewModel, shopMainViewModel);
+                welcomeViewModel, statisticsViewModel, gameMenuViewModel, shopMainViewModel, menuViewModel);
         final MenuInputBoundary userMenuInteractor = new MenuInteractor(
                 menuOutputBoundary);
 
@@ -405,7 +405,7 @@ public class AppBuilder {
      */
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
-                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel);
+                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel, gameMenuViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 
@@ -482,7 +482,7 @@ public class AppBuilder {
      */
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
-                shopWheelViewModel, menuViewModel, shopButtonViewModel);
+                shopWheelViewModel, menuViewModel, shopButtonViewModel, shopMainViewModel);
         final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary);
 
         final ShopController shopController = new ShopController(userShopInteractor);
@@ -511,7 +511,7 @@ public class AppBuilder {
      */
     public AppBuilder addShopButtonUseCase() {
         final ShopButtonOutputBoundary shopButtonOutputBoundary = new ShopButtonPresenter(viewManagerModel,
-                shopMainViewModel);
+                shopMainViewModel, shopButtonViewModel);
         final ShopButtonInputBoundary userShopButtonInteractor = new ShopButtonInteractor(shopButtonOutputBoundary);
 
         final ShopButtonController shopButtonController = new ShopButtonController(userShopButtonInteractor);
@@ -525,7 +525,7 @@ public class AppBuilder {
      */
     public AppBuilder addShopWheelUseCase() {
         final ShopWheelOutputBoundary shopWheelOutputBoundary = new ShopWheelPresenter(viewManagerModel,
-                shopMainViewModel);
+                shopMainViewModel, shopWheelViewModel);
         final ShopWheelInputBoundary userShopWheelInteractor = new ShopWheelInteractor(shopWheelOutputBoundary);
 
         final ShopWheelController shopWheelController = new ShopWheelController(userShopWheelInteractor);
