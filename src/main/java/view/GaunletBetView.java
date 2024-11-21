@@ -1,17 +1,23 @@
 package view;
 
-import interface_adapter.gaunlet.bet.GaunletBetController;
-import interface_adapter.gaunlet.bet.GaunletBetState;
-import interface_adapter.gaunlet.bet.GaunletBetViewModel;
-
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import java.awt.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import interface_adapter.gaunlet.bet.GaunletBetController;
+import interface_adapter.gaunlet.bet.GaunletBetState;
+import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 
 /**
  * The View for the Gaunlet bet Use Case.
@@ -43,25 +49,17 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
 
         continueToGame.addActionListener(
                 new ActionListener() {
+                    // This creates an anonymous subclass of ActionListener and instantiates it.
                     public void actionPerformed(ActionEvent evt) {
-                        gaunletBetController.switchToGaunletGuessView();
+                        if (evt.getSource().equals(continueToGame)) {
+                            final GaunletBetState currentState = gaunletBetViewModel.getState();
+                            gaunletBetController.execute(
+                                    currentState.getBet()
+                            );
+                        }
                     }
                 }
         );
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                // new ActionListener() {
-                    // public void actionPerformed(ActionEvent evt) {
-                        // if (evt.getSource().equals(continueToGame)) {
-                            // final SignupState currentState = signupViewModel.getState();
-
-                            // signupController.execute(
-                                    // currentState.getUsername(),
-                                    // currentState.getPassword(),
-                                    // currentState.getRepeatPassword()
-                            // );
-                        // }
-                    // }
-                // }
 
         back.addActionListener(
                 new ActionListener() {
@@ -70,8 +68,6 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                     }
                 }
         );
-
-        // cancel.addActionListener(this);
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
