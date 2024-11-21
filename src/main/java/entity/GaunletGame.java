@@ -27,6 +27,7 @@ public class GaunletGame implements Game {
     public String getGameType() {
         return gameType;
     }
+
     // Todo need to implement rules
     @Override
     public String getRules() {

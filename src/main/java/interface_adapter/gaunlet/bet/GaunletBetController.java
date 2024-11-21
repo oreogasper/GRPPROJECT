@@ -19,7 +19,7 @@ public class GaunletBetController {
      * Executes the Signup Use Case.
      * @param bet the amount the user would like to bet in the game
      */
-    public void execute(String bet) {
+    public void execute(int bet) {
         final GaunletBetInputData gaunletBetInputData = new GaunletBetInputData(
                 bet);
 

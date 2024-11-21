@@ -5,13 +5,13 @@ package use_case.gaunlet.bet;
  */
 public class GaunletBetInputData {
 
-    private final String bet;
+    private final int bet;
 
-    public GaunletBetInputData(String bet) {
+    public GaunletBetInputData(int bet) {
         this.bet = bet;
     }
 
-    String getBet() {
+    int getBet() {
         return bet;
     }
 }

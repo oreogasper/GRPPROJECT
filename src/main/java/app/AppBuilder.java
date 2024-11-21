@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.DBGaunletDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.UserFactory;
@@ -122,6 +123,7 @@ public class AppBuilder {
 
     // thought question: is the hard dependency below a problem?
     private final DBUserDataAccessObject userDataAccessObject;
+    private final DBGaunletDataAccessObject gaunletDataAccessObject;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -154,6 +156,7 @@ public class AppBuilder {
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
         userDataAccessObject = new DBUserDataAccessObject(userFactory);
+        gaunletDataAccessObject = new DBGaunletDataAccessObject();
     }
 
     /**
@@ -348,7 +351,7 @@ public class AppBuilder {
         final GaunletBetOutputBoundary gaunletBetOutputBoundary = new GaunletBetPresenter(
                 viewManagerModel, gameMenuViewModel, gaunletBetViewModel, gaunletGuessViewModel);
         final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(
-                userDataAccessObject, gaunletBetOutputBoundary);
+                gaunletDataAccessObject, gaunletBetOutputBoundary);
 
         final GaunletBetController gaunletBetcontroller = new GaunletBetController(userGaunletBetInteractor);
         gaunletBetView.setGaunletBetController(gaunletBetcontroller);

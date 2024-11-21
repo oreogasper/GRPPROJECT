@@ -121,7 +121,7 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
     }
 
     private void setFields(GaunletBetState state) {
-        betInputField.setText(state.getBet());
+        betInputField.setText(String.valueOf(state.getBet()));
     }
 
     public String getViewName() {

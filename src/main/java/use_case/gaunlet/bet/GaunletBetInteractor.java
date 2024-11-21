@@ -1,5 +1,7 @@
 package use_case.gaunlet.bet;
 
+import entity.GaunletGame;
+
 /**
  * The Gaunlet Bet Interactor.
  */
@@ -15,25 +17,21 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
 
     @Override
     public void execute(GaunletBetInputData gaunletBetInputData) {
-        String betAmount = gaunletBetInputData.getBet();
+        final int betAmount = gaunletBetInputData.getBet();
         if (!isValidBet(betAmount)) {
-            userPresenter.presentInvalidBet("Invalid bet amount. Please check the rules and try again.");
-            return;
+            userPresenter.prepareFailView("Invalid bet amount. Please check the rules and try again.");
         }
+        userDataAccessObject.setBet(betAmount);
 
-        // Process the bet, e.g., save it to the database or perform game logic
-        userDataAccessObject.saveBet(gaunletBetInputData);
-
-        userPresenter.presentSuccessfulBet("Bet placed successfully!");
+        final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount, false);
+        userPresenter.prepareSuccessView(gaunletBetOutputData);
     }
 
-    private boolean isValidBet(String betAmount) {
-        // Fetch game rules from the Data Access Object
-        GameRules gameRules = userDataAccessObject.getGameRules();
+    private boolean isValidBet(int betAmount) {
+        final GaunletGame betRules = new GaunletGame();
 
-        // Validate the bet amount
-        return betAmount >= gameRules.getMinBet() && betAmount <= gameRules.getMaxBet();
-    }
+        // TODO need to find a way to also check bet amount isn't over user's balance
+        return betAmount >= betRules.getMinBet() && betAmount <= betRules.getMaxBet();
     }
 
     @Override
