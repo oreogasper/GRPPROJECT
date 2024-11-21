@@ -82,7 +82,15 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
 
             private void documentListenerHelper() {
                 final GaunletBetState currentState = gaunletBetViewModel.getState();
-                currentState.setBet(betInputField.getText());
+                final String betInput = betInputField.getText();
+                try {
+                    final int betVal = Integer.parseInt(betInput);
+                    currentState.setBet(betVal);
+                }
+                catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid numeric bet amount.");
+                }
+
                 gaunletBetViewModel.setState(currentState);
             }
 

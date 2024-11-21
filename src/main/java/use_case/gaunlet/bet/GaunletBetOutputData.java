@@ -13,7 +13,7 @@ public class GaunletBetOutputData {
         this.useCaseFailed = useCaseFailed;
     }
 
-    public String getBet() {
+    public int getBet() {
         return bet;
     }
 
