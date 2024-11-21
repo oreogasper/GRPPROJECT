@@ -6,6 +6,8 @@ import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
 import use_case.gaunlet.bet.GaunletBetOutputBoundary;
 import use_case.gaunlet.bet.GaunletBetOutputData;
 
+import javax.swing.*;
+
 /**
  * The Presenter for the Gaunlet Bet Use Case.
  */
@@ -41,9 +43,9 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        // final SignupState signupState = signupViewModel.getState();
-        // signupState.setUsernameError(error);
-        // signupViewModel.firePropertyChanged();
+        final GaunletBetState betState = gaunletBetViewModel.getState();
+        betState.setBetError(error);
+        gaunletBetViewModel.firePropertyChanged();
     }
 
     @Override

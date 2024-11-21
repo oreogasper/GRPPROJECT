@@ -52,10 +52,26 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                     // This creates an anonymous subclass of ActionListener and instantiates it.
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(continueToGame)) {
-                            final GaunletBetState currentState = gaunletBetViewModel.getState();
-                            gaunletBetController.execute(
-                                    currentState.getBet()
-                            );
+                            final String betInput = betInputField.getText().trim();
+                            if (betInput.isEmpty()) {
+                                JOptionPane.showMessageDialog(null, "Please enter a bet amount.");
+                            }
+
+                            try {
+                                final int betVal = Integer.parseInt(betInput);
+
+                                final GaunletBetState currentState = gaunletBetViewModel.getState();
+                                currentState.setBet(betVal);
+                                gaunletBetViewModel.setState(currentState);
+
+                                gaunletBetController.execute(
+                                        currentState.getBet()
+                                );
+                            }
+                            catch (NumberFormatException e) {
+                                System.out.println("Bet input: '" + betInput + "'");
+                                JOptionPane.showMessageDialog(null, "Please enter a valid numeric bet amount.");
+                            }
                         }
                     }
                 }
@@ -69,46 +85,11 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                 }
         );
 
-        addBetListener();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
         this.add(betInfo);
         this.add(buttons);
-    }
-
-    private void addBetListener() {
-        betInputField.getDocument().addDocumentListener(new DocumentListener() {
-
-            private void documentListenerHelper() {
-                final GaunletBetState currentState = gaunletBetViewModel.getState();
-                final String betInput = betInputField.getText();
-                try {
-                    final int betVal = Integer.parseInt(betInput);
-                    currentState.setBet(betVal);
-                }
-                catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid numeric bet amount.");
-                }
-
-                gaunletBetViewModel.setState(currentState);
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-        });
     }
 
     @Override
