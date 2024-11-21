@@ -14,6 +14,7 @@ public class CommonUser implements User {
     private int wins;
     private int losses;
     private int games;
+    private int currBet;
     private Date lastSpin;
 
     public CommonUser(String name, String password) {

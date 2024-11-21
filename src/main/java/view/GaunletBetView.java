@@ -69,6 +69,7 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                 }
         );
 
+        addBetListener();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);

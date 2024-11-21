@@ -1,7 +1,7 @@
 package use_case.gaunlet.bet;
 
 /**
- * The Input Data for the Signup Use Case.
+ * The Input Data for the Gaunlet Bet Use Case.
  */
 public class GaunletBetInputData {
 

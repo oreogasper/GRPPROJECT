@@ -5,24 +5,18 @@ package use_case.gaunlet.bet;
  */
 public class GaunletBetInteractor implements GaunletBetInputBoundary {
     private final GaunletBetOutputBoundary userPresenter;
+    private final GaunletBetDataAccessInterface userDataAccessObject;
 
-    public GaunletBetInteractor(GaunletBetOutputBoundary gaunletBetOutputBoundary) {
+    public GaunletBetInteractor(GaunletBetDataAccessInterface userDataAccessObject,
+                                GaunletBetOutputBoundary gaunletBetOutputBoundary) {
+        this.userDataAccessObject = userDataAccessObject;
         this.userPresenter = gaunletBetOutputBoundary;
     }
 
     @Override
     public void execute(GaunletBetInputData gaunletBetInputData) {
-        // if (userDataAccessObject.validBet(GaunletBetInputData.getBet())) {
-            // userPresenter.prepareFailView("Bet Amount does not meet minimum requirements.");
-        // }
-        // else {
-            // final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
-            // userDataAccessObject.save(user);
-
-            // final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(
-        // GaunletBetInputData.getBet(), false);
-            // userPresenter.prepareSuccessView(gaunletBetOutputData);
-        // }
+        String betAmount = gaunletBetInputData.getBet();
+        if
     }
 
     @Override

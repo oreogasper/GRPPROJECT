@@ -347,7 +347,8 @@ public class AppBuilder {
     public AppBuilder addGaunletBetUseCase() {
         final GaunletBetOutputBoundary gaunletBetOutputBoundary = new GaunletBetPresenter(
                 viewManagerModel, gameMenuViewModel, gaunletBetViewModel, gaunletGuessViewModel);
-        final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(gaunletBetOutputBoundary);
+        final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(
+                userDataAccessObject, gaunletBetOutputBoundary);
 
         final GaunletBetController gaunletBetcontroller = new GaunletBetController(userGaunletBetInteractor);
         gaunletBetView.setGaunletBetController(gaunletBetcontroller);
