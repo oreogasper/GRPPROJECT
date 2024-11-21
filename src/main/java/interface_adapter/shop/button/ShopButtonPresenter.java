@@ -23,15 +23,16 @@ public class ShopButtonPresenter implements ShopButtonOutputBoundary {
 
     @Override
     public void prepareSuccessView() {
+        shopButtonViewModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
+        // Handle failure scenarios (if necessary)
     }
 
     @Override
     public void switchToShopView() {
-
         final ShopState shopState = shopViewModel.getState();
         shopState.setUser(shopButtonViewModel.getState().getUser());
         this.shopViewModel.setState(shopState);
@@ -42,8 +43,14 @@ public class ShopButtonPresenter implements ShopButtonOutputBoundary {
     }
 
     @Override
-    public void buttonClick() {
-        viewManagerModel.firePropertyChanged();
+    public void addClick() {
+        this.shopButtonViewModel.getState().addClick();
+        this.shopButtonViewModel.firePropertyChanged();
     }
 
+    @Override
+    public void addToken() {
+        this.shopButtonViewModel.getState().getUser().updateBalance(1);
+        this.shopButtonViewModel.firePropertyChanged();
+    }
 }

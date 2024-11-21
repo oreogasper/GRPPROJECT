@@ -7,6 +7,7 @@ import entity.User;
  */
 public class ShopButtonState {
     private User user;
+    private int clicksMade;
 
     public void setUser(User user) {
         this.user = user;
@@ -14,6 +15,17 @@ public class ShopButtonState {
 
     public User getUser() {
         return user;
+    }
+
+    /**
+     * Adds a click to the currentClicks count.
+     */
+    public void addClick() {
+        clicksMade++;
+    }
+
+    public int getClicksMade() {
+        return clicksMade;
     }
 
 }

@@ -12,7 +12,8 @@ public interface ShopButtonInputBoundary {
 
     /**
      * Executes the click of the button.
+     * @param clicksMade is the current number of clicks.
      */
-    void buttonClick();
+    void buttonClick(int clicksMade);
 
 }

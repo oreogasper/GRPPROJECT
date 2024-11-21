@@ -23,6 +23,11 @@ public interface ShopButtonOutputBoundary {
     /**
      * Performs the action associated with clicking the button.
      */
-    void buttonClick();
+    void addClick();
+
+    /**
+     * Adds a token to the user's balance.
+     */
+    void addToken();
 
 }

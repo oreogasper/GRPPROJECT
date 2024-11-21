@@ -1,7 +1,7 @@
 package use_case.shopbutton;
 
 /**
- * The Shop button Interactor.
+ * The presenter class for ShopButton.
  */
 public class ShopButtonInteractor implements ShopButtonInputBoundary {
     private final ShopButtonOutputBoundary userPresenter;
@@ -16,8 +16,12 @@ public class ShopButtonInteractor implements ShopButtonInputBoundary {
     }
 
     @Override
-    public void buttonClick() {
-        userPresenter.buttonClick();
+    public void buttonClick(int currentClicks) {
+        userPresenter.addClick();
+        final int clickRequirement = 10;
+        if ((currentClicks + 1) % clickRequirement == 0) {
+            userPresenter.addToken();
+        }
+        userPresenter.prepareSuccessView();
     }
-
 }

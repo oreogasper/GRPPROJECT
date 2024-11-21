@@ -16,63 +16,66 @@ import interface_adapter.shop.button.ShopButtonState;
 import interface_adapter.shop.button.ShopButtonViewModel;
 
 /**
- * The View for the shop button screen.
+ * The view class for the Shop button class.
  */
 public class ShopButtonView extends JPanel implements PropertyChangeListener {
 
     private transient ShopButtonController shopButtonController;
     private final JLabel username;
     private final JLabel balance;
+    private final JLabel clicksMade;
 
     public ShopButtonView(ShopButtonViewModel shopButtonViewModel) {
-
-        final JLabel title = new JLabel(ShopViewModel.TITLE_LABEL);
+        final JLabel title = new JLabel(ShopButtonViewModel.TITLE_LABEL);
         final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         titlePanel.add(title);
 
+        // Buttons
         final JPanel tButtons = new JPanel();
         final JButton clicker = new JButton(ShopButtonViewModel.CLICK_BUTTON_LABEL);
-        tButtons.add(clicker);
         final JButton back = new JButton(ShopButtonViewModel.SHOP_BUTTON_LABEL);
+        tButtons.add(clicker);
         tButtons.add(back);
 
-        clicker.addActionListener(evt -> shopButtonController.buttonClick());
+        clicker.addActionListener(
+                evt -> shopButtonController.buttonClick(shopButtonViewModel.getState().getClicksMade()));
         back.addActionListener(evt -> shopButtonController.switchToShopView());
 
-        // Bottom panel for username and balance
-        username = new JLabel("unknown username");
-        balance = new JLabel("unknown balance");
+        // Labels
+        username = new JLabel("Currently logged in: unknown");
+        balance = new JLabel("Current balance: 0");
+        clicksMade = new JLabel("Tokens earned this session: 0");
 
-        // Update labels when state changes
-        shopButtonViewModel.addPropertyChangeListener(evt -> {
-            if ("state".equals(evt.getPropertyName())) {
-                final ShopButtonState updatedState = (ShopButtonState) evt.getNewValue();
-                final String updatedName = updatedState.getUser().getName();
-                final String updatedBalance = String.valueOf(updatedState.getUser().getBalance());
-
-                username.setText("Currently logged in: " + updatedName);
-                balance.setText("Current balance: " + updatedBalance);
-            }
-        });
+        final JPanel clickPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        clickPanel.add(new JLabel(ShopButtonViewModel.CLICK_LABEL));
+        clickPanel.add(clicksMade);
 
         final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
         bottomPanel.add(username);
         bottomPanel.add(balance);
 
-        // Set layout and add components
+        // Combine center components
+        final JPanel centerPanel = new JPanel(new GridLayout(2, 1));
+        centerPanel.add(tButtons);
+        centerPanel.add(clickPanel);
+
+        // Set layout
         this.setLayout(new BorderLayout());
         this.add(titlePanel, BorderLayout.NORTH);
-        this.add(tButtons, BorderLayout.CENTER);
+        this.add(centerPanel, BorderLayout.CENTER);
         this.add(bottomPanel, BorderLayout.SOUTH);
 
+        // Register property change listener
+        shopButtonViewModel.addPropertyChangeListener(this);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")) {
-            final ShopButtonState state = (ShopButtonState) evt.getNewValue();
-            username.setText(state.getUser().getName());
-            balance.setText(String.valueOf(state.getUser().getBalance()));
+        if ("state".equals(evt.getPropertyName())) {
+            final ShopButtonState updatedState = (ShopButtonState) evt.getNewValue();
+            username.setText("Currently logged in: " + updatedState.getUser().getName());
+            balance.setText("Current balance: " + updatedState.getUser().getBalance());
+            clicksMade.setText(String.valueOf(updatedState.getClicksMade() / ShopButtonViewModel.DIVIDER));
         }
     }
 
