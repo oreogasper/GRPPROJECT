@@ -96,4 +96,16 @@ public class CommonUser implements User {
         this.lastSpin = lastSpin;
     }
 
+    @Override
+    public String toString() {
+        return "This user {"
+                + "username='" + this.getName() + '\''
+                + ", password='" + this.getPassword() + '\''
+                + ", wins='" + this.getWins() + '\''
+                + ", losses='" + this.getLosses() + '\''
+                + ", games='" + this.getGames() + '\''
+                + ", balance='" + this.getBalance() + '\''
+                + '}';
+    }
+
 }
