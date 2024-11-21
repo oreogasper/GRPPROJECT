@@ -80,11 +80,11 @@ public class StatsView extends JPanel implements PropertyChangeListener {
                 {"Wins", "10"},
                 {"Losses", "20"},
                 {"Win percentage", "30"},
-                {"Games", "40"}
+                {"Games", "40"},
         };
 
         // Column Names
-        String[] columnNames = {"Name", "Roll Number"};
+        final String[] columnNames = {"Name", "Roll Number"};
 
         // Initializing the JTable
         j = new JTable(data, columnNames);
