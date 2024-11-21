@@ -16,4 +16,15 @@ public class MenuState {
         return user;
     }
 
+    @Override
+    public String toString() {
+        return "MenuState{"
+                + "username='" + user.getName() + '\''
+                + ", password='" + user.getPassword() + '\''
+                + ", wins='" + user.getWins() + '\''
+                + ", games='" + user.getGames() + '\''
+                + ", balance='" + user.getBalance() + '\''
+                + '}';
+    }
+
 }
