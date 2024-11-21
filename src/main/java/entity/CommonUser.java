@@ -64,6 +64,7 @@ public class CommonUser implements User {
     @Override
     public void wonGame() {
         wins++;
+        games++;
     }
 
     @Override
@@ -74,16 +75,12 @@ public class CommonUser implements User {
     @Override
     public void lostGame() {
         losses++;
+        games++;
     }
 
     @Override
     public int getGames() {
         return games;
-    }
-
-    @Override
-    public void playedGame() {
-        games++;
     }
 
     @Override
