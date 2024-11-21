@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class CommonUser implements User {
 
+    private static final int INITIAL_BALANCE = 25;
     private String username;
     private String password;
     private int balance;
@@ -18,7 +19,7 @@ public class CommonUser implements User {
     public CommonUser(String name, String password) {
         this.username = name;
         this.password = password;
-        this.balance = 0;
+        this.balance = INITIAL_BALANCE;
         this.wins = 0;
         this.losses = 0;
         this.games = 0;

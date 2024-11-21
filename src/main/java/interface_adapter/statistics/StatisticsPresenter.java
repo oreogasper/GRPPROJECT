@@ -2,6 +2,7 @@ package interface_adapter.statistics;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
 import interface_adapter.welcome.WelcomeViewModel;
 import use_case.statistics.StatisticsOutputBoundary;
@@ -45,6 +46,12 @@ public class StatisticsPresenter implements StatisticsOutputBoundary {
 
     @Override
     public void switchToMenuView() {
+
+        final MenuState menuState = menuViewModel.getState();
+        menuState.setUser(statisticsViewModel.getState().getUser());
+        this.menuViewModel.setState(menuState);
+        this.menuViewModel.firePropertyChanged();
+
         viewManagerModel.setState(menuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

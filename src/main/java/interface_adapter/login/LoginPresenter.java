@@ -1,9 +1,10 @@
 package interface_adapter.login;
 
+import data_access.DBUserDataAccessObject;
+import entity.User;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
-import interface_adapter.statistics.StatisticsState;
-import interface_adapter.statistics.StatisticsViewModel;
 import interface_adapter.welcome.WelcomeViewModel;
 import use_case.login.LoginOutputBoundary;
 import use_case.login.LoginOutputData;
@@ -13,31 +14,31 @@ import use_case.login.LoginOutputData;
  */
 public class LoginPresenter implements LoginOutputBoundary {
 
+    private final DBUserDataAccessObject dbUserDataAccessObject;
     private final LoginViewModel loginViewModel;
-    private final StatisticsViewModel statisticsViewModel;
     private final ViewManagerModel viewManagerModel;
     private final WelcomeViewModel welcomeViewModel;
     private final MenuViewModel menuViewModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
-                          StatisticsViewModel statisticsViewModel,
                           LoginViewModel loginViewModel,
-                          WelcomeViewModel welcomeViewModel, MenuViewModel menuViewModel) {
+                          WelcomeViewModel welcomeViewModel,
+                          MenuViewModel menuViewModel,
+                          DBUserDataAccessObject dbUserDataAccessObject) {
         this.viewManagerModel = viewManagerModel;
-        this.statisticsViewModel = statisticsViewModel;
         this.loginViewModel = loginViewModel;
         this.welcomeViewModel = welcomeViewModel;
         this.menuViewModel = menuViewModel;
+        this.dbUserDataAccessObject = dbUserDataAccessObject;
     }
 
     @Override
     public void prepareSuccessView(LoginOutputData response) {
 
-        final StatisticsState statisticsState = statisticsViewModel.getState();
-        statisticsState.setUsername(response.getUsername());
-        this.statisticsViewModel.setState(statisticsState);
-
-        this.statisticsViewModel.firePropertyChanged();
+        final User user = dbUserDataAccessObject.get(response.getUsername());
+        final MenuState menuState = menuViewModel.getState();
+        menuState.setUser(user);
+        this.menuViewModel.firePropertyChanged();
 
         // On success, switch to the menu in view.
         this.viewManagerModel.setState(menuViewModel.getViewName());

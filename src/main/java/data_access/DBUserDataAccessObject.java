@@ -41,6 +41,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
     }
 
+    /**
+     * Returns the user from the list of users given a username.
+     * @param username is the user's name key.
+     * @return the user associated with the given key.
+     */
     @Override
     public User get(String username) {
         // Make an API call to get the user object.

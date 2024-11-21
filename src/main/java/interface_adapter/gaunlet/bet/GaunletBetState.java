@@ -1,11 +1,22 @@
 package interface_adapter.gaunlet.bet;
 
+import entity.User;
+
 /**
  * The state for the gaunlet bet View Model.
  */
 public class GaunletBetState {
+    private User user;
     private String bet;
     private String betError;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
 
     public String getBet() {
         return bet;

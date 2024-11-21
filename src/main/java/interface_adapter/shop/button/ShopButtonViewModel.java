@@ -7,9 +7,11 @@ import interface_adapter.ViewModel;
  */
 public class ShopButtonViewModel extends ViewModel<ShopButtonState> {
 
-    public static final String TITLE_LABEL = "CLICK or leave!";
-    public static final String CLICK_BUTTON_LABEL = "Click me for money";
-    public static final String SHOP_BUTTON_LABEL = "Return to shop menu";
+    public static final String TITLE_LABEL = "Click it up!";
+    public static final String CLICK_BUTTON_LABEL = "$$$";
+    public static final String SHOP_BUTTON_LABEL = "Return to Shop";
+    public static final String CLICK_LABEL = "Tokens earned this session: ";
+    public static final double DIVIDER = 10.0;
 
     public ShopButtonViewModel() {
         super("shop button");

@@ -1,78 +1,88 @@
 package view;
 
-import interface_adapter.menu.MenuController;
-import interface_adapter.menu.MenuViewModel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import interface_adapter.menu.MenuController;
+import interface_adapter.menu.MenuState;
+import interface_adapter.menu.MenuViewModel;
 
 /**
  * The View for the Welcome Use Case.
  */
-public class MenuView extends JPanel {
-    private final String viewName = "menu";
+public class MenuView extends JPanel implements PropertyChangeListener {
 
-    private MenuController menuController;
-    private final JButton stats;
-    private final JButton gamble;
-    private final JButton shop;
-    private final JButton back;
+    private transient MenuController menuController;
+    private final JLabel username;
+    private final JLabel balance;
 
-    public MenuView(MenuViewModel welcomeViewModel) {
-        // welcomeViewModel.addPropertyChangeListener(this);
+    public MenuView(MenuViewModel menuViewModel) {
 
         final JLabel title = new JLabel(MenuViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        titlePanel.add(title);
 
         final JPanel tButtons = new JPanel();
-        stats = new JButton(MenuViewModel.STATS_BUTTON_LABEL);
+        final JButton stats = new JButton(MenuViewModel.STATS_BUTTON_LABEL);
         tButtons.add(stats);
-        gamble = new JButton(MenuViewModel.GAMBLE_BUTTON_LABEL);
+        final JButton gamble = new JButton(MenuViewModel.GAMBLE_BUTTON_LABEL);
         tButtons.add(gamble);
-        shop = new JButton(MenuViewModel.SHOP_BUTTON_LABEL);
+        final JButton shop = new JButton(MenuViewModel.SHOP_BUTTON_LABEL);
         tButtons.add(shop);
-        back = new JButton(MenuViewModel.BACK_BUTTON_LABEL);
+        final JButton back = new JButton(MenuViewModel.BACK_BUTTON_LABEL);
         tButtons.add(back);
 
-        stats.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToStatisticsView();
-                    }
-                }
-        );
-        gamble.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToGameMenuView();
-                    }
-                }
-        );
-        shop.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToShopView();
-                    }
-                }
-        );
-        back.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        menuController.switchToWelcomeView();
-                    }
-                }
-        );
+        stats.addActionListener(evt -> menuController.switchToStatisticsView());
+        gamble.addActionListener(evt -> menuController.switchToGameMenuView());
+        shop.addActionListener(evt -> menuController.switchToShopView());
+        back.addActionListener(evt -> menuController.switchToWelcomeView());
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        // Bottom panel for username and balance
+        username = new JLabel("unknown username");
+        balance = new JLabel("unknown balance");
 
-        this.add(title);
-        this.add(tButtons);
+        // Update labels when state changes
+        menuViewModel.addPropertyChangeListener(evt -> {
+            if ("state".equals(evt.getPropertyName())) {
+                final MenuState updatedState = (MenuState) evt.getNewValue();
+                final String updatedName = updatedState.getUser().getName();
+                final String updatedBalance = String.valueOf(updatedState.getUser().getBalance());
+
+                username.setText("Currently logged in: " + updatedName);
+                balance.setText("Current balance: " + updatedBalance);
+            }
+        });
+
+        final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
+        bottomPanel.add(username);
+        bottomPanel.add(balance);
+
+        // Set layout and add components
+        this.setLayout(new BorderLayout());
+        this.add(titlePanel, BorderLayout.NORTH);
+        this.add(tButtons, BorderLayout.CENTER);
+        this.add(bottomPanel, BorderLayout.SOUTH);
+
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("state")) {
+            final MenuState state = (MenuState) evt.getNewValue();
+            username.setText(state.getUser().getName());
+            balance.setText(String.valueOf(state.getUser().getBalance()));
+        }
     }
 
     public String getViewName() {
-        return viewName;
+        return "menu";
     }
 
     public void setMenuController(MenuController controller) {

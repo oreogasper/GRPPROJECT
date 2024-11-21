@@ -21,10 +21,11 @@ public class ShopButtonController {
     }
 
     /**
-     * Sends the update request for button clicking.
+     * Passes along the current clicks for interactor analysis.
+     * @param clicksMade is the current number of clicks / 10.
      */
-    public void buttonClick() {
-        userShopButtonUseCaseInteractor.buttonClick();
+    public void buttonClick(int clicksMade) {
+        userShopButtonUseCaseInteractor.buttonClick(clicksMade);
     }
 
 }
