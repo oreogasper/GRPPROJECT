@@ -51,6 +51,7 @@ public interface User {
 
     /**
      * Updates that the user won a game.
+     * Updates that the user played a game.
      */
     void wonGame();
 
@@ -62,6 +63,7 @@ public interface User {
 
     /**
      * Updates that the user lost a game.
+     * Updates that the user played a game.
      */
     void lostGame();
 
@@ -70,11 +72,6 @@ public interface User {
      * @return the game play count of the user.
      */
     int getGames();
-
-    /**
-     * Updates that the user played a game.
-     */
-    void playedGame();
 
     /**
      * Returns the last time the user spun the wheel.
