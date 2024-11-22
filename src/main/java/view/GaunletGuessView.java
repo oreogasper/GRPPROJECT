@@ -28,6 +28,7 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
     private final JTextField rpsInputField = new JTextField(8);
 
     private final JButton continueToResults;
+
     public GaunletGuessView(GaunletGuessViewModel gaunletGuessViewModel) {
 
         this.gaunletGuessViewModel = gaunletGuessViewModel;
@@ -165,7 +166,7 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        System.out.println("Button pressed: " + e.getSource());
     }
 
     @Override

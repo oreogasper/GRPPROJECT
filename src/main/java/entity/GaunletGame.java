@@ -47,5 +47,9 @@ public class GaunletGame implements Game {
         return random.nextInt(6) + 1;
     }
 
+    public String getRpsOutcome() {
+        String[] choices = {"Rock", "Paper", "Scissors"};
+        return choices[random.nextInt(choices.length)];
+    }
 
 }

@@ -17,9 +17,9 @@ public class GaunletGuessController {
 
     /**
      * Executes the Signup Use Case.
-     * @param coinGuess the username to sign up
-     * @param diceGuess the password
-     * @param rpsGuess the password repeated
+     * @param coinGuess the coin flip guess
+     * @param diceGuess the roll flip guess
+     * @param rpsGuess the rps guess
      */
     public void execute(String coinGuess, String diceGuess, String rpsGuess) {
         final GaunletGuessInputData gaunletGuessInputData = new GaunletGuessInputData(
@@ -27,6 +27,7 @@ public class GaunletGuessController {
 
         userGaunletGuessUseCaseInteractor.execute(gaunletGuessInputData);
     }
+
     /**
      * Executes the "switch to LoginView" Use Case.
      */

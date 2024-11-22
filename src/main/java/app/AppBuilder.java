@@ -9,6 +9,7 @@ import javax.swing.WindowConstants;
 import data_access.DBGaunletDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
+import entity.GaunletGameFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.blackjack.bet.BlackjackBetController;
@@ -118,6 +119,7 @@ public class AppBuilder {
     private final CardLayout cardLayout = new CardLayout();
     // thought question: is the hard dependency below a problem?
     private final UserFactory userFactory = new CommonUserFactory();
+    private final GaunletGameFactory gaunletgame = new GaunletGameFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
@@ -336,7 +338,7 @@ public class AppBuilder {
         final GaunletGuessOutputBoundary gaunletGuessOutputBoundary = new GaunletGuessPresenter(viewManagerModel,
                 signupViewModel, gaunletGuessViewModel, gameMenuViewModel);
         final GaunletGuessInputBoundary userGaunletGuessInteractor = new GaunletGuessInteractor(
-                gaunletGuessOutputBoundary);
+                gaunletGuessOutputBoundary, gaunletgame);
 
         final GaunletGuessController gaunletGuesscontroller = new GaunletGuessController(userGaunletGuessInteractor);
         gaunletGuessView.setGaunletGuessController(gaunletGuesscontroller);
