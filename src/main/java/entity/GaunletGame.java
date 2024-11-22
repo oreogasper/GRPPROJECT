@@ -35,6 +35,7 @@ public class GaunletGame implements Game {
     // Todo need to implement rules
     @Override
     public String getRules() {
+        return "";
     }
 
     // The game outcomes generator
