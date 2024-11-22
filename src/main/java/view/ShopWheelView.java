@@ -1,16 +1,21 @@
 package view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import interface_adapter.shop.ShopViewModel;
 import interface_adapter.shop.wheel.ShopWheelController;
 import interface_adapter.shop.wheel.ShopWheelState;
 import interface_adapter.shop.wheel.ShopWheelViewModel;
-import view.SpinningWheelButton;
 
 /**
  * The View for the shop wheel screen.
@@ -19,6 +24,9 @@ public class ShopWheelView extends JPanel {
     private transient ShopWheelController wheelController;
     private final JLabel username;
     private final JLabel balance;
+    private final JLabel countdown;
+    private Timer countdownTimer;
+    private final int waitRequirement = 15;
 
     public ShopWheelView(ShopWheelViewModel viewModel) {
         this.setLayout(new BorderLayout());
@@ -32,13 +40,14 @@ public class ShopWheelView extends JPanel {
         final JPanel spinPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final SpinningWheelButton wheelButton = new SpinningWheelButton();
         spinPanel.add(wheelButton);
-        final JLabel countdownLabel = new JLabel("Time until next available spin: 0");
-        spinPanel.add(countdownLabel);
+        countdown = new JLabel("Time until next available spin: 0");
+        spinPanel.add(countdown);
 
         // Implement wheelButton functionality
         wheelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 wheelController.spinWheel(viewModel.getState().getUser().getLastSpin());
+                startCountdown(viewModel.getState().getUser().getLastSpin());
             }
         });
 
@@ -52,9 +61,9 @@ public class ShopWheelView extends JPanel {
                 final ShopWheelState updatedState = (ShopWheelState) evt.getNewValue();
                 final String updatedName = updatedState.getUser().getName();
                 final String updatedBalance = String.valueOf(updatedState.getUser().getBalance());
-
                 username.setText("Currently logged in: " + updatedName);
                 balance.setText("Current balance: " + updatedBalance);
+                startCountdown(updatedState.getUser().getLastSpin());
             }
         });
 
@@ -71,8 +80,8 @@ public class ShopWheelView extends JPanel {
         final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightBottomPanel.add(back);
 
-        bottomPanel.add(leftBottomPanel);
-        bottomPanel.add(rightBottomPanel);
+        bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
+        bottomPanel.add(rightBottomPanel, BorderLayout.EAST);
 
         // Set layout and add components
         this.setLayout(new BorderLayout());
@@ -89,4 +98,32 @@ public class ShopWheelView extends JPanel {
     public void setShopWheelController(ShopWheelController shopWheelController) {
         this.wheelController = shopWheelController;
     }
+
+    private void startCountdown(long lastSpin) {
+        countdownTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final long currentTime = System.currentTimeMillis();
+                final long remainingSeconds = 600
+                        - TimeUnit.MILLISECONDS.toSeconds(currentTime)
+                        + TimeUnit.MILLISECONDS.toSeconds(lastSpin);
+
+                if (remainingSeconds <= 0) {
+                    countdown.setText("Spin is ready!");
+                    countdownTimer.stop();
+                }
+                else {
+                    countdown.setText("Time until next available spin: " + formatTime(remainingSeconds));
+                }
+            }
+        });
+        countdownTimer.start();
+    }
+
+    private String formatTime(long totalSeconds) {
+        final long minutes = totalSeconds / 60;
+        final long seconds = totalSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+
 }

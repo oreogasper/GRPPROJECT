@@ -68,8 +68,8 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightBottomPanel.add(back);
 
-        bottomPanel.add(leftBottomPanel);
-        bottomPanel.add(rightBottomPanel);
+        bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
+        bottomPanel.add(rightBottomPanel, BorderLayout.EAST);
 
         // Set layout and add components
         this.setLayout(new BorderLayout());
