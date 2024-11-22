@@ -81,7 +81,7 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
 
     @Override
     public void switchToLoginView() {
-        viewManagerModel.setState(gaunletGuessViewModel.getViewName());
+        viewManagerModel.setState(gameMenuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

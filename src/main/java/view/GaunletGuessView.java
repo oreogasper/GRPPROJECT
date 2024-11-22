@@ -51,8 +51,12 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         continueToResults.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
+                        System.out.println("Button clicked! Executing the action...");
                         if (evt.getSource().equals(continueToResults)) {
                             final GaunletGuessState currentState = gaunletGuessViewModel.getState();
+                            System.out.println("Coin Guess: " + currentState.getCoinGuess());
+                            System.out.println("Dice Guess: " + currentState.getDiceGuess());
+                            System.out.println("RPS Guess: " + currentState.getRpsGuess());
                             gaunletGuessController.execute(
                                     currentState.getCoinGuess(),
                                     currentState.getDiceGuess(),
@@ -107,7 +111,7 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
 
             private void documentListenerHelper() {
                 final GaunletGuessState currentState = gaunletGuessViewModel.getState();
-                currentState.setCoinGuess(diceInputField.getText());
+                currentState.setDiceGuess(diceInputField.getText());
                 gaunletGuessViewModel.setState(currentState);
             }
 
@@ -134,7 +138,7 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
 
             private void documentListenerHelper() {
                 final GaunletGuessState currentState = gaunletGuessViewModel.getState();
-                currentState.setCoinGuess(rpsInputField.getText());
+                currentState.setRpsGuess(rpsInputField.getText());
                 gaunletGuessViewModel.setState(currentState);
             }
 
@@ -166,7 +170,6 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Button pressed: " + e.getSource());
     }
 
     @Override
