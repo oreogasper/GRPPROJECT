@@ -6,8 +6,6 @@ import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
 import use_case.gaunlet.bet.GaunletBetOutputBoundary;
 import use_case.gaunlet.bet.GaunletBetOutputData;
 
-import javax.swing.*;
-
 /**
  * The Presenter for the Gaunlet Bet Use Case.
  */
@@ -58,5 +56,12 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     public void switchToGameMenuView() {
         viewManagerModel.setState(gameMenuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void setUserBet() {
+        final int betAmt = this.gaunletBetViewModel.getState().getBet();
+        this.gaunletBetViewModel.getState().getUser().setBet(betAmt);
+        this.gaunletBetViewModel.firePropertyChanged();
     }
 }

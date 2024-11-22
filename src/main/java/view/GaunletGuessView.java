@@ -13,7 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import interface_adapter.gaunlet.guess.GaunletGuessController;
+import interface_adapter.gaunlet.guess.GaunletGuessState;
 import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
+import interface_adapter.signup.SignupState;
 
 /**
  * The View for the Gaunlet guess Use Case.
@@ -49,7 +51,17 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         continueToResults.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gaunletGuessController.switchToLoginView();
+                        public void actionPerformed(ActionEvent evt) {
+                            if (evt.getSource().equals(continueToResults)) {
+                                final GaunletGuessState currentState = gaunletGuessViewModel.getState();
+
+                                gaunletGuessController.execute(
+                                        currentState.getUsername(),
+                                        currentState.getPassword(),
+                                        currentState.getRepeatPassword()
+                                );
+                            }
+                        }
                     }
                 }
         );

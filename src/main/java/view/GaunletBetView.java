@@ -18,6 +18,7 @@ import javax.swing.event.DocumentListener;
 import interface_adapter.gaunlet.bet.GaunletBetController;
 import interface_adapter.gaunlet.bet.GaunletBetState;
 import interface_adapter.gaunlet.bet.GaunletBetViewModel;
+import interface_adapter.signup.SignupState;
 
 /**
  * The View for the Gaunlet bet Use Case.
@@ -52,6 +53,7 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                     // This creates an anonymous subclass of ActionListener and instantiates it.
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(continueToGame)) {
+                            final GaunletBetState currentState = gaunletBetViewModel.getState();
                             final String betInput = betInputField.getText().trim();
                             if (betInput.isEmpty()) {
                                 JOptionPane.showMessageDialog(null, "Please enter a bet amount.");
@@ -60,7 +62,6 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                             try {
                                 final int betVal = Integer.parseInt(betInput);
 
-                                final GaunletBetState currentState = gaunletBetViewModel.getState();
                                 currentState.setBet(betVal);
                                 gaunletBetViewModel.setState(currentState);
 
@@ -84,7 +85,6 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                     }
                 }
         );
-
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
@@ -117,4 +117,5 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
     public void actionPerformed(ActionEvent e) {
 
     }
+
 }

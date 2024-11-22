@@ -25,6 +25,7 @@ public class CommonUser implements User {
         this.losses = 0;
         this.games = 0;
         this.lastSpin = null;
+        this.currBet = 0;
     }
 
     @Override
@@ -92,6 +93,11 @@ public class CommonUser implements User {
     @Override
     public void setLastSpin(Date lastSpin) {
         this.lastSpin = lastSpin;
+    }
+
+    @Override
+    public void setBet(int bet) {
+        this.currBet = bet;
     }
 
     @Override

@@ -85,4 +85,11 @@ public interface User {
      */
     void setLastSpin(Date lastSpin);
 
+    /**
+     * Returns most recent bet of the user.
+     * @param bet is the recent bet.
+     * @return the most recent bet of the user.
+     */
+    void setBet(int bet);
+
 }
