@@ -20,6 +20,7 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
         final int betAmount = gaunletBetInputData.getBet();
         if (!isValidBet(betAmount)) {
             userPresenter.prepareFailView("Invalid bet amount. Please check the rules and try again.");
+            return;
         }
         userDataAccessObject.setBet(betAmount);
 

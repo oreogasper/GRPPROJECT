@@ -2,7 +2,7 @@ package interface_adapter.gaunlet.guess;
 
 import use_case.gaunlet.guess.GaunletGuessInputBoundary;
 import use_case.gaunlet.guess.GaunletGuessInputData;
-import use_case.signup.SignupInputData;
+
 
 /**
  * Controller for the Gaunlet Guess Use Case.

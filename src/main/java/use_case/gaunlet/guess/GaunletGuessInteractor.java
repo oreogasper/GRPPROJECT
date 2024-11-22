@@ -1,8 +1,6 @@
 package use_case.gaunlet.guess;
 
-import use_case.gaunlet.bet.GaunletBetInputBoundary;
-import use_case.gaunlet.bet.GaunletBetInputData;
-import use_case.gaunlet.bet.GaunletBetOutputBoundary;
+import entity.GaunletGameFactory;
 
 /**
  * The Gaunlet Guess Interactor.
@@ -16,17 +14,58 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
 
     @Override
     public void execute(GaunletGuessInputData gaunletGuessInputData) {
-        // if (userDataAccessObject.validBet(GaunletBetInputData.getBet())) {
-            // userPresenter.prepareFailView("Bet Amount does not meet minimum requirements.");
-        // }
-        // else {
-            // final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
-            // userDataAccessObject.save(user);
+        final String coinGuess = gaunletGuessInputData.getCoinFlip();
+        final String diceGuess = gaunletGuessInputData.getDice();
+        final String rpsGuess = gaunletGuessInputData.getRps();
 
-            // final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(
-        // GaunletBetInputData.getBet(), false);
-            // userPresenter.prepareSuccessView(gaunletBetOutputData);
-        // }
+        if (!isValidCoinFlip(coinGuess)) {
+            userPresenter.prepareFailView("Invalid coin guess. Please enter 'Heads' or 'Tails'.");
+            return;
+        }
+        try {
+            int dice = parseAndValidateDiceGuess(diceGuess);
+        }
+        catch (IllegalArgumentException e) {
+            userPresenter.prepareFailView(e.getMessage());
+            return;
+        }
+
+        if (!isValidRpsGuess(rpsGuess)) {
+            userPresenter.prepareFailView("Invalid RPS guess. Please enter 'Rock', 'Paper', or 'Scissors'."
+            );
+            return;
+        }
+
+        final GaunletGameFactory game = new GaunletGameFactory();
+        game.create(coinGuess, Integer.parseInt(diceGuess), rpsGuess);
+        final GaunletGuessOutputData gaunletGuessOutputData = new GaunletGuessOutputData(coinGuess,
+                diceGuess, rpsGuess, false);
+        userPresenter.prepareSuccessView(gaunletGuessOutputData);
+    }
+
+    private boolean isValidCoinFlip(String coinFlip) {
+        return "Heads".equalsIgnoreCase(coinFlip) || "Tails".equalsIgnoreCase(coinFlip);
+    }
+
+    private int parseAndValidateDiceGuess(String diceGuess) {
+        try {
+            final int diceValue = Integer.parseInt(diceGuess);
+            if (diceValue < 1 || diceValue > 6) {
+                throw new IllegalArgumentException("Invalid dice guess. Please enter a number between 1 and 6.");
+            }
+            return diceValue;
+        }
+        catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid dice guess. Please enter a valid number.");
+        }
+    }
+
+    private boolean isValidRpsGuess(String rpsGuess) {
+        return "Rock".equalsIgnoreCase(rpsGuess)
+                ||
+                "Paper".equalsIgnoreCase(rpsGuess)
+                ||
+                "Scissors".equalsIgnoreCase(rpsGuess);
     }
 
     @Override

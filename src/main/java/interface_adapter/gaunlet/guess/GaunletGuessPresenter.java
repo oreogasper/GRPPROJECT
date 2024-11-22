@@ -9,6 +9,7 @@ import interface_adapter.signup.SignupViewModel;
 import use_case.gaunlet.bet.GaunletBetOutputBoundary;
 import use_case.gaunlet.bet.GaunletBetOutputData;
 import use_case.gaunlet.guess.GaunletGuessOutputBoundary;
+import use_case.gaunlet.guess.GaunletGuessOutputData;
 
 /**
  * The Presenter for the Gaunlet Guess Use Case.
@@ -31,11 +32,13 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(GaunletBetOutputData response) {
+    public void prepareSuccessView(GaunletGuessOutputData response) {
 
         // On success, switch to the gaunlet guess view when implemented
         final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
-        // gaunletGuessState.setBet(response.getBet());
+        gaunletGuessState.setCoinGuess("");
+        gaunletGuessState.setDiceGuess("");
+        gaunletGuessState.setRpsGuess("");
         this.gaunletGuessViewModel.setState(gaunletGuessState);
         gaunletGuessViewModel.firePropertyChanged();
 
@@ -45,9 +48,9 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        final SignupState signupState = signupViewModel.getState();
-        signupState.setUsernameError(error);
-        signupViewModel.firePropertyChanged();
+        final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
+        gaunletGuessState.setCoinGuessError(error);
+        gaunletGuessViewModel.firePropertyChanged();
     }
 
     @Override

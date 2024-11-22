@@ -1,11 +1,23 @@
 package interface_adapter.gaunlet.guess;
+
+import entity.User;
+
 public class GaunletGuessState {
+    private User user;
     private String coinGuess = "";
     private String coinGuessError;
     private String diceGuess = "";
     private String diceGuessError;
     private String rpsGuess = "";
     private String rpsGuessError;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
 
     public String getCoinGuess() {
         return coinGuess;
