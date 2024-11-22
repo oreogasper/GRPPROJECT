@@ -16,6 +16,7 @@ import interface_adapter.shop.ShopViewModel;
 import interface_adapter.shop.wheel.ShopWheelController;
 import interface_adapter.shop.wheel.ShopWheelState;
 import interface_adapter.shop.wheel.ShopWheelViewModel;
+import interface_adapter.shop.wheel.SpinningWheelButton;
 
 /**
  * The View for the shop wheel screen.
@@ -25,10 +26,10 @@ public class ShopWheelView extends JPanel {
     private final JLabel username;
     private final JLabel balance;
     private final JLabel countdown;
-    private Timer countdownTimer;
-    private final int waitRequirement = 15;
+    private final JButton spinButton;
+    private final ShopWheelAnimationPanel wheelPanel;
 
-    public ShopWheelView(ShopWheelViewModel viewModel) {
+    public ShopWheelView(ShopWheelViewModel shopWheelViewModel) {
         this.setLayout(new BorderLayout());
 
         // Title
@@ -46,8 +47,8 @@ public class ShopWheelView extends JPanel {
         // Implement wheelButton functionality
         wheelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                wheelController.spinWheel(viewModel.getState().getUser().getLastSpin());
-                startCountdown(viewModel.getState().getUser().getLastSpin());
+                wheelController.spinWheelRequest(shopWheelViewModel.getState().getUser().getLastSpin());
+                startCountdown(shopWheelViewModel.getState().getUser().getLastSpin());
             }
         });
 
@@ -56,7 +57,7 @@ public class ShopWheelView extends JPanel {
         balance = new JLabel("unknown balance");
 
         // Update labels when state changes
-        viewModel.addPropertyChangeListener(evt -> {
+        shopWheelViewModel.addPropertyChangeListener(evt -> {
             if ("state".equals(evt.getPropertyName())) {
                 final ShopWheelState updatedState = (ShopWheelState) evt.getNewValue();
                 final String updatedName = updatedState.getUser().getName();

@@ -1,8 +1,11 @@
 package interface_adapter.shop.wheel;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.shop.ShopState;
@@ -18,6 +21,14 @@ public class ShopWheelPresenter implements ShopWheelOutputBoundary {
     private final ViewManagerModel viewManagerModel;
     private final ShopViewModel shopViewModel;
     private final ShopWheelViewModel shopWheelViewModel;
+    private int currentAngle;
+    private final int[] wheelSegments = {1, 2, 3, 4, 5, 6, 7, 8};
+    private final Color[] segmentColors = {Color.RED.darker(), Color.GREEN.darker(),
+            Color.YELLOW.darker(), Color.CYAN.darker(),
+            Color.BLUE.darker(), Color.ORANGE.darker().darker().darker(),
+            Color.PINK.darker(), Color.MAGENTA.darker()};
+    private boolean isSpinning;
+    private Timer timer;
 
     public ShopWheelPresenter(ViewManagerModel viewManagerModel,
                               ShopViewModel shopViewModel,
@@ -49,7 +60,52 @@ public class ShopWheelPresenter implements ShopWheelOutputBoundary {
     }
 
     @Override
-    public void spinWheel() {
+    public void spinWheel(int targetAngle) {
+        if (isSpinning) {
+            return;
+        }
+        isSpinning = true;
+
+        final int fullDuration = 400;
+        final int accelerationDuration = fullDuration / 2;
+        final int maxSpeed = 20;
+        final int timerDelay = 10;
+
+        timer = new Timer(timerDelay, new ActionListener() {
+            private int tick;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                final double speed = getSpeed(tick);
+                currentAngle = (int) ((currentAngle + speed) % 360);
+                tick++;
+                repaint();
+                if (tick >= fullDuration) {
+                    timer.stop();
+                    isSpinning = false;
+                }
+            }
+
+            private double getSpeed(int tick) {
+                final double speed;
+                if (tick < accelerationDuration) {
+                    // Acceleration phase: use sinusoidal easing
+                    speed = maxSpeed * Math.sin((Math.PI / 2) * tick / accelerationDuration);
+                }
+                else {
+                    // Deceleration phase: symmetric easing
+                    final int decelerationTick = tick - accelerationDuration;
+                    speed = maxSpeed * Math.cos((Math.PI / 2) * decelerationTick / accelerationDuration);
+                }
+                return speed;
+            }
+        });
+        timer.start();
+
+
+
+        SpinningWheelButton.main();
+
         final long currentTime = System.currentTimeMillis();
         final long lastSpin = shopWheelViewModel.getState().getUser().getLastSpin();
 
@@ -93,7 +149,8 @@ public class ShopWheelPresenter implements ShopWheelOutputBoundary {
         return random.nextInt(maxTokens) + 1;
     }
 
-    private void updatePrize(int prize) {
+    @Override
+    public void updatePrize(int prize) {
         shopWheelViewModel.getState().givePrize(prize);
         shopWheelViewModel.firePropertyChanged();
     }

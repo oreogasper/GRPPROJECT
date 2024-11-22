@@ -1,5 +1,7 @@
 package interface_adapter.shop.wheel;
 
+import java.util.concurrent.TimeUnit;
+
 import use_case.shopwheel.ShopWheelInputBoundary;
 
 /**
@@ -7,6 +9,7 @@ import use_case.shopwheel.ShopWheelInputBoundary;
  */
 public class ShopWheelController {
 
+    private static final int WAIT_REQUIREMENT = 600;
     private final ShopWheelInputBoundary userShopWheelUseCaseInteractor;
 
     public ShopWheelController(ShopWheelInputBoundary shopWheelUseCaseInteractor) {
@@ -21,11 +24,30 @@ public class ShopWheelController {
     }
 
     /**
+     * Returns whether the user has waited long enough for the next spin.
+     * @param currentTime is user's current system time.
+     * @param lastSpin is the last time the user spun the wheel,
+     * @param waitTimeSeconds is the required time to wait, in seconds.
+     * @return if the user has waited enough.
+     */
+    public static boolean waitedEnough(long currentTime, long lastSpin, long waitTimeSeconds) {
+        return TimeUnit.MILLISECONDS.toSeconds(currentTime)
+                - TimeUnit.MILLISECONDS.toSeconds(lastSpin) > waitTimeSeconds;
+    }
+
+    /**
      * Sends the update request for button clicking.
      * @param lastSpin is the time the user last spun the wheel.
      */
-    public void spinWheel(long lastSpin) {
-        userShopWheelUseCaseInteractor.spinWheel(lastSpin);
+    public void spinWheelRequest(long lastSpin) {
+        if (lastSpin == 0 || waitedEnough(System.currentTimeMillis(),
+                lastSpin, WAIT_REQUIREMENT)) {
+            userShopWheelUseCaseInteractor.spinWheel(lastSpin);
+        }
+        else {
+            userShopWheelUseCaseInteractor.tooEarly();
+        }
+
     }
 
 }

@@ -1,4 +1,4 @@
-package view;
+package interface_adapter.shop.wheel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,7 +32,12 @@ public class SpinningWheelButton extends JButton {
         final int wheelHeight = 200;
         final int wheelWidth = 200;
         setPreferredSize(new Dimension(wheelWidth, wheelHeight));
-        addActionListener(evt -> startSpin());
+        addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                if
+            }
+                          }
+                startSpin());
     }
 
     @Override
@@ -127,9 +132,8 @@ public class SpinningWheelButton extends JButton {
 
     /**
      * The main method for this class.
-     * @param args is usually unfilled.
      */
-    public static void main(String[] args) {
+    public static void main() {
         final JFrame frame = new JFrame("Spinning Wheel");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(400, 400);

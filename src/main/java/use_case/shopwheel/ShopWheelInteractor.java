@@ -1,11 +1,27 @@
 package use_case.shopwheel;
 
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * The Shop wheel Interactor.
  */
 public class ShopWheelInteractor implements ShopWheelInputBoundary {
+    private static final int NUM_SEGMENTS = 8;
+    private static final Map<Integer, Integer> SEGMENT_TO_PRIZE = new HashMap<>();
+
+    static {
+        SEGMENT_TO_PRIZE.put(1, 1);
+        SEGMENT_TO_PRIZE.put(2, 20);
+        SEGMENT_TO_PRIZE.put(3, 10);
+        SEGMENT_TO_PRIZE.put(4, 5);
+        SEGMENT_TO_PRIZE.put(5, 15);
+        SEGMENT_TO_PRIZE.put(6, 35);
+        SEGMENT_TO_PRIZE.put(7, 25);
+        SEGMENT_TO_PRIZE.put(8, 30);
+    }
+
     private final ShopWheelOutputBoundary userPresenter;
 
     public ShopWheelInteractor(ShopWheelOutputBoundary shopWheelOutputBoundary) {
@@ -18,26 +34,28 @@ public class ShopWheelInteractor implements ShopWheelInputBoundary {
     }
 
     /**
-     * Returns whether the user has waited long enough for the next spin.
-     * @param currentTime is user's current system time.
-     * @param lastSpin is the last time the user spun the wheel,
-     * @param waitTimeSeconds is the required time to wait, in seconds.
-     * @return if the user has waited enough.
+     * Calculates the prize amount to be returned.
+     * @return the prize amount.
      */
-    public static boolean waitedEnough(long currentTime, long lastSpin, long waitTimeSeconds) {
-        return TimeUnit.MILLISECONDS.toSeconds(currentTime)
-                - TimeUnit.MILLISECONDS.toSeconds(lastSpin) > waitTimeSeconds;
+    public static int calculatePrize() {
+        final Random random = new Random();
+        return random.nextInt(NUM_SEGMENTS) + 1;
     }
 
     @Override
     public void spinWheel(long lastSpin) {
-        final long waitTimeSeconds = 10;
-        if (lastSpin == 0 || waitedEnough(System.currentTimeMillis(), lastSpin, waitTimeSeconds)) {
-            userPresenter.spinWheel();
-        }
-        else {
-            userPresenter.tooEarly();
-        }
+        final Random random = new Random();
+        final int targetSegment = random.nextInt(NUM_SEGMENTS) + 1;
+        final int segmentWidth = 360 / NUM_SEGMENTS;
+        final int targetAngle = targetSegment * segmentWidth - random.nextInt(segmentWidth);
+
+        userPresenter.spinWheel(targetAngle);
+        userPresenter.updatePrize(SEGMENT_TO_PRIZE.get(targetSegment));
+    }
+
+    @Override
+    public void tooEarly() {
+        userPresenter.tooEarly();
     }
 
 }

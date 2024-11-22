@@ -16,4 +16,9 @@ public interface ShopWheelInputBoundary {
      */
     void spinWheel(long lastSpin);
 
+    /**
+     * Rejects the user's attempt to spin the wheel.
+     */
+    void tooEarly();
+
 }
