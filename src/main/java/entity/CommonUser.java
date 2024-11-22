@@ -14,8 +14,8 @@ public class CommonUser implements User {
     private int wins;
     private int losses;
     private int games;
-    private int currBet;
     private Date lastSpin;
+    private int currBet;
 
     public CommonUser(String name, String password) {
         this.username = name;
@@ -26,6 +26,7 @@ public class CommonUser implements User {
         this.games = 0;
         this.lastSpin = null;
         this.currBet = 0;
+
     }
 
     @Override
@@ -46,6 +47,11 @@ public class CommonUser implements User {
     @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public void setBet(int bet) {
+        this.currBet = bet;
     }
 
     @Override
@@ -93,11 +99,6 @@ public class CommonUser implements User {
     @Override
     public void setLastSpin(Date lastSpin) {
         this.lastSpin = lastSpin;
-    }
-
-    @Override
-    public void setBet(int bet) {
-        this.currBet = bet;
     }
 
     @Override

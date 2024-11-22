@@ -1,6 +1,6 @@
 package view;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -28,6 +28,8 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
 
     private final GaunletBetViewModel gaunletBetViewModel;
     private final JTextField betInputField = new JTextField(8);
+    private final JLabel username;
+    private final JLabel balance;
     private final JButton continueToGame;
     private final JButton back;
     private GaunletBetController gaunletBetController;
@@ -41,6 +43,14 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
 
         final LabelTextPanel betInfo = new LabelTextPanel(
                 new JLabel(GaunletBetViewModel.BET_LABEL), betInputField);
+
+        username = new JLabel("Currently logged in: unknown");
+        balance = new JLabel("Current balance: 0");
+
+        final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
+        bottomPanel.add(username);
+        bottomPanel.add(balance);
+        this.add(bottomPanel, BorderLayout.SOUTH);
 
         final JPanel buttons = new JPanel();
         continueToGame = new JButton(GaunletBetViewModel.CONTINUE_BUTTON_LABEL);
@@ -99,6 +109,8 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
         if (state.getBetError() != null) {
             JOptionPane.showMessageDialog(this, state.getBetError());
         }
+        username.setText("Currently logged in: " + state.getUser().getName());
+        balance.setText("Current balance: " + state.getUser().getBalance());
     }
 
     private void setFields(GaunletBetState state) {
