@@ -1,22 +1,20 @@
 package entity;
 
+import java.util.Random;
+
 public class GaunletGame implements Game {
+    private static final Random random = new Random();
     private final int minBet;
     private final int maxBet;
     private final int minAmount = 10;
     private final int maxAmount = 100;
     private final String gameType;
-    private final String coinGuess;
-    private final String diceGuess;
-    private final String rpsGuess;
 
     public GaunletGame() {
         this.minBet = minAmount;
         this.maxBet = maxAmount;
         this.gameType = "gauntlet";
-        this.coinGuess = "";
-        this.diceGuess = "";
-        this.rpsGuess = "";
+
     }
 
     @Override
@@ -37,7 +35,16 @@ public class GaunletGame implements Game {
     // Todo need to implement rules
     @Override
     public String getRules() {
-        return null;
     }
+
+    // The game outcomes generator
+    public String flipCoin() {
+        return random.nextBoolean() ? "Heads" : "Tails";
+    }
+
+    public int rollDice() {
+        return random.nextInt(6) + 1;
+    }
+
 
 }

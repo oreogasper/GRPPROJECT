@@ -9,7 +9,7 @@ public interface GaunletFactory {
      * @param coinGuess the coin guess
      * @param diceGuess the dice guess
      * @param rpsGuess the rps guess
+     * @return new game session
      */
-    void create(String coinGuess, int diceGuess, String rpsGuess);
-
+    GaunletGame create(String coinGuess, int diceGuess, String rpsGuess);
 }

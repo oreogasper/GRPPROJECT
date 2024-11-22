@@ -23,7 +23,7 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
             return;
         }
         try {
-            int dice = parseAndValidateDiceGuess(diceGuess);
+            int dice = isValidDiceGuess(diceGuess);
         }
         catch (IllegalArgumentException e) {
             userPresenter.prepareFailView(e.getMessage());
@@ -47,7 +47,8 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
         return "Heads".equalsIgnoreCase(coinFlip) || "Tails".equalsIgnoreCase(coinFlip);
     }
 
-    private int parseAndValidateDiceGuess(String diceGuess) {
+    private int isValidDiceGuess(String diceGuess) {
+
         try {
             final int diceValue = Integer.parseInt(diceGuess);
             if (diceValue < 1 || diceValue > 6) {
