@@ -41,9 +41,9 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        // final SignupState signupState = signupViewModel.getState();
-        // signupState.setUsernameError(error);
-        // signupViewModel.firePropertyChanged();
+        final GaunletBetState betState = gaunletBetViewModel.getState();
+        betState.setBetError(error);
+        gaunletBetViewModel.firePropertyChanged();
     }
 
     @Override
@@ -56,5 +56,12 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     public void switchToGameMenuView() {
         viewManagerModel.setState(gameMenuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void setUserBet() {
+        final int betAmt = this.gaunletBetViewModel.getState().getBet();
+        this.gaunletBetViewModel.getState().getUser().setBet(betAmt);
+        this.gaunletBetViewModel.firePropertyChanged();
     }
 }

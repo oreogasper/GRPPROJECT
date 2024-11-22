@@ -11,9 +11,13 @@ public interface GaunletBetInputBoundary {
     void execute(GaunletBetInputData gaunletBetInputData);
 
     /**
-     * Executes the switch to game menu use case.
+     * Executes the switch to gaunlet guess use case.
      */
     void switchToGaunletGuessView();
+
+    /**
+     * Executes the switch to game menu use case.
+     */
     void switchToGameMenuView();
 }
 

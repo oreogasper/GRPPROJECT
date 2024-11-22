@@ -6,14 +6,15 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import interface_adapter.gaunlet.guess.GaunletGuessController;
+import interface_adapter.gaunlet.guess.GaunletGuessState;
 import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
+import interface_adapter.signup.SignupController;
+import interface_adapter.signup.SignupState;
 
 /**
  * The View for the Gaunlet guess Use Case.
@@ -27,6 +28,7 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
     private final JTextField rpsInputField = new JTextField(8);
 
     private final JButton continueToResults;
+
     public GaunletGuessView(GaunletGuessViewModel gaunletGuessViewModel) {
 
         this.gaunletGuessViewModel = gaunletGuessViewModel;
@@ -49,7 +51,18 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         continueToResults.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        gaunletGuessController.switchToLoginView();
+                        System.out.println("Button clicked! Executing the action...");
+                        if (evt.getSource().equals(continueToResults)) {
+                            final GaunletGuessState currentState = gaunletGuessViewModel.getState();
+                            System.out.println("Coin Guess: " + currentState.getCoinGuess());
+                            System.out.println("Dice Guess: " + currentState.getDiceGuess());
+                            System.out.println("RPS Guess: " + currentState.getRpsGuess());
+                            gaunletGuessController.execute(
+                                    currentState.getCoinGuess(),
+                                    currentState.getDiceGuess(),
+                                    currentState.getRpsGuess()
+                            );
+                        }
                     }
                 }
         );
@@ -57,7 +70,6 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         addCoinListener();
         addDiceListener();
         addRpsListener();
-        // TODO need to input this
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
@@ -68,14 +80,83 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
     }
 
     private void addCoinListener() {
+        coinFlipInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final GaunletGuessState currentState = gaunletGuessViewModel.getState();
+                currentState.setCoinGuess(coinFlipInputField.getText());
+                gaunletGuessViewModel.setState(currentState);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
 
     }
 
     private void addDiceListener() {
+        diceInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final GaunletGuessState currentState = gaunletGuessViewModel.getState();
+                currentState.setDiceGuess(diceInputField.getText());
+                gaunletGuessViewModel.setState(currentState);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
 
     }
 
     private void addRpsListener() {
+        rpsInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final GaunletGuessState currentState = gaunletGuessViewModel.getState();
+                currentState.setRpsGuess(rpsInputField.getText());
+                gaunletGuessViewModel.setState(currentState);
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
 
     }
 
@@ -89,11 +170,22 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        final GaunletGuessState state = (GaunletGuessState) evt.getNewValue();
+        setFields(state);
+        if (state.getCoinGuessError() != null) {
+            JOptionPane.showMessageDialog(this, state.getCoinGuessError());
+        }
 
     }
+
+    private void setFields(GaunletGuessState state) {
+        coinFlipInputField.setText(state.getCoinGuess());
+        diceInputField.setText(state.getDiceGuess());
+        rpsInputField.setText(state.getRpsGuess());
+    }
+
 }
