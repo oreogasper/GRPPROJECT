@@ -12,7 +12,8 @@ public interface ShopWheelInputBoundary {
 
     /**
      * Executes the spin of the wheel.
+     * @param lastSpin is the last time the user spun the wheel.
      */
-    void wheelSpin();
+    void spinWheel(long lastSpin);
 
 }

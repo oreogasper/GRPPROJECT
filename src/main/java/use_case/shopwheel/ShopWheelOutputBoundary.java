@@ -23,6 +23,16 @@ public interface ShopWheelOutputBoundary {
     /**
      * Performs the action associated with clicking the button.
      */
-    void wheelSpin();
+    void spinWheel();
+
+    /**
+     * Displays the wheel which spins.
+     */
+    void spinningWheel();
+
+    /**
+     * Displays a message if the user tries to spin too early.
+     */
+    void tooEarly();
 
 }

@@ -16,4 +16,12 @@ public class ShopWheelState {
         return user;
     }
 
+    /**
+     * Gives the token prize amount to the user.
+     * @param prize is the amount to update the balance.
+     */
+    public void givePrize(int prize) {
+        user.updateBalance(prize);
+    }
+
 }

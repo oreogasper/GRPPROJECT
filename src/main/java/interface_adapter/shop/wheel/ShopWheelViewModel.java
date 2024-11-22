@@ -1,5 +1,12 @@
 package interface_adapter.shop.wheel;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
+import javax.swing.JPanel;
+
 import interface_adapter.ViewModel;
 
 /**
@@ -7,13 +14,34 @@ import interface_adapter.ViewModel;
  */
 public class ShopWheelViewModel extends ViewModel<ShopWheelState> {
 
-    public static final String TITLE_LABEL = "SPIN or leave!";
-    public static final String SPIN_BUTTON_LABEL = "Spin me for money";
-    public static final String SHOP_BUTTON_LABEL = "Return to shop menu";
+    // Constants
+    public static final String TITLE_LABEL = "Spin it up!";
+    public static final String SPIN_BUTTON_LABEL = "Spin me";
+    public static final String SHOP_BUTTON_LABEL = "Return to Shop";
 
+    // Fields
+    private double wheelAngle;
+
+    /**
+     * Constructor to initialize the ShopWheelViewModel.
+     */
     public ShopWheelViewModel() {
         super("shop wheel");
         setState(new ShopWheelState());
+    }
+
+    // Methods
+    /**
+     * Notifies the screen of the changed angle.
+     * @param angle is the new angle.
+     */
+    public void setWheelAngle(double angle) {
+        this.wheelAngle = angle;
+        firePropertyChanged();
+    }
+
+    public double getWheelAngle() {
+        return this.wheelAngle;
     }
 
 }

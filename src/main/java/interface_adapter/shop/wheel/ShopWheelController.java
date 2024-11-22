@@ -22,9 +22,10 @@ public class ShopWheelController {
 
     /**
      * Sends the update request for button clicking.
+     * @param lastSpin is the time the user last spun the wheel.
      */
-    public void wheelSpin() {
-        userShopWheelUseCaseInteractor.wheelSpin();
+    public void spinWheel(long lastSpin) {
+        userShopWheelUseCaseInteractor.spinWheel(lastSpin);
     }
 
 }
