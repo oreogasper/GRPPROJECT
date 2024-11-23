@@ -25,6 +25,7 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
             return;
         }
         userDataAccessObject.setBet(betAmount);
+        userPresenter.setUserBet();
 
         final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount, false);
         userPresenter.prepareSuccessView(gaunletBetOutputData);

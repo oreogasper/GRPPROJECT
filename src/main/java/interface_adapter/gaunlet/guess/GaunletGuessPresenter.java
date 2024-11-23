@@ -51,7 +51,7 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
             user.updateBalance(-user.getBet());
             user.lostGame();
             JOptionPane.showMessageDialog(null,
-                    "Sorry, you lost the Gauntlet game. Better luck next time! reward =" + user.getBet());
+                    "Sorry, you lost the Gauntlet game. Better luck next time!");
         }
 
         gaunletGuessState.setCoinGuess(response.getCoinFlip());
