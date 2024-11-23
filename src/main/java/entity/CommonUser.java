@@ -59,6 +59,8 @@ public class CommonUser implements User {
 
     @Override
     public int getBet() {
+        return currBet;
+    }
 
     public JSONObject getInfo() {
         return info;
