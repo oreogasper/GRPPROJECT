@@ -8,6 +8,7 @@ import interface_adapter.shop.button.ShopButtonViewModel;
 import interface_adapter.shop.wheel.ShopWheelState;
 import interface_adapter.shop.wheel.ShopWheelViewModel;
 import use_case.shop.ShopOutputBoundary;
+import use_case.shop.ShopOutputData;
 
 /**
  * The Presenter for the Shop main menu Use Case.
@@ -32,7 +33,8 @@ public class ShopPresenter implements ShopOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView() {
+    public void prepareSuccessView(ShopOutputData response) {
+        // TODO: nothing so far
     }
 
     @Override
