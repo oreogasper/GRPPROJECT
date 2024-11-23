@@ -23,7 +23,7 @@ import interface_adapter.signup.SignupViewModel;
 /**
  * The View for the Signup Use Case.
  */
-public class SignupView extends JPanel implements ActionListener, PropertyChangeListener {
+public class SignupView extends JPanel implements PropertyChangeListener {
     private final String viewName = "sign up";
 
     private final SignupViewModel signupViewModel;
@@ -173,10 +173,10 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         });
     }
 
-    @Override
+    /* @Override
     public void actionPerformed(ActionEvent evt) {
         JOptionPane.showMessageDialog(this, "Cancel not implemented yet.");
-    }
+    }*/
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

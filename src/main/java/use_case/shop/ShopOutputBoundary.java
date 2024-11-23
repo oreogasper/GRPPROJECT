@@ -6,8 +6,9 @@ package use_case.shop;
 public interface ShopOutputBoundary {
     /**
      * Prepares the success view for the Shop Use Case.
+     * @param shopOutputData the shop output data
      */
-    void prepareSuccessView();
+    void prepareSuccessView(ShopOutputData shopOutputData);
 
     /**
      * Prepares the failure view for the Menu Use Case.

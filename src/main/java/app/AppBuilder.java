@@ -20,7 +20,6 @@ import interface_adapter.blackjack.game.BlackjackGamePresenter;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import interface_adapter.statistics.ChangePasswordController;
 import interface_adapter.statistics.ChangePasswordPresenter;
-import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
@@ -365,7 +364,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
-        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(userDataAccessObject, viewManagerModel,
                 signupViewModel, menuViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
@@ -489,7 +488,7 @@ public class AppBuilder {
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel, shopMainViewModel);
-        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary);
+        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary, userDataAccessObject, userFactory);
 
         final ShopController shopController = new ShopController(userShopInteractor);
         shopMainView.setShopController(shopController);
