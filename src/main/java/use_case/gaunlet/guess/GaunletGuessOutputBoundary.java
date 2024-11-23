@@ -11,7 +11,7 @@ public interface GaunletGuessOutputBoundary {
      * Prepares the success view for the Signup Use Case.
      * @param outputData the output data
      */
-    void prepareSuccessView(GaunletBetOutputData outputData);
+    void prepareSuccessView(GaunletGuessOutputData outputData);
 
     /**
      * Prepares the failure view for the Signup Use Case.

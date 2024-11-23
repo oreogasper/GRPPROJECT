@@ -2,6 +2,9 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -13,6 +16,7 @@ import javax.swing.JPanel;
 import interface_adapter.shop.ShopController;
 import interface_adapter.shop.ShopState;
 import interface_adapter.shop.ShopViewModel;
+import interface_adapter.signup.SignupState;
 
 /**
  * The View for the shop main menu.
@@ -38,6 +42,25 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
 
         wheel.addActionListener(evt -> shopController.switchToShopWheelView());
         button.addActionListener(evt -> shopController.switchToShopButtonView());
+
+        // back.addActionListener(evt -> shopController.switchToMenuView());
+        back.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        if (evt.getSource().equals(back)) {
+                            final ShopState currentState = shopViewModel.getState();
+
+                            shopController.execute(
+                                    currentState.getUser().getName(),
+                                    currentState.getUser().getPassword(),
+                                    currentState.getUser().getBalance()
+                            );
+                        }
+                        shopController.switchToMenuView();
+                    }
+                }
+        );
 
         // Bottom panel for username and balance
         username = new JLabel("unknown username");

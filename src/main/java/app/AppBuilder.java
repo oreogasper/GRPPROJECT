@@ -6,8 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.DBGaunletDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
+import entity.GaunletGameFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.blackjack.bet.BlackjackBetController;
@@ -18,7 +20,6 @@ import interface_adapter.blackjack.game.BlackjackGamePresenter;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import interface_adapter.statistics.ChangePasswordController;
 import interface_adapter.statistics.ChangePasswordPresenter;
-import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
@@ -117,11 +118,13 @@ public class AppBuilder {
     private final CardLayout cardLayout = new CardLayout();
     // thought question: is the hard dependency below a problem?
     private final UserFactory userFactory = new CommonUserFactory();
+    private final GaunletGameFactory gaunletgame = new GaunletGameFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
     private final DBUserDataAccessObject userDataAccessObject;
+    private final DBGaunletDataAccessObject gaunletDataAccessObject;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -154,6 +157,7 @@ public class AppBuilder {
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
         userDataAccessObject = new DBUserDataAccessObject(userFactory);
+        gaunletDataAccessObject = new DBGaunletDataAccessObject();
     }
 
     /**
@@ -333,7 +337,7 @@ public class AppBuilder {
         final GaunletGuessOutputBoundary gaunletGuessOutputBoundary = new GaunletGuessPresenter(viewManagerModel,
                 signupViewModel, gaunletGuessViewModel, gameMenuViewModel);
         final GaunletGuessInputBoundary userGaunletGuessInteractor = new GaunletGuessInteractor(
-                gaunletGuessOutputBoundary);
+                gaunletGuessOutputBoundary, gaunletgame);
 
         final GaunletGuessController gaunletGuesscontroller = new GaunletGuessController(userGaunletGuessInteractor);
         gaunletGuessView.setGaunletGuessController(gaunletGuesscontroller);
@@ -347,7 +351,8 @@ public class AppBuilder {
     public AppBuilder addGaunletBetUseCase() {
         final GaunletBetOutputBoundary gaunletBetOutputBoundary = new GaunletBetPresenter(
                 viewManagerModel, gameMenuViewModel, gaunletBetViewModel, gaunletGuessViewModel);
-        final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(gaunletBetOutputBoundary);
+        final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(
+                gaunletDataAccessObject, gaunletBetOutputBoundary);
 
         final GaunletBetController gaunletBetcontroller = new GaunletBetController(userGaunletBetInteractor);
         gaunletBetView.setGaunletBetController(gaunletBetcontroller);
@@ -359,7 +364,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
-        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(userDataAccessObject, viewManagerModel,
                 signupViewModel, menuViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
@@ -483,7 +488,7 @@ public class AppBuilder {
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel, shopMainViewModel);
-        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary);
+        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary, userDataAccessObject, userFactory);
 
         final ShopController shopController = new ShopController(userShopInteractor);
         shopMainView.setShopController(shopController);

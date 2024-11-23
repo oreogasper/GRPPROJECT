@@ -1,5 +1,7 @@
 package entity;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -32,6 +34,12 @@ public interface User {
     void setPassword(String password);
 
     /**
+     * Returns the info of the user.
+     * @return the info of the user.
+     */
+    JSONObject getInfo();
+
+    /**
      * Returns the token count of the user.
      * @return the token count of the user.
      */
@@ -51,6 +59,7 @@ public interface User {
 
     /**
      * Updates that the user won a game.
+     * Updates that the user played a game.
      */
     void wonGame();
 
@@ -62,6 +71,7 @@ public interface User {
 
     /**
      * Updates that the user lost a game.
+     * Updates that the user played a game.
      */
     void lostGame();
 
@@ -70,11 +80,6 @@ public interface User {
      * @return the game play count of the user.
      */
     int getGames();
-
-    /**
-     * Updates that the user played a game.
-     */
-    void playedGame();
 
     /**
      * Returns the last time the user spun the wheel.
@@ -88,4 +93,15 @@ public interface User {
      */
     void setLastSpin(long lastSpin);
 
+    /**
+     * Sets current bet of the user.
+     * @param bet is the time of last spin.
+     */
+    void setBet(int bet);
+
+    /**
+     * Returns the current bet of the user.
+     * @return the current bet of the user.
+     */
+    int getBet();
 }

@@ -121,9 +121,9 @@ public class StatsView extends JPanel implements PropertyChangeListener {
                         final StatisticsState currentState = statisticsViewModel.getState();
 
                         this.changePasswordController.execute(
-
                                 currentState.getUsername(),
-                                currentState.getPassword()
+                                currentState.getPassword(),
+                                currentState.getUser().getInfo()
                         );
                     }
                 }
@@ -133,7 +133,7 @@ public class StatsView extends JPanel implements PropertyChangeListener {
                 // This creates an anonymous subclass of ActionListener and instantiates it.
                 evt -> {
                     if (evt.getSource().equals(logOut)) {
-                        StatisticsState currentState = this.statisticsViewModel.getState();
+                        StatisticsState currentState = statisticsViewModel.getState();
                         // TODO:
                         System.out.println(currentState);
                         this.logoutController.execute(currentState.getUsername());
@@ -144,6 +144,7 @@ public class StatsView extends JPanel implements PropertyChangeListener {
         cancel.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
+                        System.out.println(statisticsViewModel.getState());
                         statisticsController.switchToMenuView();
                     }
                 }

@@ -1,5 +1,7 @@
 package interface_adapter.change_password;
 
+import org.json.JSONObject;
+
 /**
  * The State information representing the logged-in user.
  */
@@ -8,11 +10,13 @@ public class LoggedInState {
 
     private String password = "";
     private String passwordError;
+    private JSONObject info;
 
-    public LoggedInState(LoggedInState copy) {
+    public LoggedInState(LoggedInState copy, JSONObject info) {
         username = copy.username;
         password = copy.password;
         passwordError = copy.passwordError;
+        this.info = info;
     }
 
     // Because of the previous copy constructor, the default constructor must be explicit.
@@ -38,5 +42,9 @@ public class LoggedInState {
 
     public String getPassword() {
         return password;
+    }
+
+    public JSONObject getInfo() {
+        return info;
     }
 }

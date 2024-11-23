@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -13,17 +15,21 @@ import javax.swing.JPanel;
 import interface_adapter.menu.MenuController;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
+import interface_adapter.statistics.StatisticsState;
 
 /**
  * The View for the Welcome Use Case.
  */
 public class MenuView extends JPanel implements PropertyChangeListener {
 
+    private final MenuViewModel menuViewModel;
     private transient MenuController menuController;
     private final JLabel username;
     private final JLabel balance;
 
     public MenuView(MenuViewModel menuViewModel) {
+        this.menuViewModel = menuViewModel;
+        this.menuViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(MenuViewModel.TITLE_LABEL);
         final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -39,7 +45,18 @@ public class MenuView extends JPanel implements PropertyChangeListener {
         final JButton back = new JButton(MenuViewModel.BACK_BUTTON_LABEL);
         tButtons.add(back);
 
-        stats.addActionListener(evt -> menuController.switchToStatisticsView());
+        // TODO: temporary testing function to allow us to see the state
+        // stats.addActionListener(evt -> menuController.switchToStatisticsView());
+        // ^ replace with this line after
+        stats.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        System.out.println(menuViewModel.getState());
+                        menuController.switchToStatisticsView();
+                    }
+                }
+        );
+
         gamble.addActionListener(evt -> menuController.switchToGameMenuView());
         shop.addActionListener(evt -> menuController.switchToShopView());
         back.addActionListener(evt -> menuController.switchToWelcomeView());
