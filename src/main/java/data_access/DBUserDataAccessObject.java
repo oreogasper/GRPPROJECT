@@ -63,8 +63,14 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 final JSONObject userJSONObject = responseBody.getJSONObject("user");
                 final String name = userJSONObject.getString(USERNAME);
                 final String password = userJSONObject.getString(PASSWORD);
+                final JSONObject data = userJSONObject.getJSONObject("info");
+                System.out.println(data);
+                /* System.out.println("Games: " + data.getString("games"));
+                System.out.println("Wins: " + data.getString("wins"));
+                System.out.println("Losses: " + data.getString("losses"));
+                System.out.println("Balance: " + data.getString("balance"));*/
 
-                return userFactory.create(name, password);
+                return userFactory.create(name, password, data);
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
@@ -102,7 +108,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
-    public void save(User user) {
+    public void save(User user, JSONObject info) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
 
@@ -127,6 +133,39 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
+            }
+        }
+        catch (IOException | JSONException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // SAVE
+        final OkHttpClient client1 = new OkHttpClient().newBuilder()
+                .build();
+
+        // POST METHOD
+        final MediaType mediaType1 = MediaType.parse(CONTENT_TYPE_JSON);
+        final JSONObject requestBody1 = new JSONObject();
+        requestBody1.put(USERNAME, user.getName());
+        requestBody1.put(PASSWORD, user.getPassword());
+        requestBody1.put("info", info);
+        final RequestBody body1 = RequestBody.create(requestBody1.toString(), mediaType1);
+        final Request request1 = new Request.Builder()
+                .url("http://vm003.teach.cs.toronto.edu:20112/modifyUserInfo")
+                .method("PUT", body1)
+                .addHeader(CONTENT_TYPE_LABEL, CONTENT_TYPE_JSON)
+                .build();
+        try {
+            final Response response1 = client1.newCall(request1).execute();
+
+            final JSONObject responseBody1 = new JSONObject(response1.body().string());
+
+            if (responseBody1.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
+                // success
+                System.out.println("SAVE USER success");
+            }
+            else {
+                throw new RuntimeException(responseBody1.getString(MESSAGE));
             }
         }
         catch (IOException | JSONException ex) {

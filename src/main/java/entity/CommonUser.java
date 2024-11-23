@@ -1,5 +1,7 @@
 package entity;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Date;
 public class CommonUser implements User {
 
     private static final int INITIAL_BALANCE = 25;
+    private final JSONObject info;
     private String username;
     private String password;
     private int balance;
@@ -17,15 +20,10 @@ public class CommonUser implements User {
     private int currBet;
     private Date lastSpin;
 
-    public CommonUser(String name, String password) {
+    public CommonUser(String name, String password, JSONObject info) {
         this.username = name;
         this.password = password;
-        this.balance = INITIAL_BALANCE;
-        this.wins = 0;
-        this.losses = 0;
-        this.games = 0;
-        this.lastSpin = null;
-        this.currBet = 0;
+        this.info = info;
     }
 
     @Override
@@ -49,40 +47,55 @@ public class CommonUser implements User {
     }
 
     @Override
+    public JSONObject getInfo() {
+        return info;
+    }
+
+    @Override
     public int getBalance() {
-        return balance;
+        return info.getInt("balance");
     }
 
     @Override
     public void updateBalance(int amount) {
-        balance += amount;
+        final int bal = info.getInt("balance");
+        info.put("balance", bal + amount);
+        // balance += amount;
     }
 
     @Override
     public int getWins() {
-        return wins;
+        return info.getInt("wins");
     }
 
     @Override
     public void wonGame() {
-        wins++;
-        games++;
+        final int win = info.getInt("wins");
+        final int game = info.getInt("games");
+        info.put("wins", win + 1);
+        info.put("games", game + 1);
+        // wins++;
+        // games++;
     }
 
     @Override
     public int getLosses() {
-        return losses;
+        return info.getInt("losses");
     }
 
     @Override
     public void lostGame() {
-        losses++;
-        games++;
+        final int loss = info.getInt("losses");
+        final int game = info.getInt("games");
+        info.put("losses", loss + 1);
+        info.put("games", game + 1);
+        // losses++;
+        // games++;
     }
 
     @Override
     public int getGames() {
-        return games;
+        return info.getInt("games");
     }
 
     @Override

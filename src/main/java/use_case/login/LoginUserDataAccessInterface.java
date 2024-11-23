@@ -1,6 +1,7 @@
 package use_case.login;
 
 import entity.User;
+import org.json.JSONObject;
 
 /**
  * DAO for the Login Use Case.
@@ -17,8 +18,9 @@ public interface LoginUserDataAccessInterface {
     /**
      * Saves the user.
      * @param user the user to save
+     * @param info the default info to save
      */
-    void save(User user);
+    void save(User user, JSONObject info);
 
     /**
      * Returns the user with the given username.

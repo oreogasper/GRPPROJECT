@@ -122,7 +122,8 @@ public class StatsView extends JPanel implements PropertyChangeListener {
 
                         this.changePasswordController.execute(
                                 currentState.getUsername(),
-                                currentState.getPassword()
+                                currentState.getPassword(),
+                                currentState.getUser().getInfo()
                         );
                     }
                 }

@@ -1,5 +1,7 @@
 package entity;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -30,6 +32,12 @@ public interface User {
      * @param password is the new password of the user.
      */
     void setPassword(String password);
+
+    /**
+     * Returns the info of the user.
+     * @return the info of the user.
+     */
+    JSONObject getInfo();
 
     /**
      * Returns the token count of the user.
