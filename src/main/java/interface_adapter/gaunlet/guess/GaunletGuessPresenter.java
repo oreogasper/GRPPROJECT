@@ -1,5 +1,6 @@
 package interface_adapter.gaunlet.guess;
 
+import entity.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.gaunlet.guess.GaunletGuessState;
@@ -39,37 +40,28 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
         // On success, switch to the gaunlet guess view when implemented
         final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
         final boolean gameOutcome = response.isWon();
+        final User user = gaunletGuessState.getUser();
         if (gameOutcome) {
-            // If the user won, show a success message and keep the guesses
-            JOptionPane.showMessageDialog(null, "Congratulations! You won the Gauntlet game!");
+            user.updateBalance(user.getBet() + user.getBet() * 36);
+            user.wonGame();
+            JOptionPane.showMessageDialog(null,
+                    "Congratulations! You won the Gauntlet game! Reward =" + user.getBet());
         }
         else {
-            // If the user lost, show a failure message and keep the guesses
-            JOptionPane.showMessageDialog(null, "Sorry, you lost the Gauntlet game. Better luck next time!");
+            user.updateBalance(-user.getBet());
+            user.lostGame();
+            JOptionPane.showMessageDialog(null,
+                    "Sorry, you lost the Gauntlet game. Better luck next time!");
         }
 
-        // Update the state with the user's guesses and game result
         gaunletGuessState.setCoinGuess(response.getCoinFlip());
         gaunletGuessState.setDiceGuess(response.getDice());
         gaunletGuessState.setRpsGuess(response.getRps());
 
-        // Update the state in the ViewModel
         this.gaunletGuessViewModel.setState(gaunletGuessState);
-
-        // Notify the ViewModel that the state has been updated
         gaunletGuessViewModel.firePropertyChanged();
-
-        // Switch to the results view to display the outcome (if there's a separate results view)
-        this.viewManagerModel.setState(gameMenuViewModel.getViewName()); // Use the appropriate view name for the results screen
+        this.viewManagerModel.setState(gameMenuViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
-        // gaunletGuessState.setCoinGuess("");
-        // gaunletGuessState.setDiceGuess("");
-        // gaunletGuessState.setRpsGuess("");
-        // this.gaunletGuessViewModel.setState(gaunletGuessState);
-        // gaunletGuessViewModel.firePropertyChanged();
-
-        // this.viewManagerModel.setState(gameMenuViewModel.getViewName());
-        // this.viewManagerModel.firePropertyChanged();
     }
 
     @Override

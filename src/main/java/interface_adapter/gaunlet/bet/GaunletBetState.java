@@ -38,6 +38,7 @@ public class GaunletBetState {
     public String toString() {
         return "GaunletBetState{"
                 + "bet='" + bet + '\''
+                + "user='" + user + '\''
                 + '}';
     }
 }

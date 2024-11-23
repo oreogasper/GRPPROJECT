@@ -3,6 +3,7 @@ package use_case.gaunlet.guess;
 import entity.Game;
 import entity.GaunletGame;
 import entity.GaunletGameFactory;
+import entity.User;
 
 /**
  * The Gaunlet Guess Interactor.

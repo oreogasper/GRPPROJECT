@@ -17,12 +17,18 @@ public class CommonUser implements User {
     private int wins;
     private int losses;
     private int games;
-    private int currBet;
     private Date lastSpin;
+    private int currBet;
 
     public CommonUser(String name, String password, JSONObject info) {
         this.username = name;
         this.password = password;
+        this.balance = INITIAL_BALANCE;
+        this.wins = 0;
+        this.losses = 0;
+        this.games = 0;
+        this.lastSpin = null;
+        this.currBet = 0;
         this.info = info;
     }
 
@@ -47,6 +53,13 @@ public class CommonUser implements User {
     }
 
     @Override
+    public void setBet(int bet) {
+        this.currBet = bet;
+    }
+
+    @Override
+    public int getBet() {
+
     public JSONObject getInfo() {
         return info;
     }
@@ -109,11 +122,6 @@ public class CommonUser implements User {
     }
 
     @Override
-    public void setBet(int bet) {
-        this.currBet = bet;
-    }
-
-    @Override
     public String toString() {
         return "This user {"
                 + "username='" + this.getName() + '\''
@@ -122,6 +130,7 @@ public class CommonUser implements User {
                 + ", losses='" + this.getLosses() + '\''
                 + ", games='" + this.getGames() + '\''
                 + ", balance='" + this.getBalance() + '\''
+                + ", bet='" + this.getBet() + '\''
                 + '}';
     }
 

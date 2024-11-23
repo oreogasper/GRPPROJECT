@@ -69,10 +69,11 @@ public class GaunletGuessState {
 
     @Override
     public String toString() {
-        return "SignupState{"
+        return "GaunletGuessState{"
                 + "coin guess='" + coinGuess + '\''
                 + ", dice roll guess='" + diceGuess + '\''
                 + ", rock, paper, scissors guess='" + rpsGuess + '\''
+                + "user='" + user + '\''
                 + '}';
     }
 }
