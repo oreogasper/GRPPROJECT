@@ -33,15 +33,6 @@ public class ShopWheelInteractor implements ShopWheelInputBoundary {
         userPresenter.switchToShopView();
     }
 
-    /**
-     * Calculates the prize amount to be returned.
-     * @return the prize amount.
-     */
-    public static int calculatePrize() {
-        final Random random = new Random();
-        return random.nextInt(NUM_SEGMENTS) + 1;
-    }
-
     @Override
     public void spinWheel(long lastSpin) {
         final Random random = new Random();
@@ -49,8 +40,7 @@ public class ShopWheelInteractor implements ShopWheelInputBoundary {
         final int segmentWidth = 360 / NUM_SEGMENTS;
         final int targetAngle = targetSegment * segmentWidth - random.nextInt(segmentWidth);
 
-        userPresenter.spinWheel(targetAngle);
-        userPresenter.updatePrize(SEGMENT_TO_PRIZE.get(targetSegment));
+        userPresenter.spinWheel(targetAngle, SEGMENT_TO_PRIZE.get(targetSegment));
     }
 
     @Override

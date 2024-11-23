@@ -9,7 +9,6 @@ import use_case.shopwheel.ShopWheelInputBoundary;
  */
 public class ShopWheelController {
 
-    private static final int WAIT_REQUIREMENT = 600;
     private final ShopWheelInputBoundary userShopWheelUseCaseInteractor;
 
     public ShopWheelController(ShopWheelInputBoundary shopWheelUseCaseInteractor) {
@@ -38,10 +37,11 @@ public class ShopWheelController {
     /**
      * Sends the update request for button clicking.
      * @param lastSpin is the time the user last spun the wheel.
+     * @param shopWheelViewModel is the accessor to the current state.
      */
-    public void spinWheelRequest(long lastSpin) {
+    public void spinWheelRequest(long lastSpin, ShopWheelViewModel shopWheelViewModel) {
         if (lastSpin == 0 || waitedEnough(System.currentTimeMillis(),
-                lastSpin, WAIT_REQUIREMENT)) {
+                lastSpin, shopWheelViewModel.getState().getWaitRequirement())) {
             userShopWheelUseCaseInteractor.spinWheel(lastSpin);
         }
         else {

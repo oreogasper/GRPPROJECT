@@ -1,6 +1,7 @@
 package interface_adapter.shop.wheel;
 
 import interface_adapter.ViewModel;
+import view.ShopWheelAnimationPanel;
 
 /**
  * The ViewModel for the shop wheel View.
@@ -9,11 +10,9 @@ public class ShopWheelViewModel extends ViewModel<ShopWheelState> {
 
     // Constants
     public static final String TITLE_LABEL = "Spin it up!";
-    public static final String SPIN_BUTTON_LABEL = "Spin me";
-    public static final String SHOP_BUTTON_LABEL = "Return to Shop";
 
     // Fields
-    private double wheelAngle;
+    private ShopWheelAnimationPanel animationPanel;
 
     /**
      * Constructor to initialize the ShopWheelViewModel.
@@ -25,16 +24,18 @@ public class ShopWheelViewModel extends ViewModel<ShopWheelState> {
 
     // Methods
     /**
-     * Notifies the screen of the changed angle.
-     * @param angle is the new angle.
+     * Gets the ShopWheelAnimationPanel instance.
+     * @return the animation panel
      */
-    public void setWheelAngle(double angle) {
-        this.wheelAngle = angle;
-        firePropertyChanged();
+    public ShopWheelAnimationPanel getAnimationPanel() {
+        return animationPanel;
     }
 
-    public double getWheelAngle() {
-        return this.wheelAngle;
+    /**
+     * Sets the ShopWheelAnimationPanel instance.
+     * @param animationPanel the animation panel to set
+     */
+    public void setAnimationPanel(ShopWheelAnimationPanel animationPanel) {
+        this.animationPanel = animationPanel;
     }
-
 }
