@@ -1,7 +1,8 @@
 package use_case.signup;
 
-import entity.User;
 import org.json.JSONObject;
+
+import entity.User;
 
 /**
  * DAO for the Signup Use Case.
@@ -18,7 +19,13 @@ public interface SignupUserDataAccessInterface {
     /**
      * Saves the user.
      * @param user the user to save
+     */
+    void save(User user);
+
+    /**
+     * Saves the user's info.
+     * @param user the user to save
      * @param info the default user info to save
      */
-    void save(User user, JSONObject info);
+    void saveNew(User user, JSONObject info);
 }
