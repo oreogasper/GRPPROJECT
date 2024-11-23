@@ -55,6 +55,11 @@ public class CommonUser implements User {
     }
 
     @Override
+    public int getBet() {
+        return currBet;
+    }
+
+    @Override
     public int getBalance() {
         return balance;
     }
@@ -110,6 +115,7 @@ public class CommonUser implements User {
                 + ", losses='" + this.getLosses() + '\''
                 + ", games='" + this.getGames() + '\''
                 + ", balance='" + this.getBalance() + '\''
+                + ", bet='" + this.getBet() + '\''
                 + '}';
     }
 

@@ -69,9 +69,9 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
         gaunletBetState.setUser(gameMenuViewModel.getState().getUser());
         this.gaunletBetViewModel.setState(gaunletBetState);
         this.gaunletBetViewModel.firePropertyChanged();
-
         viewManagerModel.setState(gaunletBetViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+
     }
 
     @Override

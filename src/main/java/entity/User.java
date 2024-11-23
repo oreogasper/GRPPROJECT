@@ -91,4 +91,9 @@ public interface User {
      */
     void setBet(int bet);
 
+    /**
+     * Returns the current bet of the user.
+     * @return the current bet of the user.
+     */
+    int getBet();
 }
