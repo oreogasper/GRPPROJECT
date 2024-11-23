@@ -36,6 +36,7 @@ public class SignupPresenter implements SignupOutputBoundary {
     @Override
     public void prepareSuccessView(SignupOutputData response) {
 
+        // reset the signup state
         final SignupState signupState = signupViewModel.getState();
         signupState.setUsername("");
         signupState.setPassword("");
@@ -43,6 +44,7 @@ public class SignupPresenter implements SignupOutputBoundary {
         this.signupViewModel.setState(signupState);
         signupViewModel.firePropertyChanged();
 
+        // set the newly signed up user to the user of the menu state
         final User user = dbUserDataAccessObject.get(response.getUsername());
         final MenuState menuState = menuViewModel.getState();
         menuState.setUser(user);
