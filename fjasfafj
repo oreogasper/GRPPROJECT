@@ -1,0 +1,164 @@
+[33mcommit af92216c50e12b562e0cadaef9fb6952321b40b1[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 6fd43e8 ebd5158
+Author: halstent <h.tilk@mail.utoronto.ca>
+Date:   Sun Nov 17 14:11:58 2024 -0500
+
+    Merge pull request #27 from oreogasper/gaunletguess
+    
+    Gaunletguess
+
+[33mcommit ebd5158d88fdbb7c595f1a1949a873411388525a[m[33m ([m[1;31morigin/gaunletguess[m[33m)[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Sat Nov 16 22:56:12 2024 -0500
+
+    finalized view for making guesses in gaunlet
+
+ src/main/java/app/AppBuilder.java                  | 42 [32m++++++++++++++[m[31m--[m
+ src/main/java/app/Main.java                        |  2 [32m+[m
+ .../gaunlet/bet/GaunletBetController.java          |  6 [32m++[m[31m-[m
+ .../gaunlet/bet/GaunletBetPresenter.java           | 33 [32m++++++[m[31m------[m
+ .../gaunlet/guess/GaunletGuessController.java      |  4 [32m+[m[31m-[m
+ .../gaunlet/guess/GaunletGuessPresenter.java       | 58 [32m++++++++++++++++++++++[m
+ .../gaunlet/guess/GaunletGuessViewModel.java       |  6 [32m+[m[31m--[m
+ .../bet}/GaunletBetInputBoundary.java              |  4 [32m+[m[31m-[m
+ .../bet}/GaunletBetInputData.java                  |  2 [32m+[m[31m-[m
+ .../bet}/GaunletBetInteractor.java                 |  7 [32m++[m[31m-[m
+ .../bet}/GaunletBetOutputBoundary.java             |  7 [32m++[m[31m-[m
+ .../bet}/GaunletBetOutputData.java                 |  2 [32m+[m[31m-[m
+ .../bet}/GaunletBetUserDataAccessInterface.java    |  2 [32m+[m[31m-[m
+ .../gaunlet/guess/GaunletGuessInputBoundary.java   | 19 [32m+++++++[m
+ .../gaunlet/guess/GaunletGuessInputData.java       | 29 [32m+++++++++++[m
+ .../gaunlet/guess/GaunletGuessInteractor.java      | 36 [32m++++++++++++++[m
+ .../gaunlet/guess/GaunletGuessOutputBoundary.java  | 26 [32m++++++++++[m
+ .../gaunlet/guess/GaunletGuessOutputData.java      | 35 [32m+++++++++++++[m
+ .../guess/GaunletGuessUserDataAccessInterface.java | 23 [32m+++++++++[m
+ src/main/java/view/GaunletBetView.java             |  2 [32m+[m[31m-[m
+ 20 files changed, 314 insertions(+), 31 deletions(-)
+
+[33mcommit ed1d59767a15b9b81975d1dec251c66fef4d0392[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Sat Nov 16 21:16:03 2024 -0500
+
+    did the background stuff
+
+ .../gaunlet/guess/GaunletGuessController.java      | 20 [32m+++++[m
+ .../gaunlet/guess/GaunletGuessState.java           |  2 [32m+[m
+ .../gaunlet/guess/GaunletGuessViewModel.java       | 23 [32m++++[m[31m-[m
+ src/main/java/view/GaunletGuessView.java           | 99 [32m+++++++++++++++++++++[m[31m-[m
+ 4 files changed, 142 insertions(+), 2 deletions(-)
+
+[33mcommit 81775f513f427f874aace6dc30af4a85b9f021b2[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Sat Nov 16 20:08:49 2024 -0500
+
+    added gaunlet guess view and view model
+
+ src/main/java/app/AppBuilder.java                                  | 6 [32m+++[m[31m---[m
+ src/main/java/interface_adapter/gamemenu/GameMenuPresenter.java    | 2 [32m+[m[31m-[m
+ .../{gaunlet_bet => gaunlet/bet}/GaunletBetController.java         | 3 [32m+[m[31m--[m
+ .../{gaunlet_bet => gaunlet/bet}/GaunletBetPresenter.java          | 7 [32m+[m[31m------[m
+ .../{gaunlet_bet => gaunlet/bet}/GaunletBetState.java              | 2 [32m+[m[31m-[m
+ .../{gaunlet_bet => gaunlet/bet}/GaunletBetViewModel.java          | 2 [32m+[m[31m-[m
+ .../interface_adapter/gaunlet/guess/GaunletGuessViewModel.java     | 4 [32m++++[m
+ src/main/java/view/GaunletBetView.java                             | 6 [32m+++[m[31m---[m
+ src/main/java/view/GaunletGuessView.java                           | 2 [32m++[m
+ 9 files changed, 17 insertions(+), 17 deletions(-)
+
+[33mcommit 6fd43e8337762e3c641d7437ed51b787d420a1a4[m
+Merge: 9ab334a 92ca90e
+Author: Valerie Kim <144351425+Valkim712@users.noreply.github.com>
+Date:   Sat Nov 16 18:15:53 2024 -0500
+
+    Merge pull request #26 from oreogasper/gameMenu
+    
+    Game menu
+
+[33mcommit 92ca90ead093ba735a22452bfa2c4b9951eef17b[m[33m ([m[1;31morigin/gameMenu[m[33m)[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Sat Nov 16 15:14:43 2024 -0500
+
+    fixed checkstyle
+
+ src/main/java/view/GameMenuView.java | 13 [32m+++++++++[m[31m----[m
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+[33mcommit 01d4661eeb396d9ca6bc8a5a8dd0349f67ff3161[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Sat Nov 16 15:00:37 2024 -0500
+
+    added gaunlet bet view
+
+ src/main/java/app/AppBuilder.java                  |  38 [32m+++[m[31m-[m
+ src/main/java/app/Main.java                        |  11 [32m+[m[31m-[m
+ .../gamemenu/GameMenuPresenter.java                |   8 [32m+[m[31m-[m
+ .../gaunlet_bet/GaunletBetController.java          |  22 [32m++[m[31m-[m
+ .../gaunlet_bet/GaunletBetPresenter.java           |  60 [32m+++++++[m
+ .../gaunlet_bet/GaunletBetState.java               |  32 [32m++++[m
+ .../gaunlet_bet/GaunletBetViewModel.java           |   8 [32m+[m[31m-[m
+ .../gaunlet_bet/GaunletBetInputBoundary.java       |  19 [32m++[m
+ .../use_case/gaunlet_bet/GaunletBetInputData.java  |  17 [32m++[m
+ .../use_case/gaunlet_bet/GaunletBetInteractor.java |  32 [32m++++[m
+ .../gaunlet_bet/GaunletBetOutputBoundary.java      |  24 [32m+++[m
+ .../use_case/gaunlet_bet/GaunletBetOutputData.java |  23 [32m+++[m
+ .../GaunletBetUserDataAccessInterface.java         |  23 [32m+++[m
+ src/main/java/view/GameMenuView.java               |   2 [32m+[m[31m-[m
+ src/main/java/view/GaunletBetView.java             |  33 [32m++[m[31m--[m
+ src/main/java/view/GaunletGuessView.java           | 199 [31m---------------------[m
+ 16 files changed, 312 insertions(+), 239 deletions(-)
+
+[33mcommit 9ab334a2d7714b00da11df9220b428a853442b06[m
+Merge: b42e65a f078c45
+Author: Valerie Kim <144351425+Valkim712@users.noreply.github.com>
+Date:   Fri Nov 15 11:16:16 2024 -0500
+
+    Merge pull request #25 from oreogasper/gameMenu
+    
+    Game menu
+
+[33mcommit b48d355245bea2665059c84b46d9f0124c2e3d34[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Fri Nov 15 00:13:11 2024 -0500
+
+    editing bet view
+
+ .../gaunlet_bet/GaunletBetController.java          |  41 [32m+++++[m
+ .../gaunlet_bet/GaunletBetViewModel.java           |  18 [32m++[m
+ src/main/java/view/GaunletBetView.java             | 131 [32m++++++++++++++[m
+ .../GuessesView.java => GaunletGuessView.java}     |  33 [32m++[m[31m--[m
+ src/main/java/view/GaunletView/GaunletBetView.java | 195 [31m---------------------[m
+ 5 files changed, 203 insertions(+), 215 deletions(-)
+
+[33mcommit 2c4ee6414287a1331d6b8a70587e13e7cbc19fc0[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Thu Nov 14 22:18:08 2024 -0500
+
+    added gaunlet bet view
+
+ src/main/java/view/GaunletView/GaunletBetView.java | 195 [32m+++++++++++++++++++[m
+ src/main/java/view/GaunletView/GuessesView.java    | 206 [32m+++++++++++++++++++++[m
+ 2 files changed, 401 insertions(+)
+
+[33mcommit f078c45a71fd48b866ca0e56c9d50f4d41ea5cc3[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Thu Nov 14 09:49:20 2024 -0500
+
+    added back button to game menu view
+
+ src/main/java/view/GameMenuView.java | 1 [32m+[m
+ 1 file changed, 1 insertion(+)
+
+[33mcommit 61625b250d76e61f9009730e4f7e6a36eead68d6[m
+Author: Valerie Kim <val.kim712@gmail.com>
+Date:   Thu Nov 14 02:26:12 2024 -0500
+
+    created game menu page and removed buttons from actual menu
+
+ src/main/java/app/AppBuilder.java                  | 39 [32m+++++++++++++[m[31m--[m
+ src/main/java/app/Main.java                        |  2 [32m+[m
+ .../gamemenu/GameMenuController.java               | 14 [32m+++++[m[31m-[m
+ .../gamemenu/GameMenuPresenter.java                | 57 [32m+++++++++++++++++++++[m[31m-[m
+ .../interface_adapter/gamemenu/GameMenuState.java  | 39 [32m+++++++++++++++[m
+ .../gamemenu/GameMenuViewModel.java                |  4 [32m+[m[31m-[m
+ .../interface_adapter/menu/MenuController.java     |  3 [32m++[m
+ .../java/interface_adapter/menu/MenuPresenter.java | 12 [32m++++[m[31m-[m
+ .../java/interface_adapter/menu/MenuView
