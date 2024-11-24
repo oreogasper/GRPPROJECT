@@ -27,7 +27,7 @@ public class CommonUser implements User {
         this.wins = 0;
         this.losses = 0;
         this.games = 0;
-        this.lastSpin = null;
+        this.lastSpin = 0L;
         this.currBet = 0;
         this.info = info;
     }
