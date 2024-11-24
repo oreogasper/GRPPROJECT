@@ -18,7 +18,4 @@ public interface GaunletBetDataAccessInterface {
      * @return the bet of the current user; null indicates that no one is logged into the application.
      */
     int getBet();
-
 }
-
-

@@ -1,8 +1,5 @@
 package interface_adapter.gaunlet.guess;
 
-
-public class GaunletGuessController {
-
 import use_case.gaunlet.guess.GaunletGuessInputBoundary;
 import use_case.gaunlet.guess.GaunletGuessInputData;
 
