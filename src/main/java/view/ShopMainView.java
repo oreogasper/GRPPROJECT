@@ -45,7 +45,7 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
 
         // back.addActionListener(evt -> shopController.switchToMenuView());
         back.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
+                // Updates user token balance when the back button is pressed
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(back)) {

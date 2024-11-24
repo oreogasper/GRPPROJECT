@@ -1,7 +1,6 @@
 package interface_adapter.statistics;
 
 import entity.User;
-import interface_adapter.change_password.LoggedInState;
 
 /**
  * The state for the Signup View Model.
@@ -25,26 +24,18 @@ public class StatisticsState {
         return user.getPassword();
     }
 
-    public Integer getWins() {
-        return user.getWins();
-    }
-
-    public Integer getLosses() {
-        return user.getLosses();
-    }
-
-    public Integer getGames() {
-        return user.getGames();
-    }
-
-    public Integer getWinPercentage() {
-        return user.getWins() / user.getGames();
-    }
-
+    /**
+     * Sets username for the current user in the state.
+     * @param username the username for the current user
+     */
     public void setUsername(String username) {
         user.setName(username);
     }
 
+    /**
+     * Sets password for the current user in the state.
+     * @param password the password for the current user
+     */
     public void setPassword(String password) {
         user.setPassword(password);
     }
