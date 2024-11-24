@@ -6,8 +6,6 @@ import entity.User;
 import entity.UserFactory;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SignupInteractorTest {
@@ -32,9 +30,10 @@ class SignupInteractorTest {
             }
 
             @Override
-            public void switchToLoginView() {
-                // This is expected
+            public void switchToWelcomeView() {
+
             }
+
         };
 
         SignupInputBoundary interactor = new SignupInteractor(userRepository, successPresenter, new CommonUserFactory());
@@ -60,9 +59,10 @@ class SignupInteractorTest {
             }
 
             @Override
-            public void switchToLoginView() {
-                // This is expected
+            public void switchToWelcomeView() {
+
             }
+
         };
 
         SignupInputBoundary interactor = new SignupInteractor(userRepository, failurePresenter, new CommonUserFactory());
@@ -93,9 +93,10 @@ class SignupInteractorTest {
             }
 
             @Override
-            public void switchToLoginView() {
-                // This is expected
+            public void switchToWelcomeView() {
+
             }
+
         };
 
         SignupInputBoundary interactor = new SignupInteractor(userRepository, failurePresenter, new CommonUserFactory());

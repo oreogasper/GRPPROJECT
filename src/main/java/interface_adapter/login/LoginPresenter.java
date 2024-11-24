@@ -1,8 +1,8 @@
 package interface_adapter.login;
 
+import data_access.DBUserDataAccessObject;
+import entity.User;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.LoggedInState;
-import interface_adapter.change_password.LoggedInViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
 import interface_adapter.welcome.WelcomeViewModel;
@@ -14,44 +14,33 @@ import use_case.login.LoginOutputData;
  */
 public class LoginPresenter implements LoginOutputBoundary {
 
+    private final DBUserDataAccessObject dbUserDataAccessObject;
     private final LoginViewModel loginViewModel;
-    private final LoggedInViewModel loggedInViewModel;
     private final ViewManagerModel viewManagerModel;
     private final WelcomeViewModel welcomeViewModel;
     private final MenuViewModel menuViewModel;
 
     public LoginPresenter(ViewManagerModel viewManagerModel,
-                          LoggedInViewModel loggedInViewModel,
                           LoginViewModel loginViewModel,
-                          WelcomeViewModel welcomeViewModel, MenuViewModel menuViewModel) {
+                          WelcomeViewModel welcomeViewModel,
+                          MenuViewModel menuViewModel,
+                          DBUserDataAccessObject dbUserDataAccessObject) {
         this.viewManagerModel = viewManagerModel;
-        this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
         this.welcomeViewModel = welcomeViewModel;
         this.menuViewModel = menuViewModel;
+        this.dbUserDataAccessObject = dbUserDataAccessObject;
     }
 
     @Override
     public void prepareSuccessView(LoginOutputData response) {
-        /* // On success, switch to the logged in view.
 
-        final LoggedInState loggedInState = loggedInViewModel.getState();
-        loggedInState.setUsername(response.getUsername());
-        this.loggedInViewModel.setState(loggedInState);
-
-        this.loggedInViewModel.firePropertyChanged();
-
-        this.viewManagerModel.setState(loggedInViewModel.getViewName());
-        this.viewManagerModel.firePropertyChanged();*/
+        final User user = dbUserDataAccessObject.get(response.getUsername());
+        final MenuState menuState = menuViewModel.getState();
+        menuState.setUser(user);
+        this.menuViewModel.firePropertyChanged();
 
         // On success, switch to the menu in view.
-
-/*        final MenuState menuState = menuViewModel.getState();
-        MenuState.setUsername(response.getUsername());
-        this.menuViewModel.setState(menuState);
-
-        this.menuViewModel.firePropertyChanged();*/
-
         this.viewManagerModel.setState(menuViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }

@@ -15,5 +15,10 @@ public class StatisticsInteractor implements StatisticsInputBoundary {
     public void switchToWelcomeView() {
         userPresenter.switchToWelcomeView();
     }
+
+    @Override
+    public void switchToMenuView() {
+        userPresenter.switchToMenuView();
+    }
 }
 

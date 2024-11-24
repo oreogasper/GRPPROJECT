@@ -1,8 +1,10 @@
 package interface_adapter.signup;
 
+import data_access.DBUserDataAccessObject;
+import entity.User;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.login.LoginState;
-import interface_adapter.login.LoginViewModel;
+import interface_adapter.menu.MenuState;
+import interface_adapter.menu.MenuViewModel;
 import interface_adapter.welcome.WelcomeViewModel;
 import use_case.signup.SignupOutputBoundary;
 import use_case.signup.SignupOutputData;
@@ -12,31 +14,29 @@ import use_case.signup.SignupOutputData;
  */
 public class SignupPresenter implements SignupOutputBoundary {
 
+    private final DBUserDataAccessObject dbUserDataAccessObject;
+
     private final SignupViewModel signupViewModel;
-    private final LoginViewModel loginViewModel;
+    private final MenuViewModel menuViewModel;
     private final WelcomeViewModel welcomeViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public SignupPresenter(ViewManagerModel viewManagerModel,
+    public SignupPresenter(DBUserDataAccessObject dbUserDataAccessObject,
+                           ViewManagerModel viewManagerModel,
                            SignupViewModel signupViewModel,
-                           LoginViewModel loginViewModel,
+                           MenuViewModel menuViewModel,
                            WelcomeViewModel welcomeViewModel) {
+        this.dbUserDataAccessObject = dbUserDataAccessObject;
         this.viewManagerModel = viewManagerModel;
         this.signupViewModel = signupViewModel;
-        this.loginViewModel = loginViewModel;
+        this.menuViewModel = menuViewModel;
         this.welcomeViewModel = welcomeViewModel;
     }
 
     @Override
     public void prepareSuccessView(SignupOutputData response) {
 
-        // On success, switch to the welcome view.
-        final LoginState loginState = loginViewModel.getState();
-        loginState.setUsername(response.getUsername());
-        loginState.setPassword(response.getPassword());
-        this.loginViewModel.setState(loginState);
-        loginViewModel.firePropertyChanged();
-
+        // reset the signup state
         final SignupState signupState = signupViewModel.getState();
         signupState.setUsername("");
         signupState.setPassword("");
@@ -44,7 +44,13 @@ public class SignupPresenter implements SignupOutputBoundary {
         this.signupViewModel.setState(signupState);
         signupViewModel.firePropertyChanged();
 
-        this.viewManagerModel.setState(welcomeViewModel.getViewName());
+        // set the newly signed up user to the user of the menu state
+        final User user = dbUserDataAccessObject.get(response.getUsername());
+        final MenuState menuState = menuViewModel.getState();
+        menuState.setUser(user);
+        this.menuViewModel.firePropertyChanged();
+
+        this.viewManagerModel.setState(menuViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
@@ -58,6 +64,12 @@ public class SignupPresenter implements SignupOutputBoundary {
     @Override
     public void switchToWelcomeView() {
         viewManagerModel.setState(welcomeViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToMenuView() {
+        viewManagerModel.setState(menuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 }

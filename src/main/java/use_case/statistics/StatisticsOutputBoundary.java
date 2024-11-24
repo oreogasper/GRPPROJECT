@@ -24,4 +24,6 @@ public interface StatisticsOutputBoundary {
      */
     // TODO: change to leaderboard view when implemented
     void switchToWelcomeView();
+
+    void switchToMenuView();
 }

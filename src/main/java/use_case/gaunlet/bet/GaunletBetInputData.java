@@ -1,17 +1,17 @@
 package use_case.gaunlet.bet;
 
 /**
- * The Input Data for the Signup Use Case.
+ * The Input Data for the Gaunlet Bet Use Case.
  */
 public class GaunletBetInputData {
 
-    private final String bet;
+    private final int bet;
 
-    public GaunletBetInputData(String bet) {
+    public GaunletBetInputData(int bet) {
         this.bet = bet;
     }
 
-    String getBet() {
+    int getBet() {
         return bet;
     }
 }

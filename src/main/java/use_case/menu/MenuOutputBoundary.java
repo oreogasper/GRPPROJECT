@@ -21,6 +21,18 @@ public interface MenuOutputBoundary {
      */
     void switchToStatisticsView();
 
-    void switchToLoginView();
-    public void switchToGameMenuView();
+    /**
+     * Switches to the welcome, signup/login view.
+     */
+    void switchToWelcomeView();
+
+    /**
+     * Switches to the gambling menu view.
+     */
+    void switchToGameMenuView();
+
+    /**
+     * Switches to the shop view.
+     */
+    void switchToShopView();
 }

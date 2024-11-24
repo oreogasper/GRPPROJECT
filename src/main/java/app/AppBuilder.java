@@ -6,18 +6,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.InMemoryUserDataAccessObject;
+import data_access.DBGaunletDataAccessObject;
+import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
+import entity.GaunletGameFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.change_password.ChangePasswordController;
-import interface_adapter.change_password.ChangePasswordPresenter;
-import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.blackjack.bet.BlackjackBetController;
+import interface_adapter.blackjack.bet.BlackjackBetPresenter;
+import interface_adapter.blackjack.bet.BlackjackBetViewModel;
+import interface_adapter.blackjack.game.BlackjackGameController;
+import interface_adapter.blackjack.game.BlackjackGamePresenter;
+import interface_adapter.blackjack.game.BlackjackGameViewModel;
+import interface_adapter.statistics.ChangePasswordController;
+import interface_adapter.statistics.ChangePasswordPresenter;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.gaunlet.bet.GaunletBetController;
 import interface_adapter.gaunlet.bet.GaunletBetPresenter;
+import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 import interface_adapter.gaunlet.guess.GaunletGuessController;
 import interface_adapter.gaunlet.guess.GaunletGuessPresenter;
 import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
@@ -29,20 +37,30 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.menu.MenuController;
 import interface_adapter.menu.MenuPresenter;
 import interface_adapter.menu.MenuViewModel;
+import interface_adapter.shop.ShopController;
+import interface_adapter.shop.ShopPresenter;
+import interface_adapter.shop.ShopViewModel;
+import interface_adapter.shop.button.ShopButtonController;
+import interface_adapter.shop.button.ShopButtonPresenter;
+import interface_adapter.shop.button.ShopButtonViewModel;
+import interface_adapter.shop.wheel.ShopWheelController;
+import interface_adapter.shop.wheel.ShopWheelPresenter;
+import interface_adapter.shop.wheel.ShopWheelViewModel;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 import interface_adapter.statistics.StatisticsController;
 import interface_adapter.statistics.StatisticsPresenter;
 import interface_adapter.statistics.StatisticsViewModel;
-import interface_adapter.und_ovr.GameStateManager;
-import interface_adapter.und_ovr.OverUnderGamePresenter;
-import interface_adapter.und_ovr.OverUnderController;
-import interface_adapter.und_ovr.OverUnderViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
-import use_case.Over_Under.OverUnderOutputBoundary;
+import use_case.blackjack.bet.BlackjackBetInputBoundary;
+import use_case.blackjack.bet.BlackjackBetInteractor;
+import use_case.blackjack.bet.BlackjackBetOutputBoundary;
+import use_case.blackjack.game.BlackjackGameInputBoundary;
+import use_case.blackjack.game.BlackjackGameInteractor;
+import use_case.blackjack.game.BlackjackGameOutputBoundary;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -64,6 +82,15 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.menu.MenuInputBoundary;
 import use_case.menu.MenuInteractor;
 import use_case.menu.MenuOutputBoundary;
+import use_case.shop.ShopInputBoundary;
+import use_case.shop.ShopInteractor;
+import use_case.shop.ShopOutputBoundary;
+import use_case.shopbutton.ShopButtonInputBoundary;
+import use_case.shopbutton.ShopButtonInteractor;
+import use_case.shopbutton.ShopButtonOutputBoundary;
+import use_case.shopwheel.ShopWheelInputBoundary;
+import use_case.shopwheel.ShopWheelInteractor;
+import use_case.shopwheel.ShopWheelOutputBoundary;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
@@ -91,16 +118,18 @@ public class AppBuilder {
     private final CardLayout cardLayout = new CardLayout();
     // thought question: is the hard dependency below a problem?
     private final UserFactory userFactory = new CommonUserFactory();
+    private final GaunletGameFactory gaunletgame = new GaunletGameFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
-    private final InMemoryUserDataAccessObject userDataAccessObject = new InMemoryUserDataAccessObject();
+    private final DBUserDataAccessObject userDataAccessObject;
+    private final DBGaunletDataAccessObject gaunletDataAccessObject;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
-    private LoggedInViewModel loggedInViewModel;
-    private LoggedInView loggedInView;
+    /* private LoggedInViewModel loggedInViewModel;
+    private LoggedInView loggedInView;*/
     private LoginView loginView;
     private GameMenuViewModel gameMenuViewModel;
     private GameMenuView gameMenuView;
@@ -114,19 +143,25 @@ public class AppBuilder {
     private GaunletBetViewModel gaunletBetViewModel;
     private GaunletGuessView gaunletGuessView;
     private GaunletGuessViewModel gaunletGuessViewModel;
-
-
-    private OverUnderView overUnderView;
-    private OverUnderViewModel overUnderViewModel;
-
+    private BlackjackBetViewModel blackjackBetViewModel;
+    private BlackjackBetView blackjackBetView;
+    private BlackjackGameViewModel blackjackGameViewModel;
+    private BlackjackGameView blackjackGameView;
+    private ShopMainView shopMainView;
+    private ShopViewModel shopMainViewModel;
+    private ShopButtonView shopButtonView;
+    private ShopButtonViewModel shopButtonViewModel;
+    private ShopWheelView shopWheelView;
+    private ShopWheelViewModel shopWheelViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
+        userDataAccessObject = new DBUserDataAccessObject(userFactory);
+        gaunletDataAccessObject = new DBGaunletDataAccessObject();
     }
 
     /**
      * Adds the Welcome View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addWelcomeView() {
@@ -138,7 +173,6 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet guess View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addGaunletGuessView() {
@@ -150,7 +184,6 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet Bet View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addGaunletBetView() {
@@ -162,7 +195,6 @@ public class AppBuilder {
 
     /**
      * Adds the Game Menu View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addGameMenuView() {
@@ -174,7 +206,6 @@ public class AppBuilder {
 
     /**
      * Adds the Signup View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addSignupView() {
@@ -186,7 +217,6 @@ public class AppBuilder {
 
     /**
      * Adds the Login View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addLoginView() {
@@ -198,7 +228,6 @@ public class AppBuilder {
 
     /**
      * Adds the Menu View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addMenuView() {
@@ -210,19 +239,17 @@ public class AppBuilder {
 
     /**
      * Adds the LoggedIn View to the application.
-     *
      * @return this builder
      */
-    public AppBuilder addLoggedInView() {
+    /* public AppBuilder addLoggedInView() {
         loggedInViewModel = new LoggedInViewModel();
         loggedInView = new LoggedInView(loggedInViewModel);
         cardPanel.add(loggedInView, loggedInView.getViewName());
         return this;
-    }
+    }*/
 
     /**
      * Adds the Statistics View to the application.
-     *
      * @return this builder
      */
     public AppBuilder addStatisticsView() {
@@ -233,13 +260,67 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Blackjack Bet View to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackBetView() {
+        blackjackBetViewModel = new BlackjackBetViewModel();
+        blackjackBetView = new BlackjackBetView(blackjackBetViewModel);
+        cardPanel.add(blackjackBetView, blackjackBetView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the shop main menu view to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopMainView() {
+        shopMainViewModel = new ShopViewModel();
+        shopMainView = new ShopMainView(shopMainViewModel);
+        cardPanel.add(shopMainView, shopMainView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the Blackjack Game View to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackGameView() {
+        blackjackGameViewModel = new BlackjackGameViewModel();
+        blackjackGameView = new BlackjackGameView(blackjackGameViewModel);
+        cardPanel.add(blackjackGameView, blackjackGameView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the shop button view to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopButtonView() {
+        shopButtonViewModel = new ShopButtonViewModel();
+        shopButtonView = new ShopButtonView(shopButtonViewModel);
+        cardPanel.add(shopButtonView, shopButtonView.getViewName());
+        return this;
+    }
+
+    /**
+     * Adds the shop wheel view to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopWheelView() {
+        shopWheelViewModel = new ShopWheelViewModel();
+        shopWheelView = new ShopWheelView(shopWheelViewModel);
+        cardPanel.add(shopWheelView, shopWheelView.getViewName());
+        return this;
+    }
+
+    /**
      * Adds the Welcome Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addWelcomeUseCase() {
         final WelcomeOutputBoundary welcomeOutputBoundary = new WelcomePresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, signupViewModel);
+                loginViewModel, signupViewModel);
         final WelcomeInputBoundary userWelcomeInteractor = new WelcomeInteractor(
                 welcomeOutputBoundary);
 
@@ -250,14 +331,13 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet Guess Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addGaunletGuessUseCase() {
         final GaunletGuessOutputBoundary gaunletGuessOutputBoundary = new GaunletGuessPresenter(viewManagerModel,
                 signupViewModel, gaunletGuessViewModel, gameMenuViewModel);
         final GaunletGuessInputBoundary userGaunletGuessInteractor = new GaunletGuessInteractor(
-                gaunletGuessOutputBoundary);
+                gaunletGuessOutputBoundary, gaunletgame);
 
         final GaunletGuessController gaunletGuesscontroller = new GaunletGuessController(userGaunletGuessInteractor);
         gaunletGuessView.setGaunletGuessController(gaunletGuesscontroller);
@@ -266,13 +346,13 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet Bet Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addGaunletBetUseCase() {
         final GaunletBetOutputBoundary gaunletBetOutputBoundary = new GaunletBetPresenter(
                 viewManagerModel, gameMenuViewModel, gaunletBetViewModel, gaunletGuessViewModel);
-        final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(gaunletBetOutputBoundary);
+        final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(
+                gaunletDataAccessObject, gaunletBetOutputBoundary);
 
         final GaunletBetController gaunletBetcontroller = new GaunletBetController(userGaunletBetInteractor);
         gaunletBetView.setGaunletBetController(gaunletBetcontroller);
@@ -281,12 +361,11 @@ public class AppBuilder {
 
     /**
      * Adds the Signup Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
-        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(viewManagerModel,
-                signupViewModel, loginViewModel, welcomeViewModel);
+        final SignupOutputBoundary signupOutputBoundary = new SignupPresenter(userDataAccessObject, viewManagerModel,
+                signupViewModel, menuViewModel, welcomeViewModel);
         final SignupInputBoundary userSignupInteractor = new SignupInteractor(
                 userDataAccessObject, signupOutputBoundary, userFactory);
 
@@ -297,12 +376,11 @@ public class AppBuilder {
 
     /**
      * Adds the Login Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary = new LoginPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, welcomeViewModel, menuViewModel);
+                loginViewModel, welcomeViewModel, menuViewModel, userDataAccessObject);
         final LoginInputBoundary loginInteractor = new LoginInteractor(
                 userDataAccessObject, loginOutputBoundary);
 
@@ -313,12 +391,11 @@ public class AppBuilder {
 
     /**
      * Adds the Menu Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addMenuUseCase() {
         final MenuOutputBoundary menuOutputBoundary = new MenuPresenter(viewManagerModel,
-                loginViewModel, statisticsViewModel, gameMenuViewModel);
+                welcomeViewModel, statisticsViewModel, gameMenuViewModel, shopMainViewModel, menuViewModel);
         final MenuInputBoundary userMenuInteractor = new MenuInteractor(
                 menuOutputBoundary);
 
@@ -329,12 +406,11 @@ public class AppBuilder {
 
     /**
      * Adds the Game Menu Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
-                loginViewModel, menuViewModel, gaunletBetViewModel, overUnderViewModel);
+                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel, gameMenuViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 
@@ -345,47 +421,44 @@ public class AppBuilder {
 
     /**
      * Adds the Change Password Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addChangePasswordUseCase() {
         final ChangePasswordOutputBoundary changePasswordOutputBoundary =
-                new ChangePasswordPresenter(loggedInViewModel);
+                new ChangePasswordPresenter(statisticsViewModel);
 
         final ChangePasswordInputBoundary changePasswordInteractor =
                 new ChangePasswordInteractor(userDataAccessObject, changePasswordOutputBoundary, userFactory);
 
         final ChangePasswordController changePasswordController =
                 new ChangePasswordController(changePasswordInteractor);
-        loggedInView.setChangePasswordController(changePasswordController);
+        statsView.setChangePasswordController(changePasswordController);
         return this;
     }
 
     /**
      * Adds the Logout Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                loggedInViewModel, loginViewModel, welcomeViewModel);
+                statisticsViewModel, loginViewModel, welcomeViewModel);
 
         final LogoutInputBoundary logoutInteractor =
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
 
         final LogoutController logoutController = new LogoutController(logoutInteractor);
-        loggedInView.setLogoutController(logoutController);
+        statsView.setLogoutController(logoutController);
         return this;
     }
 
     /**
      * Adds the Statistics Use Case to the application.
-     *
      * @return this builder
      */
     public AppBuilder addStatisticsUseCase() {
         final StatisticsOutputBoundary statisticsOutputBoundary = new StatisticsPresenter(viewManagerModel,
-                statisticsViewModel, loginViewModel, welcomeViewModel);
+                statisticsViewModel, loginViewModel, welcomeViewModel, menuViewModel);
         final StatisticsInputBoundary userStatisticsInteractor = new StatisticsInteractor(
                 statisticsOutputBoundary);
 
@@ -395,8 +468,78 @@ public class AppBuilder {
     }
 
     /**
+     * Adds the Blackjack Bet Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackBetUseCase() {
+        final BlackjackBetOutputBoundary blackjackBetOutputBoundary = new BlackjackBetPresenter(
+                gameMenuViewModel, blackjackBetViewModel, blackjackGameViewModel, viewManagerModel);
+        final BlackjackBetInputBoundary blackjackBetInteractor = new BlackjackBetInteractor(blackjackBetOutputBoundary);
+
+        final BlackjackBetController blackjackBetController = new BlackjackBetController(blackjackBetInteractor);
+        blackjackBetView.setBlackjackBetController(blackjackBetController);
+        return this;
+    }
+
+    /**
+     * Adds the shop main menu use case to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopUseCase() {
+        final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
+                shopWheelViewModel, menuViewModel, shopButtonViewModel, shopMainViewModel);
+        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary, userDataAccessObject, userFactory);
+
+        final ShopController shopController = new ShopController(userShopInteractor);
+        shopMainView.setShopController(shopController);
+        return this;
+    }
+
+    /**
+     * Adds the Blackjack Game Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addBlackjackGameUseCase() {
+        final BlackjackGameOutputBoundary blackjackGameOutputBoundary = new BlackjackGamePresenter(
+                signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel);
+        final BlackjackGameInputBoundary blackjackGameInteractor = new BlackjackGameInteractor(
+                blackjackGameOutputBoundary);
+
+        final BlackjackGameController blackjackGameController = new BlackjackGameController(blackjackGameInteractor);
+        blackjackGameView.setBlackjackGameController(blackjackGameController);
+        return this;
+    }
+
+    /**
+     * Adds the shop button use case to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopButtonUseCase() {
+        final ShopButtonOutputBoundary shopButtonOutputBoundary = new ShopButtonPresenter(viewManagerModel,
+                shopMainViewModel, shopButtonViewModel);
+        final ShopButtonInputBoundary userShopButtonInteractor = new ShopButtonInteractor(shopButtonOutputBoundary);
+
+        final ShopButtonController shopButtonController = new ShopButtonController(userShopButtonInteractor);
+        shopButtonView.setShopButtonController(shopButtonController);
+        return this;
+    }
+
+    /**
+     * Adds the shop wheel use case to the application.
+     * @return this builder
+     */
+    public AppBuilder addShopWheelUseCase() {
+        final ShopWheelOutputBoundary shopWheelOutputBoundary = new ShopWheelPresenter(viewManagerModel,
+                shopMainViewModel, shopWheelViewModel);
+        final ShopWheelInputBoundary userShopWheelInteractor = new ShopWheelInteractor(shopWheelOutputBoundary);
+
+        final ShopWheelController shopWheelController = new ShopWheelController(userShopWheelInteractor);
+        shopWheelView.setShopWheelController(shopWheelController);
+        return this;
+    }
+
+    /**
      * Creates the JFrame for the application and initially sets the WelcomeView to be displayed.
-     *
      * @return the application
      */
     public JFrame build() {
@@ -409,41 +552,5 @@ public class AppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
-    }
-
-    public AppBuilder addOverUnderUseCase() {
-        // Create the PlayingDeck
-        // final PlayingDeck playingDeck = new PlayingDeck(); // Adjust parameters if needed
-
-        // Define some integer value for the interactor (e.g., the number of cards in the deck)
-       // final int numberOfCards = 52; // Example: standard deck size
-
-        // Create the ViewModel
-        overUnderViewModel = new OverUnderViewModel();
-
-        // Create the OutputBoundary (Presenter) with the ViewModel
-        final OverUnderOutputBoundary outputBoundary = new OverUnderGamePresenter(overUnderViewModel);
-
-        // Create the Interactor with the PlayingDeck and OutputBoundary
-       // final OverUnderInputBoundary inputBoundary = new OverUnderInteractor(playingDeck, numberOfCards, outputBoundary);
-
-        // Create the Controller
-        GameStateManager gameStateManager = new GameStateManager();
-        final OverUnderController controller = new OverUnderController(gameStateManager);
-
-        // Connect the ViewModel to the Interactor
-       // overUnderViewModel.setInteractor((OverUnderInteractor) inputBoundary);
-
-        // Create the View (with the ViewModel)
-        overUnderView = new OverUnderView(overUnderViewModel);
-
-        // Set the Controller for the View
-        overUnderView.setController(controller);
-
-        // Add the view to the card layout panel
-        cardPanel.add(overUnderView, overUnderView.getViewName());
-
-        // Return the builder for chaining
-        return this;
     }
 }

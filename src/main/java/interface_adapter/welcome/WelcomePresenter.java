@@ -10,19 +10,15 @@ import use_case.welcome.WelcomeOutputBoundary;
  * The Presenter for the Welcome Use Case.
  */
 public class WelcomePresenter implements WelcomeOutputBoundary {
-
-    // private final LoggedInViewModel loggedInViewModel;
     private final ViewManagerModel viewManagerModel;
     private final LoginViewModel loginViewModel;
     private final SignupViewModel signupViewModel;
 
     public WelcomePresenter(ViewManagerModel viewManagerModel,
-                            LoggedInViewModel loggedInViewModel,
                             LoginViewModel loginViewModel,
                             SignupViewModel signupViewModel) {
         // TODO: assign to the three instance variables.
         this.viewManagerModel = viewManagerModel;
-        // this.loggedInViewModel = loggedInViewModel;
         this.loginViewModel = loginViewModel;
         this.signupViewModel = signupViewModel;
     }
