@@ -22,7 +22,20 @@ public interface ShopWheelOutputBoundary {
 
     /**
      * Performs the action associated with clicking the button.
+     * @param targetAngle is the angle that the wheel stops at.
+     * @param prize is the prize to be awarded
      */
-    void wheelSpin();
+    void spinWheel(int targetAngle, int prize);
+
+    /**
+     * Adds the prize amount to the user's balance and updates the main screen.
+     * @param prize is the prize amount to be awarded.
+     */
+    void givePrize(int prize);
+
+    /**
+     * Displays a message if the user tries to spin too early.
+     */
+    void tooEarly();
 
 }

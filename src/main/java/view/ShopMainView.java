@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -38,11 +39,10 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         tButtons.add(wheel);
         final JButton button = new JButton(ShopViewModel.BUTTON_BUTTON_LABEL);
         tButtons.add(button);
-        final JButton back = new JButton(ShopViewModel.BACK_BUTTON_LABEL);
-        tButtons.add(back);
 
         wheel.addActionListener(evt -> shopController.switchToShopWheelView());
         button.addActionListener(evt -> shopController.switchToShopButtonView());
+
         // back.addActionListener(evt -> shopController.switchToMenuView());
         back.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -78,9 +78,21 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
             }
         });
 
-        final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
-        bottomPanel.add(username);
-        bottomPanel.add(balance);
+        final JPanel bottomPanel = new JPanel(new BorderLayout());
+
+        final JPanel leftBottomPanel = new JPanel();
+        leftBottomPanel.setLayout(new BoxLayout(leftBottomPanel, BoxLayout.Y_AXIS));
+        leftBottomPanel.add(username);
+        leftBottomPanel.add(balance);
+
+        final JButton back = new JButton(ShopViewModel.BACK_BUTTON_LABEL);
+        back.addActionListener(evt -> shopController.switchToMenuView());
+
+        final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightBottomPanel.add(back);
+
+        bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
+        bottomPanel.add(rightBottomPanel, BorderLayout.EAST);
 
         // Set layout and add components
         this.setLayout(new BorderLayout());

@@ -1,19 +1,41 @@
 package interface_adapter.shop.wheel;
 
 import interface_adapter.ViewModel;
+import view.ShopWheelAnimationPanel;
 
 /**
  * The ViewModel for the shop wheel View.
  */
 public class ShopWheelViewModel extends ViewModel<ShopWheelState> {
 
-    public static final String TITLE_LABEL = "SPIN or leave!";
-    public static final String SPIN_BUTTON_LABEL = "Spin me for money";
-    public static final String SHOP_BUTTON_LABEL = "Return to shop menu";
+    // Constants
+    public static final String TITLE_LABEL = "Spin it up!";
 
+    // Fields
+    private ShopWheelAnimationPanel animationPanel;
+
+    /**
+     * Constructor to initialize the ShopWheelViewModel.
+     */
     public ShopWheelViewModel() {
         super("shop wheel");
         setState(new ShopWheelState());
     }
 
+    // Methods
+    /**
+     * Gets the ShopWheelAnimationPanel instance.
+     * @return the animation panel
+     */
+    public ShopWheelAnimationPanel getAnimationPanel() {
+        return animationPanel;
+    }
+
+    /**
+     * Sets the ShopWheelAnimationPanel instance.
+     * @param animationPanel the animation panel to set
+     */
+    public void setAnimationPanel(ShopWheelAnimationPanel animationPanel) {
+        this.animationPanel = animationPanel;
+    }
 }
