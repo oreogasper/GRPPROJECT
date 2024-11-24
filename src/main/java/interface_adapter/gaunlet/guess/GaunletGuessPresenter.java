@@ -2,6 +2,7 @@ package interface_adapter.gaunlet.guess;
 
 import entity.User;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.gamemenu.GameMenuState;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.gaunlet.guess.GaunletGuessState;
 import interface_adapter.gaunlet.bet.GaunletBetViewModel;
@@ -39,6 +40,8 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
 
         // On success, switch to the gaunlet guess view when implemented
         final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
+        final GameMenuState gameMenuState = gameMenuViewModel.getState();
+
         final boolean gameOutcome = response.isWon();
         final User user = gaunletGuessState.getUser();
         if (gameOutcome) {
@@ -60,6 +63,10 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
 
         this.gaunletGuessViewModel.setState(gaunletGuessState);
         gaunletGuessViewModel.firePropertyChanged();
+
+        // Updates game menu of switch
+        this.gameMenuViewModel.setState(gameMenuState);
+        gameMenuViewModel.firePropertyChanged();
         this.viewManagerModel.setState(gameMenuViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
