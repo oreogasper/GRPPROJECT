@@ -18,7 +18,6 @@ import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.gaunlet.bet.GaunletBetController;
 import interface_adapter.gaunlet.bet.GaunletBetPresenter;
-import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 import interface_adapter.gaunlet.guess.GaunletGuessController;
 import interface_adapter.gaunlet.guess.GaunletGuessPresenter;
 import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
@@ -36,9 +35,14 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.statistics.StatisticsController;
 import interface_adapter.statistics.StatisticsPresenter;
 import interface_adapter.statistics.StatisticsViewModel;
+import interface_adapter.und_ovr.GameStateManager;
+import interface_adapter.und_ovr.OverUnderGamePresenter;
+import interface_adapter.und_ovr.OverUnderController;
+import interface_adapter.und_ovr.OverUnderViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import use_case.Over_Under.OverUnderOutputBoundary;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -111,12 +115,18 @@ public class AppBuilder {
     private GaunletGuessView gaunletGuessView;
     private GaunletGuessViewModel gaunletGuessViewModel;
 
+
+    private OverUnderView overUnderView;
+    private OverUnderViewModel overUnderViewModel;
+
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
     /**
      * Adds the Welcome View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addWelcomeView() {
@@ -128,6 +138,7 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet guess View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addGaunletGuessView() {
@@ -139,6 +150,7 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet Bet View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addGaunletBetView() {
@@ -150,6 +162,7 @@ public class AppBuilder {
 
     /**
      * Adds the Game Menu View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addGameMenuView() {
@@ -161,6 +174,7 @@ public class AppBuilder {
 
     /**
      * Adds the Signup View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addSignupView() {
@@ -172,6 +186,7 @@ public class AppBuilder {
 
     /**
      * Adds the Login View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addLoginView() {
@@ -183,6 +198,7 @@ public class AppBuilder {
 
     /**
      * Adds the Menu View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addMenuView() {
@@ -194,6 +210,7 @@ public class AppBuilder {
 
     /**
      * Adds the LoggedIn View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addLoggedInView() {
@@ -205,6 +222,7 @@ public class AppBuilder {
 
     /**
      * Adds the Statistics View to the application.
+     *
      * @return this builder
      */
     public AppBuilder addStatisticsView() {
@@ -216,6 +234,7 @@ public class AppBuilder {
 
     /**
      * Adds the Welcome Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addWelcomeUseCase() {
@@ -231,6 +250,7 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet Guess Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addGaunletGuessUseCase() {
@@ -246,6 +266,7 @@ public class AppBuilder {
 
     /**
      * Adds the Gaunlet Bet Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addGaunletBetUseCase() {
@@ -260,6 +281,7 @@ public class AppBuilder {
 
     /**
      * Adds the Signup Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addSignupUseCase() {
@@ -275,6 +297,7 @@ public class AppBuilder {
 
     /**
      * Adds the Login Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addLoginUseCase() {
@@ -290,6 +313,7 @@ public class AppBuilder {
 
     /**
      * Adds the Menu Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addMenuUseCase() {
@@ -305,11 +329,12 @@ public class AppBuilder {
 
     /**
      * Adds the Game Menu Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
-                loginViewModel, menuViewModel, gaunletBetViewModel);
+                loginViewModel, menuViewModel, gaunletBetViewModel, overUnderViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 
@@ -320,6 +345,7 @@ public class AppBuilder {
 
     /**
      * Adds the Change Password Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addChangePasswordUseCase() {
@@ -337,6 +363,7 @@ public class AppBuilder {
 
     /**
      * Adds the Logout Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addLogoutUseCase() {
@@ -353,6 +380,7 @@ public class AppBuilder {
 
     /**
      * Adds the Statistics Use Case to the application.
+     *
      * @return this builder
      */
     public AppBuilder addStatisticsUseCase() {
@@ -368,6 +396,7 @@ public class AppBuilder {
 
     /**
      * Creates the JFrame for the application and initially sets the WelcomeView to be displayed.
+     *
      * @return the application
      */
     public JFrame build() {
@@ -380,5 +409,41 @@ public class AppBuilder {
         viewManagerModel.firePropertyChanged();
 
         return application;
+    }
+
+    public AppBuilder addOverUnderUseCase() {
+        // Create the PlayingDeck
+        // final PlayingDeck playingDeck = new PlayingDeck(); // Adjust parameters if needed
+
+        // Define some integer value for the interactor (e.g., the number of cards in the deck)
+       // final int numberOfCards = 52; // Example: standard deck size
+
+        // Create the ViewModel
+        overUnderViewModel = new OverUnderViewModel();
+
+        // Create the OutputBoundary (Presenter) with the ViewModel
+        final OverUnderOutputBoundary outputBoundary = new OverUnderGamePresenter(overUnderViewModel);
+
+        // Create the Interactor with the PlayingDeck and OutputBoundary
+       // final OverUnderInputBoundary inputBoundary = new OverUnderInteractor(playingDeck, numberOfCards, outputBoundary);
+
+        // Create the Controller
+        GameStateManager gameStateManager = new GameStateManager();
+        final OverUnderController controller = new OverUnderController(gameStateManager);
+
+        // Connect the ViewModel to the Interactor
+       // overUnderViewModel.setInteractor((OverUnderInteractor) inputBoundary);
+
+        // Create the View (with the ViewModel)
+        overUnderView = new OverUnderView(overUnderViewModel);
+
+        // Set the Controller for the View
+        overUnderView.setController(controller);
+
+        // Add the view to the card layout panel
+        cardPanel.add(overUnderView, overUnderView.getViewName());
+
+        // Return the builder for chaining
+        return this;
     }
 }
