@@ -20,4 +20,14 @@ public class StatisticsController {
     public void switchToWelcomeView() {
         userStatisticsUseCaseInteractor.switchToWelcomeView();
     }
+
+    /**
+     * Executes the "switch to MenuView" Use Case.
+     */
+    public void switchToMenuView() {
+        userStatisticsUseCaseInteractor.switchToMenuView();
+    }
+
+    public void execute(String username) {
+    }
 }

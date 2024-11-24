@@ -27,13 +27,17 @@ public class Main {
         final JFrame application = appBuilder
                                             .addLoginView()
                                             .addSignupView()
-                                            .addLoggedInView()
                                             .addWelcomeView()
                                             .addStatisticsView()
                                             .addMenuView()
                                             .addGaunletBetView()
+                                            .addBlackjackBetView()
+                                            .addBlackjackGameView()
                                             .addGameMenuView()
                                             .addGaunletGuessView()
+                                            .addShopMainView()
+                                            .addShopButtonView()
+                                            .addShopWheelView()
                                             .addGameMenuUseCase()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
@@ -44,6 +48,12 @@ public class Main {
                                             .addLogoutUseCase()
                                             .addMenuUseCase()
                                             .addGaunletGuessUseCase()
+                                            .addGaunletBetUseCase()
+                                            .addBlackjackBetUseCase()
+                                            .addBlackjackGameUseCase()
+                                            .addShopUseCase()
+                                            .addShopButtonUseCase()
+                                            .addShopWheelUseCase()
                                             .build();
 
         application.pack();

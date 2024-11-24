@@ -5,15 +5,15 @@ package use_case.gaunlet.bet;
  */
 public class GaunletBetOutputData {
 
-    private final String bet;
+    private final int bet;
     private final boolean useCaseFailed;
 
-    public GaunletBetOutputData(String bet, boolean useCaseFailed) {
+    public GaunletBetOutputData(int bet, boolean useCaseFailed) {
         this.bet = bet;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public String getBet() {
+    public int getBet() {
         return bet;
     }
 

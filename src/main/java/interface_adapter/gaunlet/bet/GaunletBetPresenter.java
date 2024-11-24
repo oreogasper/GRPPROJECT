@@ -2,6 +2,7 @@ package interface_adapter.gaunlet.bet;
 
 import interface_adapter.ViewManagerModel;
 import interface_adapter.gamemenu.GameMenuViewModel;
+import interface_adapter.gaunlet.guess.GaunletGuessState;
 import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
 import use_case.gaunlet.bet.GaunletBetOutputBoundary;
 import use_case.gaunlet.bet.GaunletBetOutputData;
@@ -15,6 +16,7 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     private final GaunletBetViewModel gaunletBetViewModel;
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final ViewManagerModel viewManagerModel;
+
 
     public GaunletBetPresenter(ViewManagerModel viewManagerModel,
                                GameMenuViewModel gameMenuViewModel,
@@ -35,19 +37,28 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
         this.gaunletBetViewModel.setState(gaunletBetState);
         gaunletBetViewModel.firePropertyChanged();
 
+        final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
+        gaunletGuessState.setUser(gaunletBetViewModel.getState().getUser());
+        this.gaunletGuessViewModel.setState(gaunletGuessState);
+        this.gaunletGuessViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(gaunletGuessViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+
         this.viewManagerModel.setState(gaunletGuessViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
     }
 
     @Override
     public void prepareFailView(String error) {
-        // final SignupState signupState = signupViewModel.getState();
-        // signupState.setUsernameError(error);
-        // signupViewModel.firePropertyChanged();
+        final GaunletBetState betState = gaunletBetViewModel.getState();
+        betState.setBetError(error);
+        gaunletBetViewModel.firePropertyChanged();
     }
 
     @Override
     public void switchToGaunletGuessView() {
+
         viewManagerModel.setState(gaunletGuessViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
@@ -56,5 +67,12 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     public void switchToGameMenuView() {
         viewManagerModel.setState(gameMenuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void setUserBet() {
+        final int betAmt = this.gaunletBetViewModel.getState().getBet();
+        this.gaunletBetViewModel.getState().getUser().setBet(betAmt);
+        this.gaunletBetViewModel.firePropertyChanged();
     }
 }

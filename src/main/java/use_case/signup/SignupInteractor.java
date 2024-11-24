@@ -2,11 +2,13 @@ package use_case.signup;
 
 import entity.User;
 import entity.UserFactory;
+import org.json.JSONObject;
 
 /**
  * The Signup Interactor.
  */
 public class SignupInteractor implements SignupInputBoundary {
+    private static final int STARTING_BALANCE = 25;
     private final SignupUserDataAccessInterface userDataAccessObject;
     private final SignupOutputBoundary userPresenter;
     private final UserFactory userFactory;
@@ -28,8 +30,15 @@ public class SignupInteractor implements SignupInputBoundary {
             userPresenter.prepareFailView("Passwords don't match.");
         }
         else {
-            final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword());
+            final JSONObject extra = new JSONObject();
+            extra.put("games", 0);
+            extra.put("wins", 0);
+            extra.put("losses", 0);
+            extra.put("balance", STARTING_BALANCE);
+
+            final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword(), extra);
             userDataAccessObject.save(user);
+            userDataAccessObject.saveNew(user, extra);
 
             final SignupOutputData signupOutputData = new SignupOutputData(user.getName(), user.getPassword(), false);
             userPresenter.prepareSuccessView(signupOutputData);
@@ -40,4 +49,10 @@ public class SignupInteractor implements SignupInputBoundary {
     public void switchToWelcomeView() {
         userPresenter.switchToWelcomeView();
     }
+
+    @Override
+    public void switchToMenuView() {
+        userPresenter.switchToMenuView();
+    }
+
 }

@@ -26,4 +26,9 @@ public interface GaunletBetOutputBoundary {
      * Switches to the Login View.
      */
     void switchToGameMenuView();
+
+    /**
+     * Saves current bet for user.
+     */
+    void setUserBet();
 }
