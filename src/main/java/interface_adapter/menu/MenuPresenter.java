@@ -17,20 +17,17 @@ import use_case.menu.MenuOutputBoundary;
  */
 public class MenuPresenter implements MenuOutputBoundary {
     private final ViewManagerModel viewManagerModel;
-    private final WelcomeViewModel welcomeViewModel;
     private final StatisticsViewModel statisticsViewModel;
     private final GameMenuViewModel gameMenuViewModel;
     private final ShopViewModel shopViewModel;
     private final MenuViewModel menuViewModel;
 
     public MenuPresenter(ViewManagerModel viewManagerModel,
-                         WelcomeViewModel welcomeViewModel,
                          StatisticsViewModel statisticsViewModel,
                          GameMenuViewModel gameMenuViewModel,
                          ShopViewModel shopViewModel,
                          MenuViewModel menuViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.welcomeViewModel = welcomeViewModel;
         this.statisticsViewModel = statisticsViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
         this.shopViewModel = shopViewModel;
@@ -43,12 +40,6 @@ public class MenuPresenter implements MenuOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-    }
-
-    @Override
-    public void switchToWelcomeView() {
-        viewManagerModel.setState(welcomeViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
     }
 
     @Override

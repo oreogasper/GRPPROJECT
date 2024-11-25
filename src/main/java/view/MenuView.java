@@ -3,8 +3,6 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -15,7 +13,6 @@ import javax.swing.JPanel;
 import interface_adapter.menu.MenuController;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
-import interface_adapter.statistics.StatisticsState;
 
 /**
  * The View for the Welcome Use Case.
@@ -42,24 +39,10 @@ public class MenuView extends JPanel implements PropertyChangeListener {
         tButtons.add(gamble);
         final JButton shop = new JButton(MenuViewModel.SHOP_BUTTON_LABEL);
         tButtons.add(shop);
-        final JButton back = new JButton(MenuViewModel.BACK_BUTTON_LABEL);
-        tButtons.add(back);
 
-        // TODO: temporary testing function to allow us to see the state
-        // stats.addActionListener(evt -> menuController.switchToStatisticsView());
-        // ^ replace with this line after
-        stats.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        System.out.println(menuViewModel.getState());
-                        menuController.switchToStatisticsView();
-                    }
-                }
-        );
-
+        stats.addActionListener(evt -> menuController.switchToStatisticsView());
         gamble.addActionListener(evt -> menuController.switchToGameMenuView());
         shop.addActionListener(evt -> menuController.switchToShopView());
-        back.addActionListener(evt -> menuController.switchToWelcomeView());
 
         // Bottom panel for username and balance
         username = new JLabel("unknown username");
