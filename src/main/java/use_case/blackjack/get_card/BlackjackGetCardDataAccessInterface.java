@@ -1,6 +1,6 @@
 package use_case.blackjack.get_card;
 
-import entity.CardAbs;
+import entity.AbstractCard;
 
 /**
  * DAO for the Get Card Use Case.
@@ -8,10 +8,9 @@ import entity.CardAbs;
 public interface BlackjackGetCardDataAccessInterface {
 
     /**
-     * Initializes a new deck to be drawn from/shuffled/etc.
-     * @param shuffle Whether to shuffle the deck or not.
+     * Initializes a new shuffled deck.
      */
-    void createNewDeck(boolean shuffle);
+    void createNewDeck();
 
     /**
      * Returns the current decks ID.
@@ -35,6 +34,6 @@ public interface BlackjackGetCardDataAccessInterface {
      * Draw a card from the current deck.
      * @param deckId The ID of the deck to draw a card from.
      */
-    CardAbs drawCard(String deckId);
+    AbstractCard drawCard(String deckId);
 
 }
