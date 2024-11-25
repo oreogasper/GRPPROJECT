@@ -1,7 +1,5 @@
 package use_case.gaunlet.guess;
 
-import use_case.gaunlet.bet.GaunletBetOutputData;
-
 /**
  * The output boundary for the Gaunlet guess Use Case.
  */

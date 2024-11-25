@@ -334,7 +334,7 @@ public class AppBuilder {
      */
     public AppBuilder addGaunletGuessUseCase() {
         final GaunletGuessOutputBoundary gaunletGuessOutputBoundary = new GaunletGuessPresenter(viewManagerModel,
-                gaunletGuessViewModel, gameMenuViewModel);
+                menuViewModel, gaunletGuessViewModel, gameMenuViewModel);
         final GaunletGuessInputBoundary userGaunletGuessInteractor = new GaunletGuessInteractor(
                 gaunletGuessOutputBoundary, gaunletgame, userDataAccessObject, userFactory);
 
