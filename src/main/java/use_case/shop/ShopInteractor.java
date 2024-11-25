@@ -27,7 +27,7 @@ public class ShopInteractor implements ShopInputBoundary {
         final User userr = userDataAccessObject.get(shopInputData.getUsername());
         final JSONObject json = userr.getInfo();
         json.put("balance", changedAmount);
-        final User user = userFactory.create(shopInputData.getUsername(), shopInputData.getPassword(), json);
+        final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
         userDataAccessObject.saveNew(user, json);
 
         final ShopOutputData shopOutputData = new ShopOutputData(user.getName(), user.getPassword(), json);

@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import data_access.DBGaunletDataAccessObject;
 import data_access.DBUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.GaunletGameFactory;
@@ -125,7 +124,6 @@ public class AppBuilder {
 
     // thought question: is the hard dependency below a problem?
     private final DBUserDataAccessObject userDataAccessObject;
-    private final DBGaunletDataAccessObject gaunletDataAccessObject;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -159,7 +157,6 @@ public class AppBuilder {
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
         userDataAccessObject = new DBUserDataAccessObject(userFactory);
-        gaunletDataAccessObject = new DBGaunletDataAccessObject();
     }
 
     /**
@@ -337,9 +334,9 @@ public class AppBuilder {
      */
     public AppBuilder addGaunletGuessUseCase() {
         final GaunletGuessOutputBoundary gaunletGuessOutputBoundary = new GaunletGuessPresenter(viewManagerModel,
-                signupViewModel, gaunletGuessViewModel, gameMenuViewModel);
+                gaunletGuessViewModel, gameMenuViewModel);
         final GaunletGuessInputBoundary userGaunletGuessInteractor = new GaunletGuessInteractor(
-                gaunletGuessOutputBoundary, gaunletgame);
+                gaunletGuessOutputBoundary, gaunletgame, userDataAccessObject, userFactory);
 
         final GaunletGuessController gaunletGuesscontroller = new GaunletGuessController(userGaunletGuessInteractor);
         gaunletGuessView.setGaunletGuessController(gaunletGuesscontroller);
@@ -354,7 +351,7 @@ public class AppBuilder {
         final GaunletBetOutputBoundary gaunletBetOutputBoundary = new GaunletBetPresenter(
                 viewManagerModel, gameMenuViewModel, gaunletBetViewModel, gaunletGuessViewModel);
         final GaunletBetInputBoundary userGaunletBetInteractor = new GaunletBetInteractor(
-                gaunletDataAccessObject, gaunletBetOutputBoundary);
+                userDataAccessObject, gaunletBetOutputBoundary, userFactory);
 
         final GaunletBetController gaunletBetcontroller = new GaunletBetController(userGaunletBetInteractor);
         gaunletBetView.setGaunletBetController(gaunletBetcontroller);

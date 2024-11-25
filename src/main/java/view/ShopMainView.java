@@ -2,9 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -16,7 +13,6 @@ import javax.swing.JPanel;
 import interface_adapter.shop.ShopController;
 import interface_adapter.shop.ShopState;
 import interface_adapter.shop.ShopViewModel;
-import interface_adapter.signup.SignupState;
 
 /**
  * The View for the shop main menu.

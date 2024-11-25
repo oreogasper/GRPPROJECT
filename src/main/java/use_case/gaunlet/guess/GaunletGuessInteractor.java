@@ -1,9 +1,7 @@
 package use_case.gaunlet.guess;
 
-import entity.Game;
-import entity.GaunletGame;
-import entity.GaunletGameFactory;
-import entity.User;
+import entity.*;
+import org.json.JSONObject;
 
 /**
  * The Gaunlet Guess Interactor.
@@ -11,35 +9,41 @@ import entity.User;
 public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
     private final GaunletGuessOutputBoundary userPresenter;
     private final GaunletGameFactory game;
+    private final GaunletGuessUserDataAccessInterface userDataAccessObject;
+    private final UserFactory userFactory;
+    private final int BONUS_RATE = 36;
 
     public GaunletGuessInteractor(
-            GaunletGuessOutputBoundary gaunletGuessOutputBoundary, GaunletGameFactory gaunletgame) {
+            GaunletGuessOutputBoundary gaunletGuessOutputBoundary,
+            GaunletGameFactory gaunletgame,
+            GaunletGuessUserDataAccessInterface userDataAccessObject,
+            UserFactory userFactory) {
         this.userPresenter = gaunletGuessOutputBoundary;
         this.game = gaunletgame;
+        this.userDataAccessObject = userDataAccessObject;
+        this.userFactory = userFactory;
     }
 
     @Override
     public void execute(GaunletGuessInputData gaunletGuessInputData) {
+
         final String coinGuess = gaunletGuessInputData.getCoinFlip();
         final String diceGuess = gaunletGuessInputData.getDice();
         final String rpsGuess = gaunletGuessInputData.getRps();
 
         if (!isValidCoinFlip(coinGuess)) {
             userPresenter.prepareFailView("Invalid coin guess. Please enter 'Heads' or 'Tails'.");
-            return;
         }
         try {
             int dice = isValidDiceGuess(diceGuess);
         }
         catch (IllegalArgumentException e) {
             userPresenter.prepareFailView(e.getMessage());
-            return;
         }
 
         if (!isValidRpsGuess(rpsGuess)) {
             userPresenter.prepareFailView("Invalid RPS guess. Please enter 'Rock', 'Paper', or 'Scissors'."
             );
-            return;
         }
         final GaunletGame gaunletGame = game.create(coinGuess, Integer.parseInt(diceGuess), rpsGuess);
         final String actualCoinFlip = gaunletGame.flipCoin();
@@ -49,6 +53,17 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
         final boolean isWin = actualCoinFlip.equalsIgnoreCase(coinGuess)
                 && actualDiceRoll == Integer.parseInt(diceGuess)
                 && actualRpsOutcome.equalsIgnoreCase(rpsGuess);
+
+        final User userr = userDataAccessObject.get(gaunletGuessInputData.getUsername());
+        final JSONObject json = userr.getInfo();
+        final int newBalance = (userDataAccessObject.getBet() + userr.getBalance()) * BONUS_RATE;
+
+        if (isWin) {
+            // balance x36 + bet amount
+            json.put("balance", newBalance);
+            final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
+            userDataAccessObject.saveNew(user, json);
+        }
 
         // Create output data and show result
         final GaunletGuessOutputData gaunletGuessOutputData = new GaunletGuessOutputData(

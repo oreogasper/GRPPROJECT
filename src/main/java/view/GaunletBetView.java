@@ -75,8 +75,8 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
 
                                 currentState.setBet(betVal);
                                 gaunletBetViewModel.setState(currentState);
-
                                 gaunletBetController.execute(
+                                        currentState.getUser().getName(),
                                         currentState.getBet()
                                 );
                             }
@@ -106,7 +106,8 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final GaunletBetState state = (GaunletBetState) evt.getNewValue();
-        System.out.println("GaunletBetViewModel initialized with state: " + gaunletBetViewModel.getState());
+        System.out.println("GaunletBetViewModel initialized with state: ");
+        System.out.println(gaunletBetViewModel.getState());
         setFields(state);
         if (state.getBetError() != null) {
             JOptionPane.showMessageDialog(this, state.getBetError());
