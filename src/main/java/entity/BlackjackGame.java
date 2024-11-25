@@ -9,13 +9,13 @@ public class BlackjackGame implements Game{
     private final String rules = "";
     private final String gameName = "Blackjack";
 
-    private List<Card> playerCards;
-    private List<Card> dealerCards;
+    private List<AbstractCard> playerCards;
+    private List<AbstractCard> dealerCards;
     private String deckId;
 
     public BlackjackGame() {
-        playerCards = new ArrayList<Card>();
-        dealerCards = new ArrayList<Card>();
+        playerCards = new ArrayList<AbstractCard>();
+        dealerCards = new ArrayList<AbstractCard>();
     }
 
     @Override
@@ -38,9 +38,9 @@ public class BlackjackGame implements Game{
         return gameName;
     }
 
-    private int cardsScore(List<Card> cards) {
+    private int cardsScore(List<AbstractCard> cards) {
         int score = 0;
-        for (Card card : cards) {
+        for (AbstractCard card : cards) {
             score += card.getRank();
         }
         return score;
@@ -58,22 +58,29 @@ public class BlackjackGame implements Game{
         return deckId;
     }
 
-    public void addPlayerCard(Card card) {
+    public void addPlayerCard(AbstractCard card) {
         playerCards.add(card);
     }
 
-    public void addDealerCard(Card card) {
+    public void addDealerCard(AbstractCard card) {
         dealerCards.add(card);
     }
 
-    public boolean isBust(List<Card> cards) {
+    public boolean isBust(List<AbstractCard> cards) {
         int totalScore = this.cardsScore(cards);
         return totalScore > 21;
     }
 
-    public boolean isWin(List<Card> cards) {
+    public boolean isWin(List<AbstractCard> cards) {
         int totalScore = this.cardsScore(cards);
         return totalScore == 21;
     }
 
+    public List<AbstractCard> getPlayerCards() {
+        return playerCards;
+    }
+
+    public List<AbstractCard> getDealerCards() {
+        return dealerCards;
+    }
 }

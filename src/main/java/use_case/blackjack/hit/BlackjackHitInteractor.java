@@ -28,7 +28,13 @@ public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
 
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
 
-        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card, false);
+        blackjackGame.addPlayerCard(card);
+
+        boolean bust = blackjackGame.isBust(blackjackGame.getPlayerCards());
+        boolean win = blackjackGame.isWin(blackjackGame.getPlayerCards());
+
+
+        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(bust, win, false);
 
         outputBoundary.prepareSuccessView(outputData);
     }
