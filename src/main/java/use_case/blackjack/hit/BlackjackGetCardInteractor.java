@@ -1,6 +1,7 @@
-package use_case.blackjack.get_card;
+package use_case.blackjack.hit;
 
 import entity.AbstractCard;
+import entity.BlackjackGame;
 
 /**
  * The Blackjack Get Card Use Case Interactor.
@@ -9,21 +10,21 @@ public class BlackjackGetCardInteractor implements BlackjackGetCardInputBoundary
 
     private final BlackjackGetCardOutputBoundary outputBoundary;
     private final BlackjackGetCardDataAccessInterface blackjackGetCardDataAccessObject;
+    private final BlackjackGame blackjackGame;
 
     public BlackjackGetCardInteractor(BlackjackGetCardOutputBoundary outputBoundary,
-                                      BlackjackGetCardDataAccessInterface blackjackGetCardDataAccessObject) {
+                                      BlackjackGetCardDataAccessInterface blackjackGetCardDataAccessObject,
+                                      BlackjackGame blackjackGame) {
         this.outputBoundary = outputBoundary;
         this.blackjackGetCardDataAccessObject = blackjackGetCardDataAccessObject;
+        this.blackjackGame = blackjackGame;
 
     }
 
     @Override
     public void execute(BlackjackGetCardInputData blackjackGameInputData) {
-        if (!blackjackGetCardDataAccessObject.hasDeck()) {
-            blackjackGetCardDataAccessObject.createNewDeck();
-        }
 
-        final String deckId = blackjackGetCardDataAccessObject.getDeckID();
+        final String deckId = blackjackGame.getDeckId();
 
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
 

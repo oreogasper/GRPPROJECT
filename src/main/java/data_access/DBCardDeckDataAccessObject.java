@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import entity.Card;
 import entity.CardFactory;
 
-import use_case.blackjack.get_card.BlackjackGetCardDataAccessInterface;
+import use_case.blackjack.hit.BlackjackGetCardDataAccessInterface;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

@@ -1,4 +1,4 @@
-package use_case.blackjack.get_card;
+package use_case.blackjack.hit;
 
 /**
  * The output boundary for the Blackjack Game Use Case.

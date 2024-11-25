@@ -11,6 +11,7 @@ public class BlackjackGame implements Game{
 
     private List<Card> playerCards;
     private List<Card> dealerCards;
+    private String deckId;
 
     public BlackjackGame() {
         playerCards = new ArrayList<Card>();
@@ -43,6 +44,18 @@ public class BlackjackGame implements Game{
             score += card.getRank();
         }
         return score;
+    }
+
+    public void setDeckId(String deckId) {
+        this.deckId = deckId;
+    }
+
+    public boolean hasDeck() {
+        return deckId != null;
+    }
+
+    public String getDeckId() {
+        return deckId;
     }
 
     public void addPlayerCard(Card card) {
