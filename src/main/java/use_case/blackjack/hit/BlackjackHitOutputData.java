@@ -1,8 +1,6 @@
 package use_case.blackjack.hit;
 
-import entity.AbstractCard;
-
-import java.awt.*;
+import java.awt.Image;
 
 /**
  * Output Data for the Blackjack Hit Use Case.
