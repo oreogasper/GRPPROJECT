@@ -1,25 +1,12 @@
 package use_case.blackjack.get_card;
 
-import java.util.List;
-
 /**
- * Input Data for the Blackjack Game Use Case.
+ * Input Data for the Blackjack Get Card Use Case.
  */
 public class BlackjackGetCardInputData {
-    private List<String> playerCards;
-    private List<String> dealerCards;
 
-    public BlackjackGetCardInputData(List<String> playerCards, List<String> dealerCards) {
-        this.playerCards = playerCards;
-        this.dealerCards = dealerCards;
+    public BlackjackGetCardInputData() {
 
     }
 
-    public List<String> getPlayerCards() {
-        return playerCards;
-    }
-
-    public List<String> getDealerCards() {
-        return dealerCards;
-    }
 }
