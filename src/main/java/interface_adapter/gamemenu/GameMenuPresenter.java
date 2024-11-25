@@ -9,6 +9,7 @@ import interface_adapter.login.LoginViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
 import interface_adapter.statistics.StatisticsState;
+import interface_adapter.und_ovr.OverUnderViewModel;
 import use_case.gamemenu.GameMenuOutputBoundary;
 
 /**
@@ -21,19 +22,22 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
     private final GaunletBetViewModel gaunletBetViewModel;
     private final BlackjackBetViewModel blackjackBetViewModel;
     private final GameMenuViewModel gameMenuViewModel;
+    private final OverUnderViewModel overUnderViewModel;
 
     public GameMenuPresenter(ViewManagerModel viewManagerModel,
                              LoginViewModel loginViewModel,
                              MenuViewModel menuViewModel,
                              GaunletBetViewModel gaunletBetViewModel,
                              BlackjackBetViewModel blackjackBetViewModel,
-                             GameMenuViewModel gameMenuViewModel) {
+                             GameMenuViewModel gameMenuViewModel,
+                             OverUnderViewModel overUnderViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loginViewModel = loginViewModel;
         this.menuViewModel = menuViewModel;
         this.gaunletBetViewModel = gaunletBetViewModel;
         this.blackjackBetViewModel = blackjackBetViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
+        this.overUnderViewModel = overUnderViewModel;
     }
 
     @Override

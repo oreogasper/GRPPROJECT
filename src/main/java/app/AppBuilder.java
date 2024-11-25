@@ -52,6 +52,7 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.statistics.StatisticsController;
 import interface_adapter.statistics.StatisticsPresenter;
 import interface_adapter.statistics.StatisticsViewModel;
+import interface_adapter.und_ovr.OverUnderViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
@@ -153,6 +154,7 @@ public class AppBuilder {
     private ShopButtonViewModel shopButtonViewModel;
     private ShopWheelView shopWheelView;
     private ShopWheelViewModel shopWheelViewModel;
+    private OverUnderViewModel overUnderViewModel;
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -410,7 +412,7 @@ public class AppBuilder {
      */
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
-                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel, gameMenuViewModel);
+                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel, gameMenuViewModel, overUnderViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 
