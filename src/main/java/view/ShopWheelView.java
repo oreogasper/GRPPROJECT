@@ -1,11 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -32,7 +27,6 @@ public class ShopWheelView extends JPanel {
     private final JLabel username;
     private final JLabel balance;
     private final JLabel countdown;
-    private final int timeDivider = 60;
     private Timer countdownTimer;
 
     public ShopWheelView(ShopWheelViewModel shopWheelViewModel) {
@@ -166,6 +160,7 @@ public class ShopWheelView extends JPanel {
     }
 
     private String formatTime(long totalSeconds) {
+        final int timeDivider = 60;
         final long minutes = totalSeconds / timeDivider;
         final long seconds = totalSeconds % timeDivider;
         return String.format("%02d:%02d", minutes, seconds);
