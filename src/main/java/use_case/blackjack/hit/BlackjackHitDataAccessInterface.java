@@ -5,7 +5,7 @@ import entity.AbstractCard;
 /**
  * DAO for the Get Card Use Case.
  */
-public interface BlackjackGetCardDataAccessInterface {
+public interface BlackjackHitDataAccessInterface {
 
     /**
      * Initializes a new shuffled deck.

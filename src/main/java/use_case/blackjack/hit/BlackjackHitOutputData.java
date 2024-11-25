@@ -5,12 +5,12 @@ import entity.CardAbs;
 /**
  * Output Data for the Blackjack Get Card Use Case.
  */
-public class BlackjackGetCardOutputData {
+public class BlackjackHitOutputData {
 
     private final CardAbs card;
     private final boolean useCaseFailed;
 
-    public BlackjackGetCardOutputData(CardAbs card, boolean useCaseFailed) {
+    public BlackjackHitOutputData(CardAbs card, boolean useCaseFailed) {
         this.card = card;
         this.useCaseFailed = useCaseFailed;
     }

@@ -6,15 +6,15 @@ import entity.BlackjackGame;
 /**
  * The Blackjack Get Card Use Case Interactor.
  */
-public class BlackjackGetCardInteractor implements BlackjackGetCardInputBoundary {
+public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
 
     private final BlackjackGetCardOutputBoundary outputBoundary;
-    private final BlackjackGetCardDataAccessInterface blackjackGetCardDataAccessObject;
+    private final BlackjackHitDataAccessInterface blackjackGetCardDataAccessObject;
     private final BlackjackGame blackjackGame;
 
-    public BlackjackGetCardInteractor(BlackjackGetCardOutputBoundary outputBoundary,
-                                      BlackjackGetCardDataAccessInterface blackjackGetCardDataAccessObject,
-                                      BlackjackGame blackjackGame) {
+    public BlackjackHitInteractor(BlackjackGetCardOutputBoundary outputBoundary,
+                                  BlackjackHitDataAccessInterface blackjackGetCardDataAccessObject,
+                                  BlackjackGame blackjackGame) {
         this.outputBoundary = outputBoundary;
         this.blackjackGetCardDataAccessObject = blackjackGetCardDataAccessObject;
         this.blackjackGame = blackjackGame;
@@ -22,13 +22,13 @@ public class BlackjackGetCardInteractor implements BlackjackGetCardInputBoundary
     }
 
     @Override
-    public void execute(BlackjackGetCardInputData blackjackGameInputData) {
+    public void execute(BlackjackHitInputData blackjackGameInputData) {
 
         final String deckId = blackjackGame.getDeckId();
 
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
 
-        final BlackjackGetCardOutputData outputData = new BlackjackGetCardOutputData(card, false);
+        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card, false);
 
         outputBoundary.prepareSuccessView(outputData);
     }
