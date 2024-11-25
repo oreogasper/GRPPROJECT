@@ -4,15 +4,15 @@ import entity.AbstractCard;
 import entity.BlackjackGame;
 
 /**
- * The Blackjack Get Card Use Case Interactor.
+ * The Blackjack Hit Use Case Interactor.
  */
 public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
 
-    private final BlackjackGetCardOutputBoundary outputBoundary;
+    private final BlackjackHitOutputBoundary outputBoundary;
     private final BlackjackHitDataAccessInterface blackjackGetCardDataAccessObject;
     private final BlackjackGame blackjackGame;
 
-    public BlackjackHitInteractor(BlackjackGetCardOutputBoundary outputBoundary,
+    public BlackjackHitInteractor(BlackjackHitOutputBoundary outputBoundary,
                                   BlackjackHitDataAccessInterface blackjackGetCardDataAccessObject,
                                   BlackjackGame blackjackGame) {
         this.outputBoundary = outputBoundary;

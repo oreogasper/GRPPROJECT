@@ -2,7 +2,7 @@ package use_case.blackjack.hit;
 
 
 /**
- * Input Boundary for actions related to playing the Blackjack Game..
+ * Input Boundary for actions relating to the hit use case.
  */
 public interface BlackjackHitInputBoundary {
 

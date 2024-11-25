@@ -5,7 +5,7 @@ import entity.AbstractCard;
 import java.awt.*;
 
 /**
- * Output Data for the Blackjack Get Card Use Case.
+ * Output Data for the Blackjack Hit Use Case.
  */
 public class BlackjackHitOutputData {
     private final Image cardImage;

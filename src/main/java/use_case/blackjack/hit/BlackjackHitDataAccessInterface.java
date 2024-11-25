@@ -3,7 +3,7 @@ package use_case.blackjack.hit;
 import entity.AbstractCard;
 
 /**
- * DAO for the Get Card Use Case.
+ * DAO for the Hit Use Case.
  */
 public interface BlackjackHitDataAccessInterface {
 

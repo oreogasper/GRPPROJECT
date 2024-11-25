@@ -1,9 +1,9 @@
 package use_case.blackjack.hit;
 
 /**
- * The output boundary for the Blackjack Game Use Case.
+ * The output boundary for the Blackjack Hit Use Case.
  */
-public interface BlackjackGetCardOutputBoundary {
+public interface BlackjackHitOutputBoundary {
 
     /**
      * Prepares the success view for the Blackjack Bet Use Case.
