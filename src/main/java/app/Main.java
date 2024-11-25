@@ -44,6 +44,7 @@ public class Main {
                                             .addSignupUseCase()
                                             .addGaunletBetUseCase()
                                             .addLoginUseCase()
+                                            .addAddFriendUseCase()
                                             .addStatisticsUseCase()
                                             .addChangePasswordUseCase()
                                             .addLogoutUseCase()

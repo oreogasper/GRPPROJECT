@@ -11,6 +11,8 @@ import entity.CommonUserFactory;
 import entity.GaunletGameFactory;
 import entity.UserFactory;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.add_friend.AddFriendController;
+import interface_adapter.add_friend.AddFriendPresenter;
 import interface_adapter.blackjack.bet.BlackjackBetController;
 import interface_adapter.blackjack.bet.BlackjackBetPresenter;
 import interface_adapter.blackjack.bet.BlackjackBetViewModel;
@@ -20,8 +22,8 @@ import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardPresenter;
 import interface_adapter.leaderboard.LeaderboardViewModel;
-import interface_adapter.statistics.ChangePasswordController;
-import interface_adapter.statistics.ChangePasswordPresenter;
+import interface_adapter.change_password.ChangePasswordController;
+import interface_adapter.change_password.ChangePasswordPresenter;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
@@ -58,6 +60,9 @@ import interface_adapter.und_ovr.OverUnderViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import use_case.add_friend.AddFriendInputBoundary;
+import use_case.add_friend.AddFriendInteractor;
+import use_case.add_friend.AddFriendOutputBoundary;
 import use_case.blackjack.bet.BlackjackBetInputBoundary;
 import use_case.blackjack.bet.BlackjackBetInteractor;
 import use_case.blackjack.bet.BlackjackBetOutputBoundary;
@@ -486,6 +491,23 @@ public class AppBuilder {
 
         final LeaderboardController leaderboardController = new LeaderboardController(userLeaderboardInteractor);
         leaderboardView.setLeaderboardController(leaderboardController);
+        return this;
+    }
+
+    /**
+     * Adds the Add Friend Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addAddFriendUseCase() {
+        final AddFriendOutputBoundary addFriendOutputBoundary =
+                new AddFriendPresenter(statisticsViewModel);
+
+        final AddFriendInputBoundary addFriendInteractor =
+                new AddFriendInteractor(userDataAccessObject, addFriendOutputBoundary, userFactory);
+
+        final AddFriendController addFriendController =
+                new AddFriendController(addFriendInteractor);
+        leaderboardView.setAddFriendController(addFriendController);
         return this;
     }
 

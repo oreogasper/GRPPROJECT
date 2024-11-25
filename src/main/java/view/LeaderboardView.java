@@ -19,10 +19,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import entity.User;
+import interface_adapter.add_friend.AddFriendController;
 import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardState;
 import interface_adapter.leaderboard.LeaderboardViewModel;
-import interface_adapter.statistics.ChangePasswordController;
+import interface_adapter.statistics.StatisticsState;
 
 /**
  * The View for the Leaderboard Use Case.
@@ -37,13 +38,13 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
     private final String viewName = "leaderboard";
     private final LeaderboardViewModel leaderboardViewModel;
     private LeaderboardController leaderboardController;
-
-    private ChangePasswordController changePasswordController;
+    private AddFriendController addFriendController;
     private final DefaultTableModel tableModel;
     private final JTable table;
     private final JTextField friendInputField = new JTextField(15);
     private final JButton remove;
     private final JButton cancel;
+    private final JButton addFriend;
 
     public LeaderboardView(LeaderboardViewModel leaderboardViewModel) {
         this.leaderboardViewModel = leaderboardViewModel;
@@ -52,8 +53,24 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         final JLabel title = new JLabel(LeaderboardViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        final JPanel friend = new JPanel();
         final LabelTextPanel friendInput = new LabelTextPanel(
-                new JLabel("Add friend:"), friendInputField);
+                new JLabel("Type a Friend's username:"), friendInputField);
+        friend.add(friendInput);
+
+        addFriend = new JButton("Add Friend");
+        friend.add(addFriend);
+        addFriend.addActionListener(
+                evt -> {
+                    if (evt.getSource().equals(addFriend)) {
+                        final LeaderboardState currentState = leaderboardViewModel.getState();
+                        this.addFriendController.execute(
+                                currentState.getUsername(),
+                                currentState.getPassword(),
+                                currentState.getUser().getInfo());
+                    }
+                }
+        );
 
         final JPanel buttons = new JPanel();
         remove = new JButton(LeaderboardViewModel.REMOVE_FRIENDS);
@@ -114,7 +131,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
                 evt -> {
                     if (evt.getSource().equals(remove)) {
                         final LeaderboardState currentState = leaderboardViewModel.getState();
-                        this.changePasswordController.execute(
+                        this.addFriendController.execute(
                                 currentState.getUsername(),
                                 currentState.getPassword(),
                                 currentState.getUser().getInfo());
@@ -127,7 +144,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         this.add(title);
-        this.add(friendInput);
+        this.add(friend);
         final JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
         this.add(scrollPane);
@@ -170,6 +187,10 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
     public void setLeaderboardController(LeaderboardController leaderboardController) {
         this.leaderboardController = leaderboardController;
+    }
+
+    public void setAddFriendController(AddFriendController addFriendController) {
+        this.addFriendController = addFriendController;
     }
 
 }

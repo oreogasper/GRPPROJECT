@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import entity.User;
 import interface_adapter.logout.LogoutController;
-import interface_adapter.statistics.ChangePasswordController;
+import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.statistics.StatisticsController;
 import interface_adapter.statistics.StatisticsState;
 import interface_adapter.statistics.StatisticsViewModel;
