@@ -16,9 +16,9 @@ public class ShopController {
 
     /**
      * Executes the Shop Use Case.
-     * @param username the username to sign up
+     * @param username the username of the user
      * @param password the password
-     * @param changedAmount the password repeated
+     * @param changedAmount the new amount
      */
     public void execute(String username, String password, Integer changedAmount) {
         final ShopInputData shopInputData = new ShopInputData(

@@ -3,7 +3,7 @@ package interface_adapter.gaunlet.bet;
 import entity.User;
 
 /**
- * The state for the gaunlet bet View Model.
+ * The state for the gauntlet bet View Model.
  */
 public class GaunletBetState {
     private User user;
@@ -36,7 +36,7 @@ public class GaunletBetState {
 
     @Override
     public String toString() {
-        return "GaunletBetState{"
+        return "GaunletBetState {"
                 + "bet='" + bet + '\''
                 + "user='" + user + '\''
                 + '}';

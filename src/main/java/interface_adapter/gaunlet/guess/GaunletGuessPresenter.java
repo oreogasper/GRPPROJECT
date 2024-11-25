@@ -14,19 +14,15 @@ import use_case.gaunlet.guess.GaunletGuessOutputData;
  * The Presenter for the Gaunlet Guess Use Case.
  */
 public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
-
-    private final SignupViewModel signupViewModel;
+    private static final int RATE_BONUS = 36;
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final GameMenuViewModel gameMenuViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final int RATE_BONUS = 36;
 
     public GaunletGuessPresenter(ViewManagerModel viewManagerModel,
-                                 SignupViewModel signupViewModel,
                                  GaunletGuessViewModel gaunletGuessViewModel,
                                  GameMenuViewModel gameMenuViewModel) {
         this.viewManagerModel = viewManagerModel;
-        this.signupViewModel = signupViewModel;
         this.gaunletGuessViewModel = gaunletGuessViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
     }
@@ -34,20 +30,18 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
     @Override
     public void prepareSuccessView(GaunletGuessOutputData response) {
 
-        // On success, switch to the gaunlet guess view when implemented
+        // On success, switch to the gauntlet guess view when implemented
         final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
         final GameMenuState gameMenuState = gameMenuViewModel.getState();
 
         final boolean gameOutcome = response.isWon();
         final User user = gaunletGuessState.getUser();
         if (gameOutcome) {
-            user.updateBalance(user.getBet() + user.getBet() * RATE_BONUS);
             user.wonGame();
             JOptionPane.showMessageDialog(null,
                     "Congratulations! You won the Gauntlet game! Reward =" + user.getBet());
         }
         else {
-            user.updateBalance(-user.getBet());
             user.lostGame();
             final int newBalance = user.getBalance() - user.getBet();
             JOptionPane.showMessageDialog(null,

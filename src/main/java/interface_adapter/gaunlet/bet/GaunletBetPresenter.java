@@ -17,7 +17,6 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final ViewManagerModel viewManagerModel;
 
-
     public GaunletBetPresenter(ViewManagerModel viewManagerModel,
                                GameMenuViewModel gameMenuViewModel,
                                GaunletBetViewModel gaunletBetViewModel,
@@ -31,7 +30,7 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     @Override
     public void prepareSuccessView(GaunletBetOutputData response) {
 
-        // On success, switch to the gaunlet guess view when implemented
+        // On success, switch to the gauntlet guess view when implemented
         final GaunletBetState gaunletBetState = gaunletBetViewModel.getState();
         gaunletBetState.setBet(response.getBet());
         this.gaunletBetViewModel.setState(gaunletBetState);
