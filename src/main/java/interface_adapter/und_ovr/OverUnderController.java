@@ -14,7 +14,7 @@ public class OverUnderController {
     }
 
     public void placeBet(int betAmount) {
-        this.interactor = new OverUnderInteractor();
+        // this.interactor = new OverUnderInteractor();
         this.viewModel = new OverUnderViewModel();
         this.betAmount = betAmount;
         System.out.println("Bet placed: " + betAmount);

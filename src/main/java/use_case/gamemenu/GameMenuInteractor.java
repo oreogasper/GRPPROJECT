@@ -1,7 +1,5 @@
 package use_case.gamemenu;
 
-import use_case.gamemenu.GameMenuOutputBoundary;
-
 /**
  * The Game Menu Interactor.
  */

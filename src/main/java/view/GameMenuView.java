@@ -41,6 +41,7 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
         setupListeners(gameMenuViewModel);
     }
 
+    // Set up the layout of the panel
     private void setupUi(GameMenuViewModel gameMenuViewModel) {
         final JLabel title = new JLabel(GameMenuViewModel.TITLE_LABEL);
         final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -71,12 +72,14 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    // adding button helper function
     private void addButton(JPanel panel, String label, ActionListener actionListener) {
         final JButton button = new JButton(label);
         button.addActionListener(actionListener);
         panel.add(button);
     }
 
+    // for game rules button, reads the instruction file and put it in message box
     private void openRulesFile(String filePath) {
         final File file = new File(filePath);
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
@@ -125,6 +128,6 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // No action needed
+
     }
 }

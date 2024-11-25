@@ -23,17 +23,23 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
     @Override
     public void execute(GaunletBetInputData gaunletBetInputData, int bet) {
         final int betAmount = gaunletBetInputData.getBet();
-        if (!isValidBet(betAmount)) {
+        final boolean validBet = isValidBet(betAmount);
+
+        if (validBet) {
+            userPresenter.setUserBet();
+            final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount, false);
+            userPresenter.prepareSuccessView(gaunletBetOutputData);
+        }
+        else {
             userPresenter.prepareFailView("Invalid bet amount. Please bet a value "
                     +
                     "that is between 10 tokens and your current balance.");
         }
-        userDataAccessObject.setBet(betAmount);
         userPresenter.setUserBet();
 
         final User userr = userDataAccessObject.get(gaunletBetInputData.getUsername());
         final JSONObject json = userr.getInfo();
-        final int newBalance = userr.getBalance() - userDataAccessObject.getBet();
+        final int newBalance = userr.getBalance() - userr.getBet();
 
         json.put("balance", newBalance);
         final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
@@ -43,10 +49,10 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
         userPresenter.prepareSuccessView(gaunletBetOutputData);
     }
 
+    // Helper that checks if bet input fits requirements
     private boolean isValidBet(int betAmount) {
         final GaunletGame betRules = new GaunletGame();
 
-        // TODO need to find a way to also check bet amount isn't over user's balance
         return betAmount >= betRules.getMinBet() && betAmount <= betRules.getMaxBet();
     }
 
