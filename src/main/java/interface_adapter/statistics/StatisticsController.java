@@ -14,11 +14,10 @@ public class StatisticsController {
     }
 
     /**
-     * Executes the "switch to WelcomeView" Use Case.
+     * Executes the "switch to LeaderboardView" Use Case.
      */
-    // TODO: CHANGE
-    public void switchToWelcomeView() {
-        userStatisticsUseCaseInteractor.switchToWelcomeView();
+    public void switchToLeaderboardView() {
+        userStatisticsUseCaseInteractor.switchToLeaderboardView();
     }
 
     /**
@@ -26,8 +25,5 @@ public class StatisticsController {
      */
     public void switchToMenuView() {
         userStatisticsUseCaseInteractor.switchToMenuView();
-    }
-
-    public void execute(String username) {
     }
 }

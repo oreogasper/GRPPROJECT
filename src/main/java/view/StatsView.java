@@ -150,7 +150,7 @@ public class StatsView extends JPanel implements PropertyChangeListener {
         leaderboard.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        statisticsController.switchToWelcomeView();
+                        statisticsController.switchToLeaderboardView();
                     }
                 }
         );

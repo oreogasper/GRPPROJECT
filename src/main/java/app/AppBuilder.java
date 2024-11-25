@@ -17,6 +17,9 @@ import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.blackjack.game.BlackjackGameController;
 import interface_adapter.blackjack.game.BlackjackGamePresenter;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
+import interface_adapter.leaderboard.LeaderboardController;
+import interface_adapter.leaderboard.LeaderboardPresenter;
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.statistics.ChangePasswordController;
 import interface_adapter.statistics.ChangePasswordPresenter;
 import interface_adapter.gamemenu.GameMenuController;
@@ -73,6 +76,9 @@ import use_case.gaunlet.bet.GaunletBetOutputBoundary;
 import use_case.gaunlet.guess.GaunletGuessInputBoundary;
 import use_case.gaunlet.guess.GaunletGuessInteractor;
 import use_case.gaunlet.guess.GaunletGuessOutputBoundary;
+import use_case.leaderboard.LeaderboardInputBoundary;
+import use_case.leaderboard.LeaderboardInteractor;
+import use_case.leaderboard.LeaderboardOutputBoundary;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
@@ -127,8 +133,9 @@ public class AppBuilder {
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
-    /* private LoggedInViewModel loggedInViewModel;
-    private LoggedInView loggedInView;*/
+
+    private LeaderboardViewModel leaderboardViewModel;
+    private LeaderboardView leaderboardView;
     private LoginView loginView;
     private GameMenuViewModel gameMenuViewModel;
     private GameMenuView gameMenuView;
@@ -237,15 +244,15 @@ public class AppBuilder {
     }
 
     /**
-     * Adds the LoggedIn View to the application.
+     * Adds the Leaderboard View to the application.
      * @return this builder
      */
-    /* public AppBuilder addLoggedInView() {
-        loggedInViewModel = new LoggedInViewModel();
-        loggedInView = new LoggedInView(loggedInViewModel);
-        cardPanel.add(loggedInView, loggedInView.getViewName());
+    public AppBuilder addLeaderboardView() {
+        leaderboardViewModel = new LeaderboardViewModel();
+        leaderboardView = new LeaderboardView(leaderboardViewModel);
+        cardPanel.add(leaderboardView, leaderboardView.getViewName());
         return this;
-    }*/
+    }
 
     /**
      * Adds the Statistics View to the application.
@@ -409,7 +416,8 @@ public class AppBuilder {
      */
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
-                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel, gameMenuViewModel, overUnderViewModel);
+                loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel,
+                gameMenuViewModel, overUnderViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 
@@ -457,12 +465,27 @@ public class AppBuilder {
      */
     public AppBuilder addStatisticsUseCase() {
         final StatisticsOutputBoundary statisticsOutputBoundary = new StatisticsPresenter(viewManagerModel,
-                statisticsViewModel, loginViewModel, welcomeViewModel, menuViewModel);
+                statisticsViewModel, leaderboardViewModel, welcomeViewModel, menuViewModel);
         final StatisticsInputBoundary userStatisticsInteractor = new StatisticsInteractor(
                 statisticsOutputBoundary);
 
         final StatisticsController statisticsController = new StatisticsController(userStatisticsInteractor);
         statsView.setStatisticsController(statisticsController);
+        return this;
+    }
+
+    /**
+     * Adds the Leaderboard Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addLeaderboardUseCase() {
+        final LeaderboardOutputBoundary leaderboardOutputBoundary = new LeaderboardPresenter(viewManagerModel,
+                statisticsViewModel, leaderboardViewModel);
+        final LeaderboardInputBoundary userLeaderboardInteractor = new LeaderboardInteractor(
+                leaderboardOutputBoundary);
+
+        final LeaderboardController leaderboardController = new LeaderboardController(userLeaderboardInteractor);
+        leaderboardView.setLeaderboardController(leaderboardController);
         return this;
     }
 
@@ -487,7 +510,8 @@ public class AppBuilder {
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel, shopMainViewModel);
-        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary, userDataAccessObject, userFactory);
+        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary,
+                userDataAccessObject, userFactory);
 
         final ShopController shopController = new ShopController(userShopInteractor);
         shopMainView.setShopController(shopController);
