@@ -29,6 +29,7 @@ public class ShopWheelPresenter implements ShopWheelOutputBoundary {
     @Override
     public void prepareSuccessView() {
         // No return statement here, as the method does not need to return anything.
+        shopWheelViewModel.firePropertyChanged();
     }
 
     @Override

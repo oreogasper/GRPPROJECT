@@ -23,6 +23,7 @@ public class ShopInteractor implements ShopInputBoundary {
 
     @Override
     public void execute(ShopInputData shopInputData, Integer changedAmount) {
+        System.out.println("Shop interactor changed amt: " + changedAmount);
 
         final User userr = userDataAccessObject.get(shopInputData.getUsername());
         final JSONObject json = userr.getInfo();
