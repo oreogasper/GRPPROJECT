@@ -10,7 +10,7 @@ public class StatisticsViewModel extends ViewModel<StatisticsState> {
     public static final String TITLE_LABEL = "MY STATS";
     public static final String RETURN_MENU_BUTTON_LABEL = "Return to Menu";
 
-    public static final String TO_LEADERBOARD_BUTTON_LABEL = "LEADERBOARD BUTTON WIP";
+    public static final String TO_LEADERBOARD_BUTTON_LABEL = "LEADERBOARD";
 
     public StatisticsViewModel() {
         super("stats");

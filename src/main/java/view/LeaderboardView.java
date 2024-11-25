@@ -1,34 +1,44 @@
 package view;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 import entity.User;
 import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardState;
 import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.statistics.ChangePasswordController;
 
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 /**
  * The View for the Leaderboard Use Case.
  */
 public class LeaderboardView extends JPanel implements PropertyChangeListener {
-    private static final String INITIAL_VALUE = "0";
     private static final Integer TABLE_WIDTH = 200;
     private static final Integer TABLE_HEIGHT = 125;
-    private static final Integer ROW_THREE = 3;
-    private static final Integer ROW_FOUR = 4;
-    private static final Integer ROW_FIVE = 5;
+    private static final Integer LOSS_COL = 3;
+    private static final Integer WINP_COL = 4;
+    private static final Integer GAMES_COL = 5;
 
     private final String viewName = "leaderboard";
     private final LeaderboardViewModel leaderboardViewModel;
-    private ChangePasswordController changePasswordController;
     private LeaderboardController leaderboardController;
+
+    private ChangePasswordController changePasswordController;
     private final DefaultTableModel tableModel;
     private final JTable table;
     private final JTextField friendInputField = new JTextField(15);
@@ -52,14 +62,14 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         buttons.add(cancel);
 
         // Initializing table
-        final String[] columnNames = {"Statistic", "Value"};
+        final String[] columnNames = {"Username", "Balance", "Wins", "Losses", "Win %", "Games"};
         final String[][] initialData = {
-                {"Currently logged in", "username"},
-                {"Balance", INITIAL_VALUE},
-                {"Wins", INITIAL_VALUE},
-                {"Losses", INITIAL_VALUE},
-                {"Win percentage", INITIAL_VALUE},
-                {"Games", INITIAL_VALUE},
+                {},
+                {"Friend 1"},
+                {"Friend 2"},
+                {"Friend 3"},
+                {"Friend 4"},
+                {"Friend 5"},
         };
         tableModel = new DefaultTableModel(initialData, columnNames) {
             @Override
@@ -68,6 +78,12 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             }
         };
         table = new JTable(tableModel);
+        // Inside your constructor, after initializing the table
+        table.setAutoCreateRowSorter(true);
+
+        // Create a TableRowSorter for your table's model
+        final TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        table.setRowSorter(sorter);
 
         friendInputField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -93,6 +109,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             }
         });
 
+        // TODO: IMPLEMENT LATER, IGNORE FOR NOW
         remove.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(remove)) {
@@ -113,8 +130,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         this.add(friendInput);
         final JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
-        this.add(buttons);
         this.add(scrollPane);
+        this.add(buttons);
     }
 
     @Override
@@ -123,19 +140,26 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             final LeaderboardState state = (LeaderboardState) evt.getNewValue();
             final User user = state.getUser();
 
-            tableModel.setValueAt(state.getUsername(), 0, 1);
-            tableModel.setValueAt(String.valueOf(user.getBalance()), 1, 1);
-            tableModel.setValueAt(String.valueOf(user.getWins()), 2, 1);
-            tableModel.setValueAt(String.valueOf(user.getLosses()), ROW_THREE, 1);
-            // TODO: when games is 0, add 1
-            tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), ROW_FOUR, 1);
-            tableModel.setValueAt(String.valueOf(user.getGames()), ROW_FIVE, 1);
+            tableModel.setValueAt(state.getUsername(), 0, 0);
+            tableModel.setValueAt(String.valueOf(user.getBalance()), 0, 1);
+            tableModel.setValueAt(String.valueOf(user.getWins()), 0, 2);
+            tableModel.setValueAt(String.valueOf(user.getLosses()), 0, LOSS_COL);
+            tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), 0, WINP_COL);
+            tableModel.setValueAt(String.valueOf(user.getGames()), 0, GAMES_COL);
 
         }
 
         else if (evt.getPropertyName().equals("friend")) {
             final LeaderboardState state = (LeaderboardState) evt.getNewValue();
             JOptionPane.showMessageDialog(null, "added friend " + state.getUsername());
+
+            final User user = state.getUser();
+            tableModel.setValueAt(state.getUsername(), 1, 0);
+            tableModel.setValueAt(String.valueOf(user.getBalance()), 1, 1);
+            tableModel.setValueAt(String.valueOf(user.getWins()), 1, 2);
+            tableModel.setValueAt(String.valueOf(user.getLosses()), 1, LOSS_COL);
+            tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), 1, WINP_COL);
+            tableModel.setValueAt(String.valueOf(user.getGames()), 1, GAMES_COL);
         }
 
     }
