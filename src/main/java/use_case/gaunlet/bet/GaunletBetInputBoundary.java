@@ -5,8 +5,12 @@ package use_case.gaunlet.bet;
  */
 public interface GaunletBetInputBoundary {
     /**
+<<<<<<< Updated upstream
      * Executes the bet use case
      *
+=======
+     * Executes the betting use case.
+>>>>>>> Stashed changes
      * @param gaunletBetInputData the input data
      * @param bet the bet to initialize
      */

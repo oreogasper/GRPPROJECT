@@ -6,15 +6,18 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import interface_adapter.gaunlet.guess.GaunletGuessController;
 import interface_adapter.gaunlet.guess.GaunletGuessState;
 import interface_adapter.gaunlet.guess.GaunletGuessViewModel;
-import interface_adapter.signup.SignupController;
-import interface_adapter.signup.SignupState;
 
 /**
  * The View for the Gaunlet guess Use Case.
@@ -37,6 +40,7 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         final JLabel title = new JLabel(GaunletGuessViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Panel to input guesses
         final LabelTextPanel coinFlipInfo = new LabelTextPanel(
                 new JLabel(GaunletGuessViewModel.COIN_LABEL), coinFlipInputField);
         final LabelTextPanel diceInfo = new LabelTextPanel(
@@ -44,19 +48,19 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         final LabelTextPanel rpsInfo = new LabelTextPanel(
                 new JLabel(GaunletGuessViewModel.RPS_LABEL), rpsInputField);
 
+        // adding buttons
         final JPanel buttons = new JPanel();
         continueToResults = new JButton(GaunletGuessViewModel.CONTINUE_BUTTON_LABEL);
         buttons.add(continueToResults);
 
         continueToResults.addActionListener(
+                // updates the state after user inputs values
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        System.out.println("Button clicked! Executing the action...");
                         if (evt.getSource().equals(continueToResults)) {
                             final GaunletGuessState currentState = gaunletGuessViewModel.getState();
                             gaunletGuessViewModel.setState(currentState);
-                            System.out.println("GaunletGuessViewModel initialized with state: ");
-                            System.out.println(gaunletGuessViewModel.getState());
+
                             gaunletGuessController.execute(
                                     currentState.getUser().getName(),
                                     currentState.getCoinGuess(),
