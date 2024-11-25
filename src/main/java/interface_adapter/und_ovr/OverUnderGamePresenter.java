@@ -27,6 +27,16 @@ public class OverUnderGamePresenter implements OverUnderOutputBoundary {
     }
 
     @Override
+    public void showCorrectGuess(PlayingCard nextCard) {
+
+    }
+
+    @Override
+    public void showWrongGuess(PlayingCard nextCardInfo) {
+
+    }
+
+    @Override
     public void showCorrectGuess() {
         // Show success message without revealing the next card
         updateView("Correct guess! Keep going.");

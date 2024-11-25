@@ -13,6 +13,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
+import use_case.gaunlet.bet.GaunletBetDataAccessInterface;
+import use_case.gaunlet.guess.GaunletGuessUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
 import use_case.shop.ShopUserDataAccessInterface;
@@ -25,7 +27,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
         LogoutUserDataAccessInterface,
-        ShopUserDataAccessInterface {
+        ShopUserDataAccessInterface,
+        GaunletBetDataAccessInterface,
+        GaunletGuessUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -37,10 +41,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
     // TODO:
     private String currentUsername;
+    private int currentBet;
 
     public DBUserDataAccessObject(UserFactory userFactory) {
         this.userFactory = userFactory;
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
+        currentBet = 0;
     }
 
     /**
@@ -66,11 +72,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 final String name = userJSONObject.getString(USERNAME);
                 final String password = userJSONObject.getString(PASSWORD);
                 final JSONObject data = userJSONObject.getJSONObject("info");
-                System.out.println("Get method in DB: " + data);
-                /* System.out.println("Games: " + data.getString("games"));
-                System.out.println("Wins: " + data.getString("wins"));
-                System.out.println("Losses: " + data.getString("losses"));
-                System.out.println("Balance: " + data.getString("balance"));*/
+                System.out.println("Get method in DB: " + name + ", " + password + ", " + data);
 
                 return userFactory.create(name, password, data);
             }
@@ -110,6 +112,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
     }
 
     @Override
+    public void setBet(int bet) {
+        this.currentBet = bet;
+        System.out.println("DB setbet bet: " + bet);
+    }
+
+    @Override
     public void save(User user) {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -140,6 +148,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    @Override
+    public int getBet() {
+        return currentBet;
     }
 
     @Override

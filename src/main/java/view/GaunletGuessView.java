@@ -58,8 +58,10 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
                             // System.out.println("Coin Guess: " + currentState.getCoinGuess());
                             // System.out.println("Dice Guess: " + currentState.getDiceGuess());
                             // System.out.println("RPS Guess: " + currentState.getRpsGuess());
-                            System.out.println("GaunletGuessViewModel initialized with state: " + gaunletGuessViewModel.getState());
+                            System.out.println("GaunletGuessViewModel initialized with state: ");
+                            System.out.println(gaunletGuessViewModel.getState());
                             gaunletGuessController.execute(
+                                    currentState.getUser().getName(),
                                     currentState.getCoinGuess(),
                                     currentState.getDiceGuess(),
                                     currentState.getRpsGuess()

@@ -1,23 +1,30 @@
 package use_case.gaunlet.guess;
 
+import org.json.JSONObject;
+
 import entity.User;
 
 /**
  * DAO for the Signup Use Case.
  */
 public interface GaunletGuessUserDataAccessInterface {
+    /**
+     * Returns the bet of the curren user for the gauntlet game.
+     * @return the bet of the current user; null indicates that no one is logged into the application.
+     */
+    int getBet();
 
     /**
-     * Checks if the given bet is valid bet.
-     * @param bet the bet amount to look for
-     * @return true if the bet meets the minimum requirements; false otherwise
+     * Saves the user's info.
+     * @param user the user to save
+     * @param info the default user info to save
      */
-    boolean validBet(String bet);
+    void saveNew(User user, JSONObject info);
 
     /**
-     * Saves the bet.
-     * @param user the bet to save
+     * Saves the user's info.
+     * @param username the username of the user
+     * @return the user associated with that username
      */
-    void save(User user);
-    // need to implement bet entity
+    User get(String username);
 }
