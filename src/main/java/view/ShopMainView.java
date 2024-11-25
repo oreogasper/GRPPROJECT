@@ -43,8 +43,6 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         wheel.addActionListener(evt -> shopController.switchToShopWheelView());
         button.addActionListener(evt -> shopController.switchToShopButtonView());
 
-        // back.addActionListener(evt -> shopController.switchToMenuView());
-
         // Bottom panel for username and balance
         username = new JLabel("unknown username");
         balance = new JLabel("unknown balance");

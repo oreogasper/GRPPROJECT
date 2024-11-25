@@ -3,10 +3,9 @@ package interface_adapter.gamemenu;
 import use_case.gamemenu.GameMenuInputBoundary;
 
 /**
- * The controller for the Game Menu Use Case.
+ * Controller for the Game Menu Use Case.
  */
 public class GameMenuController {
-
     private final GameMenuInputBoundary userGameMenuUseCaseInteractor;
 
     public GameMenuController(GameMenuInputBoundary gameMenuUseCaseInteractor) {
@@ -32,5 +31,4 @@ public class GameMenuController {
     public void switchToOverUnderView() {
         userGameMenuUseCaseInteractor.switchToOverUnderView();
     }
-
 }

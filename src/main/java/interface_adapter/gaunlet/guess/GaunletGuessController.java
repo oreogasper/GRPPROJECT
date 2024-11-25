@@ -8,7 +8,6 @@ import use_case.gaunlet.guess.GaunletGuessInputData;
  * Controller for the Gaunlet Guess Use Case.
  */
 public class GaunletGuessController {
-
     private final GaunletGuessInputBoundary userGaunletGuessUseCaseInteractor;
 
     public GaunletGuessController(GaunletGuessInputBoundary userGaunletGuessUseCaseInteractor) {
@@ -17,13 +16,15 @@ public class GaunletGuessController {
 
     /**
      * Executes the Signup Use Case.
+     *
      * @param coinGuess the coin flip guess
      * @param diceGuess the roll flip guess
-     * @param rpsGuess the rps guess
+     * @param rpsGuess  the rps guess
      */
     public void execute(String coinGuess, String diceGuess, String rpsGuess) {
         final GaunletGuessInputData gaunletGuessInputData = new GaunletGuessInputData(
-                coinGuess, diceGuess, rpsGuess);
+                coinGuess, diceGuess, rpsGuess
+        );
 
         userGaunletGuessUseCaseInteractor.execute(gaunletGuessInputData);
     }
