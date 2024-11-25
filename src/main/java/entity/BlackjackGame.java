@@ -39,11 +39,38 @@ public class BlackjackGame implements Game{
     }
 
     private int cardsScore(List<AbstractCard> cards) {
-        int score = 0;
+        List<Integer> scores = new ArrayList<Integer>();
+        scores.add(0);
+
         for (AbstractCard card : cards) {
-            score += card.getRank();
+            if (card.getName().equals("A")) {
+                List<Integer> heavyScores = new ArrayList<>(scores);
+                for (Integer score : heavyScores) {
+                    score += 10;
+                }
+
+                for (Integer score : scores) {
+                    score += 1;
+                }
+
+                scores.addAll(heavyScores);
+
+
+            } else {
+                for (Integer score : scores) {
+                    score += card.getRank();
+                }
+            }
+
         }
-        return score;
+
+        int bestScore = 0;
+        for (Integer score : scores) {
+            if (score <= 21 && score > bestScore) {
+                bestScore = score;
+            }
+        }
+        return bestScore;
     }
 
     public void setDeckId(String deckId) {
@@ -71,7 +98,7 @@ public class BlackjackGame implements Game{
         return totalScore > 21;
     }
 
-    public boolean isWin(List<AbstractCard> cards) {
+    public boolean isBlackjack(List<AbstractCard> cards) {
         int totalScore = this.cardsScore(cards);
         return totalScore == 21;
     }
