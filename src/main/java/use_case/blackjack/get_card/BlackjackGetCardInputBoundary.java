@@ -15,6 +15,6 @@ public interface BlackjackGetCardInputBoundary {
     /**
      * Executes the switch to login use case.
      */
-    void switchToLoginView();
+    void switchToGameMenuView();
 
 }
