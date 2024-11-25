@@ -1,0 +1,20 @@
+Welcome to the GAUNTLET GAME
+
+Goal of the game:
+Correctly guess the outcome of three subgames (must guess all three to win)
+-Coin Flippity (50% odds)
+-Dice Rollnation (~17% odds)
+-Rock, paper, & scissors 3000 (33% odds)
+
+How to play:
+1. After clicking "PLAY GAUNTLET", you will be directed to enter a bet amount
+    -This amount will be deducted from your balance if you lose the game
+    -This amount will be added to your balance plus a game bonus if you win
+**Note on bet requirements: must bet at least 10 tokens to enter the game, BET CANNOT EXCEED YOUR CURRENT BALANCE
+
+2. Upon clicking "continue", you will be directed to enter your guesses for each subgame
+WARNING: once you continue to the game you will not be able to edit your bet or exit the game
+
+3. Enter your guesses and click "get results"
+
+HAPPY GAMBLING and GOOD LUCK (you'll need it)
