@@ -1,7 +1,5 @@
 package use_case.shop;
 
-import use_case.shop.ShopInputData;
-
 /**
  * Input Boundary for actions which are related to the Shop main menu.
  */

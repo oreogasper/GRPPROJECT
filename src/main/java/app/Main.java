@@ -38,11 +38,13 @@ public class Main {
                                             .addShopMainView()
                                             .addShopButtonView()
                                             .addShopWheelView()
+                                            .addLeaderboardView()
                                             .addGameMenuUseCase()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addGaunletBetUseCase()
                                             .addLoginUseCase()
+                                            .addAddFriendUseCase()
                                             .addStatisticsUseCase()
                                             .addChangePasswordUseCase()
                                             .addLogoutUseCase()
@@ -54,6 +56,7 @@ public class Main {
                                             .addShopUseCase()
                                             .addShopButtonUseCase()
                                             .addShopWheelUseCase()
+                                            .addLeaderboardUseCase()
                                             .build();
 
         application.pack();

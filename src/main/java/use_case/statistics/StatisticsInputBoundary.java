@@ -8,8 +8,10 @@ public interface StatisticsInputBoundary {
     /**
      * Executes the switch to LEADERBOARD view use case.
      */
-    // TODO: change to leaderboard view when implemented
-    void switchToWelcomeView();
+    void switchToLeaderboardView();
 
+    /**
+     * Executes the switch to MENU view use case.
+     */
     void switchToMenuView();
 }

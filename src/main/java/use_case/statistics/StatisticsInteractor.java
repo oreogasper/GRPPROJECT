@@ -10,10 +10,9 @@ public class StatisticsInteractor implements StatisticsInputBoundary {
         this.userPresenter = statisticsOutputBoundary;
     }
 
-    // TODO: change to leaderboard view when implemented
     @Override
-    public void switchToWelcomeView() {
-        userPresenter.switchToWelcomeView();
+    public void switchToLeaderboardView() {
+        userPresenter.switchToLeaderboardView();
     }
 
     @Override

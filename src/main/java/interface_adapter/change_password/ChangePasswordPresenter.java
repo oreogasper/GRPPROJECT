@@ -1,6 +1,6 @@
-package interface_adapter.statistics;
+package interface_adapter.change_password;
 
-import interface_adapter.change_password.LoggedInViewModel;
+import interface_adapter.statistics.StatisticsViewModel;
 import use_case.change_password.ChangePasswordOutputBoundary;
 import use_case.change_password.ChangePasswordOutputData;
 

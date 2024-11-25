@@ -71,12 +71,13 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
             final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
             userDataAccessObject.saveNew(user, json);
         }
+        else {
+            json.put("losses", userr.getLosses() + 1);
+            json.put("games", userr.getGames() + 1);
 
-        json.put("losses", userr.getLosses() + 1);
-        json.put("games", userr.getGames() + 1);
-
-        final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
-        userDataAccessObject.saveNew(user, json);
+            final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
+            userDataAccessObject.saveNew(user, json);
+        }
 
         // Create output data and show result
         final GaunletGuessOutputData gaunletGuessOutputData = new GaunletGuessOutputData(

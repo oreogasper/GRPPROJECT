@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import use_case.add_friend.AddFriendUserDataAccessInterface;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.gaunlet.bet.GaunletBetDataAccessInterface;
 import use_case.gaunlet.guess.GaunletGuessUserDataAccessInterface;
@@ -29,7 +30,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LogoutUserDataAccessInterface,
         ShopUserDataAccessInterface,
         GaunletBetDataAccessInterface,
-        GaunletGuessUserDataAccessInterface {
+        GaunletGuessUserDataAccessInterface,
+        AddFriendUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";
@@ -47,6 +49,12 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         this.userFactory = userFactory;
         // No need to do anything to reinitialize a user list! The data is the cloud that may be miles away.
         currentBet = 0;
+    }
+
+    // TODO:
+    @Override
+    public void addFriend(User user) {
+
     }
 
     /**

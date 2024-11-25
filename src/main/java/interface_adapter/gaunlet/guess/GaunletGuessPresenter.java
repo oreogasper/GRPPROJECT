@@ -42,16 +42,18 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
 
         final boolean gameOutcome = response.isWon();
         final User user = gaunletGuessState.getUser();
+        final int newBal = (gaunletGuessState.getUser().getBet() + gaunletGuessState.getUser().getBalance())
+                * RATE_BONUS;
         if (gameOutcome) {
             user.updateBalance((user.getBalance() + user.getBet()) * RATE_BONUS);
             user.wonGame();
             JOptionPane.showMessageDialog(null,
-                    "Congratulations! You won the Gauntlet game! Reward =" + user.getBet());
+                    "Congratulations! You won the Gauntlet game! Your balance =" + newBal);
         }
         else {
             user.updateBalance(-user.getBet());
             user.lostGame();
-            final int newBalance = user.getBalance() - user.getBet();
+            final int newBalance = gaunletGuessState.getUser().getBalance() - gaunletGuessState.getUser().getBet();
             System.out.println(newBalance);
             JOptionPane.showMessageDialog(null,
                     "Sorry, you lost the Gauntlet game. Better luck next time! "

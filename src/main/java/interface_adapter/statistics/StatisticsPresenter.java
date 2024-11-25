@@ -1,6 +1,8 @@
 package interface_adapter.statistics;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.leaderboard.LeaderboardState;
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
@@ -8,24 +10,24 @@ import interface_adapter.welcome.WelcomeViewModel;
 import use_case.statistics.StatisticsOutputBoundary;
 
 /**
- * The Presenter for the Signup Use Case.
+ * The Presenter for the Statistics Use Case.
  */
 public class StatisticsPresenter implements StatisticsOutputBoundary {
 
     private final StatisticsViewModel statisticsViewModel;
-    private final LoginViewModel loginViewModel;
+    private final LeaderboardViewModel leaderboardViewModel;
     private final WelcomeViewModel welcomeViewModel;
     private final ViewManagerModel viewManagerModel;
     private final MenuViewModel menuViewModel;
 
     public StatisticsPresenter(ViewManagerModel viewManagerModel,
                                StatisticsViewModel statisticsViewModel,
-                               LoginViewModel loginViewModel,
+                               LeaderboardViewModel leaderboardViewModel,
                                WelcomeViewModel welcomeViewModel,
                                MenuViewModel menuViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.statisticsViewModel = statisticsViewModel;
-        this.loginViewModel = loginViewModel;
+        this.leaderboardViewModel = leaderboardViewModel;
         this.welcomeViewModel = welcomeViewModel;
         this.menuViewModel = menuViewModel;
     }
@@ -39,8 +41,13 @@ public class StatisticsPresenter implements StatisticsOutputBoundary {
     }
 
     @Override
-    public void switchToWelcomeView() {
-        viewManagerModel.setState(welcomeViewModel.getViewName());
+    public void switchToLeaderboardView() {
+        final LeaderboardState leaderboardState = leaderboardViewModel.getState();
+        leaderboardState.setUser(statisticsViewModel.getState().getUser());
+        this.leaderboardViewModel.setState(leaderboardState);
+        this.leaderboardViewModel.firePropertyChanged();
+
+        viewManagerModel.setState(leaderboardViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
 

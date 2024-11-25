@@ -1,7 +1,5 @@
 package use_case.shop;
 
-import org.json.JSONObject;
-
 /**
  * The Input Data for the Shop Use Case.
  */

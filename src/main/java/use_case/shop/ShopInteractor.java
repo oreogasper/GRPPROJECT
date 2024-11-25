@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import entity.User;
 import entity.UserFactory;
 
+import java.util.ArrayList;
+
 /**
  * The Shop main menu Interactor.
  */
@@ -23,10 +25,13 @@ public class ShopInteractor implements ShopInputBoundary {
 
     @Override
     public void execute(ShopInputData shopInputData, Integer changedAmount) {
+        System.out.println("Shop interactor changed amt: " + changedAmount);
 
         final User userr = userDataAccessObject.get(shopInputData.getUsername());
         final JSONObject json = userr.getInfo();
         json.put("balance", changedAmount);
+        /* final ArrayList<User> list = new ArrayList<>();
+        json.put("friends", list);*/
         final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
         userDataAccessObject.saveNew(user, json);
 
