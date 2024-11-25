@@ -1,17 +1,21 @@
 package use_case.gaunlet.guess;
 
-import entity.*;
 import org.json.JSONObject;
+
+import entity.GaunletGame;
+import entity.GaunletGameFactory;
+import entity.User;
+import entity.UserFactory;
 
 /**
  * The Gaunlet Guess Interactor.
  */
 public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
+    private static final int BONUS_RATE = 36;
     private final GaunletGuessOutputBoundary userPresenter;
     private final GaunletGameFactory game;
     private final GaunletGuessUserDataAccessInterface userDataAccessObject;
     private final UserFactory userFactory;
-    private final int BONUS_RATE = 36;
 
     public GaunletGuessInteractor(
             GaunletGuessOutputBoundary gaunletGuessOutputBoundary,
@@ -35,7 +39,7 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
             userPresenter.prepareFailView("Invalid coin guess. Please enter 'Heads' or 'Tails'.");
         }
         try {
-            int dice = isValidDiceGuess(diceGuess);
+            final int dice = isValidDiceGuess(diceGuess);
         }
         catch (IllegalArgumentException e) {
             userPresenter.prepareFailView(e.getMessage());
@@ -61,9 +65,18 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
         if (isWin) {
             // balance x36 + bet amount
             json.put("balance", newBalance);
+            json.put("wins", userr.getWins() + 1);
+            json.put("games", userr.getGames() + 1);
+
             final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
             userDataAccessObject.saveNew(user, json);
         }
+
+        json.put("losses", userr.getLosses() + 1);
+        json.put("games", userr.getGames() + 1);
+
+        final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
+        userDataAccessObject.saveNew(user, json);
 
         // Create output data and show result
         final GaunletGuessOutputData gaunletGuessOutputData = new GaunletGuessOutputData(
