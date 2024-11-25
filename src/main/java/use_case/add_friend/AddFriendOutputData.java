@@ -1,24 +1,27 @@
 package use_case.add_friend;
 
+import entity.User;
+
+import java.util.ArrayList;
+
 /**
  * Output Data for the Add Friend Use Case.
  */
 public class AddFriendOutputData {
-
-    private final String username;
+    private User friend;
 
     private final boolean useCaseFailed;
 
-    public AddFriendOutputData(String username, boolean useCaseFailed) {
-        this.username = username;
+    public AddFriendOutputData(User friend, boolean useCaseFailed) {
+        this.friend = friend;
         this.useCaseFailed = useCaseFailed;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public boolean isUseCaseFailed() {
         return useCaseFailed;
+    }
+
+    public User getFriend() {
+        return friend;
     }
 }

@@ -54,6 +54,12 @@ public class CommonUser implements User {
         return currBet;
     }
 
+    @Override
+    public void setFriend(String friend) {
+
+
+    }
+
     public JSONObject getInfo() {
         return info;
     }

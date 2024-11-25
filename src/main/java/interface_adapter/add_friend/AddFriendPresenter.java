@@ -1,6 +1,10 @@
 package interface_adapter.add_friend;
 
-import interface_adapter.statistics.StatisticsViewModel;
+import entity.User;
+import interface_adapter.gamemenu.GameMenuState;
+import interface_adapter.gaunlet.guess.GaunletGuessState;
+import interface_adapter.leaderboard.LeaderboardState;
+import interface_adapter.leaderboard.LeaderboardViewModel;
 import use_case.add_friend.AddFriendOutputBoundary;
 import use_case.add_friend.AddFriendOutputData;
 
@@ -9,15 +13,21 @@ import use_case.add_friend.AddFriendOutputData;
  */
 public class AddFriendPresenter implements AddFriendOutputBoundary {
 
-    private final StatisticsViewModel statisticsViewModel;
+    private final LeaderboardViewModel leaderboardViewModel;
 
-    public AddFriendPresenter(StatisticsViewModel statisticsViewModel) {
-        this.statisticsViewModel = statisticsViewModel;
+    public AddFriendPresenter(LeaderboardViewModel leaderboardViewModel) {
+        this.leaderboardViewModel = leaderboardViewModel;
     }
 
     @Override
     public void prepareSuccessView(AddFriendOutputData outputData) {
-        statisticsViewModel.firePropertyChanged("friend");
+        // On success, switch to the gauntlet guess view when implemented
+        final LeaderboardState leaderboardState = leaderboardViewModel.getState();
+        final User currentUser = leaderboardState.getUser();
+        leaderboardState.setUser(outputData.getFriend());
+        leaderboardViewModel.firePropertyChanged("friend");
+        leaderboardState.setUser(currentUser);
+        leaderboardViewModel.firePropertyChanged("return");
 
     }
 

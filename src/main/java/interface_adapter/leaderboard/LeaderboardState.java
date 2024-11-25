@@ -3,10 +3,11 @@ package interface_adapter.leaderboard;
 import entity.User;
 
 /**
- * The state for the Signup View Model.
+ * The state for the Leaderboard View Model.
  */
 public class LeaderboardState {
     private User user;
+    private String friend;
 
     public void setUser(User user) {
         this.user = user;
@@ -34,10 +35,10 @@ public class LeaderboardState {
 
     /**
      * Sets password for the current user in the state.
-     * @param password the password for the current user
+     * @param friend the password for the current user
      */
-    public void setPassword(String password) {
-        user.setPassword(password);
+    public void setFriend(String friend) {
+        this.friend = friend;
     }
 
     @Override
@@ -49,5 +50,9 @@ public class LeaderboardState {
                 + ", games='" + user.getGames() + '\''
                 + ", balance='" + user.getBalance() + '\''
                 + '}';
+    }
+
+    public String getFriend() {
+        return friend;
     }
 }

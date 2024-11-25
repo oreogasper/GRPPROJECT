@@ -500,7 +500,7 @@ public class AppBuilder {
      */
     public AppBuilder addAddFriendUseCase() {
         final AddFriendOutputBoundary addFriendOutputBoundary =
-                new AddFriendPresenter(statisticsViewModel);
+                new AddFriendPresenter(leaderboardViewModel);
 
         final AddFriendInputBoundary addFriendInteractor =
                 new AddFriendInteractor(userDataAccessObject, addFriendOutputBoundary, userFactory);

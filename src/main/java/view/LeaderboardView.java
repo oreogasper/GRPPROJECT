@@ -24,6 +24,8 @@ import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardState;
 import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.statistics.StatisticsState;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * The View for the Leaderboard Use Case.
@@ -65,8 +67,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
                     if (evt.getSource().equals(addFriend)) {
                         final LeaderboardState currentState = leaderboardViewModel.getState();
                         this.addFriendController.execute(
+                                currentState.getFriend(),
                                 currentState.getUsername(),
-                                currentState.getPassword(),
                                 currentState.getUser().getInfo());
                     }
                 }
@@ -82,11 +84,6 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         final String[] columnNames = {"Username", "Balance", "Wins", "Losses", "Win %", "Games"};
         final String[][] initialData = {
                 {},
-                {"Friend 1"},
-                {"Friend 2"},
-                {"Friend 3"},
-                {"Friend 4"},
-                {"Friend 5"},
         };
         tableModel = new DefaultTableModel(initialData, columnNames) {
             @Override
@@ -106,7 +103,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
             private void documentListenerHelper() {
                 final LeaderboardState currentState = leaderboardViewModel.getState();
-                currentState.setPassword(friendInputField.getText());
+                currentState.setFriend(friendInputField.getText());
                 leaderboardViewModel.setState(currentState);
             }
 
@@ -164,19 +161,90 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), 0, WINP_COL);
             tableModel.setValueAt(String.valueOf(user.getGames()), 0, GAMES_COL);
 
+            final JSONObject json = user.getInfo();
+            final JSONArray list = json.getJSONArray("friends");
+
+            for (int i = 0; i < list.length(); i++) {
+                final String userString = list.get(i).toString();
+                System.out.println("USERS: " + userString);
+
+                // Extract data from the string
+                if (userString.startsWith("This user {") && userString.endsWith("}")) {
+                    // Remove the prefix and suffix
+                    final String content = userString.substring("This user {".length(), userString.length() - 1);
+
+                    // Split the key-value pairs
+                    final String[] keyValuePairs = content.split(", ");
+                    String username = "";
+                    int balance = 0;
+                    int wins = 0, losses = 0, games = 0;
+
+                    // Extract values
+                    for (String pair : keyValuePairs) {
+                        final String[] keyValue = pair.split("=");
+                        final String key = keyValue[0].trim();
+                        final String value = keyValue[1].replace("'", "").trim();
+
+                        switch (key) {
+                            case "username":
+                                username = value;
+                                break;
+                            case "balance":
+                                balance = Integer.parseInt(value);
+                                break;
+                            case "wins":
+                                wins = Integer.parseInt(value);
+                                break;
+                            case "losses":
+                                losses = Integer.parseInt(value);
+                                break;
+                            case "games":
+                                games = Integer.parseInt(value);
+                                break;
+                        }
+                    }
+
+                    // Calculate win percentage
+                    final double winPercentage = (games > 0) ? (double) wins / games : 0;
+
+                    // Add a row to the table
+                    final Object[] newRow = {username,
+                            String.valueOf(balance),
+                            String.valueOf(wins),
+                            String.valueOf(losses),
+                            String.format("%.2f", winPercentage),
+                            String.valueOf(games),
+                    };
+                    tableModel.addRow(newRow);
+                }
+                else {
+                    System.err.println("Invalid user string format: " + userString);
+                }
+            }
+
         }
 
         else if (evt.getPropertyName().equals("friend")) {
             final LeaderboardState state = (LeaderboardState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "added friend " + state.getUsername());
+            JOptionPane.showMessageDialog(null, "added friend " + state.getFriend());
+            System.out.println("SWITCHED TO FRIEND: " + state.getUsername());
 
             final User user = state.getUser();
-            tableModel.setValueAt(state.getUsername(), 1, 0);
-            tableModel.setValueAt(String.valueOf(user.getBalance()), 1, 1);
-            tableModel.setValueAt(String.valueOf(user.getWins()), 1, 2);
-            tableModel.setValueAt(String.valueOf(user.getLosses()), 1, LOSS_COL);
-            tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), 1, WINP_COL);
-            tableModel.setValueAt(String.valueOf(user.getGames()), 1, GAMES_COL);
+            final Object[] newRow = {
+                    state.getUsername(),
+                    String.valueOf(user.getBalance()),
+                    String.valueOf(user.getWins()),
+                    String.valueOf(user.getLosses()),
+                    String.valueOf(user.getWins() / (user.getGames() + 1)),
+                    String.valueOf(user.getGames()),
+            };
+
+            // Dynamically add the new row to the table
+            tableModel.addRow(newRow);
+        }
+        else if (evt.getPropertyName().equals("return")) {
+            final LeaderboardState state = (LeaderboardState) evt.getNewValue();
+            System.out.println("SWITCHED TO RETURN: " + state.getUsername());
         }
 
     }

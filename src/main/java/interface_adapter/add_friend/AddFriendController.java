@@ -17,12 +17,12 @@ public class AddFriendController {
 
     /**
      * Executes the Add Friend Use Case.
-     * @param password the new password
+     * @param friend the new friend
      * @param username the user whose password to change
      * @param info the user's info
      */
-    public void execute(String password, String username, JSONObject info) {
-        final AddFriendInputData addFriendInputData = new AddFriendInputData(username, password, info);
+    public void execute(String friend, String username, JSONObject info) {
+        final AddFriendInputData addFriendInputData = new AddFriendInputData(friend, username, info);
 
         userAddFriendUseCaseInteractor.execute(addFriendInputData);
     }

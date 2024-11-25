@@ -7,18 +7,14 @@ import org.json.JSONObject;
  */
 public class AddFriendInputData {
 
-    private final String password;
+    private final String friend;
     private final String username;
     private final JSONObject info;
 
-    public AddFriendInputData(String password, String username, JSONObject info) {
-        this.password = password;
+    public AddFriendInputData(String friend, String username, JSONObject info) {
+        this.friend = friend;
         this.username = username;
         this.info = info;
-    }
-
-    String getPassword() {
-        return password;
     }
 
     String getUsername() {
@@ -27,5 +23,9 @@ public class AddFriendInputData {
 
     public JSONObject getInfo() {
         return info;
+    }
+
+    public String getFriend() {
+        return friend;
     }
 }
