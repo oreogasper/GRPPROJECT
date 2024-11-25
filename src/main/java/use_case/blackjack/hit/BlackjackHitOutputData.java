@@ -8,13 +8,13 @@ import java.awt.Image;
 public class BlackjackHitOutputData {
     private final Image cardImage;
     private final boolean bust;
-    private final boolean win;
+    private final boolean blackjack;
     private final boolean useCaseFailed;
 
-    public BlackjackHitOutputData(Image cardImage, boolean bust, boolean win, boolean useCaseFailed) {
+    public BlackjackHitOutputData(Image cardImage, boolean bust, boolean blackjack, boolean useCaseFailed) {
         this.cardImage = cardImage;
         this.bust = bust;
-        this.win = win;
+        this.blackjack = blackjack;
         this.useCaseFailed = useCaseFailed;
     }
 
@@ -22,8 +22,8 @@ public class BlackjackHitOutputData {
         return bust;
     }
 
-    public boolean isWin() {
-        return win;
+    public boolean isBlackjackn() {
+        return blackjack;
     }
 
     public Image getCardImage() {
