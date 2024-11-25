@@ -14,13 +14,6 @@ public class MenuController {
     }
 
     /**
-     * Switches back to the welcome view, the signup/login screen.
-     */
-    public void switchToWelcomeView() {
-        userMenuUseCaseInteractor.switchToWelcomeView();
-    }
-
-    /**
      * Switches to the stats screen.
      */
     public void switchToStatisticsView() {

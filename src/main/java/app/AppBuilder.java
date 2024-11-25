@@ -397,7 +397,7 @@ public class AppBuilder {
      */
     public AppBuilder addMenuUseCase() {
         final MenuOutputBoundary menuOutputBoundary = new MenuPresenter(viewManagerModel,
-                welcomeViewModel, statisticsViewModel, gameMenuViewModel, shopMainViewModel, menuViewModel);
+                statisticsViewModel, gameMenuViewModel, shopMainViewModel, menuViewModel);
         final MenuInputBoundary userMenuInteractor = new MenuInteractor(
                 menuOutputBoundary);
 
