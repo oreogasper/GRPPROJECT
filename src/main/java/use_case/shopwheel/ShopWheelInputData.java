@@ -1,7 +1,7 @@
 package use_case.shopwheel;
 
 /**
- * The Input Data for the Shop Use Case.
+ * The Input Data for the ShopWheel Use Case.
  */
 
 public class ShopWheelInputData {

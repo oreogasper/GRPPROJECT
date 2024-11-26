@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import entity.User;
 
 /**
- * DAO for the Signup Use Case.
+ * DAO for the ShopWheel Use Case.
  */
 public interface ShopWheelUserDataAccessInterface {
     /**

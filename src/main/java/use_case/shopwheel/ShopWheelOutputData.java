@@ -3,7 +3,7 @@ package use_case.shopwheel;
 import org.json.JSONObject;
 
 /**
- * Output Data for the Signup Use Case.
+ * Output Data for the ShopWheel Use Case.
  */
 public class ShopWheelOutputData {
     private final String username;

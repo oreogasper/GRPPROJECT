@@ -532,8 +532,7 @@ public class AppBuilder {
     public AppBuilder addShopUseCase() {
         final ShopOutputBoundary shopOutputBoundary = new ShopPresenter(viewManagerModel,
                 shopWheelViewModel, menuViewModel, shopButtonViewModel, shopMainViewModel);
-        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary,
-                userDataAccessObject, userFactory);
+        final ShopInputBoundary userShopInteractor = new ShopInteractor(shopOutputBoundary);
 
         final ShopController shopController = new ShopController(userShopInteractor);
         shopMainView.setShopController(shopController);
@@ -562,7 +561,8 @@ public class AppBuilder {
     public AppBuilder addShopButtonUseCase() {
         final ShopButtonOutputBoundary shopButtonOutputBoundary = new ShopButtonPresenter(viewManagerModel,
                 shopMainViewModel, shopButtonViewModel);
-        final ShopButtonInputBoundary userShopButtonInteractor = new ShopButtonInteractor(shopButtonOutputBoundary);
+        final ShopButtonInputBoundary userShopButtonInteractor = new ShopButtonInteractor(shopButtonOutputBoundary,
+                userDataAccessObject, userFactory);
 
         final ShopButtonController shopButtonController = new ShopButtonController(userShopButtonInteractor);
         shopButtonView.setShopButtonController(shopButtonController);

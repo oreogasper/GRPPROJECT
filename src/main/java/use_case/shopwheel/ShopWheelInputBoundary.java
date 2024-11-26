@@ -1,7 +1,7 @@
 package use_case.shopwheel;
 
 /**
- * Input Boundary for actions which are related to the Shop button screen.
+ * Input Boundary for actions which are related to the ShopWheel button screen.
  */
 public interface ShopWheelInputBoundary {
 
