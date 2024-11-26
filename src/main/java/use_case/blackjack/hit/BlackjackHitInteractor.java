@@ -30,9 +30,8 @@ public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
 
         blackjackGame.addPlayerCard(card);
 
-        boolean bust = blackjackGame.isBust(blackjackGame.getPlayerCards());
-        boolean blackjack = blackjackGame.isBlackjack(blackjackGame.getPlayerCards());
-
+        final boolean bust = blackjackGame.isBust(blackjackGame.getPlayerCards());
+        final boolean blackjack = blackjackGame.isBlackjack(blackjackGame.getPlayerCards());
 
         final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card.getImage(), bust, blackjack, false);
 
