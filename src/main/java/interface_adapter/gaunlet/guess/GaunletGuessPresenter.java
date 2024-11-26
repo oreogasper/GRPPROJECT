@@ -8,7 +8,6 @@ import interface_adapter.gamemenu.GameMenuState;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
-import interface_adapter.signup.SignupViewModel;
 import use_case.gaunlet.guess.GaunletGuessOutputBoundary;
 import use_case.gaunlet.guess.GaunletGuessOutputData;
 
@@ -21,7 +20,6 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final GameMenuViewModel gameMenuViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final int RATEBONUS = 36;
 
     public GaunletGuessPresenter(ViewManagerModel viewManagerModel,
                                  MenuViewModel menuViewModel,
@@ -42,10 +40,13 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
 
         final boolean gameOutcome = response.isWon();
         final User user = gaunletGuessState.getUser();
+        final int rateBonus = 36;
         final int newBal = (gaunletGuessState.getUser().getBet() + gaunletGuessState.getUser().getBalance())
-                * RATEBONUS;
+                * rateBonus;
+
+        // Prepare to show user game outcome and show user updated stats
         if (gameOutcome) {
-            user.updateBalance((user.getBalance() + user.getBet()) * RATEBONUS);
+            user.updateBalance((user.getBalance() + user.getBet()) * rateBonus);
             user.wonGame();
             JOptionPane.showMessageDialog(null,
                     "Congratulations! You won the Gauntlet game! Your balance =" + newBal);
@@ -60,9 +61,9 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
                             + "Your balance =" + user.getBalance());
         }
 
-        gaunletGuessState.setCoinGuess(response.getCoinFlip());
-        gaunletGuessState.setDiceGuess(response.getDice());
-        gaunletGuessState.setRpsGuess(response.getRps());
+        gaunletGuessState.setCoinGuess("");
+        gaunletGuessState.setDiceGuess("");
+        gaunletGuessState.setRpsGuess("");
 
         this.gaunletGuessViewModel.setState(gaunletGuessState);
         gaunletGuessViewModel.firePropertyChanged();
@@ -91,4 +92,5 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
         viewManagerModel.setState(gameMenuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
 }

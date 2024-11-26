@@ -31,4 +31,9 @@ public interface GaunletBetOutputBoundary {
      * Saves current bet for user.
      */
     void setUserBet();
+
+    /**
+     * Resets input field when invalid input occurs.
+     */
+    void resetInputField();
 }

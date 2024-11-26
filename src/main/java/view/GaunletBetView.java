@@ -67,25 +67,13 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                         if (evt.getSource().equals(continueToGame)) {
                             final GaunletBetState currentState = gaunletBetViewModel.getState();
                             final String betInput = betInputField.getText().trim();
-                            if (betInput.isEmpty()) {
-                                JOptionPane.showMessageDialog(null, "Please enter a bet amount.");
-                            }
-
-                            // check that bet is number value
-                            try {
-                                final int betVal = Integer.parseInt(betInput);
-
-                                currentState.setBet(betVal);
-                                gaunletBetViewModel.setState(currentState);
-                                gaunletBetController.execute(
-                                        currentState.getUser().getName(),
-                                        currentState.getBet()
-                                );
-                            }
-                            catch (NumberFormatException ext) {
-                                System.out.println("Bet input: '" + betInput + "'");
-                                JOptionPane.showMessageDialog(null, "Please enter a valid numeric bet amount.");
-                            }
+                            final int betVal = Integer.parseInt(betInput);
+                            currentState.setBet(betVal);
+                            gaunletBetViewModel.setState(currentState);
+                            gaunletBetController.execute(
+                                    currentState.getUser().getName(),
+                                    currentState.getBet()
+                            );
                         }
                     }
                 }
@@ -111,6 +99,10 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
         setFields(state);
         if (state.getBetError() != null) {
             JOptionPane.showMessageDialog(this, state.getBetError());
+            betInputField.setText("");
+        }
+        else {
+            JOptionPane.getRootFrame().dispose();
         }
         username.setText("Currently logged in: " + state.getUser().getName());
         balance.setText("Current balance: " + state.getUser().getBalance());
