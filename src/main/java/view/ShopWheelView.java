@@ -55,7 +55,7 @@ public class ShopWheelView extends JPanel {
                 final long lastSpin = shopWheelViewModel.getState().getUser().getLastSpin();
                 wheelController.spinWheelRequest(lastSpin, shopWheelViewModel);
                 if (shopWheelViewModel.getState().getWasSpun()) {
-                    startCountdown(lastSpin, shopWheelViewModel);
+                    startCountdown(shopWheelViewModel);
                     shopWheelViewModel.getState().setWasSpun(false);
                 }
             }
@@ -95,7 +95,7 @@ public class ShopWheelView extends JPanel {
                     username.setText("Currently logged in: " + updatedName);
                     balance.setText("Current balance: " + updatedBalance);
                     if (countdownTimer == null || !countdownTimer.isRunning()) {
-                        startCountdown(updatedState.getUser().getLastSpin(), shopWheelViewModel);
+                        startCountdown(shopWheelViewModel);
                     }
                 }
             }
@@ -110,7 +110,15 @@ public class ShopWheelView extends JPanel {
         leftBottomPanel.add(balance);
 
         final JButton back = new JButton(ShopViewModel.BACK_BUTTON_LABEL);
-        back.addActionListener(evt -> wheelController.switchToShopView());
+        back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                wheelController.switchToShopView();
+                wheelController.saveData(shopWheelViewModel.getState().getUser().getName(),
+                        shopWheelViewModel.getState().getUser().getPassword(),
+                        shopWheelViewModel.getState().getUser().getBalance(),
+                        shopWheelViewModel.getState().getUser().getLastSpin());
+            }
+        });
         final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightBottomPanel.add(back);
 
@@ -133,8 +141,10 @@ public class ShopWheelView extends JPanel {
         this.wheelController = shopWheelController;
     }
 
-    private void startCountdown(long lastSpin, ShopWheelViewModel shopWheelViewModel) {
+    private void startCountdown(ShopWheelViewModel shopWheelViewModel) {
         final int countdownDelay = 1000;
+        System.out.println("User last spin at: " + shopWheelViewModel.getState().getUser().getLastSpin());
+        System.out.println("Current time: " + System.currentTimeMillis());
         if (countdownTimer != null && countdownTimer.isRunning()) {
             countdownTimer.stop();
         }
@@ -145,7 +155,7 @@ public class ShopWheelView extends JPanel {
                 final long currentTime = System.currentTimeMillis();
                 final long remainingSeconds = shopWheelViewModel.getState().getWaitRequirement()
                         - TimeUnit.MILLISECONDS.toSeconds(currentTime)
-                        + TimeUnit.MILLISECONDS.toSeconds(lastSpin);
+                        + TimeUnit.MILLISECONDS.toSeconds(shopWheelViewModel.getState().getUser().getLastSpin());
 
                 if (remainingSeconds <= 0) {
                     countdown.setText("Spin is ready!");

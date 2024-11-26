@@ -576,7 +576,8 @@ public class AppBuilder {
     public AppBuilder addShopWheelUseCase() {
         final ShopWheelOutputBoundary shopWheelOutputBoundary = new ShopWheelPresenter(viewManagerModel,
                 shopMainViewModel, shopWheelViewModel);
-        final ShopWheelInputBoundary userShopWheelInteractor = new ShopWheelInteractor(shopWheelOutputBoundary);
+        final ShopWheelInputBoundary userShopWheelInteractor = new ShopWheelInteractor(shopWheelOutputBoundary,
+                userDataAccessObject, userFactory);
 
         final ShopWheelController shopWheelController = new ShopWheelController(userShopWheelInteractor);
         shopWheelView.setShopWheelController(shopWheelController);

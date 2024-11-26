@@ -1,5 +1,9 @@
 package use_case.shopwheel;
 
+import entity.User;
+import entity.UserFactory;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -10,6 +14,17 @@ import java.util.Random;
 public class ShopWheelInteractor implements ShopWheelInputBoundary {
     private static final int NUM_SEGMENTS = 16;
     private static final Map<Integer, Integer> SEGMENT_TO_PRIZE = new HashMap<>();
+    private final ShopWheelOutputBoundary userPresenter;
+    private final ShopWheelUserDataAccessInterface userDataAccessObject;
+    private final UserFactory userFactory;
+
+    public ShopWheelInteractor(ShopWheelOutputBoundary shopWheelOutputBoundary,
+                               ShopWheelUserDataAccessInterface userDataAccessObject,
+                               UserFactory userFactory) {
+        this.userPresenter = shopWheelOutputBoundary;
+        this.userDataAccessObject = userDataAccessObject;
+        this.userFactory = userFactory;
+    }
 
     static {
         SEGMENT_TO_PRIZE.put(1, 100);
@@ -30,12 +45,6 @@ public class ShopWheelInteractor implements ShopWheelInputBoundary {
         SEGMENT_TO_PRIZE.put(16, 6);
     }
 
-    private final ShopWheelOutputBoundary userPresenter;
-
-    public ShopWheelInteractor(ShopWheelOutputBoundary shopWheelOutputBoundary) {
-        this.userPresenter = shopWheelOutputBoundary;
-    }
-
     @Override
     public void switchToShopView() {
         userPresenter.switchToShopView();
@@ -54,6 +63,17 @@ public class ShopWheelInteractor implements ShopWheelInputBoundary {
     @Override
     public void tooEarly() {
         userPresenter.tooEarly();
+    }
+
+    @Override
+    public void saveData(ShopWheelInputData shopWheelInputData, Integer newBalance, long newLastSpin) {
+        final User infoUser = userDataAccessObject.get(shopWheelInputData.getUsername());
+        final JSONObject json = infoUser.getInfo();
+        json.put("balance", newBalance);
+        json.put("lastSpin", newLastSpin);
+        System.out.println(json);
+        final User updatedUser = userFactory.create(infoUser.getName(), infoUser.getPassword(), json);
+        userDataAccessObject.saveNew(updatedUser, json);
     }
 
 }

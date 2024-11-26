@@ -21,4 +21,6 @@ public interface ShopWheelInputBoundary {
      */
     void tooEarly();
 
+    void saveData(ShopWheelInputData shopWheelInputData, Integer newBalance, long newLastSpin);
+
 }
