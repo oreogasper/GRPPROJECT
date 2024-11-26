@@ -87,7 +87,7 @@ public class OverUnderView extends JPanel {
         try {
             final int betAmount = Integer.parseInt(betField.getText().trim());
             if (betAmount > 10) {
-                controller.placeBet(betAmount);
+                // ontroller.placeBet(betAmount);
                 JOptionPane.showMessageDialog(this, "Bet placed! Proceeding to the game...");
                 controller.startGame();
             } else {

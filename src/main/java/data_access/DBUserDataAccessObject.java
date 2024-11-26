@@ -34,7 +34,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         GaunletGuessUserDataAccessInterface,
         AddFriendUserDataAccessInterface,
         ShopWheelUserDataAccessInterface,
-        ShopButtonUserDataAccessInterface {
+        ShopButtonUserDataAccessInterface,
         RemoveFriendUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";

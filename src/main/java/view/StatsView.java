@@ -172,13 +172,16 @@ public class StatsView extends JPanel implements PropertyChangeListener {
         if (evt.getPropertyName().equals("state")) {
             final StatisticsState state = (StatisticsState) evt.getNewValue();
             final User user = state.getUser();
+            double winP = 0.00;
+            if (user.getGames() > 0) {
+                winP = 1.0 * user.getWins() / user.getGames();
+            }
 
             tableModel.setValueAt(state.getUsername(), 0, 1);
             tableModel.setValueAt(String.valueOf(user.getBalance()), 1, 1);
             tableModel.setValueAt(String.valueOf(user.getWins()), 2, 1);
             tableModel.setValueAt(String.valueOf(user.getLosses()), ROW_THREE, 1);
-            // TODO: when games is 0, add 1
-            tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), ROW_FOUR, 1);
+            tableModel.setValueAt(String.format("%.2f", winP), ROW_FOUR, 1);
             tableModel.setValueAt(String.valueOf(user.getGames()), ROW_FIVE, 1);
 
         }
