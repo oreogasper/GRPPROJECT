@@ -19,7 +19,7 @@ public interface GaunletBetDataAccessInterface {
      * Returns the bet of the current user for the gaunlet game.
      * @return the bet of the current user; null indicates that no one is logged into the application.
      */
-    int getBet();
+    // int getBet();
 
     /**
      * Saves the user's info.

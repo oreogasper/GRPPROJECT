@@ -21,7 +21,6 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
 
     @Override
     public void prepareSuccessView(AddFriendOutputData outputData) {
-        // On success, switch to the gauntlet guess view when implemented
         final LeaderboardState leaderboardState = leaderboardViewModel.getState();
         final User currentUser = leaderboardState.getUser();
         leaderboardState.setUser(outputData.getFriend());

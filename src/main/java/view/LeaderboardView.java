@@ -23,6 +23,7 @@ import interface_adapter.add_friend.AddFriendController;
 import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardState;
 import interface_adapter.leaderboard.LeaderboardViewModel;
+import interface_adapter.remove_friend.RemoveFriendController;
 import interface_adapter.statistics.StatisticsState;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,6 +42,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
     private final LeaderboardViewModel leaderboardViewModel;
     private LeaderboardController leaderboardController;
     private AddFriendController addFriendController;
+    private RemoveFriendController removeFriendController;
+
     private final DefaultTableModel tableModel;
     private final JTable table;
     private final JTextField friendInputField = new JTextField(15);
@@ -82,9 +85,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
         // Initializing table
         final String[] columnNames = {"Username", "Balance", "Wins", "Losses", "Win %", "Games"};
-        final String[][] initialData = {
-                {},
-        };
+        final String[][] initialData = {};
         tableModel = new DefaultTableModel(initialData, columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -128,9 +129,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
                 evt -> {
                     if (evt.getSource().equals(remove)) {
                         final LeaderboardState currentState = leaderboardViewModel.getState();
-                        this.addFriendController.execute(
+                        this.removeFriendController.execute(
                                 currentState.getUsername(),
-                                currentState.getPassword(),
                                 currentState.getUser().getInfo());
                     }
                 }
@@ -151,15 +151,33 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
+            tableModel.setRowCount(0);
             final LeaderboardState state = (LeaderboardState) evt.getNewValue();
             final User user = state.getUser();
 
-            tableModel.setValueAt(state.getUsername(), 0, 0);
-            tableModel.setValueAt(String.valueOf(user.getBalance()), 0, 1);
-            tableModel.setValueAt(String.valueOf(user.getWins()), 0, 2);
-            tableModel.setValueAt(String.valueOf(user.getLosses()), 0, LOSS_COL);
-            tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), 0, WINP_COL);
-            tableModel.setValueAt(String.valueOf(user.getGames()), 0, GAMES_COL);
+            double winP = 0.00;
+            if (user.getGames() > 0) {
+                winP = 1.0 * user.getWins() / user.getGames();
+            }
+            final Object[] newRow = {
+                    state.getUsername(),
+                    String.valueOf(user.getBalance()),
+                    String.valueOf(user.getWins()),
+                    String.valueOf(user.getLosses()),
+                    String.format("%.2f", winP),
+                    String.valueOf(user.getGames()),
+            };
+            // Check if the username is already in the table
+            boolean exists = false;
+            for (int row = 0; row < tableModel.getRowCount(); row++) {
+                if (tableModel.getValueAt(row, 0).equals(state.getUsername())) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                tableModel.addRow(newRow);
+            }
 
             final JSONObject json = user.getInfo();
             final JSONArray list = json.getJSONArray("friends");
@@ -204,42 +222,43 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
                         }
                     }
 
-                    // Calculate win percentage
-                    final double winPercentage = (games > 0) ? (double) wins / games : 0;
+                    if (!exists) {
+                        double winPe = 0.00;
+                        if (games > 0) {
+                            winPe = 1.0 * wins / games;
+                        }
 
-                    // Add a row to the table
-                    final Object[] newRow = {username,
-                            String.valueOf(balance),
-                            String.valueOf(wins),
-                            String.valueOf(losses),
-                            String.format("%.2f", winPercentage),
-                            String.valueOf(games),
-                    };
-                    tableModel.addRow(newRow);
-                }
-                else {
-                    System.err.println("Invalid user string format: " + userString);
+                        final Object[] newRowz = {username,
+                                String.valueOf(balance),
+                                String.valueOf(wins),
+                                String.valueOf(losses),
+                                String.format("%.2f", winPe),
+                                String.valueOf(games),
+                        };
+                        tableModel.addRow(newRowz);
+                    }
                 }
             }
-
         }
 
         else if (evt.getPropertyName().equals("friend")) {
-            final LeaderboardState state = (LeaderboardState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "added friend " + state.getFriend());
-            System.out.println("SWITCHED TO FRIEND: " + state.getUsername());
+            final LeaderboardState statex = (LeaderboardState) evt.getNewValue();
+            JOptionPane.showMessageDialog(null, "added friend " + statex.getFriend());
+            System.out.println("SWITCHED TO FRIEND: " + statex.getUsername());
 
-            final User user = state.getUser();
+            final User userx = statex.getUser();
+            double winP = 0.00;
+            if (userx.getGames() > 0) {
+                winP = 1.0 * userx.getWins() / userx.getGames();
+            }
             final Object[] newRow = {
-                    state.getUsername(),
-                    String.valueOf(user.getBalance()),
-                    String.valueOf(user.getWins()),
-                    String.valueOf(user.getLosses()),
-                    String.valueOf(user.getWins() / (user.getGames() + 1)),
-                    String.valueOf(user.getGames()),
+                    statex.getUsername(),
+                    String.valueOf(userx.getBalance()),
+                    String.valueOf(userx.getWins()),
+                    String.valueOf(userx.getLosses()),
+                    String.format("%.2f", winP),
+                    String.valueOf(userx.getGames()),
             };
-
-            // Dynamically add the new row to the table
             tableModel.addRow(newRow);
         }
         else if (evt.getPropertyName().equals("return")) {
@@ -259,6 +278,9 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
     public void setAddFriendController(AddFriendController addFriendController) {
         this.addFriendController = addFriendController;
+    }
+    public void setRemoveFriendController(RemoveFriendController removeFriendController) {
+        this.removeFriendController = removeFriendController;
     }
 
 }

@@ -20,7 +20,13 @@ public interface GameMenuInputBoundary {
      */
     void switchToGaunletView();
 
+    /**
+     * Executes the switch to blackjack view use case.
+     */
     void switchToBlackjackView();
 
+    /**
+     * Executes the switch to over/under view use case.
+     */
     void switchToOverUnderView();
 }

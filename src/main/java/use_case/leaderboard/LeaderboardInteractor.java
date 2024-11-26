@@ -1,7 +1,7 @@
 package use_case.leaderboard;
 
 /**
- * The Statistics Interactor.
+ * The Leaderboard Interactor.
  */
 public class LeaderboardInteractor implements LeaderboardInputBoundary {
     private final LeaderboardOutputBoundary userPresenter;

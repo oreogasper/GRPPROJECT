@@ -41,6 +41,8 @@ import interface_adapter.logout.LogoutPresenter;
 import interface_adapter.menu.MenuController;
 import interface_adapter.menu.MenuPresenter;
 import interface_adapter.menu.MenuViewModel;
+import interface_adapter.remove_friend.RemoveFriendController;
+import interface_adapter.remove_friend.RemoveFriendPresenter;
 import interface_adapter.shop.ShopController;
 import interface_adapter.shop.ShopPresenter;
 import interface_adapter.shop.ShopViewModel;
@@ -93,6 +95,9 @@ import use_case.logout.LogoutOutputBoundary;
 import use_case.menu.MenuInputBoundary;
 import use_case.menu.MenuInteractor;
 import use_case.menu.MenuOutputBoundary;
+import use_case.remove_friend.RemoveFriendInputBoundary;
+import use_case.remove_friend.RemoveFriendInteractor;
+import use_case.remove_friend.RemoveFriendOutputBoundary;
 import use_case.shop.ShopInputBoundary;
 import use_case.shop.ShopInteractor;
 import use_case.shop.ShopOutputBoundary;
@@ -508,6 +513,23 @@ public class AppBuilder {
         final AddFriendController addFriendController =
                 new AddFriendController(addFriendInteractor);
         leaderboardView.setAddFriendController(addFriendController);
+        return this;
+    }
+
+    /**
+     * Adds the Remove Friend Use Case to the application.
+     * @return this builder
+     */
+    public AppBuilder addRemoveFriendUseCase() {
+        final RemoveFriendOutputBoundary removeFriendOutputBoundary =
+                new RemoveFriendPresenter(leaderboardViewModel);
+
+        final RemoveFriendInputBoundary removeFriendInteractor =
+                new RemoveFriendInteractor(userDataAccessObject, removeFriendOutputBoundary, userFactory);
+
+        final RemoveFriendController removeFriendController =
+                new RemoveFriendController(removeFriendInteractor);
+        leaderboardView.setRemoveFriendController(removeFriendController);
         return this;
     }
 

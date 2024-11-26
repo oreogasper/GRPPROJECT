@@ -21,7 +21,7 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final GameMenuViewModel gameMenuViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final int RATE_BONUS = 36;
+    private final int RATEBONUS = 36;
 
     public GaunletGuessPresenter(ViewManagerModel viewManagerModel,
                                  MenuViewModel menuViewModel,
@@ -43,9 +43,9 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
         final boolean gameOutcome = response.isWon();
         final User user = gaunletGuessState.getUser();
         final int newBal = (gaunletGuessState.getUser().getBet() + gaunletGuessState.getUser().getBalance())
-                * RATE_BONUS;
+                * RATEBONUS;
         if (gameOutcome) {
-            user.updateBalance((user.getBalance() + user.getBet()) * RATE_BONUS);
+            user.updateBalance((user.getBalance() + user.getBet()) * RATEBONUS);
             user.wonGame();
             JOptionPane.showMessageDialog(null,
                     "Congratulations! You won the Gauntlet game! Your balance =" + newBal);
@@ -57,7 +57,7 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
             System.out.println(newBalance);
             JOptionPane.showMessageDialog(null,
                     "Sorry, you lost the Gauntlet game. Better luck next time! "
-                            + "Your balance =" + newBalance);
+                            + "Your balance =" + user.getBalance());
         }
 
         gaunletGuessState.setCoinGuess(response.getCoinFlip());

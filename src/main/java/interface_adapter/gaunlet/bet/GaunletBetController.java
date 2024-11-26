@@ -1,5 +1,6 @@
 package interface_adapter.gaunlet.bet;
 
+import entity.User;
 import use_case.gaunlet.bet.GaunletBetInputBoundary;
 import use_case.gaunlet.bet.GaunletBetInputData;
 
