@@ -18,12 +18,12 @@ public interface GaunletBetOutputBoundary {
     void prepareFailView(String errorMessage);
 
     /**
-     * Switches to the Login View.
+     * Switches to the Gaunlet Guess View.
      */
     void switchToGaunletGuessView();
 
     /**
-     * Switches to the Login View.
+     * Switches to the Game menu View.
      */
     void switchToGameMenuView();
 
@@ -32,8 +32,4 @@ public interface GaunletBetOutputBoundary {
      */
     void setUserBet();
 
-    /**
-     * Resets input field when invalid input occurs.
-     */
-    void resetInputField();
 }

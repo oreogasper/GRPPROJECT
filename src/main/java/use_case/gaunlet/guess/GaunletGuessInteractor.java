@@ -99,7 +99,7 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
             }
             return diceValue;
         }
-        catch (NumberFormatException e) {
+        catch (NumberFormatException evt) {
             throw new IllegalArgumentException("Invalid dice guess. Please enter a valid number.");
         }
     }

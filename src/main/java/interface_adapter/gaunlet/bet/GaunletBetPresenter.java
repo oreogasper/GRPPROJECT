@@ -17,7 +17,6 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final ViewManagerModel viewManagerModel;
 
-
     public GaunletBetPresenter(ViewManagerModel viewManagerModel,
                                GameMenuViewModel gameMenuViewModel,
                                GaunletBetViewModel gaunletBetViewModel,
@@ -42,9 +41,6 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
         gaunletGuessState.setUser(gaunletBetViewModel.getState().getUser());
         this.gaunletGuessViewModel.setState(gaunletGuessState);
         this.gaunletGuessViewModel.firePropertyChanged();
-
-        viewManagerModel.setState(gaunletGuessViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
 
         this.viewManagerModel.setState(gaunletGuessViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
@@ -77,14 +73,5 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
         final int betAmt = this.gaunletBetViewModel.getState().getBet();
         this.gaunletBetViewModel.getState().getUser().setBet(betAmt);
         this.gaunletBetViewModel.firePropertyChanged();
-    }
-
-    @Override
-    public void resetInputField() {
-        System.out.println("Reset triggered");
-        final GaunletBetState currentState = gaunletBetViewModel.getState();
-        currentState.setBet(0);
-        gaunletBetViewModel.setState(currentState);
-        gaunletBetViewModel.firePropertyChanged("state");
     }
 }

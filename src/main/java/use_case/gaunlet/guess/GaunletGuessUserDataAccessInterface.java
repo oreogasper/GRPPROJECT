@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import entity.User;
 
 /**
- * DAO for the Signup Use Case.
+ * DAO for the Gaunlet guess Use Case.
  */
 public interface GaunletGuessUserDataAccessInterface {
     /**
@@ -22,7 +22,7 @@ public interface GaunletGuessUserDataAccessInterface {
     void saveNew(User user, JSONObject info);
 
     /**
-     * Saves the user's info.
+     * Returns the user with the associated username.
      * @param username the username of the user
      * @return the user associated with that username
      */

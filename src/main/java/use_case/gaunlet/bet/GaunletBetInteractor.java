@@ -1,9 +1,10 @@
 package use_case.gaunlet.bet;
 
+import org.json.JSONObject;
+
 import entity.GaunletGame;
 import entity.User;
 import entity.UserFactory;
-import org.json.JSONObject;
 
 /**
  * The Gaunlet Bet Interactor.
