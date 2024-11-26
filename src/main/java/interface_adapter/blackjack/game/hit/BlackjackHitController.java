@@ -1,4 +1,4 @@
-package interface_adapter.blackjack.hit;
+package interface_adapter.blackjack.game.hit;
 
 import use_case.blackjack.hit.BlackjackHitInputBoundary;
 import use_case.blackjack.hit.BlackjackHitInputData;
