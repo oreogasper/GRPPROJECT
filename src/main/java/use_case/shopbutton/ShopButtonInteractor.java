@@ -40,6 +40,8 @@ public class ShopButtonInteractor implements ShopButtonInputBoundary {
         final User infoUser = userDataAccessObject.get(shopButtonInputData.getUsername());
         final JSONObject json = infoUser.getInfo();
         json.put("balance", newBalance);
+        final long lastspin = 0;
+        json.put("lastSpin", lastspin);
         final User updatedUser = userFactory.create(infoUser.getName(), infoUser.getPassword(), json);
         userDataAccessObject.saveNew(updatedUser, json);
     }

@@ -37,8 +37,12 @@ public class SignupInteractor implements SignupInputBoundary {
             extra.put("wins", 0);
             extra.put("losses", 0);
             extra.put("balance", STARTING_BALANCE);
+
             final ArrayList<User> list = new ArrayList<>();
             extra.put("friends", list);
+
+            final long lastspin = 0;
+            extra.put("lastSpin", lastspin);
 
             final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword(), extra);
             userDataAccessObject.save(user);
