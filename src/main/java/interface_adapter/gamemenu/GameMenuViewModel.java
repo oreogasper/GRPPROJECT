@@ -2,7 +2,6 @@ package interface_adapter.gamemenu;
 
 import interface_adapter.ViewModel;
 
-
 /**
  * The ViewModel for the Game Menu View.
  */

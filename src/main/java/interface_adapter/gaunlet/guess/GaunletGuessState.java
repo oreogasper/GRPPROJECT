@@ -2,6 +2,9 @@ package interface_adapter.gaunlet.guess;
 
 import entity.User;
 
+/**
+ * The state for the gaunlet guess View Model.
+ */
 public class GaunletGuessState {
     private User user;
     private String coinGuess = "";

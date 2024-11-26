@@ -1,6 +1,5 @@
 package interface_adapter.gaunlet.bet;
 
-import entity.User;
 import use_case.gaunlet.bet.GaunletBetInputBoundary;
 import use_case.gaunlet.bet.GaunletBetInputData;
 
@@ -16,7 +15,7 @@ public class GaunletBetController {
     }
 
     /**
-     * Executes the Signup Use Case.
+     * Executes the Gaunlet Bet Use Case.
      * @param username the username of the user
      * @param bet the amount the user would like to bet in the game
      */
@@ -25,13 +24,6 @@ public class GaunletBetController {
                 username, bet);
 
         userGaunletBetUseCaseInteractor.execute(gaunletBetInputData, bet);
-    }
-
-    /**
-     * Executes the "switch to gaunlet guess" Use Case.
-     */
-    public void switchToGaunletGuessView() {
-        userGaunletBetUseCaseInteractor.switchToGaunletGuessView();
     }
 
     /**

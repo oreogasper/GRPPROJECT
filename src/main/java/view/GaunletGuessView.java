@@ -183,6 +183,9 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         setFields(state);
         if (state.getCoinGuessError() != null) {
             JOptionPane.showMessageDialog(this, state.getCoinGuessError());
+            coinFlipInputField.setText("");
+            diceInputField.setText("");
+            rpsInputField.setText("");
         }
 
     }
