@@ -20,7 +20,7 @@ public class BlackjackGameState {
     private boolean playerCardsDefault;
     private boolean dealerCardsDefault;
 
-    private String gameState;
+    private String turnState;
 
     public BlackjackGameState() {
 
@@ -37,15 +37,23 @@ public class BlackjackGameState {
         playerScore = "0";
         dealerScore = "0";
 
-        gameState = "Player";
+        turnState = "Player";
     }
 
-    public void setPlayerScore(int score) {
-        playerScore = String.valueOf(score);
+    public void setTurnState(String gameState) {
+        this.turnState = gameState;
     }
 
-    public void setDealerScore(int score) {
-        dealerScore = String.valueOf(score);
+    public String getTurnState() {
+        return this.turnState;
+    }
+
+    public void setPlayerScore(String score) {
+        playerScore = score;
+    }
+
+    public void setDealerScore(String score) {
+        dealerScore = score;
     }
 
     public String getPlayerScore() {
