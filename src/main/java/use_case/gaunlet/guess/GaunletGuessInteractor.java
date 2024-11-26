@@ -38,18 +38,19 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
         if (!isValidCoinFlip(coinGuess)) {
             userPresenter.prepareFailView("Invalid coin guess. Please enter 'Heads' or 'Tails'.");
         }
+        int dice = 0;
         try {
-            final int dice = isValidDiceGuess(diceGuess);
+            dice = isValidDiceGuess(diceGuess);
         }
-        catch (IllegalArgumentException e) {
-            userPresenter.prepareFailView(e.getMessage());
+        catch (IllegalArgumentException evt) {
+            userPresenter.prepareFailView(evt.getMessage());
         }
 
         if (!isValidRpsGuess(rpsGuess)) {
             userPresenter.prepareFailView("Invalid RPS guess. Please enter 'Rock', 'Paper', or 'Scissors'."
             );
         }
-        final GaunletGame gaunletGame = game.create(coinGuess, Integer.parseInt(diceGuess), rpsGuess);
+        final GaunletGame gaunletGame = game.create(coinGuess, dice, rpsGuess);
         final String actualCoinFlip = gaunletGame.flipCoin();
         final int actualDiceRoll = gaunletGame.rollDice();
         final String actualRpsOutcome = gaunletGame.getRpsOutcome();
@@ -86,15 +87,17 @@ public class GaunletGuessInteractor implements GaunletGuessInputBoundary {
 
     }
 
+    // Helpers to check coin, dice and rps value
     private boolean isValidCoinFlip(String coinFlip) {
         return "Heads".equalsIgnoreCase(coinFlip) || "Tails".equalsIgnoreCase(coinFlip);
     }
 
     private int isValidDiceGuess(String diceGuess) {
-
+        final int diceLower = 1;
+        final int diceHigher = 6;
         try {
             final int diceValue = Integer.parseInt(diceGuess);
-            if (diceValue < 1 || diceValue > 6) {
+            if (diceValue < diceLower || diceValue > diceHigher) {
                 throw new IllegalArgumentException("Invalid dice guess. Please enter a number between 1 and 6.");
             }
             return diceValue;

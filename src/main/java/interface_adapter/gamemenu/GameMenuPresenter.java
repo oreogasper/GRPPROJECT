@@ -8,7 +8,6 @@ import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
-import interface_adapter.statistics.StatisticsState;
 import interface_adapter.und_ovr.OverUnderViewModel;
 import use_case.gamemenu.GameMenuOutputBoundary;
 

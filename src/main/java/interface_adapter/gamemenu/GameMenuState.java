@@ -3,7 +3,7 @@ package interface_adapter.gamemenu;
 import entity.User;
 
 /**
- * The State information representing the logged-in user.
+ * The State information representing the game menu.
  */
 public class GameMenuState {
     private User user;

@@ -1,7 +1,6 @@
 package interface_adapter.gaunlet.guess;
 
 import interface_adapter.ViewModel;
-import view.GaunletGuessView;
 
 /**
  * The ViewModel for the Gaunlet Guess View.
@@ -19,7 +18,4 @@ public class GaunletGuessViewModel extends ViewModel<GaunletGuessState> {
         setState(new GaunletGuessState());
     }
 
-    public void addPropertyChangeListener(GaunletGuessView gaunletGuessView) {
-
-    }
 }
