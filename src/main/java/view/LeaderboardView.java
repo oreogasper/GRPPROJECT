@@ -124,7 +124,6 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             }
         });
 
-        // TODO: IMPLEMENT LATER, IGNORE FOR NOW
         remove.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(remove)) {
@@ -261,9 +260,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             };
             tableModel.addRow(newRow);
         }
-        else if (evt.getPropertyName().equals("return")) {
-            final LeaderboardState state = (LeaderboardState) evt.getNewValue();
-            System.out.println("SWITCHED TO RETURN: " + state.getUsername());
+        else if (evt.getPropertyName().equals("logout")) {
+            friendInputField.setText("");
         }
 
     }
