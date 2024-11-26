@@ -73,6 +73,14 @@ public class BlackjackGame implements Game{
         return bestScore;
     }
 
+    public int getPlayerScore() {
+        return cardsScore(playerCards);
+    }
+
+    public int getDealerScore() {
+        return cardsScore(dealerCards);
+    }
+
     public void setDeckId(String deckId) {
         this.deckId = deckId;
     }
