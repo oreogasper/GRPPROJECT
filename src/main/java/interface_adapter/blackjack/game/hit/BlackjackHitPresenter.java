@@ -31,10 +31,27 @@ public class BlackjackHitPresenter implements BlackjackHitOutputBoundary {
 
     @Override
     public void prepareSuccessView(BlackjackHitOutputData outputData) {
+        if (!outputData.isdealerHitUseCase()) {
+            this.preparePlayerSuccessView(outputData);
+        } else {
+            this.prepareDealerSuccessView(outputData);
+        }
+    }
+
+    private void preparePlayerSuccessView(BlackjackHitOutputData outputData) {
         final BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
         blackjackGameState.addPlayerCard(outputData.getCardImage());
         blackjackGameState.setTurnState(outputData.getTurnState());
-        blackjackGameState.setPlayerScore(String.valueOf(outputData.getPlayerScore()));
+        blackjackGameState.setPlayerScore(String.valueOf(outputData.getNewHandScore()));
+        blackjackGameViewModel.setState(blackjackGameState);
+        blackjackGameViewModel.firePropertyChanged();
+    }
+
+    private void prepareDealerSuccessView(BlackjackHitOutputData outputData) {
+        final BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
+        blackjackGameState.addDealerCard(outputData.getCardImage());
+        blackjackGameState.setTurnState(outputData.getTurnState());
+        blackjackGameState.setDealerScore(String.valueOf(outputData.getNewHandScore()));
         blackjackGameViewModel.setState(blackjackGameState);
         blackjackGameViewModel.firePropertyChanged();
     }

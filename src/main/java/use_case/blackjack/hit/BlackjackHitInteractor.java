@@ -25,15 +25,15 @@ public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
     public void execute(BlackjackHitInputData inputData) {
 
         if (!inputData.isDealerHitUseCase()) {
-            this.playerTurnExecute();
+            this.playerTurnExecute(inputData);
         }
         else {
-            this.dealerTurnExecute();
+            this.dealerTurnExecute(inputData);
         }
 
     }
 
-    private void playerTurnExecute() {
+    private void playerTurnExecute(BlackjackHitInputData inputData) {
         final String deckId = blackjackGame.getDeckId();
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
         blackjackGame.addPlayerCard(card);
@@ -54,7 +54,7 @@ public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
         outputBoundary.prepareSuccessView(outputData);
     }
 
-    private void dealerTurnExecute() {
+    private void dealerTurnExecute(BlackjackHitInputData inputData) {
         final String deckId = blackjackGame.getDeckId();
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
         blackjackGame.addDealerCard(card);
