@@ -10,16 +10,15 @@ public class CommonUser implements User {
     private static final String WINS = "wins";
     private static final String LOSSES = "losses";
     private static final String GAMES = "games";
+    private static final String LASTSPIN = "lastSpin";
     private final JSONObject info;
     private String username;
     private String password;
-    private long lastSpin;
     private int currBet;
 
     public CommonUser(String name, String password, JSONObject info) {
         this.username = name;
         this.password = password;
-        this.lastSpin = 0L;
         this.currBet = 0;
         this.info = info;
     }
@@ -109,12 +108,12 @@ public class CommonUser implements User {
 
     @Override
     public long getLastSpin() {
-        return lastSpin;
+        return info.getLong(LASTSPIN);
     }
 
     @Override
     public void setLastSpin(long lastSpin) {
-        this.lastSpin = lastSpin;
+        info.put(LASTSPIN, lastSpin);
     }
 
     @Override
@@ -127,6 +126,7 @@ public class CommonUser implements User {
                 + ", games='" + this.getGames() + '\''
                 + ", balance='" + this.getBalance() + '\''
                 + ", bet='" + this.getBet() + '\''
+                + ", lastSpin='" + this.getLastSpin() + '\''
                 + '}';
     }
 

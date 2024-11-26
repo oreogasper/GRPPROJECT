@@ -1,16 +1,16 @@
-package use_case.shop;
+package use_case.shopwheel;
 
 import org.json.JSONObject;
 
 /**
- * Output Data for the Signup Use Case.
+ * Output Data for the ShopWheel Use Case.
  */
-public class ShopOutputData {
+public class ShopWheelOutputData {
     private final String username;
     private final String password;
     private final JSONObject info;
 
-    public ShopOutputData(String username, String password, JSONObject info) {
+    public ShopWheelOutputData(String username, String password, JSONObject info) {
         this.username = username;
         this.password = password;
         this.info = info;

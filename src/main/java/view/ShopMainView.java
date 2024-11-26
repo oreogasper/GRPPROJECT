@@ -2,8 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -15,6 +13,7 @@ import javax.swing.JPanel;
 import interface_adapter.shop.ShopController;
 import interface_adapter.shop.ShopState;
 import interface_adapter.shop.ShopViewModel;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The View for the shop main menu.
@@ -64,28 +63,7 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         leftBottomPanel.add(username);
         leftBottomPanel.add(balance);
 
-        final JButton back = new JButton(ShopViewModel.BACK_BUTTON_LABEL);
-        // back.addActionListener(evt -> shopController.switchToMenuView());
-        back.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        if (evt.getSource().equals(back)) {
-                            final ShopState currentState = shopViewModel.getState();
-
-                            shopController.execute(
-                                    currentState.getUser().getName(),
-                                    currentState.getUser().getPassword(),
-                                    currentState.getUser().getBalance()
-                            );
-                        }
-                        shopController.switchToMenuView();
-                    }
-                }
-        );
-
-        final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        rightBottomPanel.add(back);
+        final JPanel rightBottomPanel = getRightBottomPanel();
 
         bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
         bottomPanel.add(rightBottomPanel, BorderLayout.EAST);
@@ -96,6 +74,23 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         this.add(tButtons, BorderLayout.CENTER);
         this.add(bottomPanel, BorderLayout.SOUTH);
 
+    }
+
+    @NotNull
+    private JPanel getRightBottomPanel() {
+        final JButton back = new JButton(ShopViewModel.BACK_BUTTON_LABEL);
+        back.addActionListener(
+                // This creates an anonymous subclass of ActionListener and instantiates it.
+                evt -> {
+                    if (evt.getSource().equals(back)) {
+                        shopController.switchToMenuView();
+                    }
+                }
+        );
+
+        final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        rightBottomPanel.add(back);
+        return rightBottomPanel;
     }
 
     @Override

@@ -1,18 +1,20 @@
-package use_case.shop;
+package use_case.shopwheel;
 
 /**
- * The Input Data for the Shop Use Case.
+ * The Input Data for the ShopWheel Use Case.
  */
 
-public class ShopInputData {
+public class ShopWheelInputData {
     private final String username;
     private final String password;
     private final Integer balance;
+    private final long lastSpin;
 
-    public ShopInputData(String username, String password, Integer balance) {
+    public ShopWheelInputData(String username, String password, Integer balance, long lastSpin) {
         this.username = username;
         this.password = password;
         this.balance = balance;
+        this.lastSpin = lastSpin;
     }
 
     String getUsername() {
@@ -26,4 +28,6 @@ public class ShopInputData {
     public Integer getBalance() {
         return balance;
     }
+
+    public long getLastSpin() {return lastSpin;}
 }

@@ -1,7 +1,7 @@
 package use_case.shopwheel;
 
 /**
- * Input Boundary for actions which are related to the Shop button screen.
+ * Input Boundary for actions which are related to the ShopWheel button screen.
  */
 public interface ShopWheelInputBoundary {
 
@@ -20,5 +20,7 @@ public interface ShopWheelInputBoundary {
      * Rejects the user's attempt to spin the wheel.
      */
     void tooEarly();
+
+    void saveData(ShopWheelInputData shopWheelInputData, Integer newBalance, long newLastSpin);
 
 }

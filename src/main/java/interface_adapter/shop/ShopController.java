@@ -1,7 +1,6 @@
 package interface_adapter.shop;
 
 import use_case.shop.ShopInputBoundary;
-import use_case.shop.ShopInputData;
 
 /**
  * The controller for the shop main menu Use Case.
@@ -12,19 +11,6 @@ public class ShopController {
 
     public ShopController(ShopInputBoundary shopUseCaseInteractor) {
         this.userShopUseCaseInteractor = shopUseCaseInteractor;
-    }
-
-    /**
-     * Executes the Shop Use Case.
-     * @param username the username to sign up
-     * @param password the password
-     * @param changedAmount the password repeated
-     */
-    public void execute(String username, String password, Integer changedAmount) {
-        final ShopInputData shopInputData = new ShopInputData(
-                username, password, changedAmount);
-
-        userShopUseCaseInteractor.execute(shopInputData, changedAmount);
     }
 
     /**

@@ -1,13 +1,13 @@
-package use_case.shop;
+package use_case.shopwheel;
 
 import org.json.JSONObject;
 
 import entity.User;
 
 /**
- * DAO for the Signup Use Case.
+ * DAO for the ShopWheel Use Case.
  */
-public interface ShopUserDataAccessInterface {
+public interface ShopWheelUserDataAccessInterface {
     /**
      * Saves the user's info.
      * @param user the user to save

@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import interface_adapter.shop.ShopViewModel;
 import interface_adapter.shop.button.ShopButtonController;
 import interface_adapter.shop.button.ShopButtonState;
 import interface_adapter.shop.button.ShopButtonViewModel;
@@ -39,7 +38,12 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
 
         clicker.addActionListener(
                 evt -> shopButtonController.buttonClick(shopButtonViewModel.getState().getClicksMade()));
-        back.addActionListener(evt -> shopButtonController.switchToShopView());
+        back.addActionListener(e -> {
+            shopButtonController.switchToShopView();
+            shopButtonController.saveData(shopButtonViewModel.getState().getUser().getName(),
+                    shopButtonViewModel.getState().getUser().getBalance());
+        });
+
 
         // Labels
         username = new JLabel("Currently logged in: unknown");
