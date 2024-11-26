@@ -45,6 +45,7 @@ public class Main {
                                             .addGaunletBetUseCase()
                                             .addLoginUseCase()
                                             .addAddFriendUseCase()
+                                            .addRemoveFriendUseCase()
                                             .addStatisticsUseCase()
                                             .addChangePasswordUseCase()
                                             .addLogoutUseCase()
