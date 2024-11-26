@@ -25,15 +25,21 @@ public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
     public void execute(BlackjackHitInputData blackjackGameInputData) {
 
         final String deckId = blackjackGame.getDeckId();
-
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
-
         blackjackGame.addPlayerCard(card);
 
-        final boolean bust = blackjackGame.isBust(blackjackGame.getPlayerCards());
-        final boolean blackjack = blackjackGame.isBlackjack(blackjackGame.getPlayerCards());
+        String turnState = null;
 
-        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card.getImage(), bust, blackjack, false);
+        if (blackjackGame.isBust(blackjackGame.getPlayerCards())) {
+            turnState = "Lose";
+        } else if (blackjackGame.isBlackjack(blackjackGame.getPlayerCards())) {
+            turnState = "Dealer";
+        } else {
+            turnState = "Player";
+        }
+
+        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card.getImage(), turnState,
+                blackjackGame.getPlayerScore(), false);
 
         outputBoundary.prepareSuccessView(outputData);
     }

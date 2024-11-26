@@ -7,23 +7,24 @@ import java.awt.Image;
  */
 public class BlackjackHitOutputData {
     private final Image cardImage;
-    private final boolean bust;
-    private final boolean blackjack;
+    private final String turnState;
     private final boolean useCaseFailed;
+    private final int playerScore;
 
-    public BlackjackHitOutputData(Image cardImage, boolean bust, boolean blackjack, boolean useCaseFailed) {
+    public BlackjackHitOutputData(Image cardImage, String turnState,
+                                  int playerScore, boolean useCaseFailed) {
         this.cardImage = cardImage;
-        this.bust = bust;
-        this.blackjack = blackjack;
+        this.turnState = turnState;
+        this.playerScore = playerScore;
         this.useCaseFailed = useCaseFailed;
     }
 
-    public boolean isBust() {
-        return bust;
+    public int getPlayerScore() {
+        return playerScore;
     }
 
-    public boolean isBlackjackn() {
-        return blackjack;
+    public String getTurnState() {
+        return turnState;
     }
 
     public Image getCardImage() {
