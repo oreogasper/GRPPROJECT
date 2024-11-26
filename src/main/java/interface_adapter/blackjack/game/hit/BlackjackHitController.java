@@ -16,9 +16,9 @@ public class BlackjackHitController {
     /**
      * Executes the Blackjack Hit Use Case.
      */
-    public void execute() {
+    public void execute(boolean isDealerHitUseCase) {
 
-        final BlackjackHitInputData inputData = new BlackjackHitInputData();
+        final BlackjackHitInputData inputData = new BlackjackHitInputData(isDealerHitUseCase);
 
         blackjackHitUseCaseInteractor.execute(inputData);
     }
