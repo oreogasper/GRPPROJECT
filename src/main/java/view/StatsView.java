@@ -20,6 +20,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import entity.User;
+import interface_adapter.login.LoginState;
 import interface_adapter.logout.LogoutController;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.statistics.StatisticsController;
@@ -188,6 +189,7 @@ public class StatsView extends JPanel implements PropertyChangeListener {
 
         else if (evt.getPropertyName().equals("password")) {
             final StatisticsState state = (StatisticsState) evt.getNewValue();
+            passwordInputField.setText("");
             JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
         }
 

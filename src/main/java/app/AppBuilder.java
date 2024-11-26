@@ -459,7 +459,7 @@ public class AppBuilder {
      */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                statisticsViewModel, loginViewModel, welcomeViewModel);
+                statisticsViewModel, loginViewModel, shopButtonViewModel, welcomeViewModel);
 
         final LogoutInputBoundary logoutInteractor =
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);

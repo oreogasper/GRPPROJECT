@@ -80,6 +80,10 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
             username.setText("Currently logged in: " + updatedState.getUser().getName());
             balance.setText("Current balance: " + updatedState.getUser().getBalance());
             clicksMade.setText(String.valueOf(updatedState.getClicksMade() / ShopButtonViewModel.DIVIDER));
+        } else if (evt.getPropertyName().equals("logout")) {
+            final ShopButtonState updatedState = (ShopButtonState) evt.getNewValue();
+            updatedState.resetClicks();
+            clicksMade.setText(String.valueOf(updatedState.getClicksMade()));
         }
     }
 
