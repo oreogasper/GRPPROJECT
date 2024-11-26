@@ -13,7 +13,7 @@ import java.util.Random;
  */
 public class ShopWheelInteractor implements ShopWheelInputBoundary {
     private static final int NUM_SEGMENTS = 16;
-    private static final Map<Integer, Integer> SEGMENT_TO_PRIZE = new HashMap<>();
+    protected static final Map<Integer, Integer> SEGMENT_TO_PRIZE = new HashMap<>();
     private final ShopWheelOutputBoundary userPresenter;
     private final ShopWheelUserDataAccessInterface userDataAccessObject;
     private final UserFactory userFactory;
@@ -71,7 +71,6 @@ public class ShopWheelInteractor implements ShopWheelInputBoundary {
         final JSONObject json = infoUser.getInfo();
         json.put("balance", newBalance);
         json.put("lastSpin", newLastSpin);
-        System.out.println(json);
         final User updatedUser = userFactory.create(infoUser.getName(), infoUser.getPassword(), json);
         userDataAccessObject.saveNew(updatedUser, json);
     }
