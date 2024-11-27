@@ -25,6 +25,7 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
         final User currentUser = leaderboardState.getUser();
         leaderboardState.setUser(outputData.getFriend());
         leaderboardViewModel.firePropertyChanged("friend");
+        leaderboardViewModel.firePropertyChanged("reset");
         leaderboardState.setUser(currentUser);
     }
 

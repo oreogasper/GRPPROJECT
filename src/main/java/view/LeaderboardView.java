@@ -183,8 +183,6 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
             for (int i = 0; i < list.length(); i++) {
                 final String userString = list.get(i).toString();
-                System.out.println("USERS: " + userString);
-
                 // Extract data from the string
                 if (userString.startsWith("This user {") && userString.endsWith("}")) {
                     // Remove the prefix and suffix
@@ -243,7 +241,6 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         else if (evt.getPropertyName().equals("friend")) {
             final LeaderboardState statex = (LeaderboardState) evt.getNewValue();
             JOptionPane.showMessageDialog(null, "added friend " + statex.getFriend());
-            System.out.println("SWITCHED TO FRIEND: " + statex.getUsername());
 
             final User userx = statex.getUser();
             double winP = 0.00;
@@ -260,7 +257,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             };
             tableModel.addRow(newRow);
         }
-        else if (evt.getPropertyName().equals("logout")) {
+        else if (evt.getPropertyName().equals("reset")) {
             friendInputField.setText("");
         }
 

@@ -43,7 +43,7 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         // We also need to set the username in the StatisticsState to the empty string.
         // We also need to update the shop button tokens made this session to 0
 
-        leaderboardViewModel.firePropertyChanged("logout");
+        leaderboardViewModel.firePropertyChanged("reset");
         shopButtonViewModel.firePropertyChanged("logout");
 
         // 1. get the StatisticsState out of the appropriate View Model,
