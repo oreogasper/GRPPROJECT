@@ -50,6 +50,7 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         statisticsState.setUsername("");
         this.statisticsViewModel.setState(statisticsState);
         statisticsViewModel.firePropertyChanged();
+        statisticsViewModel.firePropertyChanged("reset");
 
         final LoginState loginState = loginViewModel.getState();
         loginState.setUsername("");
@@ -64,7 +65,5 @@ public class LogoutPresenter implements LogoutOutputBoundary {
 
     @Override
     public void prepareFailView(String error) {
-        // No need to add code here. We'll assume that logout can't fail.
-        // Thought question: is this a reasonable assumption?
     }
 }

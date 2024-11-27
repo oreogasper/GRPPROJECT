@@ -475,7 +475,7 @@ public class AppBuilder {
      */
     public AppBuilder addStatisticsUseCase() {
         final StatisticsOutputBoundary statisticsOutputBoundary = new StatisticsPresenter(viewManagerModel,
-                statisticsViewModel, leaderboardViewModel, welcomeViewModel, menuViewModel);
+                statisticsViewModel, leaderboardViewModel, menuViewModel);
         final StatisticsInputBoundary userStatisticsInteractor = new StatisticsInteractor(
                 statisticsOutputBoundary);
 
