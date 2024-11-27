@@ -11,4 +11,7 @@ public class BlackjackStandInputData {
 
     }
 
+    public boolean isEndPlayerTurn() {
+        return isEndPlayerTurn;
+    }
 }
