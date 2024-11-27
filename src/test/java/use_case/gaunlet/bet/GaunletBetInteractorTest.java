@@ -1,12 +1,8 @@
 package use_case.gaunlet.bet;
 
-import entity.CommonUser;
-import entity.CommonUserFactory;
 import entity.User;
 import entity.UserFactory;
 import org.json.JSONObject;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -155,6 +151,7 @@ class GaunletBetInteractorTest {
         assertEquals("Invalid bet amount. Please bet a value between 10 tokens and your current balance.",
                 presenter.getErrorMessage());
     }
+
     @Test
     void switchToGameMenuViewTest() {
         // Set up CapturingPresenter
