@@ -1,9 +1,13 @@
 package view;
 
 import interface_adapter.blackjack.game.BlackjackGameController;
+import interface_adapter.blackjack.game.BlackjackGameState;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
+import interface_adapter.blackjack.game.hit.BlackjackHitController;
+import interface_adapter.blackjack.game.stand.BlackjackStandController;
 
 import javax.swing.*;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +26,8 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     private final String viewName;
 
     private final BlackjackGameViewModel blackjackGameViewModel;
-    private BlackjackGameController blackjackGameController;
+    private BlackjackHitController hitController;
+    private BlackjackStandController standController;
 
     public BlackjackGameView(BlackjackGameViewModel blackjackGameViewModel) {
         this.viewName = blackjackGameViewModel.getViewName();
@@ -31,35 +36,40 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         final JLabel title = new JLabel(BlackjackGameViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        final JLabel playerCardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
         final JPanel playerCardsPanel = new JPanel();
         playerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        playerCardsPanel.add(playerCardsLabel);
 
-        final JLabel cardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
+        final JLabel dealerCardsLabel = new JLabel(BlackjackGameViewModel.DEALER_HAND_LABEL);
+        final JPanel dealerCardsPanel = new JPanel();
+        dealerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        dealerCardsPanel.add(dealerCardsLabel);
 
-        playerCardsPanel.add(cardsLabel);
-
-        try {
-            final BufferedImage bufferedImage1 = ImageIO.read(new File("images/back-card.png"));
-            final Image scaledImage1 = bufferedImage1.getScaledInstance(
-                    (int) Math.round(bufferedImage1.getWidth() * 0.12),
-                    (int) Math.round(bufferedImage1.getHeight() * 0.12), Image.SCALE_SMOOTH);
-            final ImageIcon cardImage1 = new ImageIcon(scaledImage1);
-            final JLabel card1 = new JLabel(cardImage1);
-
-            final BufferedImage bufferedImage2 = ImageIO.read(new File("images/back-card.png"));
-            final Image scaledImage2 = bufferedImage2.getScaledInstance(
-                    (int) Math.round(bufferedImage2.getWidth() * 0.12),
-                    (int) Math.round(bufferedImage2.getHeight() * 0.12), Image.SCALE_SMOOTH);
-            final ImageIcon cardImage2 = new ImageIcon(scaledImage2);
-            final JLabel card2 = new JLabel(cardImage2);
-
-            // Add the images to the container
-            playerCardsPanel.add(card1);
-            playerCardsPanel.add(card2);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        final BlackjackGameState initialState = blackjackGameViewModel.getState();
+        final List<Image> initialPlayerCards = initialState.getPlayerCards();
+        for (Image img : initialPlayerCards) {
+            final ImageIcon imageIcon = new ImageIcon(img);
+            final JLabel card = new JLabel(imageIcon);
+            playerCardsPanel.add(card);
         }
+
+        final List<Image> initialDealerCards = initialState.getDealerCards();
+        for (Image img : initialDealerCards) {
+            final ImageIcon imageIcon = new ImageIcon(img);
+            final JLabel card = new JLabel(imageIcon);
+            dealerCardsPanel.add(card);
+        }
+
+        final JLabel playerScoreLabel = new JLabel(
+                BlackjackGameViewModel.SCORE_LABEL + initialState.getPlayerScore());
+
+        playerCardsPanel.add(playerScoreLabel);
+
+        final JLabel dealerScoreLabel = new JLabel(
+                BlackjackGameViewModel.SCORE_LABEL + initialState.getDealerScore());
+
+        dealerCardsPanel.add(dealerCardsPanel);
 
         final JPanel buttons = new JPanel();
         final JButton hitButton = new JButton(BlackjackGameViewModel.HIT_LABEL);
@@ -68,7 +78,6 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         buttons.add(hitButton);
         buttons.add(standButton);
 
-        // TODO add action listeners
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -90,7 +99,11 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         return viewName;
     }
 
-    public void setBlackjackGameController(BlackjackGameController blackjackGameController) {
-        this.blackjackGameController = blackjackGameController;
+    public void setHitController(BlackjackHitController hitController) {
+        this.hitController = hitController;
+    }
+
+    public void setStandController(BlackjackStandController standController) {
+        this.standController = standController;
     }
 }
