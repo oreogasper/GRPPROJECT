@@ -459,7 +459,7 @@ public class AppBuilder {
      */
     public AppBuilder addLogoutUseCase() {
         final LogoutOutputBoundary logoutOutputBoundary = new LogoutPresenter(viewManagerModel,
-                statisticsViewModel, loginViewModel, shopButtonViewModel, welcomeViewModel, leaderboardViewModel);
+                statisticsViewModel, loginViewModel, shopButtonViewModel, welcomeViewModel);
 
         final LogoutInputBoundary logoutInteractor =
                 new LogoutInteractor(userDataAccessObject, logoutOutputBoundary);
@@ -475,7 +475,7 @@ public class AppBuilder {
      */
     public AppBuilder addStatisticsUseCase() {
         final StatisticsOutputBoundary statisticsOutputBoundary = new StatisticsPresenter(viewManagerModel,
-                statisticsViewModel, leaderboardViewModel, welcomeViewModel, menuViewModel);
+                statisticsViewModel, leaderboardViewModel, menuViewModel);
         final StatisticsInputBoundary userStatisticsInteractor = new StatisticsInteractor(
                 statisticsOutputBoundary);
 
