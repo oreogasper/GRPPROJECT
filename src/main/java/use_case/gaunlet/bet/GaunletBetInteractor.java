@@ -23,40 +23,33 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
 
     @Override
     public void execute(GaunletBetInputData gaunletBetInputData, int bet) {
-        try {
-            // Parse and validate the bet input
-            final int betAmount = gaunletBetInputData.getBet();
-            final User user = userDataAccessObject.get(gaunletBetInputData.getUsername());
-            final int userBalance = user.getBalance();
+        // Parse and validate the bet input
+        final int betAmount = gaunletBetInputData.getBet();
+        final User user = userDataAccessObject.get(gaunletBetInputData.getUsername());
+        final int userBalance = user.getBalance();
 
-            // Check if the bet is valid
-            if (isValidBet(betAmount, userBalance)) {
-                // Deduct the bet amount from the user's balance
-                final JSONObject json = user.getInfo();
-                final int newBalance = userBalance - betAmount;
+        // Check if the bet is valid
+        if (isValidBet(betAmount, userBalance)) {
+            // Deduct the bet amount from the user's balance
+            final JSONObject json = user.getInfo();
+            final int newBalance = userBalance - betAmount;
 
-                json.put("balance", newBalance);
-                final User updatedUser = userFactory.create(user.getName(), user.getPassword(), json);
-                userDataAccessObject.saveNew(updatedUser, json);
+            json.put("balance", newBalance);
+            final User updatedUser = userFactory.create(user.getName(), user.getPassword(), json);
+            userDataAccessObject.saveNew(updatedUser, json);
 
-                // Update the bet in the presenter
-                user.setBet(betAmount);
-                userPresenter.setUserBet();
+            // Update the bet in the presenter
+            user.setBet(betAmount);
+            userPresenter.setUserBet();
 
-                // Notify the presenter of success
-                final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount,
-                        false);
-                userPresenter.prepareSuccessView(gaunletBetOutputData);
-            }
-            else {
-                // Handle invalid bet case
-                userPresenter.prepareFailView("Invalid bet amount. "
-                        + "Please bet a value between 10 tokens and your current balance.");
-            }
+            // Notify the presenter of success
+            final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount, false);
+            userPresenter.prepareSuccessView(gaunletBetOutputData);
         }
-        catch (NumberFormatException evt) {
-            // Handle non-numeric input gracefully
-            userPresenter.prepareFailView("Invalid input. Please enter a numeric value for the bet.");
+        else {
+            // Handle invalid bet case
+            userPresenter.prepareFailView("Invalid bet amount. "
+                    + "Please bet a value between 10 tokens and your current balance.");
         }
     }
 

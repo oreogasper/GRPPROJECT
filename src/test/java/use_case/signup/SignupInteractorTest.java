@@ -4,6 +4,7 @@ import data_access.InMemoryUserDataAccessObject;
 import entity.CommonUserFactory;
 import entity.User;
 import entity.UserFactory;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +32,11 @@ class SignupInteractorTest {
 
             @Override
             public void switchToWelcomeView() {
+
+            }
+
+            @Override
+            public void switchToMenuView() {
 
             }
 
@@ -63,6 +69,11 @@ class SignupInteractorTest {
 
             }
 
+            @Override
+            public void switchToMenuView() {
+
+            }
+
         };
 
         SignupInputBoundary interactor = new SignupInteractor(userRepository, failurePresenter, new CommonUserFactory());
@@ -76,7 +87,7 @@ class SignupInteractorTest {
 
         // Add Paul to the repo so that when we check later they already exist
         UserFactory factory = new CommonUserFactory();
-        User user = factory.create("Paul", "pwd");
+        User user = factory.create("Paul", "pwd", new JSONObject());
         userRepository.save(user);
 
         // This creates a presenter that tests whether the test case is as we expect.
@@ -94,6 +105,11 @@ class SignupInteractorTest {
 
             @Override
             public void switchToWelcomeView() {
+
+            }
+
+            @Override
+            public void switchToMenuView() {
 
             }
 
