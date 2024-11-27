@@ -21,20 +21,17 @@ public class LogoutPresenter implements LogoutOutputBoundary {
     private final LoginViewModel loginViewModel;
     private final ShopButtonViewModel shopButtonViewModel;
     private final WelcomeViewModel welcomeViewModel;
-    private final LeaderboardViewModel leaderboardViewModel;
 
     public LogoutPresenter(ViewManagerModel viewManagerModel,
                            StatisticsViewModel statisticsViewModel,
                            LoginViewModel loginViewModel,
                            ShopButtonViewModel shopButtonViewModel,
-                           WelcomeViewModel welcomeViewModel,
-                           LeaderboardViewModel leaderboardViewModel) {
+                           WelcomeViewModel welcomeViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.statisticsViewModel = statisticsViewModel;
         this.loginViewModel = loginViewModel;
         this.shopButtonViewModel = shopButtonViewModel;
         this.welcomeViewModel = welcomeViewModel;
-        this.leaderboardViewModel = leaderboardViewModel;
     }
 
     @Override
@@ -43,7 +40,6 @@ public class LogoutPresenter implements LogoutOutputBoundary {
         // We also need to set the username in the StatisticsState to the empty string.
         // We also need to update the shop button tokens made this session to 0
 
-        leaderboardViewModel.firePropertyChanged("reset");
         shopButtonViewModel.firePropertyChanged("logout");
 
         // 1. get the StatisticsState out of the appropriate View Model,
