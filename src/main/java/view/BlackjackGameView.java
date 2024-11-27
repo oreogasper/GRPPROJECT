@@ -61,15 +61,18 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
             dealerCardsPanel.add(card);
         }
 
+        final JPanel playerScorePanel = new JPanel();
         final JLabel playerScoreLabel = new JLabel(
                 BlackjackGameViewModel.SCORE_LABEL + initialState.getPlayerScore());
 
-        playerCardsPanel.add(playerScoreLabel);
+        playerScorePanel.add(playerScoreLabel);
 
+
+        final JPanel dealerScorePanel = new JPanel();
         final JLabel dealerScoreLabel = new JLabel(
                 BlackjackGameViewModel.SCORE_LABEL + initialState.getDealerScore());
 
-        dealerCardsPanel.add(dealerCardsPanel);
+        dealerScorePanel.add(dealerScoreLabel);
 
         final JPanel buttons = new JPanel();
         final JButton hitButton = new JButton(BlackjackGameViewModel.HIT_LABEL);
@@ -82,6 +85,9 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(playerCardsPanel);
+        this.add(playerScorePanel);
+        this.add(dealerCardsPanel);
+        this.add(dealerScorePanel);
         this.add(buttons);
     }
 
