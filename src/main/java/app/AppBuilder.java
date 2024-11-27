@@ -6,10 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import data_access.DBCardDeckDataAccessObject;
 import data_access.DBUserDataAccessObject;
-import entity.CommonUserFactory;
-import entity.GaunletGameFactory;
-import entity.UserFactory;
+import entity.*;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.blackjack.bet.BlackjackBetController;
 import interface_adapter.blackjack.bet.BlackjackBetPresenter;
@@ -17,6 +16,10 @@ import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.blackjack.game.BlackjackGameController;
 import interface_adapter.blackjack.game.BlackjackGamePresenter;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
+import interface_adapter.blackjack.game.hit.BlackjackHitController;
+import interface_adapter.blackjack.game.hit.BlackjackHitPresenter;
+import interface_adapter.blackjack.game.stand.BlackjackStandController;
+import interface_adapter.blackjack.game.stand.BlackjackStandPresenter;
 import interface_adapter.statistics.ChangePasswordController;
 import interface_adapter.statistics.ChangePasswordPresenter;
 import interface_adapter.gamemenu.GameMenuController;
@@ -61,6 +64,13 @@ import use_case.blackjack.bet.BlackjackBetOutputBoundary;
 import use_case.blackjack.game.BlackjackGameInputBoundary;
 import use_case.blackjack.game.BlackjackGameInteractor;
 import use_case.blackjack.game.BlackjackGameOutputBoundary;
+import use_case.blackjack.hit.BlackjackHitDataAccessInterface;
+import use_case.blackjack.hit.BlackjackHitInputBoundary;
+import use_case.blackjack.hit.BlackjackHitInteractor;
+import use_case.blackjack.hit.BlackjackHitOutputBoundary;
+import use_case.blackjack.stand.BlackjackStandInputBoundary;
+import use_case.blackjack.stand.BlackjackStandInteractor;
+import use_case.blackjack.stand.BlackjackStandOutputBoundary;
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInteractor;
 import use_case.change_password.ChangePasswordOutputBoundary;
@@ -118,12 +128,15 @@ public class AppBuilder {
     private final CardLayout cardLayout = new CardLayout();
     // thought question: is the hard dependency below a problem?
     private final UserFactory userFactory = new CommonUserFactory();
+    private final CardFactory cardFactory = new CardFactory();
+    private final BlackjackGameFactory blackjackGameFactory = new BlackjackGameFactory();
     private final GaunletGameFactory gaunletgame = new GaunletGameFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
 
     // thought question: is the hard dependency below a problem?
     private final DBUserDataAccessObject userDataAccessObject;
+    private final DBCardDeckDataAccessObject cardDeckDataAccessObject;
     private SignupView signupView;
     private SignupViewModel signupViewModel;
     private LoginViewModel loginViewModel;
@@ -157,6 +170,7 @@ public class AppBuilder {
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
         userDataAccessObject = new DBUserDataAccessObject(userFactory);
+        cardDeckDataAccessObject = new DBCardDeckDataAccessObject(cardFactory);
     }
 
     /**
@@ -499,13 +513,22 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addBlackjackGameUseCase() {
-        final BlackjackGameOutputBoundary blackjackGameOutputBoundary = new BlackjackGamePresenter(
+        final BlackjackGame blackjackGame = blackjackGameFactory.create();
+        final BlackjackHitOutputBoundary blackjackHitOutputBoundary = new BlackjackHitPresenter(
                 signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel);
-        final BlackjackGameInputBoundary blackjackGameInteractor = new BlackjackGameInteractor(
-                blackjackGameOutputBoundary);
+        final BlackjackHitInputBoundary blackjackHitInputBoundary = new BlackjackHitInteractor(
+                blackjackHitOutputBoundary, cardDeckDataAccessObject, blackjackGame);
 
-        final BlackjackGameController blackjackGameController = new BlackjackGameController(blackjackGameInteractor);
-        blackjackGameView.setBlackjackGameController(blackjackGameController);
+        final BlackjackStandOutputBoundary blackjackStandOutputBoundary = new BlackjackStandPresenter(
+                signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel);
+        BlackjackStandInputBoundary blackjackStandInputBoundary = new BlackjackStandInteractor(
+                blackjackHitInputBoundary, blackjackStandOutputBoundary, blackjackGame
+        );
+
+        final BlackjackHitController hitController = new BlackjackHitController(blackjackHitInputBoundary);
+        final BlackjackStandController standController = new BlackjackStandController(blackjackStandInputBoundary);
+        blackjackGameView.setHitController(hitController);
+        blackjackGameView.setStandController(standController);
         return this;
     }
 
