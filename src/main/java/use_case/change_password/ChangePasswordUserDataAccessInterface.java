@@ -14,7 +14,7 @@ public interface ChangePasswordUserDataAccessInterface {
     void changePassword(User user);
 
     /**
-     * Returns the user with the given username.
+     * Returns the userz.
      * @param username the username to look up
      * @return the user with the given username
      */
