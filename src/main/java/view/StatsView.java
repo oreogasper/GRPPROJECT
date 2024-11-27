@@ -145,7 +145,6 @@ public class StatsView extends JPanel implements PropertyChangeListener {
         cancel.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        System.out.println(statisticsViewModel.getState());
                         statisticsController.switchToMenuView();
                     }
                 }
@@ -199,6 +198,8 @@ public class StatsView extends JPanel implements PropertyChangeListener {
                 passwordInputField.setText("");
                 JOptionPane.showMessageDialog(null, "Password updated for " + state.getUsername());
             }
+        } else if (evt.getPropertyName().equals("reset")) {
+            passwordInputField.setText("");
         }
 
     }

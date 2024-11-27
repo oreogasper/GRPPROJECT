@@ -1,44 +1,52 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
+import entity.AppColors;
 import interface_adapter.menu.MenuController;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
+
 
 /**
  * The View for the Welcome Use Case.
  */
 public class MenuView extends JPanel implements PropertyChangeListener {
-
-    private final MenuViewModel menuViewModel;
-    private transient MenuController menuController;
+    private MenuController menuController;
     private final JLabel username;
     private final JLabel balance;
 
     public MenuView(MenuViewModel menuViewModel) {
-        this.menuViewModel = menuViewModel;
-        this.menuViewModel.addPropertyChangeListener(this);
+        menuViewModel.addPropertyChangeListener(this);
+
+        // Main panel background
+        this.setBackground(AppColors.DARK_GREEN);
 
         final JLabel title = new JLabel(MenuViewModel.TITLE_LABEL);
-        final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        title.setFont(new Font("Serif", Font.BOLD, 30));
+        title.setForeground(AppColors.YELLOW);
+        title.setHorizontalAlignment(JLabel.CENTER);
+
+        final JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(AppColors.DARK_GREEN);
         titlePanel.add(title);
 
-        final JPanel tButtons = new JPanel();
-        final JButton stats = new JButton(MenuViewModel.STATS_BUTTON_LABEL);
-        tButtons.add(stats);
-        final JButton gamble = new JButton(MenuViewModel.GAMBLE_BUTTON_LABEL);
-        tButtons.add(gamble);
-        final JButton shop = new JButton(MenuViewModel.SHOP_BUTTON_LABEL);
-        tButtons.add(shop);
+        final JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 0, 40));
+        buttonPanel.setBackground(AppColors.DARK_GREEN);
+
+        final JButton gamble = createStyledButton(MenuViewModel.GAMBLE_BUTTON_LABEL, AppColors.DARK_RED);
+        buttonPanel.add(wrapButton(gamble));
+        final JButton stats = createStyledButton(MenuViewModel.STATS_BUTTON_LABEL, AppColors.DARK_GREEN);
+        buttonPanel.add(wrapButton(stats));
+        final JButton shop = createStyledButton(MenuViewModel.SHOP_BUTTON_LABEL, AppColors.DARK_GREEN);
+        buttonPanel.add(wrapButton(shop));
 
         stats.addActionListener(evt -> menuController.switchToStatisticsView());
         gamble.addActionListener(evt -> menuController.switchToGameMenuView());
@@ -46,38 +54,53 @@ public class MenuView extends JPanel implements PropertyChangeListener {
 
         // Bottom panel for username and balance
         username = new JLabel("unknown username");
+        username.setForeground(AppColors.YELLOW);
+        username.setFont(new Font("Serif", Font.PLAIN, 15));
         balance = new JLabel("unknown balance");
+        balance.setForeground(AppColors.YELLOW);
+        balance.setFont(new Font("Serif", Font.PLAIN, 15));
 
-        // Update labels when state changes
-        menuViewModel.addPropertyChangeListener(evt -> {
-            if ("state".equals(evt.getPropertyName())) {
-                final MenuState updatedState = (MenuState) evt.getNewValue();
-                final String updatedName = updatedState.getUser().getName();
-                final String updatedBalance = String.valueOf(updatedState.getUser().getBalance());
-
-                username.setText("Currently logged in: " + updatedName);
-                balance.setText("Current balance: " + updatedBalance);
-            }
-        });
 
         final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
+        bottomPanel.setBackground(AppColors.DARK_GREEN);
         bottomPanel.add(username);
         bottomPanel.add(balance);
 
+
         // Set layout and add components
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(0, 10));
         this.add(titlePanel, BorderLayout.NORTH);
-        this.add(tButtons, BorderLayout.CENTER);
+        this.add(buttonPanel, BorderLayout.CENTER);
         this.add(bottomPanel, BorderLayout.SOUTH);
 
+    }
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(AppColors.YELLOW);
+        button.setFont(new Font("Serif", Font.BOLD, 24));
+        button.setFocusPainted(false);
+        button.setBorder(new LineBorder(AppColors.YELLOW, 2));
+        button.setPreferredSize(new Dimension(220, 50));
+        return button;
+    }
+
+    /**
+     * Wraps a button in a panel to ensure fixed width and spacing.
+     */
+    private JPanel wrapButton(JButton button) {
+        JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        wrapper.setBackground(AppColors.DARK_GREEN);
+        wrapper.add(button);
+        return wrapper;
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
             final MenuState state = (MenuState) evt.getNewValue();
-            username.setText(state.getUser().getName());
-            balance.setText(String.valueOf(state.getUser().getBalance()));
+            username.setText("Currently logged in: " + state.getUser().getName());
+            balance.setText("Current balance: " + state.getUser().getBalance());
         }
     }
 
