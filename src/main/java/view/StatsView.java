@@ -46,7 +46,7 @@ public class StatsView extends JPanel implements PropertyChangeListener {
     private final DefaultTableModel tableModel;
     private final JTable table;
     private final JButton logOut;
-    private final JTextField passwordInputField = new JTextField(15);
+    private final JTextField passwordInputField = new JTextField(10);
     private final JButton changePassword;
     private final JButton cancel;
     private final JButton leaderboard;
@@ -59,22 +59,22 @@ public class StatsView extends JPanel implements PropertyChangeListener {
         final JLabel title = new JLabel(StatisticsViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final JPanel button = new JPanel();
         leaderboard = new JButton(StatisticsViewModel.TO_LEADERBOARD_BUTTON_LABEL);
-        button.add(leaderboard);
-
-        final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel("Change Password To:"), passwordInputField);
+        leaderboard.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel buttons = new JPanel();
         logOut = new JButton("Log Out");
         buttons.add(logOut);
-
-        changePassword = new JButton("Change Password");
-        buttons.add(changePassword);
-
         cancel = new JButton(StatisticsViewModel.RETURN_MENU_BUTTON_LABEL);
         buttons.add(cancel);
+
+        final JPanel changePass = new JPanel();
+        final LabelTextPanel passwordInfo = new LabelTextPanel(
+                new JLabel("Change Password To:"), passwordInputField);
+        changePassword = new JButton("Change Password");
+        changePass.add(passwordInfo);
+        changePass.add(changePassword);
+
 
         // Initializing table
         final String[] columnNames = {"Statistic", "Value"};
@@ -98,8 +98,11 @@ public class StatsView extends JPanel implements PropertyChangeListener {
 
             private void documentListenerHelper() {
                 final StatisticsState currentState = statisticsViewModel.getState();
-                currentState.setPassword(passwordInputField.getText());
-                statisticsViewModel.setState(currentState);
+                if (!currentState.getPassword().equals(passwordInputField.getText())) {
+                    currentState.setPassword(passwordInputField.getText());
+                    currentState.changesPassword();
+                    statisticsViewModel.setState(currentState);
+                }
             }
 
             @Override
@@ -160,12 +163,12 @@ public class StatsView extends JPanel implements PropertyChangeListener {
 
         this.add(title);
 
-        this.add(button);
-        this.add(buttons);
-        this.add(passwordInfo);
+        this.add(leaderboard);
         final JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
         this.add(scrollPane);
+        this.add(buttons);
+        this.add(changePass);
     }
 
     @Override
@@ -189,8 +192,13 @@ public class StatsView extends JPanel implements PropertyChangeListener {
 
         else if (evt.getPropertyName().equals("password")) {
             final StatisticsState state = (StatisticsState) evt.getNewValue();
-            passwordInputField.setText("");
-            JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
+            if (state.getError() != null) {
+                JOptionPane.showMessageDialog(this, state.getError());
+            }
+            else {
+                passwordInputField.setText("");
+                JOptionPane.showMessageDialog(null, "Password updated for " + state.getUsername());
+            }
         }
 
     }

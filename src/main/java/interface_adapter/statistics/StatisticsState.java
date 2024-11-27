@@ -7,6 +7,8 @@ import entity.User;
  */
 public class StatisticsState {
     private User user;
+    private String Error;
+    private boolean change = false;
 
     public void setUser(User user) {
         this.user = user;
@@ -14,14 +16,6 @@ public class StatisticsState {
 
     public User getUser() {
         return user;
-    }
-
-    public String getUsername() {
-        return user.getName();
-    }
-
-    public String getPassword() {
-        return user.getPassword();
     }
 
     /**
@@ -32,12 +26,29 @@ public class StatisticsState {
         user.setName(username);
     }
 
+    public String getUsername() {
+        return user.getName();
+    }
+
     /**
      * Sets password for the current user in the state.
      * @param password the password for the current user
      */
     public void setPassword(String password) {
         user.setPassword(password);
+    }
+
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+
+    public void setError(String Error) {
+        this.Error = Error;
+    }
+
+    public String getError() {
+        return Error;
     }
 
     @Override
@@ -49,5 +60,12 @@ public class StatisticsState {
                 + ", games='" + user.getGames() + '\''
                 + ", balance='" + user.getBalance() + '\''
                 + '}';
+    }
+
+    public void changesPassword() {
+        this.change = true;
+    }
+    public boolean doesChange() {
+        return change;
     }
 }

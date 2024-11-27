@@ -26,10 +26,19 @@ public class SignupInteractor implements SignupInputBoundary {
     @Override
     public void execute(SignupInputData signupInputData) {
         if (userDataAccessObject.existsByName(signupInputData.getUsername())) {
-            userPresenter.prepareFailView("User already exists.");
+            userPresenter.prepareFailView("User already exists!");
+        }
+        else if (signupInputData.getPassword().contains(" ")) {
+            userPresenter.prepareFailView("Password can't contain spaces!");
         }
         else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
-            userPresenter.prepareFailView("Passwords don't match.");
+            userPresenter.prepareFailView("Passwords don't match!");
+        }
+        else if (signupInputData.getUsername().isEmpty()) {
+            userPresenter.prepareFailView("Username can't be empty!");
+        }
+        else if (signupInputData.getPassword().isEmpty()) {
+            userPresenter.prepareFailView("Password can't be empty!");
         }
         else {
             final JSONObject extra = new JSONObject();
