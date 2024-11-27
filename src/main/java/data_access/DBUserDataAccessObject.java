@@ -84,7 +84,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 final String name = userJSONObject.getString(USERNAME);
                 final String password = userJSONObject.getString(PASSWORD);
                 final JSONObject data = userJSONObject.getJSONObject("info");
-                System.out.println("Get method in DB: " + name + ", " + password + ", " + data);
+                // System.out.println("Get method in DB: " + name + ", " + password + ", " + data);
 
                 return userFactory.create(name, password, data);
             }
@@ -192,7 +192,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
             if (responseBody1.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // success
-                System.out.println("DBUserDataAccessObject, SAVE USER success");
             }
             else {
                 throw new RuntimeException(responseBody1.getString(MESSAGE));

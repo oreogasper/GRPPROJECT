@@ -16,19 +16,16 @@ public class StatisticsPresenter implements StatisticsOutputBoundary {
 
     private final StatisticsViewModel statisticsViewModel;
     private final LeaderboardViewModel leaderboardViewModel;
-    private final WelcomeViewModel welcomeViewModel;
     private final ViewManagerModel viewManagerModel;
     private final MenuViewModel menuViewModel;
 
     public StatisticsPresenter(ViewManagerModel viewManagerModel,
                                StatisticsViewModel statisticsViewModel,
                                LeaderboardViewModel leaderboardViewModel,
-                               WelcomeViewModel welcomeViewModel,
                                MenuViewModel menuViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.statisticsViewModel = statisticsViewModel;
         this.leaderboardViewModel = leaderboardViewModel;
-        this.welcomeViewModel = welcomeViewModel;
         this.menuViewModel = menuViewModel;
     }
 
@@ -47,6 +44,8 @@ public class StatisticsPresenter implements StatisticsOutputBoundary {
         this.leaderboardViewModel.setState(leaderboardState);
         this.leaderboardViewModel.firePropertyChanged();
 
+        statisticsViewModel.firePropertyChanged("reset");
+
         viewManagerModel.setState(leaderboardViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
@@ -58,6 +57,8 @@ public class StatisticsPresenter implements StatisticsOutputBoundary {
         menuState.setUser(statisticsViewModel.getState().getUser());
         this.menuViewModel.setState(menuState);
         this.menuViewModel.firePropertyChanged();
+
+        statisticsViewModel.firePropertyChanged("reset");
 
         viewManagerModel.setState(menuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
