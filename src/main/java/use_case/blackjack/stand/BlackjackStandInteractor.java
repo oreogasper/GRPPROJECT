@@ -1,6 +1,7 @@
 package use_case.blackjack.stand;
 
 import entity.BlackjackGame;
+import use_case.blackjack.hit.BlackjackHitInputBoundary;
 import use_case.blackjack.hit.BlackjackHitInputData;
 import use_case.blackjack.hit.BlackjackHitInteractor;
 
@@ -8,11 +9,11 @@ import use_case.blackjack.hit.BlackjackHitInteractor;
  * The Blackjack Stand Use Case Interactor.
  */
 public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
-    private final BlackjackHitInteractor hitInteractor;
+    private final BlackjackHitInputBoundary hitInteractor;
     private final BlackjackStandOutputBoundary outputBoundary;
     private final BlackjackGame blackjackGame;
 
-    public BlackjackStandInteractor(BlackjackHitInteractor hitInteractor,
+    public BlackjackStandInteractor(BlackjackHitInputBoundary hitInteractor,
                                     BlackjackStandOutputBoundary outputBoundary,
                                     BlackjackGame blackjackGame) {
         this.hitInteractor = hitInteractor;
