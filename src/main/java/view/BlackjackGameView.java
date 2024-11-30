@@ -206,7 +206,14 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         playerCardsPanel.revalidate();
         playerCardsPanel.repaint();
 
-        if (!state.getTurnState().equals("Player")) {
+
+        if (state.isFirstTurn()) {
+            buttons.setVisible(true);
+            playAgain.setVisible(false);
+        }
+
+
+        if (!state.getTurnState().equals("Player") || state.isFirstTurn()) {
             dealerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getDealerScore());
 
             List<Image> dealerCards = state.getDealerCards();

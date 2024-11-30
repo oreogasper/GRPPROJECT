@@ -22,6 +22,8 @@ public class BlackjackGameState {
 
     private String turnState;
 
+    private boolean isFirstTurn;
+
     public BlackjackGameState() {
 
         playerCards = new ArrayList<>();
@@ -38,6 +40,8 @@ public class BlackjackGameState {
         dealerScore = "0";
 
         turnState = "Player";
+
+        isFirstTurn = true;
     }
 
     public void setTurnState(String gameState) {
@@ -64,11 +68,14 @@ public class BlackjackGameState {
         return dealerScore;
     }
 
+    public boolean isFirstTurn() {return isFirstTurn;}
+
     public void addPlayerCard(Image card) {
         if (playerCardsDefault) {
             playerCards.clear();
             playerCards.add(card);
             playerCardsDefault = false;
+            isFirstTurn = false;
         }
         else {
             playerCards.add(card);
@@ -80,6 +87,7 @@ public class BlackjackGameState {
             dealerCards.clear();
             dealerCards.add(card);
             dealerCardsDefault = false;
+            isFirstTurn = false;
         }
         else {
             dealerCards.add(card);
