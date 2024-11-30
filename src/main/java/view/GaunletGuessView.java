@@ -217,7 +217,7 @@ public class GaunletGuessView extends JPanel implements ActionListener, Property
         final JButton button = new JButton(text);
         button.setBackground(bgColor);
         button.setForeground(AppColors.YELLOW);
-        button.setFont(new Font(GaunletBetViewModel.FONT_NAME, Font.BOLD, GaunletBetViewModel.TITLE_SIZE));
+        button.setFont(new Font(GaunletBetViewModel.FONT_NAME, Font.BOLD, GaunletBetViewModel.SUBTITLE_SIZE));
         button.setFocusPainted(false);
         button.setPreferredSize(new Dimension(GaunletBetViewModel.WIDTH_DIM, GaunletBetViewModel.HEIGHT_DIM));
         button.setBorder(BorderFactory.createLineBorder(AppColors.YELLOW, 2));
