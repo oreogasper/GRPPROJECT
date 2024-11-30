@@ -29,6 +29,9 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     private final JLabel playerScore;
     private final JLabel dealerScore;
 
+    private final JLabel playerCardsLabel;
+    private final JLabel dealerCardsLabel;
+
     private final JPanel playerCardsPanel;
     private final JPanel dealerCardsPanel;
 
@@ -46,12 +49,12 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         final JLabel title = new JLabel(BlackjackGameViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final JLabel playerCardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
+        this.playerCardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
         this.playerCardsPanel = new JPanel();
         playerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         playerCardsPanel.add(playerCardsLabel);
 
-        final JLabel dealerCardsLabel = new JLabel(BlackjackGameViewModel.DEALER_HAND_LABEL);
+        this.dealerCardsLabel = new JLabel(BlackjackGameViewModel.DEALER_HAND_LABEL);
         this.dealerCardsPanel = new JPanel();
         dealerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         dealerCardsPanel.add(dealerCardsLabel);
@@ -137,11 +140,12 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     private void setFields(BlackjackGameState state) {
         playerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getPlayerScore());
-        dealerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getDealerScore());
+
 
         List<Image> playerCards = state.getPlayerCards();
 
         this.playerCardsPanel.removeAll();
+        playerCardsPanel.add(playerCardsLabel);
 
         for (Image img : playerCards) {
             final ImageIcon imageIcon = new ImageIcon(img);
@@ -152,16 +156,21 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         playerCardsPanel.revalidate();
         playerCardsPanel.repaint();
 
-        List<Image> dealerCards = state.getDealerCards();
-        this.dealerCardsPanel.removeAll();
-        for (Image img : dealerCards) {
-            final ImageIcon imageIcon = new ImageIcon(img);
-            final JLabel card = new JLabel(imageIcon);
-            dealerCardsPanel.add(card);
-        }
-        dealerCardsPanel.revalidate();
-        dealerCardsPanel.repaint();
+        if (!state.getTurnState().equals("Player")) {
+            dealerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getDealerScore());
 
+            List<Image> dealerCards = state.getDealerCards();
+            this.dealerCardsPanel.removeAll();
+            dealerCardsPanel.add(dealerCardsLabel);
+
+            for (Image img : dealerCards) {
+                final ImageIcon imageIcon = new ImageIcon(img);
+                final JLabel card = new JLabel(imageIcon);
+                dealerCardsPanel.add(card);
+            }
+            dealerCardsPanel.revalidate();
+            dealerCardsPanel.repaint();
+        }
     }
 
     public String getViewName() {
