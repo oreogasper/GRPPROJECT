@@ -32,10 +32,16 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
         }
 
         String turnState = null;
-        if (blackjackGame.getDealerScore() > blackjackGame.getPlayerScore()) {
+        if (blackjackGame.isBust(blackjackGame.getDealerCards())) {
+            turnState = "Win";
+        } else if (blackjackGame.isBust(blackjackGame.getPlayerCards())) {
+            turnState = "Lose";
+        } else if (blackjackGame.getPlayerScore() > blackjackGame.getDealerScore()) {
+            turnState = "Win";
+        } else if (blackjackGame.getPlayerScore() < blackjackGame.getDealerScore()) {
             turnState = "Lose";
         } else {
-            turnState = "Win";
+            turnState = "Draw";
         }
 
         BlackjackStandOutputData standOutputData = new BlackjackStandOutputData(turnState,
@@ -47,5 +53,11 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
     @Override
     public void switchToGameMenuView() {
         outputBoundary.switchToGameMenuView();
+    }
+
+    @Override
+    public void switchToBetView() {
+        blackjackGame.resetGame();
+        outputBoundary.switchToBetView();
     }
 }
