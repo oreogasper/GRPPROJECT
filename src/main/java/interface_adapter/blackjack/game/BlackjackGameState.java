@@ -68,6 +68,7 @@ public class BlackjackGameState {
         if (playerCardsDefault) {
             playerCards.clear();
             playerCards.add(card);
+            playerCardsDefault = false;
         }
         else {
             playerCards.add(card);
@@ -78,6 +79,7 @@ public class BlackjackGameState {
         if (dealerCardsDefault) {
             dealerCards.clear();
             dealerCards.add(card);
+            dealerCardsDefault = false;
         }
         else {
             dealerCards.add(card);
