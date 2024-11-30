@@ -17,6 +17,7 @@ public class BlackjackGameViewModel extends ViewModel<BlackjackGameState> {
     public static final String DEALER_TURN_LABEL = "Dealers Turn";
     public static final String WIN_LABEL = "You Win!";
     public static final String LOSE_LABEL = "You Lose!";
+    public static final String DRAW_LABEL = "Draw!";
 
     public BlackjackGameViewModel() {
         super("Blackjack Game");

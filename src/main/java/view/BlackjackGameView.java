@@ -37,6 +37,9 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     private final JButton hit;
     private final JButton stand;
+    private final JPanel buttons;
+
+    private final JLabel gameStatusLabel;
 
     private BlackjackHitController hitController;
     private BlackjackStandController standController;
@@ -48,6 +51,9 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
         final JLabel title = new JLabel(BlackjackGameViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        gameStatusLabel = new JLabel(BlackjackGameViewModel.PLAYER_TURN_LABEL);
+        gameStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.playerCardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
         this.playerCardsPanel = new JPanel();
@@ -85,7 +91,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
         dealerScorePanel.add(dealerScore);
 
-        final JPanel buttons = new JPanel();
+        buttons = new JPanel();
         this.hit = new JButton(BlackjackGameViewModel.HIT_LABEL);
         this.stand = new JButton(BlackjackGameViewModel.STAND_LABEL);
 
@@ -120,6 +126,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
+        this.add(gameStatusLabel);
         this.add(playerCardsPanel);
         this.add(playerScorePanel);
         this.add(dealerCardsPanel);
@@ -139,6 +146,23 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     }
 
     private void setFields(BlackjackGameState state) {
+
+        if (state.getTurnState().equals("Lose")) {
+            gameStatusLabel.setText(BlackjackGameViewModel.LOSE_LABEL);
+        } else if (state.getTurnState().equals("Dealer")) {
+            gameStatusLabel.setText(BlackjackGameViewModel.DEALER_TURN_LABEL);
+        } else if (state.getTurnState().equals("Win")) {
+            gameStatusLabel.setText(BlackjackGameViewModel.WIN_LABEL);
+        } else if (state.getTurnState().equals("Draw")) {
+            gameStatusLabel.setText(BlackjackGameViewModel.DRAW_LABEL);
+        } else {
+            gameStatusLabel.setText(BlackjackGameViewModel.PLAYER_TURN_LABEL);
+        }
+
+        if (!state.getTurnState().equals("Player")) {
+            buttons.setVisible(false);
+        }
+
         playerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getPlayerScore());
 
 
