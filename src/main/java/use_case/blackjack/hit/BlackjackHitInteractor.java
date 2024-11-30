@@ -55,7 +55,7 @@ public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
     }
 
     private void dealerTurnExecute(BlackjackHitInputData inputData) {
-        final String deckId = blackjackGame.getDeckId();
+        final String deckId = blackjackGetCardDataAccessObject.getDeckID();
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
         blackjackGame.addDealerCard(card);
 
