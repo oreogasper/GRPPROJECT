@@ -144,4 +144,9 @@ public class BlackjackGame implements Game{
         }
         return dealerCardImages;
     }
+
+    public void resetGame() {
+        playerCards = new ArrayList<AbstractCard>();
+        dealerCards = new ArrayList<AbstractCard>();
+    }
 }
