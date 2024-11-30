@@ -24,8 +24,14 @@ import javax.imageio.ImageIO;
  */
 public class BlackjackGameView extends JPanel implements ActionListener, PropertyChangeListener {
     private final String viewName;
-
     private final BlackjackGameViewModel blackjackGameViewModel;
+
+    private final JLabel playerScore;
+    private final JLabel dealerScore;
+
+    private final JButton hit;
+    private final JButton stand;
+
     private BlackjackHitController hitController;
     private BlackjackStandController standController;
 
@@ -62,25 +68,36 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         }
 
         final JPanel playerScorePanel = new JPanel();
-        final JLabel playerScoreLabel = new JLabel(
-                BlackjackGameViewModel.SCORE_LABEL + initialState.getPlayerScore());
+        this.playerScore = new JLabel(BlackjackGameViewModel.SCORE_LABEL + initialState.getPlayerScore());
 
-        playerScorePanel.add(playerScoreLabel);
+        playerScorePanel.add(playerScore);
 
 
         final JPanel dealerScorePanel = new JPanel();
-        final JLabel dealerScoreLabel = new JLabel(
-                BlackjackGameViewModel.SCORE_LABEL + initialState.getDealerScore());
+        this.dealerScore = new JLabel(BlackjackGameViewModel.SCORE_LABEL + initialState.getDealerScore());
 
-        dealerScorePanel.add(dealerScoreLabel);
+        dealerScorePanel.add(dealerScore);
 
         final JPanel buttons = new JPanel();
-        final JButton hitButton = new JButton(BlackjackGameViewModel.HIT_LABEL);
-        final JButton standButton = new JButton(BlackjackGameViewModel.STAND_LABEL);
+        this.hit = new JButton(BlackjackGameViewModel.HIT_LABEL);
+        this.stand = new JButton(BlackjackGameViewModel.STAND_LABEL);
 
-        buttons.add(hitButton);
-        buttons.add(standButton);
+        buttons.add(hit);
+        buttons.add(stand);
 
+
+        hit.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        final BlackjackGameState gameState = blackjackGameViewModel.getState();
+                        if (evt.getSource().equals(hit) && gameState.getTurnState().equals("Player")) {
+
+                            hitController.execute(false);
+                        }
+
+                    }
+                }
+        );
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -98,7 +115,12 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        final BlackjackGameState gameState = (BlackjackGameState) evt.getNewValue();
+        setFields(gameState);
+    }
 
+    private void setFields(BlackjackGameState state) {
+        playerScore.setText(state.getPlayerScore());
     }
 
     public String getViewName() {
