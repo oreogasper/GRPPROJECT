@@ -75,9 +75,6 @@ public class GaunletBetView extends JPanel implements ActionListener, PropertyCh
                     public void actionPerformed(ActionEvent evt) {
                         if (evt.getSource().equals(continueToGame)) {
                             final GaunletBetState currentState = gaunletBetViewModel.getState();
-                            // final String betInput = betInputField.getText().trim();
-                            // final int betVal = Integer.parseInt(betInput);
-                            // gaunletBetViewModel.setState(currentState);
                             gaunletBetController.execute(
                                     currentState.getUser().getName(),
                                     Integer.parseInt(currentState.getBet())

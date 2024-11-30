@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GaunletBetInteractorTest {
 
-    // CapturingPresenter to track method calls
+    // simple presenter class to track correct method being called
     static class CapturingPresenter implements GaunletBetOutputBoundary {
 
         private String lastMethodCalled = null;
@@ -56,8 +56,8 @@ class GaunletBetInteractorTest {
         }
     }
 
-    // Stub implementation of GaunletBetDataAccessInterface
-    static class StubGaunletBetDataAccess implements GaunletBetDataAccessInterface {
+    // Simpler implementation of GaunletBetDataAccessInterface
+    static class SimpGaunletBetDataAccessInterface implements GaunletBetDataAccessInterface {
 
         private User storedUser;
 
@@ -66,7 +66,7 @@ class GaunletBetInteractorTest {
             // Return a mock user object
             JSONObject info = new JSONObject();
             info.put("balance", 100);
-            return new ConcreteUser(username, "password", info);
+            return new TestUser(username, "password", info);
         }
 
         @Override
@@ -83,31 +83,28 @@ class GaunletBetInteractorTest {
         }
     }
 
-    // Mock UserFactory
+    // mock of entity UserFactory
     static class MockUserFactory implements UserFactory {
         @Override
         public User create(String name, String password, JSONObject info) {
-            return new ConcreteUser(name, password, info);
+            return new TestUser(name, password, info);
         }
     }
 
     @Test
     void successTest() {
-        // Input data for the interactor
         GaunletBetInputData inputData = new GaunletBetInputData("valk", 11);
 
-        // Dependencies
-        StubGaunletBetDataAccess dataAccess = new StubGaunletBetDataAccess();
+        SimpGaunletBetDataAccessInterface dataAccess = new SimpGaunletBetDataAccessInterface();
         MockUserFactory userFactory = new MockUserFactory();
         CapturingPresenter presenter = new CapturingPresenter();
 
-        // Interactor instance
+        // Creating nteractor instance
         GaunletBetInteractor interactor = new GaunletBetInteractor(dataAccess, presenter, userFactory);
 
-        // Execute the use case
         interactor.execute(inputData, 11);
 
-        // Assertions
+        // check the results of execute method
         assertEquals("prepareSuccessView", presenter.getLastMethodCalled());
         assertNotNull(presenter.getOutputData());
         assertEquals(11, presenter.getOutputData().getBet());
@@ -117,16 +114,11 @@ class GaunletBetInteractorTest {
 
     @Test
     void switchToGaunletGuessViewTest() {
-        // Set up CapturingPresenter
         CapturingPresenter presenter = new CapturingPresenter();
 
-        // Interactor instance with minimal dependencies
         GaunletBetInteractor interactor = new GaunletBetInteractor(null, presenter, null);
-
-        // Call the method
         interactor.switchToGaunletGuessView();
 
-        // Assertions
         assertEquals("switchToGaunletGuessView", presenter.getLastMethodCalled());
     }
 
@@ -135,18 +127,13 @@ class GaunletBetInteractorTest {
         // Input data with invalid bet amount
         GaunletBetInputData inputData = new GaunletBetInputData("valk", 5); // Min bet is 10
 
-        // Dependencies
-        StubGaunletBetDataAccess dataAccess = new StubGaunletBetDataAccess();
+        SimpGaunletBetDataAccessInterface dataAccess = new SimpGaunletBetDataAccessInterface();
         MockUserFactory userFactory = new MockUserFactory();
         CapturingPresenter presenter = new CapturingPresenter();
 
-        // Interactor instance
         GaunletBetInteractor interactor = new GaunletBetInteractor(dataAccess, presenter, userFactory);
-
-        // Execute the use case
         interactor.execute(inputData, 5);
 
-        // Assertions
         assertEquals("prepareFailView", presenter.getLastMethodCalled());
         assertEquals("Invalid bet amount. Please bet a value between 10 tokens and your current balance.",
                 presenter.getErrorMessage());
@@ -154,27 +141,22 @@ class GaunletBetInteractorTest {
 
     @Test
     void switchToGameMenuViewTest() {
-        // Set up CapturingPresenter
         CapturingPresenter presenter = new CapturingPresenter();
 
-        // Interactor instance with minimal dependencies
         GaunletBetInteractor interactor = new GaunletBetInteractor(null, presenter, null);
-
-        // Call the method
         interactor.switchToGameMenuView();
 
-        // Assertions
         assertEquals("switchToGameMenuView", presenter.getLastMethodCalled());
     }
 }
 
-// ConcreteUser class for testing
-class ConcreteUser implements User {
+// a simple User class for testing
+class TestUser implements User {
     private final String name;
     private final String password;
     private final JSONObject info;
 
-    public ConcreteUser(String name, String password, JSONObject info) {
+    public TestUser(String name, String password, JSONObject info) {
         this.name = name;
         this.password = password;
         this.info = info;
