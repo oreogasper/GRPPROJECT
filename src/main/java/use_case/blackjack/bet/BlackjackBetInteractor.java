@@ -33,7 +33,8 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
     public void switchToBlackjackGameView() {
         this.initializeBlackjackGame();
         final BlackjackBetOutputData outputData= new BlackjackBetOutputData(0, false,
-                true, blackjackGame.getPlayerCardImages(), blackjackGame.getPlayerScore());
+                true, blackjackGame.getPlayerCardImages(), blackjackGame.getDealerCardImages(),
+                blackjackGame.getPlayerScore());
 
         outputBoundary.switchToBlackjackGameView(outputData);
     }
