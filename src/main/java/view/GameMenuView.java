@@ -16,6 +16,7 @@ import entity.AppColors;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuState;
 import interface_adapter.gamemenu.GameMenuViewModel;
+import interface_adapter.signup.SignupViewModel;
 
 /**
  * The View for the game menu.
@@ -171,4 +172,5 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
     public void actionPerformed(ActionEvent e) {
 
     }
+}
 }
