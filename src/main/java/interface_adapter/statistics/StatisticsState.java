@@ -8,12 +8,9 @@ import entity.User;
 public class StatisticsState {
     private User user;
     private String Error;
-    private boolean change = false;
-
     public void setUser(User user) {
         this.user = user;
     }
-
     public User getUser() {
         return user;
     }
@@ -60,12 +57,5 @@ public class StatisticsState {
                 + ", games='" + user.getGames() + '\''
                 + ", balance='" + user.getBalance() + '\''
                 + '}';
-    }
-
-    public void changesPassword() {
-        this.change = true;
-    }
-    public boolean doesChange() {
-        return change;
     }
 }

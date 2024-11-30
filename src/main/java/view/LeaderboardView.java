@@ -1,23 +1,18 @@
 package view;
 
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.JTextComponent;
 
+import entity.AppColors;
 import entity.User;
 import interface_adapter.add_friend.AddFriendController;
 import interface_adapter.leaderboard.LeaderboardController;
@@ -25,6 +20,7 @@ import interface_adapter.leaderboard.LeaderboardState;
 import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.remove_friend.RemoveFriendController;
 import interface_adapter.statistics.StatisticsState;
+import interface_adapter.statistics.StatisticsViewModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,12 +28,8 @@ import org.json.JSONObject;
  * The View for the Leaderboard Use Case.
  */
 public class LeaderboardView extends JPanel implements PropertyChangeListener {
-    private static final Integer TABLE_WIDTH = 200;
-    private static final Integer TABLE_HEIGHT = 125;
-    private static final Integer LOSS_COL = 3;
-    private static final Integer WINP_COL = 4;
-    private static final Integer GAMES_COL = 5;
-
+    private static final Integer TABLE_WIDTH = 150;
+    private static final Integer TABLE_HEIGHT = 100;
     private final String viewName = "leaderboard";
     private final LeaderboardViewModel leaderboardViewModel;
     private LeaderboardController leaderboardController;
@@ -46,105 +38,133 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
     private final DefaultTableModel tableModel;
     private final JTable table;
-    private final JTextField friendInputField = new JTextField(15);
+    private final JTextField friendInputField = createStyledTextComponent(new JTextField());
     private final JButton remove;
     private final JButton cancel;
-    private final JButton addFriend;
+    private final JButton addFriendButton;
 
     public LeaderboardView(LeaderboardViewModel leaderboardViewModel) {
         this.leaderboardViewModel = leaderboardViewModel;
         this.leaderboardViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(LeaderboardViewModel.TITLE_LABEL);
+        title.setFont(new Font("Serif", Font.BOLD, 24));
+        title.setForeground(AppColors.YELLOW);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final JPanel friend = new JPanel();
-        final LabelTextPanel friendInput = new LabelTextPanel(
-                new JLabel("Type a Friend's username:"), friendInputField);
-        friend.add(friendInput);
+        final JLabel addFriend = new JLabel(LeaderboardViewModel.ADD_FRIEND_LABEL);
+        addFriend.setFont(new Font("Serif", Font.BOLD, 15));
+        addFriend.setForeground(AppColors.YELLOW);
 
-        addFriend = new JButton("Add Friend");
-        friend.add(addFriend);
-        addFriend.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(addFriend)) {
-                        final LeaderboardState currentState = leaderboardViewModel.getState();
-                        this.addFriendController.execute(
-                                currentState.getFriend(),
-                                currentState.getUsername(),
-                                currentState.getUser().getInfo());
-                    }
-                }
-        );
+        final LabelTextPanel friendInfo = new LabelTextPanel(addFriend, friendInputField);
+        friendInfo.setBackground(AppColors.DARK_GREEN);
+
+        final JPanel friend = new JPanel();
+        friend.setBackground(AppColors.DARK_GREEN);
+        addFriendButton = createStyledButton(LeaderboardViewModel.ADD_FRIEND_BUTTON_LABEL, AppColors.DARK_RED);
+        addFriendButton.setPreferredSize(new Dimension(150, 30));
+        friend.add(friendInfo);
+        friend.add(addFriendButton);
 
         final JPanel buttons = new JPanel();
-        remove = new JButton(LeaderboardViewModel.REMOVE_FRIENDS);
+        buttons.setBackground(AppColors.DARK_GREEN);
+        remove = createStyledButton(LeaderboardViewModel.REMOVE_FRIENDS_BUTTON_LABEL, AppColors.BRIGHT_GREEN);
+        remove.setPreferredSize(new Dimension(200, 30));
+        cancel = createStyledButton(LeaderboardViewModel.RETURN_STATS_BUTTON_LABEL, AppColors.DARK_RED);
+        cancel.setPreferredSize(new Dimension(150, 30));
         buttons.add(remove);
-        cancel = new JButton(LeaderboardViewModel.RETURN_STATS_BUTTON_LABEL);
         buttons.add(cancel);
 
         // Initializing table
         final String[] columnNames = {"Username", "Balance", "Wins", "Losses", "Win %", "Games"};
-        final String[][] initialData = {};
-        tableModel = new DefaultTableModel(initialData, columnNames) {
+        tableModel = new DefaultTableModel(new String[0][0], columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         table = new JTable(tableModel);
+        styleTable();
         // Inside your constructor, after initializing the table
         table.setAutoCreateRowSorter(true);
-
-        // Create a TableRowSorter for your table's model
         final TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
         table.setRowSorter(sorter);
 
+        final JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(AppColors.YELLOW);
+        scrollPane.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
+        this.add(scrollPane);
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(AppColors.DARK_GREEN);
+        this.add(Box.createVerticalStrut(20));
+        this.add(title);
+        this.add(Box.createVerticalStrut(10));
+        this.add(friend);
+        // this.add(Box.createVerticalStrut(10));
+        this.add(scrollPane);
+        this.add(Box.createVerticalStrut(10));
+        this.add(buttons);
+
+        addActionListeners();
+    }
+    private void styleTable() {
+        // Table Appearance
+        table.setBackground(AppColors.YELLOW);
+        table.setForeground(AppColors.BLACK);
+        table.setFont(new Font("Serif", Font.PLAIN, 15));
+        table.setRowHeight(20);
+        table.setShowGrid(true);
+        table.setShowGrid(true);
+        table.setGridColor(AppColors.BRIGHT_GREEN);
+
+        // Header Appearance
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setFont(new Font("Serif", Font.BOLD, 16));
+        tableHeader.setBackground(AppColors.DARK_GREEN);
+        tableHeader.setForeground(AppColors.DARK_GREEN);
+        tableHeader.setReorderingAllowed(false);
+    }
+    private void addActionListeners() {
+        addFriendButton.addActionListener(evt -> {
+            final LeaderboardState currentState = leaderboardViewModel.getState();
+            this.addFriendController.execute(
+                    currentState.getFriend(),
+                    currentState.getUsername(),
+                    currentState.getUser().getInfo());
+        });
+
+        remove.addActionListener(evt -> {
+            final LeaderboardState currentState = leaderboardViewModel.getState();
+            this.removeFriendController.execute(
+                    currentState.getUsername(),
+                    currentState.getUser().getInfo());
+        });
+
+        cancel.addActionListener(evt -> leaderboardController.switchToStatisticsView());
+
         friendInputField.getDocument().addDocumentListener(new DocumentListener() {
-
-            private void documentListenerHelper() {
-                final LeaderboardState currentState = leaderboardViewModel.getState();
-                currentState.setFriend(friendInputField.getText());
-                leaderboardViewModel.setState(currentState);
-            }
-
             @Override
             public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
+                updateFriendState();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
+                updateFriendState();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
+                updateFriendState();
+            }
+
+            private void updateFriendState() {
+                final LeaderboardState currentState = leaderboardViewModel.getState();
+                currentState.setFriend(friendInputField.getText());
+                leaderboardViewModel.setState(currentState);
             }
         });
-
-        remove.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(remove)) {
-                        final LeaderboardState currentState = leaderboardViewModel.getState();
-                        this.removeFriendController.execute(
-                                currentState.getUsername(),
-                                currentState.getUser().getInfo());
-                    }
-                }
-        );
-
-        cancel.addActionListener(evt -> leaderboardController.switchToStatisticsView());
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        this.add(title);
-        this.add(friend);
-        final JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
-        this.add(scrollPane);
-        this.add(buttons);
     }
 
     @Override
@@ -261,6 +281,24 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             friendInputField.setText("");
         }
 
+    }
+    private <T extends JTextComponent> T createStyledTextComponent(T textComponent) {
+        textComponent.setBackground(AppColors.BRIGHT_GREEN);
+        textComponent.setForeground(AppColors.YELLOW);
+        textComponent.setFont(new Font("Serif", Font.PLAIN, 18));
+        textComponent.setCaretColor(AppColors.YELLOW);
+        textComponent.setPreferredSize(new Dimension(150, 30));
+        return textComponent;
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(AppColors.YELLOW);
+        button.setFont(new Font("Serif", Font.BOLD, 15));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(AppColors.YELLOW, 2));
+        return button;
     }
 
     public String getViewName() {

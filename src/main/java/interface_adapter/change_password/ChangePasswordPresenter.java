@@ -22,12 +22,7 @@ public class ChangePasswordPresenter implements ChangePasswordOutputBoundary {
         // Fire the property changed event, but just to let the view know that
         // it can alert the user that their password was changed successfully.
         final StatisticsState statisticsState = statisticsViewModel.getState();
-        if (!statisticsState.doesChange()) {
-            statisticsState.setError("Please enter a valid password");
-        }
-        else {
         statisticsState.setError(null);
-        }
         statisticsViewModel.firePropertyChanged("password");
 
     }
