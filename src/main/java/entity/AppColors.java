@@ -8,4 +8,6 @@ public class AppColors {
     public static final Color DARK_GREEN = Color.decode("#06370A");
     public static final Color BRIGHT_GREEN = Color.decode("#145C1A");
     public static final Color BLACK = Color.decode("#000000");
+    public static final Color WHITE = Color.decode("#FFFFFF");
+
 }

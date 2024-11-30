@@ -3,6 +3,9 @@ package view;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -129,9 +132,11 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
                 // Assuming the username is in column 0 and state.getUsername() is the current user
                 if (table.getValueAt(row, 0).equals(currentState.getUsername())) {
-                    cell.setBackground(AppColors.BRIGHT_GREEN); // Highlight this row
+                    cell.setBackground(AppColors.DARK_GREEN);
+                    cell.setForeground(AppColors.WHITE);
                 } else {
                     cell.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground()); // Default background
+                    cell.setForeground(isSelected ? table.getSelectionBackground() : table.getForeground());
                 }
 
                 return cell;
@@ -191,7 +196,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
-            // tableModel.setRowCount(0);
+            tableModel.setRowCount(0);
             final LeaderboardState state = (LeaderboardState) evt.getNewValue();
             final User user = state.getUser();
 
@@ -206,43 +211,21 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
             final JSONObject json = user.getInfo();
             final JSONArray list = json.getJSONArray("friends");
 
+            // TODO: comment out for loop and remove all friends to fix null pointer exception
             for (int i = 0; i < list.length(); i++) {
                 final String userString = list.get(i).toString();
                 // Extract data from the string
-                if (userString.startsWith("This user {") && userString.endsWith("}")) {
-                    // Remove the prefix and suffix
-                    final String content = userString.substring("This user {".length(), userString.length() - 1);
+                if (userString != null && !userString.isEmpty()) {
+                    Map<String, String> keyValueMap = Arrays.stream(userString.split(", "))
+                            .map(pair -> pair.split("="))
+                            .collect(Collectors.toMap(kv -> kv[0].trim(), kv -> kv[1].replace("'", "").trim()));
 
-                    // Split the key-value pairs
-                    final String[] keyValuePairs = content.split(", ");
-                    String username = "";
-                    int balance = 0;
-                    int wins = 0, losses = 0, games = 0;
-
-                    // Extract values
-                    for (String pair : keyValuePairs) {
-                        final String[] keyValue = pair.split("=");
-                        final String key = keyValue[0].trim();
-                        final String value = keyValue[1].replace("'", "").trim();
-
-                        switch (key) {
-                            case "username":
-                                username = value;
-                                break;
-                            case "balance":
-                                balance = Integer.parseInt(value);
-                                break;
-                            case "wins":
-                                wins = Integer.parseInt(value);
-                                break;
-                            case "losses":
-                                losses = Integer.parseInt(value);
-                                break;
-                            case "games":
-                                games = Integer.parseInt(value);
-                                break;
-                        }
-                    }
+                    String username = keyValueMap.get("username");
+                    int balance = Integer.parseInt(keyValueMap.get("balance"));
+                    int wins = Integer.parseInt(keyValueMap.get("wins"));
+                    int losses = Integer.parseInt(keyValueMap.get("losses"));
+                    int games = Integer.parseInt(keyValueMap.get("games"));
+                    // System.out.println(keyValueMap.get("username"));
 
                     addRowToTable(username, balance, wins, losses, games);
                 }
