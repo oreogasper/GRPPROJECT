@@ -1,6 +1,7 @@
 package interface_adapter.blackjack.game.stand;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.blackjack.game.BlackjackGameState;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import interface_adapter.gamemenu.GameMenuViewModel;
@@ -15,15 +16,18 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
     private final BlackjackGameViewModel blackjackGameViewModel;
     private final GameMenuViewModel gameMenuViewModel;
     private final ViewManagerModel viewManagerModel;
+    private final BlackjackBetViewModel blackjackBetViewModel;
 
     public BlackjackStandPresenter(SignupViewModel signupViewModel,
                                    BlackjackGameViewModel blackjackGameViewModel,
                                    GameMenuViewModel gameMenuViewModel,
-                                   ViewManagerModel viewManagerModel) {
+                                   ViewManagerModel viewManagerModel,
+                                   BlackjackBetViewModel blackjackBetViewModel) {
         this.signupViewModel = signupViewModel;
         this.blackjackGameViewModel = blackjackGameViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
         this.viewManagerModel = viewManagerModel;
+        this.blackjackBetViewModel = blackjackBetViewModel;
     }
 
     @Override
@@ -47,5 +51,15 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
     public void switchToGameMenuView() {
         viewManagerModel.setState(gameMenuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+    }
+
+    @Override
+    public void switchToBetView() {
+        viewManagerModel.setState(blackjackBetViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+
+        final BlackjackGameState gameState = new BlackjackGameState();
+        blackjackGameViewModel.setState(gameState);
+        blackjackGameViewModel.firePropertyChanged();
     }
 }

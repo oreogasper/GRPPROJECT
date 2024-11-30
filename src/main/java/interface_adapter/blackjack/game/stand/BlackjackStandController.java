@@ -31,4 +31,7 @@ public class BlackjackStandController {
         inputBoundary.switchToGameMenuView();
     }
 
+    public void switchToBetView() {
+        inputBoundary.switchToBetView();
+    }
 }
