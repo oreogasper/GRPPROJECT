@@ -59,7 +59,7 @@ public class BlackjackHitPresenter implements BlackjackHitOutputBoundary {
     @Override
     public void prepareFailView(String errorMessage) {
         final SignupState signupState = signupViewModel.getState();
-        signupState.setUsernameError(errorMessage);
+        // signupState.setUsernameError(errorMessage);
         signupViewModel.firePropertyChanged();
     }
 
