@@ -1,15 +1,13 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 
+import entity.AppColors;
 import interface_adapter.shop.button.ShopButtonController;
 import interface_adapter.shop.button.ShopButtonState;
 import interface_adapter.shop.button.ShopButtonViewModel;
@@ -25,43 +23,76 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
     private final JLabel clicksMade;
 
     public ShopButtonView(ShopButtonViewModel shopButtonViewModel) {
-        final JLabel title = new JLabel(ShopButtonViewModel.TITLE_LABEL);
-        final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        titlePanel.add(title);
+        this.setBackground(AppColors.DARK_GREEN);
 
-        // Buttons
-        final JPanel tButtons = new JPanel();
-        final JButton clicker = new JButton(ShopButtonViewModel.CLICK_BUTTON_LABEL);
-        final JButton back = new JButton(ShopButtonViewModel.SHOP_BUTTON_LABEL);
-        tButtons.add(clicker);
-        tButtons.add(back);
+        // Add title
+        final JLabel titlePanel = new JLabel(ShopButtonViewModel.TITLE_LABEL);
+        titlePanel.setFont(new Font("Serif", Font.BOLD, 30));
+        titlePanel.setForeground(AppColors.YELLOW);
+        titlePanel.setHorizontalAlignment(JLabel.CENTER);
 
-        clicker.addActionListener(
-                evt -> shopButtonController.buttonClick(shopButtonViewModel.getState().getClicksMade()));
+        // Labels
+        username = new JLabel("unknown username");
+        username.setForeground(AppColors.YELLOW);
+        username.setFont(new Font("Serif", Font.PLAIN, 15));
+        balance = new JLabel("unknown balance");
+        balance.setForeground(AppColors.YELLOW);
+        balance.setFont(new Font("Serif", Font.PLAIN, 15));
+        clicksMade = new JLabel("Tokens earned this session: 0");
+        clicksMade.setForeground(AppColors.YELLOW);
+        clicksMade.setFont(new Font("Serif", Font.PLAIN, 20));
+
+        // Compose center panel
+        final JButton clicker = createStyledButton(ShopButtonViewModel.CLICK_BUTTON_LABEL, AppColors.DARK_GREEN);
+        clicker.addActionListener(evt -> shopButtonController.buttonClick(shopButtonViewModel.getState().getClicksMade()));
+        clicker.setFont(new Font("Serif", Font.PLAIN, 30));
+        clicker.setPreferredSize(new Dimension(80, 80));
+
+// Wrap clicksMade label for consistent alignment
+        final JPanel clicksPanel = new JPanel();
+        clicksPanel.setBackground(AppColors.DARK_GREEN);
+        clicksPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        clicksPanel.add(clicksMade);
+        clicksMade.setAlignmentX(Component.CENTER_ALIGNMENT);
+        clicksMade.setHorizontalAlignment(SwingConstants.CENTER);
+        clicksMade.setPreferredSize(new Dimension(300, 30)); // Adjust as needed
+
+// Center panel with vertical alignment
+        final JPanel centerPanel = new JPanel();
+        centerPanel.setBackground(AppColors.DARK_GREEN);
+        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.add(Box.createVerticalGlue());
+        centerPanel.add(wrapButton(clicker));
+        centerPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        centerPanel.add(clicksPanel); // Add wrapped panel
+        centerPanel.add(Box.createVerticalGlue());
+
+
+
+        // Bottom panel(s)
+        final JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(AppColors.DARK_GREEN);
+
+        final JPanel leftBottomPanel = new JPanel(new GridLayout(2, 1));
+        leftBottomPanel.setBackground(AppColors.DARK_GREEN);
+        leftBottomPanel.add(username);
+        leftBottomPanel.add(balance);
+
+        final JPanel rightBottomPanel = new JPanel();
+        final JButton back = createStyledButton(ShopButtonViewModel.SHOP_BUTTON_LABEL, AppColors.DARK_GREEN);
+        back.setFont(new Font("Serif", Font.BOLD, 15));
+        back.setPreferredSize(new Dimension(120, 25));
+
+        rightBottomPanel.setBackground(AppColors.DARK_GREEN);
+        rightBottomPanel.add(wrapButton(back));
         back.addActionListener(e -> {
             shopButtonController.switchToShopView();
             shopButtonController.saveData(shopButtonViewModel.getState().getUser().getName(),
                     shopButtonViewModel.getState().getUser().getBalance());
         });
 
-
-        // Labels
-        username = new JLabel("Currently logged in: unknown");
-        balance = new JLabel("Current balance: 0");
-        clicksMade = new JLabel("Tokens earned this session: 0");
-
-        final JPanel clickPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        clickPanel.add(new JLabel(ShopButtonViewModel.CLICK_LABEL));
-        clickPanel.add(clicksMade);
-
-        final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
-        bottomPanel.add(username);
-        bottomPanel.add(balance);
-
-        // Combine center components
-        final JPanel centerPanel = new JPanel(new GridLayout(2, 1));
-        centerPanel.add(tButtons);
-        centerPanel.add(clickPanel);
+        bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
+        bottomPanel.add(rightBottomPanel, BorderLayout.EAST);
 
         // Set layout
         this.setLayout(new BorderLayout());
@@ -79,12 +110,34 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
             final ShopButtonState updatedState = (ShopButtonState) evt.getNewValue();
             username.setText("Currently logged in: " + updatedState.getUser().getName());
             balance.setText("Current balance: " + updatedState.getUser().getBalance());
-            clicksMade.setText(String.valueOf(updatedState.getClicksMade() / ShopButtonViewModel.DIVIDER));
+            clicksMade.setText("Clicks made this session: "
+                    + (updatedState.getClicksMade() / ShopButtonViewModel.DIVIDER));
         } else if (evt.getPropertyName().equals("logout")) {
             final ShopButtonState updatedState = (ShopButtonState) evt.getNewValue();
             updatedState.resetClicks();
             clicksMade.setText(String.valueOf(updatedState.getClicksMade()));
         }
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(AppColors.YELLOW);
+        button.setFont(new Font("Serif", Font.BOLD, 24));
+        button.setFocusPainted(false);
+        button.setBorder(new LineBorder(AppColors.YELLOW, 2));
+        button.setPreferredSize(new Dimension(220, 50));
+        return button;
+    }
+
+    /**
+     * Wraps a button in a panel to ensure fixed width and spacing.
+     */
+    private JPanel wrapButton(JButton button) {
+        JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        wrapper.setBackground(AppColors.DARK_GREEN);
+        wrapper.add(button);
+        return wrapper;
     }
 
     public String getViewName() {
