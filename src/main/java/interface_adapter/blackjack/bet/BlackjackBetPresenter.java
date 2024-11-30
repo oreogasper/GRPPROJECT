@@ -2,10 +2,14 @@ package interface_adapter.blackjack.bet;
 
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.blackjack.game.BlackjackGameState;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import use_case.blackjack.bet.BlackjackBetOutputBoundary;
 import use_case.blackjack.bet.BlackjackBetOutputData;
+
+import java.awt.*;
+import java.util.List;
 
 /**
  * The Presenter for the Blackjack Bet Use Case.
@@ -47,7 +51,22 @@ public class BlackjackBetPresenter implements BlackjackBetOutputBoundary {
     }
 
     @Override
-    public void switchToBlackjackGameView() {
+    public void switchToBlackjackGameView(BlackjackBetOutputData outputData) {
+        List<Image> playerCards = outputData.getInitialPlayerCards();
+        List<Image> dealerCards = outputData.getInitialDealerCards();
+
+        BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
+        blackjackGameState.addPlayerCard(playerCards.get(0));
+        blackjackGameState.addPlayerCard(playerCards.get(1));
+        blackjackGameState.setPlayerScore(String.valueOf(outputData.getInitialPlayerScore()));
+
+        blackjackGameState.addDealerCard(dealerCards.get(0));
+        blackjackGameState.addDealerCard(dealerCards.get(1));
+        blackjackGameState.setDealerScore(String.valueOf(outputData.getInitialDealerScore()));
+
+        blackjackGameViewModel.setState(blackjackGameState);
+        blackjackGameViewModel.firePropertyChanged();
+
         viewManagerModel.setState(blackjackGameViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

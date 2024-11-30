@@ -1,15 +1,15 @@
-package use_case.blackjack.bet;
+package use_case.blackjack.hit;
 
 /**
- * The output boundary for the Blackjack Bet Use Case.
+ * The output boundary for the Blackjack Hit Use Case.
  */
-public interface BlackjackBetOutputBoundary {
+public interface BlackjackHitOutputBoundary {
 
     /**
      * Prepares the success view for the Blackjack Bet Use Case.
      * @param outputData the output data
      */
-    void prepareSuccessView(BlackjackBetOutputData outputData);
+    void prepareSuccessView(BlackjackHitOutputData outputData);
 
     /**
      * Prepares the failure view for the Blackjack Bet Use Case.
@@ -18,12 +18,8 @@ public interface BlackjackBetOutputBoundary {
     void prepareFailView(String errorMessage);
 
     /**
-     * Switches to the Blackjack Game View.
-     */
-    void switchToBlackjackGameView(BlackjackBetOutputData outputData);
-
-    /**
      * Switches to the Game Menu View.
      */
     void switchToGameMenuView();
+
 }
