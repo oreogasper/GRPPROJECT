@@ -31,12 +31,12 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
     @Override
     public void switchToBlackjackGameView() {
         outputBoundary.switchToBlackjackGameView();
+        this.initializeBlackjackGame();
     }
 
     @Override
     public void switchToGameMenuView() {
         outputBoundary.switchToGameMenuView();
-        this.initializeBlackjackGame();
     }
 
     private void initializeBlackjackGame() {
