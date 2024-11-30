@@ -1,7 +1,7 @@
 package interface_adapter.blackjack.game;
 
 import interface_adapter.ViewModel;
-import view.BlackjackGameView;
+
 
 /**
  * The ViewModel for the Blackjack Game View.
@@ -23,8 +23,5 @@ public class BlackjackGameViewModel extends ViewModel<BlackjackGameState> {
         setState(new BlackjackGameState());
     }
 
-    public void addPropertyChangeListener(BlackjackGameView blackjackGameView) {
-
-    }
 
 }
