@@ -130,6 +130,7 @@ public class AppBuilder {
     private final UserFactory userFactory = new CommonUserFactory();
     private final CardFactory cardFactory = new CardFactory();
     private final BlackjackGameFactory blackjackGameFactory = new BlackjackGameFactory();
+    private final BlackjackGame blackjackGame = blackjackGameFactory.create();
     private final GaunletGameFactory gaunletgame = new GaunletGameFactory();
     private final ViewManagerModel viewManagerModel = new ViewManagerModel();
     private final ViewManager viewManager = new ViewManager(cardPanel, cardLayout, viewManagerModel);
@@ -487,7 +488,8 @@ public class AppBuilder {
     public AppBuilder addBlackjackBetUseCase() {
         final BlackjackBetOutputBoundary blackjackBetOutputBoundary = new BlackjackBetPresenter(
                 gameMenuViewModel, blackjackBetViewModel, blackjackGameViewModel, viewManagerModel);
-        final BlackjackBetInputBoundary blackjackBetInteractor = new BlackjackBetInteractor(blackjackBetOutputBoundary);
+        final BlackjackBetInputBoundary blackjackBetInteractor = new BlackjackBetInteractor(blackjackBetOutputBoundary,
+                cardDeckDataAccessObject, blackjackGame);
 
         final BlackjackBetController blackjackBetController = new BlackjackBetController(blackjackBetInteractor);
         blackjackBetView.setBlackjackBetController(blackjackBetController);
@@ -513,7 +515,7 @@ public class AppBuilder {
      * @return this builder
      */
     public AppBuilder addBlackjackGameUseCase() {
-        final BlackjackGame blackjackGame = blackjackGameFactory.create();
+
         final BlackjackHitOutputBoundary blackjackHitOutputBoundary = new BlackjackHitPresenter(
                 signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel);
         final BlackjackHitInputBoundary blackjackHitInputBoundary = new BlackjackHitInteractor(
