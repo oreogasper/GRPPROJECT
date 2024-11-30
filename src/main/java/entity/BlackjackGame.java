@@ -47,7 +47,7 @@ public class BlackjackGame implements Game{
         for (AbstractCard card : cards) {
             if (card.getName().equals("A")) {
                 List<Integer> heavyScores = new ArrayList<>(scores);
-                heavyScores.replaceAll(n -> n + 10);
+                heavyScores.replaceAll(n -> n + 11);
 
                 scores.replaceAll(n -> n + 1);
 
