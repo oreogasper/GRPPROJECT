@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.awt.Image;
 
@@ -59,13 +60,27 @@ public class BlackjackGame implements Game{
 
         }
 
-        int bestScore = 0;
+        List<Integer> under21Scores = new ArrayList<Integer>();
         for (Integer score : scores) {
-            if (score <= 21 && score > bestScore) {
-                bestScore = score;
+            if (score <= 21) {
+                under21Scores.add(score);
             }
         }
-        return bestScore;
+
+
+        if (under21Scores.size() > 0) {
+            int bestScore = 0;
+            for (Integer score : scores) {
+                if (score <= 21 && score > bestScore) {
+                    bestScore = score;
+                }
+            }
+            return bestScore;
+        } else {
+            return Collections.min(scores);
+        }
+
+
     }
 
     public int getPlayerScore() {
