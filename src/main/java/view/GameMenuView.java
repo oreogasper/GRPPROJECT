@@ -1,8 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -12,14 +10,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import entity.AppColors;
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuState;
 import interface_adapter.gamemenu.GameMenuViewModel;
+import interface_adapter.signup.SignupViewModel;
 
 /**
  * The View for the game menu.
@@ -46,8 +43,12 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
         final JLabel title = new JLabel(GameMenuViewModel.TITLE_LABEL);
         final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         titlePanel.add(title);
+        title.setFont(new Font("Serif", Font.BOLD, gameMenuViewModel.TITLE_SIZE));
+        title.setForeground(AppColors.YELLOW);
+        titlePanel.setBackground(AppColors.DARK_RED);
 
-        final JPanel tButtons = new JPanel(new GridLayout(3, 3));
+        final JPanel tButtons = new JPanel(new GridLayout(2, 3));
+        tButtons.setBackground(AppColors.DARK_GREEN);
         addButton(tButtons, GameMenuViewModel.BLACKJACK_BUTTON_LABEL,
                 evt -> gameMenuController.switchToBlackjackView());
         addButton(tButtons, GameMenuViewModel.GAUNTLET_BUTTON_LABEL,
@@ -60,21 +61,31 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
                 evt -> openRulesFile("game rules/gaunletRules"));
         addButton(tButtons, GameMenuViewModel.OVERUNDER_RULES_BUTTON_LABEL,
                 evt -> openRulesFile("game rules/overunderRules"));
-        addButton(tButtons, GameMenuViewModel.BACK_BUTTON_LABEL, evt -> gameMenuController.switchToMenuView());
+
+        final JPanel backButtons = new JPanel(new GridLayout(1, 1));
+        addButton(backButtons, GameMenuViewModel.BACK_BUTTON_LABEL, evt -> gameMenuController.switchToMenuView());
 
         final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
         bottomPanel.add(username);
+        username.setFont(new Font("Serif", Font.PLAIN, gameMenuViewModel.SUBTITLE_SIZE));
+        username.setForeground(AppColors.YELLOW);
         bottomPanel.add(balance);
+        balance.setFont(new Font("Serif", Font.PLAIN, gameMenuViewModel.SUBTITLE_SIZE));
+        balance.setForeground(AppColors.YELLOW);
+        bottomPanel.setBackground(AppColors.DARK_RED);
 
         this.setLayout(new BorderLayout());
+        this.setBackground(AppColors.DARK_GREEN);
         this.add(titlePanel, BorderLayout.NORTH);
         this.add(tButtons, BorderLayout.CENTER);
-        this.add(bottomPanel, BorderLayout.SOUTH);
+        backButtons.add(bottomPanel, BorderLayout.NORTH);
+        this.add(backButtons, BorderLayout.SOUTH);
     }
 
     // adding button helper function
     private void addButton(JPanel panel, String label, ActionListener actionListener) {
-        final JButton button = new JButton(label);
+        JButton button = new JButton(label);
+        button = createStyledButton(label, AppColors.BRIGHT_GREEN);
         button.addActionListener(actionListener);
         panel.add(button);
     }
@@ -129,5 +140,16 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        final JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(AppColors.YELLOW);
+        button.setFont(new Font("Serif", Font.BOLD, 15));
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(180, 50));
+        button.setBorder(BorderFactory.createLineBorder(AppColors.YELLOW, 2));
+        return button;
     }
 }

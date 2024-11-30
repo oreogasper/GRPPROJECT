@@ -17,6 +17,9 @@ public class GameMenuViewModel extends ViewModel<GameMenuState> {
 
     public static final String BACK_BUTTON_LABEL = "Back to main menu";
 
+    public static final int TITLE_SIZE = 20;
+    public static final int SUBTITLE_SIZE = 10;
+
     public GameMenuViewModel() {
         super("game menu");
         setState(new GameMenuState());
