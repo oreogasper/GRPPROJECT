@@ -147,8 +147,8 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
 
                         final BufferedImage bufferedImage = ImageIO.read(inputStream);
                         img = bufferedImage.getScaledInstance(
-                                (int) Math.round(bufferedImage.getWidth() * 0.12),
-                                (int) Math.round(bufferedImage.getHeight() * 0.12), Image.SCALE_SMOOTH);
+                                (int) Math.round(bufferedImage.getWidth() * 0.4),
+                                (int) Math.round(bufferedImage.getHeight() * 0.4), Image.SCALE_SMOOTH);
 
                     }
                     else {
