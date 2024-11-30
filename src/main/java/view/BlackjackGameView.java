@@ -39,6 +39,8 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     private final JButton stand;
     private final JPanel buttons;
 
+    private final JButton playAgain;
+
     private final JLabel gameStatusLabel;
 
     private BlackjackHitController hitController;
@@ -95,6 +97,8 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         this.hit = new JButton(BlackjackGameViewModel.HIT_LABEL);
         this.stand = new JButton(BlackjackGameViewModel.STAND_LABEL);
 
+        playAgain = new JButton(BlackjackGameViewModel.PLAY_AGAIN_LABEL);
+
         buttons.add(hit);
         buttons.add(stand);
 
@@ -106,6 +110,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
                         if (evt.getSource().equals(hit) && gameState.getTurnState().equals("Player")) {
 
                             hitController.execute(false);
+
                         }
 
                     }
@@ -124,6 +129,19 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
                 }
         );
 
+        playAgain.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        final BlackjackGameState gameState = blackjackGameViewModel.getState();
+                        if (evt.getSource().equals(stand) && !gameState.getTurnState().equals("Player")
+                        && !gameState.getTurnState().equals("Dealer")) {
+
+                            standController.switchToBetView();
+                        }
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(gameStatusLabel);
@@ -132,6 +150,8 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         this.add(dealerCardsPanel);
         this.add(dealerScorePanel);
         this.add(buttons);
+        this.add(playAgain);
+        playAgain.setVisible(false);
     }
 
     @Override
@@ -149,12 +169,15 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
         if (state.getTurnState().equals("Lose")) {
             gameStatusLabel.setText(BlackjackGameViewModel.LOSE_LABEL);
+            playAgain.setVisible(true);
         } else if (state.getTurnState().equals("Dealer")) {
             gameStatusLabel.setText(BlackjackGameViewModel.DEALER_TURN_LABEL);
         } else if (state.getTurnState().equals("Win")) {
             gameStatusLabel.setText(BlackjackGameViewModel.WIN_LABEL);
+            playAgain.setVisible(true);
         } else if (state.getTurnState().equals("Draw")) {
             gameStatusLabel.setText(BlackjackGameViewModel.DRAW_LABEL);
+            playAgain.setVisible(true);
         } else {
             gameStatusLabel.setText(BlackjackGameViewModel.PLAYER_TURN_LABEL);
         }
