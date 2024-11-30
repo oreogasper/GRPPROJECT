@@ -173,4 +173,4 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
 
     }
 }
-}
+

@@ -23,8 +23,6 @@ import interface_adapter.blackjack.game.hit.BlackjackHitController;
 import interface_adapter.blackjack.game.hit.BlackjackHitPresenter;
 import interface_adapter.blackjack.game.stand.BlackjackStandController;
 import interface_adapter.blackjack.game.stand.BlackjackStandPresenter;
-import interface_adapter.statistics.ChangePasswordController;
-import interface_adapter.statistics.ChangePasswordPresenter;
 
 import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardPresenter;
