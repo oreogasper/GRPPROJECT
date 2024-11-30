@@ -121,6 +121,8 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
                 int value = 0;
                 if (stringValue.equals("ACE")) {
                     value = 1;
+                } else if (stringValue.equals("KING") || stringValue.equals("QUEEN") || stringValue.equals("JACK")) {
+                    value = 10;
                 } else {
                     value = Integer.parseInt(stringValue);
                 }
