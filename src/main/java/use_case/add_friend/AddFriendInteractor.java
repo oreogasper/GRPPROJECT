@@ -25,37 +25,42 @@ public class AddFriendInteractor implements AddFriendInputBoundary {
 
     @Override
     public void execute(AddFriendInputData addFriendInputData) {
-
-        final User userr = userDataAccessObject.get(addFriendInputData.getUsername());
-        final User friend = userDataAccessObject.get(addFriendInputData.getFriend());
-        final JSONObject json = userr.getInfo();
-
-        final JSONArray list = json.getJSONArray("friends");
-
-        // New element to add at the beginning
-        final User newFriend = friend;
-
-        // Create a new JSONArray
-        final JSONArray newArray = new JSONArray();
-        // System.out.println("Printing elements of the JSONArray:");
-
-        // Put element at beginning of newArray
-        newArray.put(newFriend);
-        for (int i = 0; i < list.length(); i++) {
-            // Add the rest of the previous friends
-            newArray.put(list.get(i));
+        if (!userDataAccessObject.existsByName(addFriendInputData.getFriend())) {
+            userPresenter.prepareFailView("User does NOT exist!");
         }
+        else {
 
-        // System.out.println(newArray.get(0));
-        json.put("friends", newArray);
+            final User userr = userDataAccessObject.get(addFriendInputData.getUsername());
+            final User friend = userDataAccessObject.get(addFriendInputData.getFriend());
+            final JSONObject json = userr.getInfo();
 
-        final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
-        userDataAccessObject.saveNew(user, json);
-        userDataAccessObject.addFriend(user);
+            final JSONArray list = json.getJSONArray("friends");
 
-        final AddFriendOutputData addFriendOutputData = new AddFriendOutputData(friend,
-                                                                                  false);
+            // New element to add at the beginning
+            final User newFriend = friend;
 
-        userPresenter.prepareSuccessView(addFriendOutputData);
+            // Create a new JSONArray
+            final JSONArray newArray = new JSONArray();
+            // System.out.println("Printing elements of the JSONArray:");
+
+            // Put element at beginning of newArray
+            newArray.put(newFriend);
+            for (int i = 0; i < list.length(); i++) {
+                // Add the rest of the previous friends
+                newArray.put(list.get(i));
+            }
+
+            // System.out.println(newArray.get(0));
+            json.put("friends", newArray);
+
+            final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
+            userDataAccessObject.saveNew(user, json);
+            userDataAccessObject.addFriend(user);
+
+            final AddFriendOutputData addFriendOutputData = new AddFriendOutputData(friend,
+                    false);
+
+            userPresenter.prepareSuccessView(addFriendOutputData);
+        }
     }
 }

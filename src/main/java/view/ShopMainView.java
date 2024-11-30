@@ -28,7 +28,6 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         final JLabel title = new JLabel(ShopViewModel.TITLE_LABEL);
         title.setFont(new Font("Serif", Font.BOLD, 30));
         title.setForeground(AppColors.YELLOW);
-        title.setHorizontalAlignment(JLabel.CENTER);
 
         final JPanel titlePanel = new JPanel();
         titlePanel.setBackground(AppColors.DARK_GREEN);
