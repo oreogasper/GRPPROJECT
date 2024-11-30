@@ -29,6 +29,9 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     private final JLabel playerScore;
     private final JLabel dealerScore;
 
+    private final JPanel playerCardsPanel;
+    private final JPanel dealerCardsPanel;
+
     private final JButton hit;
     private final JButton stand;
 
@@ -38,17 +41,18 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     public BlackjackGameView(BlackjackGameViewModel blackjackGameViewModel) {
         this.viewName = blackjackGameViewModel.getViewName();
         this.blackjackGameViewModel = blackjackGameViewModel;
+        blackjackGameViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(BlackjackGameViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JLabel playerCardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
-        final JPanel playerCardsPanel = new JPanel();
+        this.playerCardsPanel = new JPanel();
         playerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         playerCardsPanel.add(playerCardsLabel);
 
         final JLabel dealerCardsLabel = new JLabel(BlackjackGameViewModel.DEALER_HAND_LABEL);
-        final JPanel dealerCardsPanel = new JPanel();
+        this.dealerCardsPanel = new JPanel();
         dealerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         dealerCardsPanel.add(dealerCardsLabel);
 
@@ -120,7 +124,31 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     }
 
     private void setFields(BlackjackGameState state) {
-        playerScore.setText(state.getPlayerScore());
+        playerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getPlayerScore());
+
+        List<Image> playerCards = state.getPlayerCards();
+
+        this.playerCardsPanel.removeAll();
+
+        for (Image img : playerCards) {
+            final ImageIcon imageIcon = new ImageIcon(img);
+            final JLabel card = new JLabel(imageIcon);
+            playerCardsPanel.add(card);
+        }
+
+        playerCardsPanel.revalidate();
+        playerCardsPanel.repaint();
+
+        List<Image> dealerCards = state.getDealerCards();
+        this.dealerCardsPanel.removeAll();
+        for (Image img : dealerCards) {
+            final ImageIcon imageIcon = new ImageIcon(img);
+            final JLabel card = new JLabel(imageIcon);
+            dealerCardsPanel.add(card);
+        }
+        dealerCardsPanel.revalidate();
+        dealerCardsPanel.repaint();
+
     }
 
     public String getViewName() {
