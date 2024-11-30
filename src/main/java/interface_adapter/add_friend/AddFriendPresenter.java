@@ -22,14 +22,17 @@ public class AddFriendPresenter implements AddFriendOutputBoundary {
     @Override
     public void prepareSuccessView(AddFriendOutputData outputData) {
         final LeaderboardState leaderboardState = leaderboardViewModel.getState();
+        leaderboardState.setError(null);
         final User currentUser = leaderboardState.getUser();
         leaderboardState.setUser(outputData.getFriend());
         leaderboardViewModel.firePropertyChanged("friend");
-        leaderboardViewModel.firePropertyChanged("reset");
         leaderboardState.setUser(currentUser);
     }
 
     @Override
     public void prepareFailView(String error) {
+        final LeaderboardState leaderboardState = leaderboardViewModel.getState();
+        leaderboardState.setError(error);
+        leaderboardViewModel.firePropertyChanged("friend");
     }
 }

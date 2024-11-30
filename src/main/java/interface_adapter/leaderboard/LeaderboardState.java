@@ -8,6 +8,7 @@ import entity.User;
 public class LeaderboardState {
     private User user;
     private String friend;
+    private String Error;
 
     public void setUser(User user) {
         this.user = user;
@@ -54,5 +55,13 @@ public class LeaderboardState {
 
     public String getFriend() {
         return friend;
+    }
+
+    public void setError(String Error) {
+        this.Error = Error;
+    }
+
+    public String getError() {
+        return Error;
     }
 }
