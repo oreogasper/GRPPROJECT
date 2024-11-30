@@ -39,7 +39,7 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
         }
 
         BlackjackStandOutputData standOutputData = new BlackjackStandOutputData(turnState,
-                false, blackjackStandInputData.isEndPlayerTurn());
+                false, blackjackStandInputData.isEndPlayerTurn(),blackjackGame.getDealerScore());
 
         outputBoundary.prepareSuccessView(standOutputData);
     }

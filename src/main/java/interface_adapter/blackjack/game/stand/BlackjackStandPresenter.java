@@ -29,6 +29,7 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
     @Override
     public void prepareSuccessView(BlackjackStandOutputData outputData) {
         final BlackjackGameState gameState = blackjackGameViewModel.getState();
+        gameState.setDealerScore(String.valueOf(outputData.getDealerScore()));
         gameState.setTurnState(outputData.getTurnState());
         blackjackGameViewModel.setState(gameState);
         blackjackGameViewModel.firePropertyChanged();

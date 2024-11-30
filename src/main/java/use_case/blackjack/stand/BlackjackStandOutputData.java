@@ -7,12 +7,15 @@ public class BlackjackStandOutputData {
     private final String turnState;
     private final boolean useCaseFailed;
     private final boolean isEndPlayerTurn;
+    private final int dealerScore;
 
     public BlackjackStandOutputData(String turnState,
-                                    boolean useCaseFailed, boolean isEndPlayerTurn) {
+                                    boolean useCaseFailed, boolean isEndPlayerTurn,
+                                    int dealerScore) {
         this.turnState = turnState;
         this.useCaseFailed = useCaseFailed;
         this.isEndPlayerTurn = isEndPlayerTurn;
+        this.dealerScore = dealerScore;
     }
 
     public String getTurnState() {
@@ -22,6 +25,8 @@ public class BlackjackStandOutputData {
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
+
+    public int getDealerScore() {return dealerScore;}
 
     public boolean isEndPlayerTurn() {return isEndPlayerTurn;}
 
