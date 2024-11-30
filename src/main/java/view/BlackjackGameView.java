@@ -110,7 +110,9 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
                         if (evt.getSource().equals(hit) && gameState.getTurnState().equals("Player")) {
 
                             hitController.execute(false);
-
+                            if (gameState.getTurnState().equals("Dealer")) {
+                                standController.execute(gameState.getTurnState());
+                            }
                         }
 
                     }
