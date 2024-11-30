@@ -103,6 +103,18 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
                 }
         );
 
+        stand.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        final BlackjackGameState gameState = blackjackGameViewModel.getState();
+                        if (evt.getSource().equals(stand) && gameState.getTurnState().equals("Player")) {
+
+                            standController.execute(gameState.getTurnState());
+                        }
+                    }
+                }
+        );
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(playerCardsPanel);
@@ -125,6 +137,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     private void setFields(BlackjackGameState state) {
         playerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getPlayerScore());
+        dealerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getDealerScore());
 
         List<Image> playerCards = state.getPlayerCards();
 
