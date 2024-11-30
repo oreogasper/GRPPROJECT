@@ -2,6 +2,7 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Image;
 
 public class BlackjackGame implements Game{
     private final int minBet = 100;
@@ -45,21 +46,15 @@ public class BlackjackGame implements Game{
         for (AbstractCard card : cards) {
             if (card.getName().equals("A")) {
                 List<Integer> heavyScores = new ArrayList<>(scores);
-                for (Integer score : heavyScores) {
-                    score += 10;
-                }
+                heavyScores.replaceAll(n -> n + 10);
 
-                for (Integer score : scores) {
-                    score += 1;
-                }
+                scores.replaceAll(n -> n + 1);
 
                 scores.addAll(heavyScores);
 
 
             } else {
-                for (Integer score : scores) {
-                    score += card.getRank();
-                }
+                scores.replaceAll(n -> n + card.getRank());
             }
 
         }
@@ -117,5 +112,21 @@ public class BlackjackGame implements Game{
 
     public List<AbstractCard> getDealerCards() {
         return dealerCards;
+    }
+
+    public List<Image> getPlayerCardImages() {
+        List<Image> playerCardImages = new ArrayList<>();
+        for (AbstractCard card : playerCards) {
+            playerCardImages.add(card.getImage());
+        }
+        return playerCardImages;
+    }
+
+    public List<Image> getDealerCardImages() {
+        List<Image> dealerCardImages = new ArrayList<>();
+        for (AbstractCard card : dealerCards) {
+            dealerCardImages.add(card.getImage());
+        }
+        return dealerCardImages;
     }
 }
