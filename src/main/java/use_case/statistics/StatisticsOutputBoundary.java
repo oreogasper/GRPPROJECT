@@ -1,14 +1,11 @@
 package use_case.statistics;
 
-import use_case.signup.SignupOutputData;
-
 /**
  * The output boundary for the Statistics Use Case.
  */
 public interface StatisticsOutputBoundary {
     /**
      * Prepares the success view for the Statistics Use Case.
-     * // @param outputData the output data
      */
     // void prepareSuccessView(WelcomeOutputData outputData);
     void prepareSuccessView();
@@ -20,10 +17,12 @@ public interface StatisticsOutputBoundary {
     void prepareFailView(String errorMessage);
 
     /**
-     * Switches to the Login View.
+     * Switches to the Leaderboard View.
      */
-    // TODO: change to leaderboard view when implemented
-    void switchToWelcomeView();
+    void switchToLeaderboardView();
 
+    /**
+     * Switches to the Menu View.
+     */
     void switchToMenuView();
 }

@@ -36,7 +36,7 @@ public class BlackjackGamePresenter implements BlackjackGameOutputBoundary {
     @Override
     public void prepareFailView(String errorMessage) {
         final SignupState signupState = signupViewModel.getState();
-        signupState.setUsernameError(errorMessage);
+        signupState.setError(errorMessage);
         signupViewModel.firePropertyChanged();
     }
 

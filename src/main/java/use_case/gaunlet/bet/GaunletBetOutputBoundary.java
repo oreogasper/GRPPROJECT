@@ -18,12 +18,12 @@ public interface GaunletBetOutputBoundary {
     void prepareFailView(String errorMessage);
 
     /**
-     * Switches to the Login View.
+     * Switches to the Gaunlet Guess View.
      */
     void switchToGaunletGuessView();
 
     /**
-     * Switches to the Login View.
+     * Switches to the Game menu View.
      */
     void switchToGameMenuView();
 
@@ -31,4 +31,5 @@ public interface GaunletBetOutputBoundary {
      * Saves current bet for user.
      */
     void setUserBet();
+
 }

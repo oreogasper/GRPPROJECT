@@ -37,6 +37,16 @@ public class OverUnderGamePresenter implements OverUnderOutputBoundary {
     }
 
     @Override
+    public void showCorrectGuess() {
+
+    }
+
+    @Override
+    public void showWrongGuess() {
+
+    }
+
+    @Override
     public void updateBalance(int newBalance) {
         view.updateBalanceDisplay(newBalance);
     }

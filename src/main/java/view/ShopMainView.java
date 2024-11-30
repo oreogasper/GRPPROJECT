@@ -1,15 +1,15 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
+import entity.AppColors;
 import interface_adapter.shop.ShopController;
 import interface_adapter.shop.ShopState;
 import interface_adapter.shop.ShopViewModel;
@@ -18,30 +18,40 @@ import interface_adapter.shop.ShopViewModel;
  * The View for the shop main menu.
  */
 public class ShopMainView extends JPanel implements PropertyChangeListener {
-
-    private transient ShopController shopController;
+    private ShopController shopController;
     private final JLabel username;
     private final JLabel balance;
 
     public ShopMainView(ShopViewModel shopViewModel) {
+        this.setBackground(AppColors.DARK_GREEN);
 
         final JLabel title = new JLabel(ShopViewModel.TITLE_LABEL);
-        final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        title.setFont(new Font("Serif", Font.BOLD, 30));
+        title.setForeground(AppColors.YELLOW);
+
+        final JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(AppColors.DARK_GREEN);
         titlePanel.add(title);
 
         // Add buttons
-        final JPanel tButtons = new JPanel();
-        final JButton wheel = new JButton(ShopViewModel.WHEEL_BUTTON_LABEL);
-        tButtons.add(wheel);
-        final JButton button = new JButton(ShopViewModel.BUTTON_BUTTON_LABEL);
-        tButtons.add(button);
+        final JPanel buttonPanel = new JPanel(new GridLayout(2, 1, 0, 40));
+        buttonPanel.setBackground(AppColors.DARK_GREEN);
+        final JButton wheel = createStyledButton(ShopViewModel.WHEEL_BUTTON_LABEL, AppColors.DARK_RED);
+        buttonPanel.add(wrapButton(wheel));
+        final JButton button = createStyledButton(ShopViewModel.BUTTON_BUTTON_LABEL, AppColors.DARK_RED);
+        buttonPanel.add(wrapButton(button));
+
 
         wheel.addActionListener(evt -> shopController.switchToShopWheelView());
         button.addActionListener(evt -> shopController.switchToShopButtonView());
 
         // Bottom panel for username and balance
         username = new JLabel("unknown username");
+        username.setForeground(AppColors.YELLOW);
+        username.setFont(new Font("Serif", Font.PLAIN, 15));
         balance = new JLabel("unknown balance");
+        balance.setForeground(AppColors.YELLOW);
+        balance.setFont(new Font("Serif", Font.PLAIN, 15));
 
         // Update labels when state changes
         shopViewModel.addPropertyChangeListener(evt -> {
@@ -56,27 +66,51 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         });
 
         final JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(AppColors.DARK_GREEN);
 
-        final JPanel leftBottomPanel = new JPanel();
-        leftBottomPanel.setLayout(new BoxLayout(leftBottomPanel, BoxLayout.Y_AXIS));
+        final JPanel leftBottomPanel = new JPanel(new GridLayout(2, 1));
+        leftBottomPanel.setBackground(AppColors.DARK_GREEN);
         leftBottomPanel.add(username);
         leftBottomPanel.add(balance);
 
-        final JButton back = new JButton(ShopViewModel.BACK_BUTTON_LABEL);
-        back.addActionListener(evt -> shopController.switchToMenuView());
+        final JPanel rightBottomPanel = new JPanel();
+        final JButton back = createStyledButton(ShopViewModel.BACK_BUTTON_LABEL, AppColors.DARK_GREEN);
+        back.setFont(new Font("Serif", Font.BOLD, 15));
+        back.setPreferredSize(new Dimension(120, 25));
 
-        final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        rightBottomPanel.add(back);
+        rightBottomPanel.setBackground(AppColors.DARK_GREEN);
+        rightBottomPanel.add(wrapButton(back));
+        back.addActionListener(evt -> shopController.switchToMenuView());
 
         bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
         bottomPanel.add(rightBottomPanel, BorderLayout.EAST);
 
         // Set layout and add components
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BorderLayout(0, 25));
         this.add(titlePanel, BorderLayout.NORTH);
-        this.add(tButtons, BorderLayout.CENTER);
+        this.add(buttonPanel, BorderLayout.CENTER);
         this.add(bottomPanel, BorderLayout.SOUTH);
+    }
 
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(AppColors.YELLOW);
+        button.setFont(new Font("Serif", Font.BOLD, 24));
+        button.setFocusPainted(false);
+        button.setBorder(new LineBorder(AppColors.YELLOW, 2));
+        button.setPreferredSize(new Dimension(220, 50));
+        return button;
+    }
+
+    /**
+     * Wraps a button in a panel to ensure fixed width and spacing.
+     */
+    private JPanel wrapButton(JButton button) {
+        JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        wrapper.setBackground(AppColors.DARK_GREEN);
+        wrapper.add(button);
+        return wrapper;
     }
 
     @Override

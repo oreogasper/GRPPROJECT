@@ -104,4 +104,11 @@ public interface User {
      * @return the current bet of the user.
      */
     int getBet();
+
+    /**
+     * Sets current friend of the user.
+     * @param friend is the time of last spin.
+     */
+    void setFriend(String friend);
+
 }

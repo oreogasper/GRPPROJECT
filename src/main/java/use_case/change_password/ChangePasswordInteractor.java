@@ -21,16 +21,20 @@ public class ChangePasswordInteractor implements ChangePasswordInputBoundary {
 
     @Override
     public void execute(ChangePasswordInputData changePasswordInputData) {
-        final User user = userFactory.create(changePasswordInputData.getUsername(),
-                                             changePasswordInputData.getPassword(),
-                                             changePasswordInputData.getInfo());
-        userDataAccessObject.changePassword(user);
+        if (changePasswordInputData.getPassword().contains(" ")) {
+            userPresenter.prepareFailView("Password can't contain spaces!");
+        } else if (changePasswordInputData.getPassword().isEmpty()) {
+            userPresenter.prepareFailView("Password can't be empty!");
+        } else {
+            final User user = userFactory.create(changePasswordInputData.getUsername(),
+                    changePasswordInputData.getPassword(),
+                    changePasswordInputData.getInfo());
+            userDataAccessObject.changePassword(user);
 
-        final ChangePasswordOutputData changePasswordOutputData = new ChangePasswordOutputData(user.getName(),
-                                                                                  false);
+            final ChangePasswordOutputData changePasswordOutputData = new ChangePasswordOutputData(user.getName(),
+                    false);
 
-        System.out.println("CP INTERACTOR: " + userDataAccessObject.get(changePasswordInputData.getUsername()));
-
-        userPresenter.prepareSuccessView(changePasswordOutputData);
+            userPresenter.prepareSuccessView(changePasswordOutputData);
+        }
     }
 }

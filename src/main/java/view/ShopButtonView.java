@@ -10,7 +10,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import interface_adapter.shop.ShopViewModel;
 import interface_adapter.shop.button.ShopButtonController;
 import interface_adapter.shop.button.ShopButtonState;
 import interface_adapter.shop.button.ShopButtonViewModel;
@@ -39,7 +38,12 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
 
         clicker.addActionListener(
                 evt -> shopButtonController.buttonClick(shopButtonViewModel.getState().getClicksMade()));
-        back.addActionListener(evt -> shopButtonController.switchToShopView());
+        back.addActionListener(e -> {
+            shopButtonController.switchToShopView();
+            shopButtonController.saveData(shopButtonViewModel.getState().getUser().getName(),
+                    shopButtonViewModel.getState().getUser().getBalance());
+        });
+
 
         // Labels
         username = new JLabel("Currently logged in: unknown");
@@ -76,6 +80,10 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
             username.setText("Currently logged in: " + updatedState.getUser().getName());
             balance.setText("Current balance: " + updatedState.getUser().getBalance());
             clicksMade.setText(String.valueOf(updatedState.getClicksMade() / ShopButtonViewModel.DIVIDER));
+        } else if (evt.getPropertyName().equals("logout")) {
+            final ShopButtonState updatedState = (ShopButtonState) evt.getNewValue();
+            updatedState.resetClicks();
+            clicksMade.setText(String.valueOf(updatedState.getClicksMade()));
         }
     }
 

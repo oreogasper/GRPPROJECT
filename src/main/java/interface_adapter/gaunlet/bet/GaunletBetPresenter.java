@@ -17,7 +17,6 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final ViewManagerModel viewManagerModel;
 
-
     public GaunletBetPresenter(ViewManagerModel viewManagerModel,
                                GameMenuViewModel gameMenuViewModel,
                                GaunletBetViewModel gaunletBetViewModel,
@@ -37,13 +36,11 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
         this.gaunletBetViewModel.setState(gaunletBetState);
         gaunletBetViewModel.firePropertyChanged();
 
+        // Moves user info to guess view
         final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
         gaunletGuessState.setUser(gaunletBetViewModel.getState().getUser());
         this.gaunletGuessViewModel.setState(gaunletGuessState);
         this.gaunletGuessViewModel.firePropertyChanged();
-
-        viewManagerModel.setState(gaunletGuessViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
 
         this.viewManagerModel.setState(gaunletGuessViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
@@ -53,6 +50,8 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     public void prepareFailView(String error) {
         final GaunletBetState betState = gaunletBetViewModel.getState();
         betState.setBetError(error);
+        betState.setBet(0);
+        this.gaunletBetViewModel.setState(betState);
         gaunletBetViewModel.firePropertyChanged();
     }
 

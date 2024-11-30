@@ -7,7 +7,7 @@ public interface GameMenuOutputBoundary {
     /**
      * Prepares the success view for the Menu Use Case.
      */
-    // void prepareSuccessView(WelcomeOutputData outputData);
+
     void prepareSuccessView();
 
     /**

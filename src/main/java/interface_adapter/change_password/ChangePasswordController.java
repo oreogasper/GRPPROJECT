@@ -1,6 +1,7 @@
-package interface_adapter.statistics;
+package interface_adapter.change_password;
 
 import org.json.JSONObject;
+
 import use_case.change_password.ChangePasswordInputBoundary;
 import use_case.change_password.ChangePasswordInputData;
 

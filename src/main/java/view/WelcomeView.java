@@ -1,14 +1,12 @@
 package view;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.BoxLayout;
+import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
+import entity.AppColors;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomeViewModel;
 
@@ -16,50 +14,54 @@ import interface_adapter.welcome.WelcomeViewModel;
  * The View for the Welcome Use Case.
  */
 public class WelcomeView extends JPanel {
-    private final String viewName = "welcome";
 
     private WelcomeController welcomeController;
 
-    private final JButton signUp;
-    private final JButton toLogin;
-
     public WelcomeView(WelcomeViewModel welcomeViewModel) {
-        // welcomeViewModel.addPropertyChangeListener(this);
+        this.setBackground(AppColors.DARK_RED);
 
         final JLabel title = new JLabel(WelcomeViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Serif", Font.BOLD, 30));
+        title.setForeground(AppColors.YELLOW);
+        title.setHorizontalAlignment(JLabel.CENTER);
 
-        final JPanel buttons = new JPanel();
-        signUp = new JButton(WelcomeViewModel.SIGNUP_BUTTON_LABEL);
-        buttons.add(signUp);
-        toLogin = new JButton(WelcomeViewModel.TO_LOGIN_BUTTON_LABEL);
-        buttons.add(toLogin);
+        final JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(AppColors.DARK_RED);
+        titlePanel.add(title);
 
-        toLogin.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        welcomeController.switchToLoginView();
-                    }
-                }
-        );
+        final JPanel buttons = new JPanel(new GridLayout(2, 1, 0, 0));
+        buttons.setBackground(AppColors.DARK_RED);
+        final JButton signUp = createStyledButton(WelcomeViewModel.SIGNUP_BUTTON_LABEL, AppColors.DARK_GREEN, AppColors.YELLOW);
+        buttons.add(wrapButton(signUp));
+        final JButton toLogin = createStyledButton(WelcomeViewModel.TO_LOGIN_BUTTON_LABEL, AppColors.DARK_GREEN, AppColors.YELLOW);
+        buttons.add(wrapButton(toLogin));
 
-        signUp.addActionListener(
-                // This creates an anonymous subclass of ActionListener and instantiates it.
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        welcomeController.switchToSignupView();
-                    }
-                }
-        );
+        toLogin.addActionListener(evt -> welcomeController.switchToLoginView());
+        signUp.addActionListener(evt -> welcomeController.switchToSignupView());
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        this.add(title);
-        this.add(buttons);
+        this.setLayout(new BorderLayout(0, 60));
+        this.add(titlePanel, BorderLayout.NORTH);
+        this.add(buttons, BorderLayout.CENTER);
+    }
+    private JButton createStyledButton(String text, Color bgColor, Color fgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(fgColor);
+        button.setFont(new Font("Serif", Font.BOLD, 24));
+        button.setFocusPainted(false);
+        button.setBorder(new LineBorder(AppColors.YELLOW, 2));
+        button.setPreferredSize(new Dimension(220, 50));
+        return button;
+    }
+    private JPanel wrapButton(JButton button) {
+        JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        wrapper.setBackground(AppColors.DARK_RED);
+        wrapper.add(button);
+        return wrapper;
     }
 
     public String getViewName() {
-        return viewName;
+        return "welcome";
     }
 
     public void setWelcomeController(WelcomeController controller) {

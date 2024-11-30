@@ -40,6 +40,10 @@ public class LoginPresenter implements LoginOutputBoundary {
         menuState.setUser(user);
         this.menuViewModel.firePropertyChanged();
 
+        final LoginState loginState = loginViewModel.getState();
+        loginState.setLoginError(null);
+        loginViewModel.firePropertyChanged();
+
         // On success, switch to the menu in view.
         this.viewManagerModel.setState(menuViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();

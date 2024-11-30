@@ -27,5 +27,8 @@ public class ShopButtonState {
     public int getClicksMade() {
         return clicksMade;
     }
+    public void resetClicks() {
+        clicksMade = 0;
+    }
 
 }

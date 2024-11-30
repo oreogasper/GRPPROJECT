@@ -16,12 +16,12 @@ public class Main {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         }
-        catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
+        catch (UnsupportedLookAndFeelException evt) {
+            evt.printStackTrace();
 
         }
-        catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-        e.printStackTrace();
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException evt) {
+        evt.printStackTrace();
         }
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
@@ -38,11 +38,14 @@ public class Main {
                                             .addShopMainView()
                                             .addShopButtonView()
                                             .addShopWheelView()
+                                            .addLeaderboardView()
                                             .addGameMenuUseCase()
                                             .addWelcomeUseCase()
                                             .addSignupUseCase()
                                             .addGaunletBetUseCase()
                                             .addLoginUseCase()
+                                            .addAddFriendUseCase()
+                                            .addRemoveFriendUseCase()
                                             .addStatisticsUseCase()
                                             .addChangePasswordUseCase()
                                             .addLogoutUseCase()
@@ -54,6 +57,7 @@ public class Main {
                                             .addShopUseCase()
                                             .addShopButtonUseCase()
                                             .addShopWheelUseCase()
+                                            .addLeaderboardUseCase()
                                             .build();
 
         application.pack();

@@ -43,7 +43,7 @@ token count (only adding whole numbers).
 - As a user, I want the game to deduct or add my bet amount to my total tokens based on whether I win or lose, so my tokens reflect the outcome of the game.
 
 **Val:**
-- As a user, I want to play the 50/50 gauntlet game, so I can have the opportunity to win tokens. 
+- As a user, I want to make a bet in the 50/50 gauntlet game, so I can have the opportunity to win tokens. 
 - As a player, I want to be able to make a guess of either heads or tails, so that I can place my first bet. 
 - As a player, I want to make a guess for the dice roll from 1-6, so I can place my second bet. 
 - As a player, I want to make a guess from rock, paper or scissors, so I can make my final bet. 

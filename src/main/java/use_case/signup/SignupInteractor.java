@@ -4,6 +4,8 @@ import entity.User;
 import entity.UserFactory;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * The Signup Interactor.
  */
@@ -24,10 +26,19 @@ public class SignupInteractor implements SignupInputBoundary {
     @Override
     public void execute(SignupInputData signupInputData) {
         if (userDataAccessObject.existsByName(signupInputData.getUsername())) {
-            userPresenter.prepareFailView("User already exists.");
+            userPresenter.prepareFailView("User already exists!");
+        }
+        else if (signupInputData.getPassword().contains(" ")) {
+            userPresenter.prepareFailView("Password can't contain spaces!");
         }
         else if (!signupInputData.getPassword().equals(signupInputData.getRepeatPassword())) {
-            userPresenter.prepareFailView("Passwords don't match.");
+            userPresenter.prepareFailView("Passwords don't match!");
+        }
+        else if (signupInputData.getUsername().isEmpty()) {
+            userPresenter.prepareFailView("Username can't be empty!");
+        }
+        else if (signupInputData.getPassword().isEmpty()) {
+            userPresenter.prepareFailView("Password can't be empty!");
         }
         else {
             final JSONObject extra = new JSONObject();
@@ -35,6 +46,12 @@ public class SignupInteractor implements SignupInputBoundary {
             extra.put("wins", 0);
             extra.put("losses", 0);
             extra.put("balance", STARTING_BALANCE);
+
+            final ArrayList<User> list = new ArrayList<>();
+            extra.put("friends", list);
+
+            final long lastspin = 0;
+            extra.put("lastSpin", lastspin);
 
             final User user = userFactory.create(signupInputData.getUsername(), signupInputData.getPassword(), extra);
             userDataAccessObject.save(user);
