@@ -163,7 +163,6 @@ public class StatsView extends JPanel implements PropertyChangeListener {
             updateTable((StatisticsState) evt.getNewValue());
         } else if (PASSWORD_CHANGED.equals(evt.getPropertyName())) {
             handlePasswordChange((StatisticsState) evt.getNewValue());
-        } else if ("reset".equals(evt.getPropertyName())) {
             passwordInputField.setText("");
         }
     }
@@ -184,7 +183,6 @@ public class StatsView extends JPanel implements PropertyChangeListener {
         if (state.getError() != null) {
             JOptionPane.showMessageDialog(this, state.getError());
         } else {
-            passwordInputField.setText("");
             JOptionPane.showMessageDialog(null, "Password updated for " + state.getUsername());
         }
     }

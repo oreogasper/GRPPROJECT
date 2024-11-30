@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableRowSorter;
@@ -108,6 +109,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
         addActionListeners();
     }
+
     private void styleTable() {
         // Table Appearance
         table.setBackground(AppColors.YELLOW);
@@ -118,6 +120,24 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         table.setShowGrid(true);
         table.setGridColor(AppColors.BRIGHT_GREEN);
 
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            final LeaderboardState currentState = leaderboardViewModel.getState();
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                // Get the default rendering component
+                Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                // Assuming the username is in column 0 and state.getUsername() is the current user
+                if (table.getValueAt(row, 0).equals(currentState.getUsername())) {
+                    cell.setBackground(AppColors.BRIGHT_GREEN); // Highlight this row
+                } else {
+                    cell.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground()); // Default background
+                }
+
+                return cell;
+            }
+        });
+
         // Header Appearance
         JTableHeader tableHeader = table.getTableHeader();
         tableHeader.setFont(new Font("Serif", Font.BOLD, 16));
@@ -125,6 +145,7 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
         tableHeader.setForeground(AppColors.DARK_GREEN);
         tableHeader.setReorderingAllowed(false);
     }
+
     private void addActionListeners() {
         addFriendButton.addActionListener(evt -> {
             final LeaderboardState currentState = leaderboardViewModel.getState();
@@ -170,33 +191,17 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("state")) {
-            tableModel.setRowCount(0);
+            // tableModel.setRowCount(0);
             final LeaderboardState state = (LeaderboardState) evt.getNewValue();
             final User user = state.getUser();
 
-            double winP = 0.00;
-            if (user.getGames() > 0) {
-                winP = 1.0 * user.getWins() / user.getGames();
-            }
-            final Object[] newRow = {
+            addRowToTable(
                     state.getUsername(),
-                    String.valueOf(user.getBalance()),
-                    String.valueOf(user.getWins()),
-                    String.valueOf(user.getLosses()),
-                    String.format("%.2f", winP),
-                    String.valueOf(user.getGames()),
-            };
-            // Check if the username is already in the table
-            boolean exists = false;
-            for (int row = 0; row < tableModel.getRowCount(); row++) {
-                if (tableModel.getValueAt(row, 0).equals(state.getUsername())) {
-                    exists = true;
-                    break;
-                }
-            }
-            if (!exists) {
-                tableModel.addRow(newRow);
-            }
+                    user.getBalance(),
+                    user.getWins(),
+                    user.getLosses(),
+                    user.getGames()
+            );
 
             final JSONObject json = user.getInfo();
             final JSONArray list = json.getJSONArray("friends");
@@ -239,48 +244,58 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
                         }
                     }
 
-                    if (!exists) {
-                        double winPe = 0.00;
-                        if (games > 0) {
-                            winPe = 1.0 * wins / games;
-                        }
-
-                        final Object[] newRowz = {username,
-                                String.valueOf(balance),
-                                String.valueOf(wins),
-                                String.valueOf(losses),
-                                String.format("%.2f", winPe),
-                                String.valueOf(games),
-                        };
-                        tableModel.addRow(newRowz);
-                    }
+                    addRowToTable(username, balance, wins, losses, games);
                 }
             }
         }
-
         else if (evt.getPropertyName().equals("friend")) {
-            final LeaderboardState statex = (LeaderboardState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "added friend " + statex.getFriend());
+            final LeaderboardState state = (LeaderboardState) evt.getNewValue();
+            if (state.getError() != null) {
+                JOptionPane.showMessageDialog(this, state.getError());
+            } else {
+                // Notify user of the new friend
+                JOptionPane.showMessageDialog(null, "New friend, " + state.getFriend() + "!");
 
-            final User userx = statex.getUser();
-            double winP = 0.00;
-            if (userx.getGames() > 0) {
-                winP = 1.0 * userx.getWins() / userx.getGames();
+                // Add the new friend (current user with updated stats) to the table
+                final User user = state.getUser();
+                addRowToTable(
+                        state.getUsername(),
+                        user.getBalance(),
+                        user.getWins(),
+                        user.getLosses(),
+                        user.getGames()
+                );
+
+                // Clear the input field
+                friendInputField.setText("");
             }
-            final Object[] newRow = {
-                    statex.getUsername(),
-                    String.valueOf(userx.getBalance()),
-                    String.valueOf(userx.getWins()),
-                    String.valueOf(userx.getLosses()),
-                    String.format("%.2f", winP),
-                    String.valueOf(userx.getGames()),
-            };
+        }
+    }
+    private void addRowToTable(String username, int balance, int wins, int losses, int games) {
+        double winPercentage = (games > 0) ? (double) wins / games : 0.00;
+
+        final Object[] newRow = {
+                username,
+                String.valueOf(balance),
+                String.valueOf(wins),
+                String.valueOf(losses),
+                String.format("%.2f", winPercentage),
+                String.valueOf(games),
+        };
+
+        // Check if the username is already in the table
+        boolean exists = false;
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            if (tableModel.getValueAt(row, 0).equals(username)) {
+                exists = true;
+                break;
+            }
+        }
+
+        // Add the row if it doesn't exist
+        if (!exists) {
             tableModel.addRow(newRow);
         }
-        else if (evt.getPropertyName().equals("reset")) {
-            friendInputField.setText("");
-        }
-
     }
     private <T extends JTextComponent> T createStyledTextComponent(T textComponent) {
         textComponent.setBackground(AppColors.BRIGHT_GREEN);
