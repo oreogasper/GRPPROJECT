@@ -98,6 +98,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         this.stand = new JButton(BlackjackGameViewModel.STAND_LABEL);
 
         playAgain = new JButton(BlackjackGameViewModel.PLAY_AGAIN_LABEL);
+        playAgain.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         buttons.add(hit);
         buttons.add(stand);
@@ -135,7 +136,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
                         final BlackjackGameState gameState = blackjackGameViewModel.getState();
-                        if (evt.getSource().equals(stand) && !gameState.getTurnState().equals("Player")
+                        if (evt.getSource().equals(playAgain) && !gameState.getTurnState().equals("Player")
                         && !gameState.getTurnState().equals("Dealer")) {
 
                             standController.switchToBetView();
