@@ -24,7 +24,7 @@ public class BlackjackGameState {
 
     private boolean isFirstTurn;
 
-    private int betAmount;
+    private String betAmount;
 
     public BlackjackGameState() {
 
@@ -45,11 +45,15 @@ public class BlackjackGameState {
 
         isFirstTurn = true;
 
-        betAmount = 0;
+        betAmount = "0";
     }
 
-    public void setBetAmount(int betAmount) {
+    public void setBetAmount(String betAmount) {
         this.betAmount = betAmount;
+    }
+
+    public String getBetAmount() {
+        return betAmount;
     }
 
     public void setTurnState(String gameState) {
