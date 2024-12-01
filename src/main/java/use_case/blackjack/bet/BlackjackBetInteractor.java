@@ -64,8 +64,9 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
     private boolean isValidBet(int betAmount, int userBalance) {
         if (betAmount > userBalance || betAmount < blackjackGame.getMinBet()) {
             return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
     @Override

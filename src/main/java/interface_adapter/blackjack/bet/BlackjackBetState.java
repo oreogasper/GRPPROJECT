@@ -8,7 +8,7 @@ import entity.User;
 public class BlackjackBetState {
 
     private User user;
-    private String bet;
+    private String bet = "0";
     private String betError;
 
     public void setUser(User user) {

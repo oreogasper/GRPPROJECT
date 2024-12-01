@@ -3,9 +3,12 @@ package view;
 import interface_adapter.blackjack.bet.BlackjackBetController;
 import interface_adapter.blackjack.bet.BlackjackBetState;
 import interface_adapter.blackjack.bet.BlackjackBetViewModel;
+import interface_adapter.gaunlet.bet.GaunletBetState;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +26,8 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
 
     private final JSlider betSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
     // TODO get rid of the magic numbers 0,100,0 and make it based off the users balance
+    private final JTextField betInputField = new JTextField();
+
     private final JButton continueToGame;
     private final JButton back;
 
@@ -44,10 +49,11 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
         betSlider.setMajorTickSpacing(10);
         betSlider.setPaintTicks(true);
         betSlider.setPaintLabels(true);
-        // TODO add listener for bet slider input
+
 
         betPanel.add(betLabel);
         betPanel.add(betSlider);
+        betPanel.add(betInputField);
 
         final JPanel buttons = new JPanel();
         continueToGame = new JButton(BlackjackBetViewModel.CONTINUE_BUTTON_LABEL);
@@ -59,16 +65,33 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
         continueToGame.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent evt) {
-                        blackjackBetController.switchToBlackjackGameView();
+                        if (evt.getSource().equals(continueToGame)) {
+                            final BlackjackBetState currentState = blackjackBetViewModel.getState();
+                            blackjackBetController.execute(
+                                    currentState.getUser().getName(),
+                                    currentState.getBet()
+                            );
+
+                            if (currentState.getBetError() == null) {
+                                blackjackBetController.switchToBlackjackGameView();
+                            }
+                        }
+
                     }
                 }
         );
 
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                blackjackBetController.switchToGameMenuView();
+                if (evt.getSource().equals(back)) {
+                    blackjackBetController.switchToGameMenuView();
+                }
+
             }
         });
+
+        addTextBetListener();
+        addSliderBetListener();
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
@@ -77,8 +100,42 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
 
     }
 
-    private void addBetListener() {
-        // TODO
+    private void addTextBetListener() {
+        betInputField.getDocument().addDocumentListener(new DocumentListener() {
+
+            private void documentListenerHelper() {
+                final BlackjackBetState currentState = blackjackBetViewModel.getState();
+                currentState.setBet(betInputField.getText().trim());
+                blackjackBetViewModel.setState(currentState);
+
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                documentListenerHelper();
+            }
+        });
+    }
+
+    private void addSliderBetListener() {
+        betSlider.addChangeListener(e -> {
+            int betValue = betSlider.getValue();
+
+            BlackjackBetState currentState = blackjackBetViewModel.getState();
+            currentState.setBet(String.valueOf(betValue));
+            blackjackBetViewModel.setState(currentState);
+
+        });
     }
 
     @Override
@@ -96,7 +153,10 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
 
     }
 
-    private void setFields(BlackjackBetState state) {betSlider.setValue(state.getBet());}
+    private void setFields(BlackjackBetState state) {
+        betInputField.setText(state.getBet());
+        betSlider.setValue(Integer.parseInt(state.getBet()));
+    }
 
     public String getViewName() {
         return viewName;

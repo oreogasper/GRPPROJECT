@@ -6,7 +6,7 @@ import java.util.List;
 import java.awt.Image;
 
 public class BlackjackGame implements Game{
-    private final int minBet = 100;
+    private final int minBet = 10;
     private final int maxBet = 1000;
     private final String rules = "";
     private final String gameName = "Blackjack";
