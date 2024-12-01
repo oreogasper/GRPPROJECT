@@ -31,7 +31,7 @@ public class ShopWheelAnimationPanel extends JPanel {
         final int centerX = getWidth() / 2;
         final int centerY = getHeight() / 2;
         final int centerOffset = 80;
-        final Color[] segmentColors = {Color.GREEN.darker().darker().darker(),
+        final Color[] segmentColors = {Color.GREEN.darker(),
                 Color.BLACK, Color.RED.darker(), Color.BLACK,
                 Color.RED.darker(), Color.BLACK, Color.RED.darker(),
                 Color.BLACK, Color.RED.darker(), Color.BLACK,
