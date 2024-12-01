@@ -24,6 +24,8 @@ public class BlackjackGameState {
 
     private boolean isFirstTurn;
 
+    private int betAmount;
+
     public BlackjackGameState() {
 
         playerCards = new ArrayList<>();
@@ -42,6 +44,12 @@ public class BlackjackGameState {
         turnState = "Player";
 
         isFirstTurn = true;
+
+        betAmount = 0;
+    }
+
+    public void setBetAmount(int betAmount) {
+        this.betAmount = betAmount;
     }
 
     public void setTurnState(String gameState) {

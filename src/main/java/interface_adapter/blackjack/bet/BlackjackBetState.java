@@ -8,7 +8,7 @@ import entity.User;
 public class BlackjackBetState {
 
     private User user;
-    private int bet;
+    private String bet;
     private String betError;
 
     public void setUser(User user) {
@@ -19,11 +19,11 @@ public class BlackjackBetState {
         return user;
     }
 
-    public int getBet() {
+    public String getBet() {
         return bet;
     }
 
-    public void setBet(int bet) {
+    public void setBet(String bet) {
         this.bet = bet;
     }
 
