@@ -7,7 +7,7 @@ import entity.User;
  */
 public class GaunletBetState {
     private User user;
-    private int bet;
+    private String bet = "0";
     private String betError;
 
     public void setUser(User user) {
@@ -18,7 +18,7 @@ public class GaunletBetState {
         return user;
     }
 
-    public int getBet() {
+    public String getBet() {
         return bet;
     }
 
@@ -26,9 +26,7 @@ public class GaunletBetState {
         return betError;
     }
 
-    public void setBet(int bet) {
-        this.bet = bet;
-    }
+    public void setBet(String bet) {this.bet = bet;}
 
     public void setBetError(String betError) {
         this.betError = betError;

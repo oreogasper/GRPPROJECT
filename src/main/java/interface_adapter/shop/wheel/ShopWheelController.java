@@ -2,6 +2,7 @@ package interface_adapter.shop.wheel;
 
 import java.util.concurrent.TimeUnit;
 
+import use_case.shopwheel.ShopWheelInputData;
 import use_case.shopwheel.ShopWheelInputBoundary;
 
 /**
@@ -47,6 +48,14 @@ public class ShopWheelController {
         else {
             userShopWheelUseCaseInteractor.tooEarly();
         }
+
+    }
+
+    public void saveData(String username, String password, int newBalance, long newLastSpin) {
+        final ShopWheelInputData shopWheelInputData = new ShopWheelInputData(
+                username, password, newBalance, newLastSpin);
+
+        userShopWheelUseCaseInteractor.saveData(shopWheelInputData, newBalance, newLastSpin);
 
     }
 

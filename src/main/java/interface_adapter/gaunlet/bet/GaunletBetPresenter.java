@@ -17,7 +17,6 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final ViewManagerModel viewManagerModel;
 
-
     public GaunletBetPresenter(ViewManagerModel viewManagerModel,
                                GameMenuViewModel gameMenuViewModel,
                                GaunletBetViewModel gaunletBetViewModel,
@@ -33,17 +32,17 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
 
         // On success, switch to the gaunlet guess view when implemented
         final GaunletBetState gaunletBetState = gaunletBetViewModel.getState();
-        gaunletBetState.setBet(response.getBet());
+        // reset bet input field
+        gaunletBetState.setBet("0");
+        gaunletBetState.setBetError(null);
         this.gaunletBetViewModel.setState(gaunletBetState);
         gaunletBetViewModel.firePropertyChanged();
 
+        // Moves user info to guess view
         final GaunletGuessState gaunletGuessState = gaunletGuessViewModel.getState();
         gaunletGuessState.setUser(gaunletBetViewModel.getState().getUser());
         this.gaunletGuessViewModel.setState(gaunletGuessState);
         this.gaunletGuessViewModel.firePropertyChanged();
-
-        viewManagerModel.setState(gaunletGuessViewModel.getViewName());
-        viewManagerModel.firePropertyChanged();
 
         this.viewManagerModel.setState(gaunletGuessViewModel.getViewName());
         this.viewManagerModel.firePropertyChanged();
@@ -53,6 +52,7 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
     public void prepareFailView(String error) {
         final GaunletBetState betState = gaunletBetViewModel.getState();
         betState.setBetError(error);
+        this.gaunletBetViewModel.setState(betState);
         gaunletBetViewModel.firePropertyChanged();
     }
 
@@ -71,7 +71,7 @@ public class GaunletBetPresenter implements GaunletBetOutputBoundary {
 
     @Override
     public void setUserBet() {
-        final int betAmt = this.gaunletBetViewModel.getState().getBet();
+        final int betAmt = Integer.parseInt(this.gaunletBetViewModel.getState().getBet());
         this.gaunletBetViewModel.getState().getUser().setBet(betAmt);
         this.gaunletBetViewModel.firePropertyChanged();
     }

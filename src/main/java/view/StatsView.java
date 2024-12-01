@@ -1,23 +1,14 @@
 package view;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import entity.AppColors;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.text.JTextComponent;
 
 import entity.User;
 import interface_adapter.logout.LogoutController;
@@ -30,13 +21,10 @@ import interface_adapter.statistics.StatisticsViewModel;
  * The View for the Statistics Use Case.
  */
 public class StatsView extends JPanel implements PropertyChangeListener {
+    final JTextField passwordInputField = createStyledTextComponent(new JPasswordField());
     private static final String INITIAL_VALUE = "0";
-    private static final Integer TABLE_WIDTH = 200;
-    private static final Integer TABLE_HEIGHT = 125;
-    private static final Integer ROW_THREE = 3;
-    private static final Integer ROW_FOUR = 4;
-    private static final Integer ROW_FIVE = 5;
-
+    public static final String STATE_CHANGED = "state";
+    public static final String PASSWORD_CHANGED = "password";
     private final String viewName = "stats";
     private final StatisticsViewModel statisticsViewModel;
     private ChangePasswordController changePasswordController;
@@ -45,7 +33,6 @@ public class StatsView extends JPanel implements PropertyChangeListener {
     private final DefaultTableModel tableModel;
     private final JTable table;
     private final JButton logOut;
-    private final JTextField passwordInputField = new JTextField(15);
     private final JButton changePassword;
     private final JButton cancel;
     private final JButton leaderboard;
@@ -56,24 +43,38 @@ public class StatsView extends JPanel implements PropertyChangeListener {
         this.statisticsViewModel.addPropertyChangeListener(this);
 
         final JLabel title = new JLabel(StatisticsViewModel.TITLE_LABEL);
+        title.setFont(new Font("Serif", Font.BOLD, 24));
+        title.setForeground(AppColors.YELLOW);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        final JPanel button = new JPanel();
-        leaderboard = new JButton(StatisticsViewModel.TO_LEADERBOARD_BUTTON_LABEL);
-        button.add(leaderboard);
-
-        final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel("Change Password To:"), passwordInputField);
+        leaderboard = createStyledButton(StatisticsViewModel.LEADERBOARD_BUTTON_LABEL, AppColors.DARK_RED);
+        leaderboard.setPreferredSize(new Dimension(500, 30));
+        leaderboard.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         final JPanel buttons = new JPanel();
-        logOut = new JButton("Log Out");
+        buttons.setBackground(AppColors.DARK_GREEN);
+
+        logOut = createStyledButton(StatisticsViewModel.LOGOUT_BUTTON_LABEL, AppColors.DARK_RED);
+        logOut.setPreferredSize(new Dimension(150, 30));
         buttons.add(logOut);
 
-        changePassword = new JButton("Change Password");
-        buttons.add(changePassword);
-
-        cancel = new JButton(StatisticsViewModel.RETURN_MENU_BUTTON_LABEL);
+        cancel = createStyledButton(StatisticsViewModel.RETURN_MENU_BUTTON_LABEL, AppColors.DARK_RED);
+        cancel.setPreferredSize(new Dimension(200, 30));
         buttons.add(cancel);
+
+        final JLabel password = new JLabel(StatisticsViewModel.CHANGE_PASS_LABEL);
+        password.setFont(new Font("Serif", Font.BOLD, 15));
+        password.setForeground(AppColors.YELLOW);
+
+        final LabelTextPanel passwordInfo = new LabelTextPanel(password, passwordInputField);
+        passwordInfo.setBackground(AppColors.DARK_GREEN);
+
+        final JPanel changePass = new JPanel();
+        changePass.setBackground(AppColors.DARK_GREEN);
+        changePassword = createStyledButton(StatisticsViewModel.CHANGE_PASS_BUTTON_LABEL, AppColors.DARK_RED);
+        changePassword.setPreferredSize(new Dimension(150, 30));
+        changePass.add(passwordInfo);
+        changePass.add(changePassword);
 
         // Initializing table
         final String[] columnNames = {"Statistic", "Value"};
@@ -92,43 +93,58 @@ public class StatsView extends JPanel implements PropertyChangeListener {
             }
         };
         table = new JTable(tableModel);
+        table.setBackground(AppColors.YELLOW);
+        table.setForeground(AppColors.BLACK);
+        table.setFont(new Font("Serif", Font.PLAIN, 15));
+        table.setRowHeight(18);
+        table.setShowGrid(true);
+        table.setGridColor(AppColors.BRIGHT_GREEN);
 
-        passwordInputField.getDocument().addDocumentListener(new DocumentListener() {
+        JTableHeader tableHeader = table.getTableHeader();
+        tableHeader.setFont(new Font("Serif", Font.BOLD, 16));
+        tableHeader.setBackground(AppColors.DARK_GREEN);
+        tableHeader.setForeground(AppColors.DARK_GREEN);
+        tableHeader.setReorderingAllowed(false);
 
-            private void documentListenerHelper() {
-                final StatisticsState currentState = statisticsViewModel.getState();
+        final JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.getViewport().setBackground(AppColors.YELLOW);
+        scrollPane.setPreferredSize(new Dimension(100, 140));
+
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(AppColors.DARK_GREEN);
+        this.add(Box.createVerticalStrut(20));
+        this.add(title);
+        this.add(Box.createVerticalStrut(10));
+        this.add(leaderboard);
+        this.add(Box.createVerticalStrut(10));
+        this.add(scrollPane);
+        this.add(Box.createVerticalStrut(10));
+        this.add(buttons);
+        this.add(Box.createVerticalStrut(10));
+        this.add(changePass);
+
+        addActionListeners();
+    }
+
+    private void addActionListeners() {
+        changePassword.addActionListener(evt -> {
+            final StatisticsState currentState = statisticsViewModel.getState();
+
+            // Check if the new password is different from the current one
+            if (!currentState.getPassword().equals(passwordInputField.getText())) {
                 currentState.setPassword(passwordInputField.getText());
                 statisticsViewModel.setState(currentState);
-            }
 
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                documentListenerHelper();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                documentListenerHelper();
+                this.changePasswordController.execute(
+                        currentState.getUsername(),
+                        currentState.getPassword(),
+                        currentState.getUser().getInfo()
+                );
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "The new password must be different from the old password!");
             }
         });
-
-        changePassword.addActionListener(
-                evt -> {
-                    if (evt.getSource().equals(changePassword)) {
-                        final StatisticsState currentState = statisticsViewModel.getState();
-                        this.changePasswordController.execute(
-                                currentState.getUsername(),
-                                currentState.getPassword(),
-                                currentState.getUser().getInfo());
-                    }
-                }
-        );
-
         logOut.addActionListener(
                 evt -> {
                     if (evt.getSource().equals(logOut)) {
@@ -137,57 +153,57 @@ public class StatsView extends JPanel implements PropertyChangeListener {
                     }
                 }
         );
-
-        cancel.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        System.out.println(statisticsViewModel.getState());
-                        statisticsController.switchToMenuView();
-                    }
-                }
-        );
-
-        leaderboard.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        statisticsController.switchToLeaderboardView();
-                    }
-                }
-        );
-
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        this.add(title);
-
-        this.add(button);
-        this.add(buttons);
-        this.add(passwordInfo);
-        final JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
-        this.add(scrollPane);
+        cancel.addActionListener(evt -> statisticsController.switchToMenuView());
+        leaderboard.addActionListener(evt -> statisticsController.switchToLeaderboardView());
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")) {
-            final StatisticsState state = (StatisticsState) evt.getNewValue();
-            final User user = state.getUser();
-
-            tableModel.setValueAt(state.getUsername(), 0, 1);
-            tableModel.setValueAt(String.valueOf(user.getBalance()), 1, 1);
-            tableModel.setValueAt(String.valueOf(user.getWins()), 2, 1);
-            tableModel.setValueAt(String.valueOf(user.getLosses()), ROW_THREE, 1);
-            // TODO: when games is 0, add 1
-            tableModel.setValueAt(String.valueOf(user.getWins() / (user.getGames() + 1)), ROW_FOUR, 1);
-            tableModel.setValueAt(String.valueOf(user.getGames()), ROW_FIVE, 1);
-
+        if (STATE_CHANGED.equals(evt.getPropertyName())) {
+            updateTable((StatisticsState) evt.getNewValue());
+        } else if (PASSWORD_CHANGED.equals(evt.getPropertyName())) {
+            handlePasswordChange((StatisticsState) evt.getNewValue());
+            passwordInputField.setText("");
         }
+    }
 
-        else if (evt.getPropertyName().equals("password")) {
-            final StatisticsState state = (StatisticsState) evt.getNewValue();
-            JOptionPane.showMessageDialog(null, "password updated for " + state.getUsername());
+    private void updateTable(StatisticsState state) {
+        final User user = state.getUser();
+        double winP = user.getGames() > 0 ? 1.0 * user.getWins() / user.getGames() : 0.00;
+
+        tableModel.setValueAt(state.getUsername(), 0, 1);
+        tableModel.setValueAt(String.valueOf(user.getBalance()), 1, 1);
+        tableModel.setValueAt(String.valueOf(user.getWins()), 2, 1);
+        tableModel.setValueAt(String.valueOf(user.getLosses()), 3, 1);
+        tableModel.setValueAt(String.format("%.2f", winP), 4, 1);
+        tableModel.setValueAt(String.valueOf(user.getGames()), 5, 1);
+    }
+
+    private void handlePasswordChange(StatisticsState state) {
+        if (state.getError() != null) {
+            JOptionPane.showMessageDialog(this, state.getError());
+        } else {
+            JOptionPane.showMessageDialog(null, "Password updated for " + state.getUsername());
         }
+    }
 
+    private <T extends JTextComponent> T createStyledTextComponent(T textComponent) {
+        textComponent.setBackground(AppColors.BRIGHT_GREEN);
+        textComponent.setForeground(AppColors.YELLOW);
+        textComponent.setFont(new Font("Serif", Font.PLAIN, 18));
+        textComponent.setCaretColor(AppColors.YELLOW);
+        textComponent.setPreferredSize(new Dimension(150, 30));
+        return textComponent;
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(AppColors.YELLOW);
+        button.setFont(new Font("Serif", Font.BOLD, 15));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(AppColors.YELLOW, 2));
+        return button;
     }
 
     public String getViewName() {

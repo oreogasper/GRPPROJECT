@@ -14,8 +14,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
@@ -113,13 +112,22 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
 
             final JSONObject responseBody = new JSONObject(response.body().string());
 
+
             if (responseBody.getBoolean(SUCCESS_CODE_LABEL)) {
 
                 final JSONArray drawnCards = responseBody.getJSONArray("cards");
                 final JSONObject drawnCard = drawnCards.getJSONObject(0);
-                final int value = Integer.parseInt(drawnCard.getString("value"));
+                final String stringValue = drawnCard.getString("value");
+                int value = 0;
+                if (stringValue.equals("ACE")) {
+                    value = 1;
+                } else if (stringValue.equals("KING") || stringValue.equals("QUEEN") || stringValue.equals("JACK")) {
+                    value = 10;
+                } else {
+                    value = Integer.parseInt(stringValue);
+                }
                 final String suit = drawnCard.getString("suit");
-                final String name = drawnCard.getString("code");
+                final String name = drawnCard.getString("code").substring(0, 1);
 
                 final JSONObject imageURLS = drawnCard.getJSONObject("images");
                 final String pngImageURL = imageURLS.getString("png");
@@ -134,11 +142,13 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
                     final Response imageResponse = client.newCall(imageRequest).execute();
 
                     if (imageResponse.isSuccessful()) {
-                        final InputStream inputStream = response.body().byteStream();
+
+                        final InputStream inputStream = imageResponse.body().byteStream();
+
                         final BufferedImage bufferedImage = ImageIO.read(inputStream);
                         img = bufferedImage.getScaledInstance(
-                                (int) Math.round(bufferedImage.getWidth() * 0.12),
-                                (int) Math.round(bufferedImage.getHeight() * 0.12), Image.SCALE_SMOOTH);
+                                (int) Math.round(bufferedImage.getWidth() * 0.4),
+                                (int) Math.round(bufferedImage.getHeight() * 0.4), Image.SCALE_SMOOTH);
 
                     }
                     else {
@@ -149,8 +159,7 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
                     throw new RuntimeException(ex);
                 }
 
-                final Card card = this.cardFactory.create(value, suit, name, img);
-                return card;
+                return this.cardFactory.create(value, suit, name, img);
             }
             else {
                 throw new RuntimeException("Drawing Card Failed");

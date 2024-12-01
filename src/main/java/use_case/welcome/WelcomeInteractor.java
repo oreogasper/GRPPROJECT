@@ -1,7 +1,5 @@
 package use_case.welcome;
 
-import entity.UserFactory;
-
 /**
  * The Welcome Interactor.
  */

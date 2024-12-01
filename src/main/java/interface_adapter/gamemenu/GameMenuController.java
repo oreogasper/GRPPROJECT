@@ -12,22 +12,37 @@ public class GameMenuController {
         this.userGameMenuUseCaseInteractor = gameMenuUseCaseInteractor;
     }
 
+    /**
+     * Executes the "switch to login view" Use Case.
+     */
     public void switchToLoginView() {
         userGameMenuUseCaseInteractor.switchToLoginView();
     }
 
+    /**
+     * Executes the "switch to menu" Use Case.
+     */
     public void switchToMenuView() {
         userGameMenuUseCaseInteractor.switchToMenuView();
     }
 
+    /**
+     * Executes the "switch to gaunlet view" Use Case.
+     */
     public void switchToGaunletView() {
         userGameMenuUseCaseInteractor.switchToGaunletView();
     }
 
+    /**
+     * Executes the "switch to blackjack view" Use Case.
+     */
     public void switchToBlackjackView() {
         userGameMenuUseCaseInteractor.switchToBlackjackView();
     }
 
+    /**
+     * Executes the "switch to overunder view" Use Case.
+     */
     public void switchToOverUnderView() {
         userGameMenuUseCaseInteractor.switchToOverUnderView();
     }

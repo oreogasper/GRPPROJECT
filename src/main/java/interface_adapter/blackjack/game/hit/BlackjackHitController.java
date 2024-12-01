@@ -1,4 +1,4 @@
-package interface_adapter.blackjack.hit;
+package interface_adapter.blackjack.game.hit;
 
 import use_case.blackjack.hit.BlackjackHitInputBoundary;
 import use_case.blackjack.hit.BlackjackHitInputData;
@@ -16,9 +16,9 @@ public class BlackjackHitController {
     /**
      * Executes the Blackjack Hit Use Case.
      */
-    public void execute() {
+    public void execute(boolean isDealerHitUseCase) {
 
-        final BlackjackHitInputData inputData = new BlackjackHitInputData();
+        final BlackjackHitInputData inputData = new BlackjackHitInputData(isDealerHitUseCase);
 
         blackjackHitUseCaseInteractor.execute(inputData);
     }

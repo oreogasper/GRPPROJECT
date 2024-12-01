@@ -1,6 +1,7 @@
 package interface_adapter.shop.button;
 
 import use_case.shopbutton.ShopButtonInputBoundary;
+import use_case.shopbutton.ShopButtonInputData;
 
 /**
  * The controller for the shop button screen Use Case.
@@ -26,6 +27,14 @@ public class ShopButtonController {
      */
     public void buttonClick(int clicksMade) {
         userShopButtonUseCaseInteractor.buttonClick(clicksMade);
+    }
+
+    public void saveData(String username, int newBalance) {
+        final ShopButtonInputData shopButtonInputData = new ShopButtonInputData(
+                username, newBalance);
+
+        userShopButtonUseCaseInteractor.saveData(shopButtonInputData, newBalance);
+
     }
 
 }

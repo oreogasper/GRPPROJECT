@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 public class ShopWheelAnimationPanel extends JPanel {
 
     private static final int FULL_CIRCLE = 360;
-    private static final int PANEL_DIMENSION = 300;
+    public static final int PANEL_DIMENSION = 230;
     private boolean isSpinning;
 
     private int currentAngle;
@@ -30,17 +30,17 @@ public class ShopWheelAnimationPanel extends JPanel {
         final int circleRadius = shellRadius - shellRadius / 20;
         final int centerX = getWidth() / 2;
         final int centerY = getHeight() / 2;
-        final int centerOffset = 10;
-
-        final int shapeNumber = 3;
-        final Color[] segmentColors = {Color.RED.darker(), Color.GREEN.darker(),
-                Color.YELLOW.darker(), Color.CYAN.darker(),
-                Color.BLUE.darker(), Color.ORANGE.darker().darker().darker(),
-                Color.PINK.darker(), Color.MAGENTA.darker()};
+        final int centerOffset = 80;
+        final Color[] segmentColors = {Color.GREEN.darker(),
+                Color.BLACK, Color.RED.darker(), Color.BLACK,
+                Color.RED.darker(), Color.BLACK, Color.RED.darker(),
+                Color.BLACK, Color.RED.darker(), Color.BLACK,
+                Color.RED.darker(), Color.BLACK, Color.RED.darker(),
+                Color.BLACK, Color.RED.darker(), Color.BLACK};
         final int numSegments = segmentColors.length;
 
         // Draw the wheel
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.ORANGE.darker().darker());
         g2d.fillOval(centerX - shellRadius, centerY - shellRadius,
                 shellRadius * 2, shellRadius * 2);
 
@@ -52,15 +52,15 @@ public class ShopWheelAnimationPanel extends JPanel {
         }
 
         // Draw the center indicator
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(Color.ORANGE.darker().darker());
         g2d.fillOval(centerX - centerOffset, centerY - centerOffset,
                 centerOffset * 2, centerOffset * 2);
 
-        // Draw an arrow pointer at the top
-        g2d.setColor(Color.BLACK);
-        g2d.fillPolygon(new int[]{centerX, centerX - centerOffset, centerX + centerOffset},
-                new int[]{centerY - circleRadius, centerY - circleRadius + centerOffset * 2,
-                          centerY - circleRadius + centerOffset * 2}, shapeNumber);
+        // Draw a circle pointer at the top
+        final int pointerDiameter = 15; // Diameter of the circle pointer
+        final int pointerY = centerY - circleRadius + pointerDiameter / 2;
+        g2d.setColor(Color.WHITE);
+        g2d.fillOval(centerX - pointerDiameter / 2, pointerY, pointerDiameter, pointerDiameter);
 
         g2d.dispose();
     }

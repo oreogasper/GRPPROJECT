@@ -39,6 +39,8 @@ public class LeaderboardPresenter implements LeaderboardOutputBoundary {
         this.statisticsViewModel.setState(statisticsState);
         this.statisticsViewModel.firePropertyChanged();
 
+        leaderboardViewModel.firePropertyChanged("reset");
+
         viewManagerModel.setState(statisticsViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

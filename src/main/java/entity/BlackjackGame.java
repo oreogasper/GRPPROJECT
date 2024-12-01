@@ -1,7 +1,9 @@
 package entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.awt.Image;
 
 public class BlackjackGame implements Game{
     private final int minBet = 100;
@@ -45,32 +47,40 @@ public class BlackjackGame implements Game{
         for (AbstractCard card : cards) {
             if (card.getName().equals("A")) {
                 List<Integer> heavyScores = new ArrayList<>(scores);
-                for (Integer score : heavyScores) {
-                    score += 10;
-                }
+                heavyScores.replaceAll(n -> n + 10);
 
-                for (Integer score : scores) {
-                    score += 1;
-                }
+                scores.replaceAll(n -> n + 1);
 
                 scores.addAll(heavyScores);
 
 
             } else {
-                for (Integer score : scores) {
-                    score += card.getRank();
+                scores.replaceAll(n -> n + card.getRank());
+            }
+
+        }
+
+        List<Integer> under21Scores = new ArrayList<Integer>();
+        for (Integer score : scores) {
+            if (score <= 21) {
+                under21Scores.add(score);
+            }
+        }
+
+
+        if (under21Scores.size() > 0) {
+            int bestScore = 0;
+            for (Integer score : scores) {
+                if (score <= 21 && score > bestScore) {
+                    bestScore = score;
                 }
             }
-
+            return bestScore;
+        } else {
+            return Collections.min(scores);
         }
 
-        int bestScore = 0;
-        for (Integer score : scores) {
-            if (score <= 21 && score > bestScore) {
-                bestScore = score;
-            }
-        }
-        return bestScore;
+
     }
 
     public int getPlayerScore() {
@@ -117,5 +127,26 @@ public class BlackjackGame implements Game{
 
     public List<AbstractCard> getDealerCards() {
         return dealerCards;
+    }
+
+    public List<Image> getPlayerCardImages() {
+        List<Image> playerCardImages = new ArrayList<>();
+        for (AbstractCard card : playerCards) {
+            playerCardImages.add(card.getImage());
+        }
+        return playerCardImages;
+    }
+
+    public List<Image> getDealerCardImages() {
+        List<Image> dealerCardImages = new ArrayList<>();
+        for (AbstractCard card : dealerCards) {
+            dealerCardImages.add(card.getImage());
+        }
+        return dealerCardImages;
+    }
+
+    public void resetGame() {
+        playerCards = new ArrayList<AbstractCard>();
+        dealerCards = new ArrayList<AbstractCard>();
     }
 }

@@ -23,4 +23,5 @@ public interface BlackjackStandOutputBoundary {
      */
     void switchToGameMenuView();
 
+    void switchToBetView();
 }

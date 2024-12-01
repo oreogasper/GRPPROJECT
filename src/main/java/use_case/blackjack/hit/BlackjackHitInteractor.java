@@ -22,21 +22,49 @@ public class BlackjackHitInteractor implements BlackjackHitInputBoundary {
     }
 
     @Override
-    public void execute(BlackjackHitInputData blackjackGameInputData) {
+    public void execute(BlackjackHitInputData inputData) {
 
-        final String deckId = blackjackGame.getDeckId();
+        if (!inputData.isDealerHitUseCase()) {
+            this.playerTurnExecute(inputData);
+        }
+        else {
+            this.dealerTurnExecute(inputData);
+        }
 
+    }
+
+    private void playerTurnExecute(BlackjackHitInputData inputData) {
+        final String deckId = blackjackGetCardDataAccessObject.getDeckID();
         final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
-
         blackjackGame.addPlayerCard(card);
 
-        final boolean bust = blackjackGame.isBust(blackjackGame.getPlayerCards());
-        final boolean blackjack = blackjackGame.isBlackjack(blackjackGame.getPlayerCards());
+        String turnState = null;
 
-        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card.getImage(), bust, blackjack, false);
+        if (blackjackGame.isBust(blackjackGame.getPlayerCards())) {
+            turnState = "Lose";
+        } else if (blackjackGame.isBlackjack(blackjackGame.getPlayerCards())) {
+            turnState = "Dealer";
+        } else {
+            turnState = "Player";
+        }
+
+        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card.getImage(), turnState,
+                blackjackGame.getPlayerScore(), false, false);
 
         outputBoundary.prepareSuccessView(outputData);
     }
+
+    private void dealerTurnExecute(BlackjackHitInputData inputData) {
+        final String deckId = blackjackGetCardDataAccessObject.getDeckID();
+        final AbstractCard card = blackjackGetCardDataAccessObject.drawCard(deckId);
+        blackjackGame.addDealerCard(card);
+
+        final BlackjackHitOutputData outputData = new BlackjackHitOutputData(card.getImage(), "Dealer",
+                blackjackGame.getDealerScore(), false, true);
+
+        outputBoundary.prepareSuccessView(outputData);
+    }
+
 
     @Override
     public void switchToGameMenuView() {

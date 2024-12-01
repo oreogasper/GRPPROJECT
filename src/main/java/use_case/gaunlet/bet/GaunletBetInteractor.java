@@ -1,9 +1,10 @@
 package use_case.gaunlet.bet;
 
+import org.json.JSONObject;
+
 import entity.GaunletGame;
 import entity.User;
 import entity.UserFactory;
-import org.json.JSONObject;
 
 /**
  * The Gaunlet Bet Interactor.
@@ -22,38 +23,41 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
 
     @Override
     public void execute(GaunletBetInputData gaunletBetInputData, int bet) {
+        // Parse and validate the bet input
         final int betAmount = gaunletBetInputData.getBet();
-        final boolean validBet = isValidBet(betAmount);
+        final User user = userDataAccessObject.get(gaunletBetInputData.getUsername());
+        final int userBalance = user.getBalance();
 
-        if (validBet) {
+        // Check if the bet is valid
+        if (!isValidBet(betAmount, userBalance)) {
+            System.out.println("bet = " + betAmount);
+            // Handle invalid bet case
+            userPresenter.prepareFailView("Invalid bet amount. "
+                    + "Please bet a value between 10 tokens and your current balance.");
+        }
+        else {
+            // Deduct the bet amount from the user's balance
+            final JSONObject json = user.getInfo();
+            final int newBalance = userBalance - betAmount;
+
+            json.put("balance", newBalance);
+            final User updatedUser = userFactory.create(user.getName(), user.getPassword(), json);
+            userDataAccessObject.saveNew(updatedUser, json);
+
+            // Update the bet in the presenter
+            user.setBet(betAmount);
             userPresenter.setUserBet();
+
+            // Notify the presenter of success
             final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount, false);
             userPresenter.prepareSuccessView(gaunletBetOutputData);
         }
-        else {
-            userPresenter.prepareFailView("Invalid bet amount. Please bet a value "
-                    +
-                    "that is between 10 tokens and your current balance.");
-        }
-        userPresenter.setUserBet();
-
-        final User userr = userDataAccessObject.get(gaunletBetInputData.getUsername());
-        final JSONObject json = userr.getInfo();
-        final int newBalance = userr.getBalance() - userr.getBet();
-
-        json.put("balance", newBalance);
-        final User user = userFactory.create(userr.getName(), userr.getPassword(), json);
-        userDataAccessObject.saveNew(user, json);
-
-        final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount, false);
-        userPresenter.prepareSuccessView(gaunletBetOutputData);
     }
 
-    // Helper that checks if bet input fits requirements
-    private boolean isValidBet(int betAmount) {
-        final GaunletGame betRules = new GaunletGame();
-
-        return betAmount >= betRules.getMinBet() && betAmount <= betRules.getMaxBet();
+    // Helper method to validate the bet
+    private boolean isValidBet(int betAmount, int userBalance) {
+        final GaunletGame betMin = new GaunletGame();
+        return betAmount >= betMin.getMinBet() && betAmount <= userBalance;
     }
 
     @Override

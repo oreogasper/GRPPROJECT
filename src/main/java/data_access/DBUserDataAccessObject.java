@@ -18,8 +18,9 @@ import use_case.gaunlet.bet.GaunletBetDataAccessInterface;
 import use_case.gaunlet.guess.GaunletGuessUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.shopbutton.ShopButtonUserDataAccessInterface;
+import use_case.shopwheel.ShopWheelUserDataAccessInterface;
 import use_case.remove_friend.RemoveFriendUserDataAccessInterface;
-import use_case.shop.ShopUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 /**
@@ -29,10 +30,11 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
         LogoutUserDataAccessInterface,
-        ShopUserDataAccessInterface,
         GaunletBetDataAccessInterface,
         GaunletGuessUserDataAccessInterface,
         AddFriendUserDataAccessInterface,
+        ShopWheelUserDataAccessInterface,
+        ShopButtonUserDataAccessInterface,
         RemoveFriendUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
@@ -82,7 +84,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
                 final String name = userJSONObject.getString(USERNAME);
                 final String password = userJSONObject.getString(PASSWORD);
                 final JSONObject data = userJSONObject.getJSONObject("info");
-                System.out.println("Get method in DB: " + name + ", " + password + ", " + data);
+                // System.out.println("Get method in DB: " + name + ", " + password + ", " + data);
 
                 return userFactory.create(name, password, data);
             }
@@ -190,7 +192,6 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
 
             if (responseBody1.getInt(STATUS_CODE_LABEL) == SUCCESS_CODE) {
                 // success
-                System.out.println("DBUserDataAccessObject, SAVE USER success");
             }
             else {
                 throw new RuntimeException(responseBody1.getString(MESSAGE));

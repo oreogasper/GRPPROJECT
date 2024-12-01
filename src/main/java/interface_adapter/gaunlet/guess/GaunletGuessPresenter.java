@@ -8,7 +8,6 @@ import interface_adapter.gamemenu.GameMenuState;
 import interface_adapter.gamemenu.GameMenuViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
-import interface_adapter.signup.SignupViewModel;
 import use_case.gaunlet.guess.GaunletGuessOutputBoundary;
 import use_case.gaunlet.guess.GaunletGuessOutputData;
 
@@ -21,7 +20,6 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
     private final GaunletGuessViewModel gaunletGuessViewModel;
     private final GameMenuViewModel gameMenuViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final int RATEBONUS = 36;
 
     public GaunletGuessPresenter(ViewManagerModel viewManagerModel,
                                  MenuViewModel menuViewModel,
@@ -42,27 +40,27 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
 
         final boolean gameOutcome = response.isWon();
         final User user = gaunletGuessState.getUser();
-        final int newBal = (gaunletGuessState.getUser().getBet() + gaunletGuessState.getUser().getBalance())
-                * RATEBONUS;
+        final int rateBonus = 36;
+        final int newBal = (user.getBet() + user.getBet() * rateBonus);
+
+        // Prepare to show user game outcome and show user updated stats
         if (gameOutcome) {
-            user.updateBalance((user.getBalance() + user.getBet()) * RATEBONUS);
+            user.updateBalance((user.getBalance() + user.getBet() + user.getBet()) * rateBonus);
             user.wonGame();
             JOptionPane.showMessageDialog(null,
-                    "Congratulations! You won the Gauntlet game! Your balance =" + newBal);
+                    "Congratulations! You won the Gauntlet game! Your Reward =" + newBal);
         }
         else {
             user.updateBalance(-user.getBet());
             user.lostGame();
-            final int newBalance = gaunletGuessState.getUser().getBalance() - gaunletGuessState.getUser().getBet();
-            System.out.println(newBalance);
             JOptionPane.showMessageDialog(null,
                     "Sorry, you lost the Gauntlet game. Better luck next time! "
                             + "Your balance =" + user.getBalance());
         }
 
-        gaunletGuessState.setCoinGuess(response.getCoinFlip());
-        gaunletGuessState.setDiceGuess(response.getDice());
-        gaunletGuessState.setRpsGuess(response.getRps());
+        gaunletGuessState.setCoinGuess("");
+        gaunletGuessState.setDiceGuess("");
+        gaunletGuessState.setRpsGuess("");
 
         this.gaunletGuessViewModel.setState(gaunletGuessState);
         gaunletGuessViewModel.firePropertyChanged();
@@ -91,4 +89,5 @@ public class GaunletGuessPresenter implements GaunletGuessOutputBoundary {
         viewManagerModel.setState(gameMenuViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
+
 }
