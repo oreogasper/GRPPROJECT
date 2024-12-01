@@ -1,9 +1,16 @@
 Welcome to the BLACKJACK GAME!
 
-Goal of the game:
-
+Goal of the game: Have a hand value closer to 21 than the dealer without going over 21.
+If your hand exceeds 21, you bust and lose the round.
 
 How to play:
+1. After clicking "PLAY BLACKJACK", you will be directed to select your bet amount
+**Note on bet requirements: BET CANNOT EXCEED YOUR CURRENT BALANCE
 
+2. Upon clicking "continue", you will be dealt a hand shown to you, with the dealer's hand hidden
+
+3. You can click either "Hit" or "Stand"
+    -If you click "Hit", you will be given another card
+    -If you click "Stand", the dealers hands is revealed and the game ends
 
 HAPPY GAMBLING and GOOD LUCK (you'll need it)
