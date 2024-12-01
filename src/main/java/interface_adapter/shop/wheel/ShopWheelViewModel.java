@@ -10,6 +10,8 @@ public class ShopWheelViewModel extends ViewModel<ShopWheelState> {
 
     // Constants
     public static final String TITLE_LABEL = "Spin it up!";
+    public static final String SPIN_LABEL = "Spin the wheel!";
+    public static final String SHOP_BUTTON_LABEL = "Return to Shop";
 
     // Fields
     private ShopWheelAnimationPanel animationPanel;
