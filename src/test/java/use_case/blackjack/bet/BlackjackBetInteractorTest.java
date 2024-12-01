@@ -8,7 +8,7 @@ public class BlackjackBetInteractorTest {
 
     @Test
     void successTest() {
-        BlackjackBetInputData inputData = new BlackjackBetInputData(100);
+//        BlackjackBetInputData inputData = new BlackjackBetInputData(100);
 
         // This creates a successPresenter that tests whether the test case is as we expect.
 //        BlackjackBetOutputBoundary successPresenter = new BlackjackBetOutputBoundary() {
