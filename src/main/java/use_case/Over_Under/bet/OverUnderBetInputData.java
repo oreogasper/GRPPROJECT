@@ -1,13 +1,28 @@
 package use_case.Over_Under.bet;
 
-public class OverUnderInputData {
-    private final boolean isHigher;
+/**
+ * Input data for overUnder bet use case.
+ */
+public class OverUnderBetInputData {
+    private final String userName;
+    private final int betAmt;
 
-    public OverUnderInputData(boolean isHigher) {
-        this.isHigher = isHigher;
+    public OverUnderBetInputData(String userName, int betAmt) {
+        this.userName = userName;
+        this.betAmt = betAmt;
     }
 
-    public boolean isHigher() {
-        return isHigher;
+    /**
+     * Returns user's bet amount in overUnder bet use case.
+     */
+    public int getBetAmt() {
+        return betAmt;
+    }
+
+    /**
+     * Returns username in overUnder bet use case.
+     */
+    public String getUserName() {
+        return userName;
     }
 }

@@ -1,4 +1,18 @@
 package use_case.Over_Under.play;
 
-public class OverUnderPlayInputBoundary {
+/**
+ * Input Boundary for actions related to playing the OverUnder Game.
+ */
+public interface OverUnderPlayInputBoundary {
+
+    /**
+     * Executes the OverUnder game use case.
+     * @param overUnderPlayInputData the input data
+     */
+    void execute(OverUnderPlayInputData overUnderPlayInputData);
+
+    /**
+     * Executes the switch to login use case.
+     */
+    void switchToLoginView();
 }

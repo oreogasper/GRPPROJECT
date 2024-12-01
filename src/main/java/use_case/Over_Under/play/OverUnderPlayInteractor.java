@@ -2,83 +2,105 @@ package use_case.Over_Under.play;
 
 import entity.PlayingCard;
 import entity.PlayingDeck;
+import org.json.JSONObject;
+import entity.User;
+import entity.UserFactory;
+import use_case.Over_Under.play.OverUnderPlayDataAccessInterface;
+import use_case.Over_Under.play.OverUnderPlayOutputBoundary;
+
+import javax.smartcardio.Card;
+import java.util.List;
 
 /**
- * Interactor for the Over/Under game.
+ * The Over/Under Play Interactor.
  */
-public class OverUnderInteractor implements OverUnderInputBoundary {
-    private PlayingDeck deck;
-    private PlayingCard currentCard;
-    private OverUnderOutputBoundary outputBoundary;
-    private int balance;
+public class OverUnderPlayInteractor implements OverUnderPlayInputBoundary {
+    private final OverUnderPlayOutputBoundary userPresenter;
+    private final OverUnderPlayDataAccessInterface userDataAccessObject;
+    private final UserFactory userFactory;
+    private final PlayingDeck playingDeck;
+    private static final int BONUS_RATE = 18;
 
-    public OverUnderInteractor(int balance, OverUnderOutputBoundary outputBoundary) {
-        this.deck = new PlayingDeck();
-        this.outputBoundary = outputBoundary;
-        this.balance = balance;
+    public OverUnderPlayInteractor(OverUnderPlayDataAccessInterface userDataAccessObject,
+                                   OverUnderPlayOutputBoundary userPresenter,
+                                   UserFactory userFactory,
+                                   PlayingDeck playingDeck) {
+        this.userDataAccessObject = userDataAccessObject;
+        this.userPresenter = userPresenter;
+        this.userFactory = userFactory;
+        this.playingDeck = playingDeck;
+    }
+
+    @@Override
+    public void execute(OverUnderPlayInputData betInputData) {
+        final boolean bet = betInputData.getIsHigher(); // User's guess: true for higher, false for lower
+        final int betAmount = betInputData.getBetAmount(); // Amount being bet by the user
+
+        // Draw the current and next cards from the deck
+        final PlayingCard currentCard = this.playingDeck.dealCard();
+        final PlayingCard nextCard = this.playingDeck.dealCard();
+
+        // Ensure cards are available in the deck
+        if (currentCard == null || nextCard == null) {
+            userPresenter.prepareFailView("Not enough cards left in the deck.");
+            return;
+        }
+
+        // Fetch the user data from the database
+        final User user = userDataAccessObject.get(betInputData.getUserName());
+        final JSONObject userJson = user.getInfo();
+        int userBalance = user.getBalance(); // Current user balance
+
+
+        boolean isBetCorrect = betCorrect(bet, currentCard, nextCard);
+
+        // Update the user data based on the result
+        if (isBetCorrect) {
+            // Correct guess: User wins
+            userBalance += betAmount * BONUS_RATE; // Reward the user with bonus multiplier
+
+            userJson.put("wins", user.getWins() + 1);
+            userJson.put("games", user.getGames() + 1);
+        } else {
+            // Incorrect guess: User loses the bet amount
+            userJson.put("games", user.getGames() + 1); // Update games played
+        }
+
+        // Update user balance in the JSON
+        userJson.put("balance", userBalance);
+
+        // Save the updated user data to the data access object
+        User updatedUser = userFactory.create(user.getName(), user.getPassword(), userJson);
+        userDataAccessObject.saveNew(updatedUser, userJson);
+
+        // Set the bet for the user in the system
+        user.setBet(betAmount);
+        userPresenter.setBet();
+
+        // Notify the presenter with the result
+        OverUnderPlayOutputData outputData = new OverUnderPlayOutputData(betAmount, isBetCorrect);
+        if (isBetCorrect) {
+            userPresenter.prepareSuccessView(outputData); // Correct guess, show success
+        } else {
+            userPresenter.prepareFailView(outputData); // Incorrect guess, show failure
+        }
+    }
+
+
+
+    private boolean betCorrect(boolean bet, PlayingCard currentCard, PlayingCard nextCard) {
+
+        return bet ? nextCard.getRank() > currentCard.getRank() : nextCard.getRank() < currentCard.getRank();
+    }
+
+
+    @Override
+    public void switchToOverUnderGameView() {
+        userPresenter.switchToOverUnderPlayView();
     }
 
     @Override
-    public void startGame() {
-        // Shuffle deck and deal the first card
-        deck.shuffle();
-        currentCard = deck.dealCard();
-        this.outputBoundary.showGameStarted();
-    }
-
-    public void handleBet(int betAmount) {
-        if (betAmount <= 0) {
-            throw new IllegalArgumentException("Invalid bet amount.");
-        } else if (betAmount > this.balance) {
-            throw new IllegalArgumentException("Not enough tokens!");
-        }
-        this.balance -= betAmount;
-    }
-
-    @Override
-    public void processGuess(boolean isHigher, int betAmount) {
-        // Deal the next card and check if the guess is correct
-        PlayingCard nextCard = deck.dealCard();
-        boolean isCorrect = (isHigher && nextCard.getRank() > currentCard.getRank())
-                || (!isHigher && nextCard.getRank() < currentCard.getRank());
-
-        // Update balance based on the result
-        String guessResult = isCorrect ? "Correct" : "Wrong";
-        if (isCorrect) {
-            this.balance += betAmount;
-        } else {
-            this.balance -= betAmount;
-        }
-
-        // Create the output data to send to the presenter
-        OverUnderOutputData outputData = new OverUnderOutputData(
-                currentCard.getRank(),
-                nextCard.getRank(),
-                this.balance,
-                guessResult,
-                null
-        );
-
-        // Notify the presenter or view model to show the result
-        if (isCorrect) {
-            outputBoundary.prepareSuccessView(outputData);
-        } else {
-            outputBoundary.prepareFailView("Your guess was wrong!");
-        }
-
-        // Update the current card for the next round
-        currentCard = nextCard;
-    }
-
-    public PlayingCard getCurrentCard() {
-        return this.currentCard;
-    }
-
-    public int getBalance() {
-        return this.balance;
-    }
-
-    public void setOutputBoundary(OverUnderOutputBoundary outputBoundary) {
-        this.outputBoundary = outputBoundary;
+    public void switchToGameMenuView() {
+        userPresenter.switchToGameMenuView();
     }
 }

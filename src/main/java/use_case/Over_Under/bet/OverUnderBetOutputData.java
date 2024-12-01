@@ -1,39 +1,23 @@
 package use_case.Over_Under.bet;
 
-public class OverUnderOutputData {
+/**
+ * Output Data for the Blackjack Bet Use Case.
+ */
+public class OverUnderBetOutputData {
 
-    private final int currentCardValue;
-    private final int nextCardRank;
-    private final int balance;
-    private final String guessResult;
-    private final String error;
+    private final int betAmt;
+    private final boolean useCaseFailed;
 
-    public OverUnderOutputData(int currentCardValue, int nextCardRank, int balance, String guessResult, String error) {
-        this.currentCardValue = currentCardValue;
-        this.nextCardRank = nextCardRank;
-        this.balance = balance;
-        this.guessResult = guessResult;
-        this.error = error;
+    public OverUnderBetOutputData(int bet, boolean useCaseFailed) {
+        this.betAmt = bet;
+        this.useCaseFailed = useCaseFailed;
     }
 
-    // Getters for the fields
-    public int getCurrentCardValue() {
-        return currentCardValue;
+    public int getBet() {
+        return betAmt;
     }
 
-    public int getNextCardRank() {
-        return nextCardRank;
-    }
-
-    public int getBalance() {
-        return balance;
-    }
-
-    public String getGuessResult() {
-        return guessResult;
-    }
-
-    public String getError() {
-        return error;
+    public boolean isUseCaseFailed() {
+        return useCaseFailed;
     }
 }

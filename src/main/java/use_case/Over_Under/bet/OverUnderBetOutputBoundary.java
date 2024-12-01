@@ -1,18 +1,31 @@
 package use_case.Over_Under.bet;
 
-import entity.PlayingCard;
-
+/**
+ * The output boundary for the OverUnder Bet Use Case.
+ */
 public interface OverUnderBetOutputBoundary {
-    void presentCard(PlayingCard card);
-    void presentError(String errorMessage);
 
-    void showGameStarted();
+    /**
+     * Prepares the success view for the OverUnder Bet Use Case.
+     * @param outputData the output data
+     */
+    void prepareSuccessView(OverUnderBetOutputData outputData);
 
-    void showCorrectGuess(PlayingCard currentCard);
+    /**
+     * Prepares the failure view for the OverUnder Bet Use Case.
+     * @param errorMessage the explanation of the failure
+     */
+    void prepareFailView(String errorMessage);
 
-    void showWrongGuess(PlayingCard currentCard);
+    /**
+     * Switches to the OverUnder Game View.
+     */
+    void switchToOverUnderPlayView();
 
-    void prepareSuccessView(OverUnderOutputData outputData);
+    /**
+     * Switches to the Game Menu View.
+     */
+    void switchToGameMenuView();
 
-    void prepareFailView(String s);
+    void setBet();
 }

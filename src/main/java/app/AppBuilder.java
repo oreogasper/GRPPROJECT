@@ -52,10 +52,17 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.statistics.StatisticsController;
 import interface_adapter.statistics.StatisticsPresenter;
 import interface_adapter.statistics.StatisticsViewModel;
-import interface_adapter.und_ovr.OverUnderViewModel;
+import interface_adapter.und_ovr.bet.OverUnderBetController;
+import interface_adapter.und_ovr.bet.OverUnderBetPresenter;
+import interface_adapter.und_ovr.bet.OverUnderBetViewModel;
+import interface_adapter.und_ovr.play.OverUnderPlayViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import use_case.Over_Under.bet.OverUnderBetDataAccessInterface;
+import use_case.Over_Under.bet.OverUnderBetInputBoundary;
+import use_case.Over_Under.bet.OverUnderBetInteractor;
+import use_case.Over_Under.bet.OverUnderBetOutputBoundary;
 import use_case.blackjack.bet.BlackjackBetInputBoundary;
 import use_case.blackjack.bet.BlackjackBetInteractor;
 import use_case.blackjack.bet.BlackjackBetOutputBoundary;
@@ -154,7 +161,14 @@ public class AppBuilder {
     private ShopButtonViewModel shopButtonViewModel;
     private ShopWheelView shopWheelView;
     private ShopWheelViewModel shopWheelViewModel;
-    private OverUnderViewModel overUnderViewModel;
+
+    // View and ViewModel variables
+    private OverUnderBetView overUnderBetView;
+    private OverUnderBetViewModel overUnderBetViewModel;
+    private OverUnderPlayViewModel overUnderPlayViewModel;
+    // Data Access Object
+    private OverUnderBetDataAccessInterface overUnderBetDataAccessObject;
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
@@ -192,6 +206,42 @@ public class AppBuilder {
         gaunletBetViewModel = new GaunletBetViewModel();
         gaunletBetView = new GaunletBetView(gaunletBetViewModel);
         cardPanel.add(gaunletBetView, gaunletBetView.getViewName());
+        return this;
+    }
+
+    public AppBuilder addOverUnderBetUseCase() {
+        // Create the Output Boundary (Presenter) with all required parameters
+        final OverUnderBetOutputBoundary overUnderBetOutputBoundary = new OverUnderBetPresenter(
+                viewManagerModel,
+                gameMenuViewModel,
+                overUnderBetViewModel,
+                overUnderPlayViewModel // Added this
+        );
+
+        // Create the Input Boundary (Interactor)
+        final OverUnderBetInputBoundary overUnderBetInteractor = new OverUnderBetInteractor(
+                overUnderBetDataAccessObject,
+                overUnderBetOutputBoundary, userFactory);
+
+        // Create the Controller
+        final OverUnderBetController overUnderBetController = new OverUnderBetController(overUnderBetInteractor);
+
+        // Connect the controller to the view
+        overUnderBetView.setOverUnderBetController(overUnderBetController);
+
+        return this;
+    }
+
+    public AppBuilder addOverUnderBetView() {
+        // Initialize the ViewModel
+        overUnderBetViewModel = new OverUnderBetViewModel();
+
+        // Initialize the View with the ViewModel
+        overUnderBetView = new OverUnderBetView(overUnderBetViewModel);
+
+        // Add the View to the card panel (or equivalent UI container)
+        cardPanel.add(overUnderBetView, overUnderBetView.getViewName());
+
         return this;
     }
 

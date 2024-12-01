@@ -3,6 +3,7 @@ package view;
 import interface_adapter.und_ovr.bet.OverUnderBetController;
 import interface_adapter.und_ovr.bet.OverUnderBetState;
 import interface_adapter.und_ovr.bet.OverUnderBetViewModel;
+import entity.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,11 +37,7 @@ public class OverUnderBetView extends JPanel implements ActionListener, Property
 
         // Spinner for the bet
         SpinnerModel betModel = new SpinnerNumberModel(
-                10,   // Initial value
-                1,    // Minimum value
-                1000, // Maximum value (can adjust dynamically based on user's balance)
-                1     // Step size
-        );
+                10, 1, 1000, 1);
         betSpinner = new JSpinner(betModel);
 
         // Labels for user info
@@ -86,7 +83,8 @@ public class OverUnderBetView extends JPanel implements ActionListener, Property
             currentState.setBet(bet);
             overUnderBetViewModel.setState(currentState);
             overUnderBetController.execute(currentState.getUser().getName(), bet);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Invalid bet value. Please try again.");
         }
     }
@@ -117,10 +115,5 @@ public class OverUnderBetView extends JPanel implements ActionListener, Property
 
     public void setOverUnderBetController(OverUnderBetController controller) {
         this.overUnderBetController = controller;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Additional actions can be handled here if needed
     }
 }

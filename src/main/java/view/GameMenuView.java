@@ -43,6 +43,7 @@ public class GameMenuView extends JPanel implements PropertyChangeListener {
         gauntlet.addActionListener(evt -> gameMenuController.switchToGaunletView());
         overUnder.addActionListener(evt -> gameMenuController.switchToLoginView());
         back.addActionListener(evt -> gameMenuController.switchToMenuView());
+        overUnder.addActionListener(evt -> gameMenuController.switchToOverUnderView());
 
         // Bottom panel for username and balance
         username = new JLabel("unknown username");

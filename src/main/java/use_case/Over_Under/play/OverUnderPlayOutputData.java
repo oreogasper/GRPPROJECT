@@ -1,6 +1,6 @@
 package use_case.Over_Under.play;
 
-public class OverUnderOutputData {
+public class OverUnderPlayOutputData {
 
     private final int currentCardValue;
     private final int nextCardRank;
@@ -8,7 +8,7 @@ public class OverUnderOutputData {
     private final String guessResult;
     private final String error;
 
-    public OverUnderOutputData(int currentCardValue, int nextCardRank, int balance, String guessResult, String error) {
+    public void OverUnderOutputData(int currentCardValue, int nextCardRank, int balance, String guessResult, String error) {
         this.currentCardValue = currentCardValue;
         this.nextCardRank = nextCardRank;
         this.balance = balance;

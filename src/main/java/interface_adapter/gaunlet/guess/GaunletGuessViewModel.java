@@ -20,6 +20,5 @@ public class GaunletGuessViewModel extends ViewModel<GaunletGuessState> {
     }
 
     public void addPropertyChangeListener(GaunletGuessView gaunletGuessView) {
-
     }
 }
