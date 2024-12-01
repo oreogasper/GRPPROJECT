@@ -43,6 +43,8 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     private final JLabel gameStatusLabel;
 
+    private final JLabel betAmountLabel;
+
     private BlackjackHitController hitController;
     private BlackjackStandController standController;
 
@@ -56,6 +58,10 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
         gameStatusLabel = new JLabel(BlackjackGameViewModel.PLAYER_TURN_LABEL);
         gameStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        betAmountLabel = new JLabel(BlackjackGameViewModel.BET_AMOUNT_LABEL +
+                blackjackGameViewModel.getState().getBetAmount());
+        betAmountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         this.playerCardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
         this.playerCardsPanel = new JPanel();
@@ -148,6 +154,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(gameStatusLabel);
+        this.add(betAmountLabel);
         this.add(playerCardsPanel);
         this.add(playerScorePanel);
         this.add(dealerCardsPanel);
@@ -228,6 +235,8 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
             dealerCardsPanel.revalidate();
             dealerCardsPanel.repaint();
         }
+
+        betAmountLabel.setText(blackjackGameViewModel.BET_AMOUNT_LABEL + state.getBetAmount());
     }
 
     public String getViewName() {
