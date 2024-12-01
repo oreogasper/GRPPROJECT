@@ -135,8 +135,8 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
                     cell.setBackground(AppColors.DARK_GREEN);
                     cell.setForeground(AppColors.WHITE);
                 } else {
-                    cell.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground()); // Default background
-                    cell.setForeground(isSelected ? table.getSelectionBackground() : table.getForeground());
+                    cell.setBackground(AppColors.YELLOW);
+                    cell.setForeground(AppColors.DARK_GREEN);
                 }
 
                 return cell;
@@ -213,23 +213,19 @@ public class LeaderboardView extends JPanel implements PropertyChangeListener {
 
             // TODO: comment out for loop and remove all friends to fix null pointer exception
             for (int i = 0; i < list.length(); i++) {
-                final String userString = list.get(i).toString();
+                final JSONObject userString = (JSONObject) list.get(i);
                 // Extract data from the string
                 if (userString != null && !userString.isEmpty()) {
-                    Map<String, String> keyValueMap = Arrays.stream(userString.split(", "))
-                            .map(pair -> pair.split("="))
-                            .collect(Collectors.toMap(kv -> kv[0].trim(), kv -> kv[1].replace("'", "").trim()));
-
-                    String username = keyValueMap.get("username");
-                    int balance = Integer.parseInt(keyValueMap.get("balance"));
-                    int wins = Integer.parseInt(keyValueMap.get("wins"));
-                    int losses = Integer.parseInt(keyValueMap.get("losses"));
-                    int games = Integer.parseInt(keyValueMap.get("games"));
-                    // System.out.println(keyValueMap.get("username"));
-
+                    String username = (String) userString.get("username");
+                    JSONObject friendInfo = (JSONObject) userString.get("info");
+                    int balance = friendInfo.getInt("balance");
+                    int wins = friendInfo.getInt("wins");
+                    int losses = friendInfo.getInt("losses");
+                    int games = friendInfo.getInt("games");
                     addRowToTable(username, balance, wins, losses, games);
                 }
             }
+
         }
         else if (evt.getPropertyName().equals("friend")) {
             final LeaderboardState state = (LeaderboardState) evt.getNewValue();
