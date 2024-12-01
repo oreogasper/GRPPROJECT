@@ -118,16 +118,14 @@ public class CommonUser implements User {
 
     @Override
     public String toString() {
-        return "This user {"
-                + "username='" + this.getName() + '\''
+        return "username='" + this.getName() + '\''
                 + ", password='" + this.getPassword() + '\''
                 + ", wins='" + this.getWins() + '\''
                 + ", losses='" + this.getLosses() + '\''
                 + ", games='" + this.getGames() + '\''
                 + ", balance='" + this.getBalance() + '\''
                 + ", bet='" + this.getBet() + '\''
-                + ", lastSpin='" + this.getLastSpin() + '\''
-                + '}';
+                + ", lastSpin='" + this.getLastSpin();
     }
 
 }

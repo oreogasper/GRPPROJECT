@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GaunletGuessInteractorTest {
 
-    // Stub implementation of GaunletGuessOutputBoundary to capture outputs
+    // A simpler presenter that tracks if correct methods are called
     static class CapturingPresenter implements GaunletGuessOutputBoundary {
         private String lastMethodCalled = null;
         private GaunletGuessOutputData lastOutputData = null;
@@ -41,13 +41,13 @@ class GaunletGuessInteractorTest {
         }
     }
 
-    // Stub implementation of GaunletGameFactory
-    static class StubGaunletGameFactory extends GaunletGameFactory {
+    // A simpler implementation of GaunletGameFactory
+    static class SimpGaunletGameFactory extends GaunletGameFactory {
         private final String coinResult;
         private final int diceResult;
         private final String rpsResult;
 
-        public StubGaunletGameFactory(String coinResult, int diceResult, String rpsResult) {
+        public SimpGaunletGameFactory(String coinResult, int diceResult, String rpsResult) {
             this.coinResult = coinResult;
             this.diceResult = diceResult;
             this.rpsResult = rpsResult;
@@ -74,12 +74,12 @@ class GaunletGuessInteractorTest {
         }
     }
 
-    // Stub implementation of GaunletGuessUserDataAccessInterface
-    static class StubUserDataAccess implements GaunletGuessUserDataAccessInterface {
+    // Simple implementation of GaunletGuessUserDataAccessInterface
+    static class SimpUserDataAccess implements GaunletGuessUserDataAccessInterface {
         private final User user;
         private final int bet;
 
-        public StubUserDataAccess(User user, int bet) {
+        public SimpUserDataAccess(User user, int bet) {
             this.user = user;
             this.bet = bet;
         }
@@ -100,31 +100,30 @@ class GaunletGuessInteractorTest {
         }
     }
 
-    // Stub implementation of UserFactory
-    static class StubUserFactory implements UserFactory {
+    // simple implementation of UserFactory
+    static class SimpUserFactory implements UserFactory {
         @Override
         public User create(String name, String password, JSONObject info) {
-            return new ConcreteUser(name, password, info);
+            return new TestUser(name, password, info);
         }
     }
 
     @Test
     void testExecute_WinScenario() {
-        // Arrange
         CapturingPresenter presenter = new CapturingPresenter();
-        User user = new ConcreteUser("testUser", "password", new JSONObject().put("balance", 100));
-        GaunletGameFactory gameFactory = new StubGaunletGameFactory("Heads", 3, "Rock");
-        GaunletGuessUserDataAccessInterface dataAccess = new StubUserDataAccess(user, 10);
-        UserFactory userFactory = new StubUserFactory();
+        User user = new TestUser("testUser", "password", new JSONObject().put("balance", 100));
+        GaunletGameFactory gameFactory = new SimpGaunletGameFactory("Heads", 3, "Rock");
+        GaunletGuessUserDataAccessInterface dataAccess = new SimpUserDataAccess(user, 10);
+        UserFactory userFactory = new SimpUserFactory();
         GaunletGuessInteractor interactor = new GaunletGuessInteractor(presenter, gameFactory, dataAccess, userFactory);
 
-        // Act
+        // User input ex
         GaunletGuessInputData inputData = new GaunletGuessInputData("testUser",
                 "Heads", "3", "Rock");
         int balanceBefore = user.getBalance();
         interactor.execute(inputData);
 
-        // Assert
+        // Mock win scenario and check if correctly done
         assertEquals("prepareSuccessView", presenter.getLastMethodCalled());
         GaunletGuessOutputData outputData = presenter.getLastOutputData();
         assertNotNull(outputData);
@@ -137,15 +136,14 @@ class GaunletGuessInteractorTest {
 
     @Test
     void testExecute_LossScenario() {
-        // Arrange
         CapturingPresenter presenter = new CapturingPresenter();
-        User user = new ConcreteUser("testUser", "password", new JSONObject().put("balance", 100));
-        GaunletGameFactory gameFactory = new StubGaunletGameFactory("Tails", 5, "Scissors");
-        GaunletGuessUserDataAccessInterface dataAccess = new StubUserDataAccess(user, 10);
-        UserFactory userFactory = new StubUserFactory();
+        User user = new TestUser("testUser", "password", new JSONObject().put("balance", 100));
+        GaunletGameFactory gameFactory = new SimpGaunletGameFactory("Tails", 5, "Scissors");
+        GaunletGuessUserDataAccessInterface dataAccess = new SimpUserDataAccess(user, 10);
+        UserFactory userFactory = new SimpUserFactory();
         GaunletGuessInteractor interactor = new GaunletGuessInteractor(presenter, gameFactory, dataAccess, userFactory);
 
-        // Act
+        // Mock wrong user input
         GaunletGuessInputData inputData = new GaunletGuessInputData("testUser",
                 "Heads", "4", "Rock");
         int balanceBefore = user.getBalance();
@@ -153,7 +151,7 @@ class GaunletGuessInteractorTest {
         interactor.execute(inputData);
         user.updateBalance(-10);
 
-        // Assert
+        // Test if lose scenario is correctly implemented
         assertEquals("prepareSuccessView", presenter.getLastMethodCalled());
         GaunletGuessOutputData outputData = presenter.getLastOutputData();
         assertNotNull(outputData);
@@ -166,23 +164,20 @@ class GaunletGuessInteractorTest {
 
     @Test
     void testSwitchToLoginView() {
-        // Arrange
         CapturingPresenter presenter = new CapturingPresenter();
         GaunletGuessInteractor interactor = new GaunletGuessInteractor(presenter, null, null, null);
 
-        // Act
         interactor.switchToLoginView();
 
-        // Assert
         assertEquals("switchToLoginView", presenter.getLastMethodCalled());
     }
 }
-class ConcreteUser implements User {
+class TestUser implements User {
     private final String name;
     private final String password;
     private final JSONObject info;
 
-    public ConcreteUser(String name, String password, JSONObject info) {
+    public TestUser(String name, String password, JSONObject info) {
         this.name = name;
         this.password = password;
         this.info = info;

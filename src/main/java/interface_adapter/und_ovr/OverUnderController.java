@@ -13,21 +13,13 @@ public class OverUnderController {
         this.gameStateManager = gameStateManager;
     }
 
-/*<<<<<<< Updated upstream
-    public void placeBet(int betAmount) {
-        // this.interactor = new OverUnderInteractor();
-        this.viewModel = new OverUnderViewModel();
-        this.betAmount = betAmount;
-        System.out.println("Bet placed: " + betAmount);
-    }
-=======
+/*
 //    public void placeBet(int betAmount) {
 //        this.interactor = new OverUnderInteractor();
 //        this.viewModel = new OverUnderViewModel();
 //        this.betAmount = betAmount;
 //        System.out.println("Bet placed: " + betAmount);
-//    }
->>>>>>> Stashed changes*/
+//    }*/
 
     public void startGame() {
         // Transition to the game state

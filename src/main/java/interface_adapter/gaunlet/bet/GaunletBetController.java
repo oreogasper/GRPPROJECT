@@ -22,7 +22,7 @@ public class GaunletBetController {
     public void execute(String username, int bet) {
         final GaunletBetInputData gaunletBetInputData = new GaunletBetInputData(
                 username, bet);
-
+        System.out.println("bet = " + bet);
         userGaunletBetUseCaseInteractor.execute(gaunletBetInputData, bet);
     }
 

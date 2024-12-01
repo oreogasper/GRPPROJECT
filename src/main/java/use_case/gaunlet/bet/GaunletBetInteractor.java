@@ -29,7 +29,12 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
         final int userBalance = user.getBalance();
 
         // Check if the bet is valid
-        if (isValidBet(betAmount, userBalance)) {
+        if (!isValidBet(betAmount, userBalance)) {
+            System.out.println("bet = " + betAmount);
+            // Handle invalid bet case
+            userPresenter.prepareFailView("Invalid bet amount. "
+                    + "Please bet a value between 10 tokens and your current balance.");
+        } else {
             // Deduct the bet amount from the user's balance
             final JSONObject json = user.getInfo();
             final int newBalance = userBalance - betAmount;
@@ -45,11 +50,6 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
             // Notify the presenter of success
             final GaunletBetOutputData gaunletBetOutputData = new GaunletBetOutputData(betAmount, false);
             userPresenter.prepareSuccessView(gaunletBetOutputData);
-        }
-        else {
-            // Handle invalid bet case
-            userPresenter.prepareFailView("Invalid bet amount. "
-                    + "Please bet a value between 10 tokens and your current balance.");
         }
     }
 
