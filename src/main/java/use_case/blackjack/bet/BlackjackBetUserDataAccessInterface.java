@@ -1,6 +1,7 @@
 package use_case.blackjack.bet;
 
 import entity.User;
+import org.json.JSONObject;
 
 /**
  * DAO for the Blackjack Bet Use Case.
@@ -8,17 +9,23 @@ import entity.User;
 public interface BlackjackBetUserDataAccessInterface {
 
     /**
-     * Checks if the given bet is valid.
-     * @param bet the given bet amount.
-     * @return true if the bet is valid, otherwise false.
+     * Sets the bet amount indicating who is the current user of the application.
+     * @param bet the new current username; null to indicate that no one is currently logged into the application.
      */
-    boolean validBet(int bet);
+    void setBet(int bet);
 
     /**
-     * Logs a record of the bet.
-     * @param user the user that made the bet.
+     * Saves the user's info.
+     * @param user the user to save
+     * @param info the default user info to save
      */
-    void save(User user);
+    void saveNew(User user, JSONObject info);
 
-    // Need to add additional methods for updating the users balance after a bet is placed maybe
+    /**
+     * Returns the user associated with that username.
+     * @param username the username of the user
+     * @return the user associated with that username
+     */
+    User get(String username);
+
 }

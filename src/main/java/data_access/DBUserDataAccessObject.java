@@ -13,6 +13,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import use_case.add_friend.AddFriendUserDataAccessInterface;
+import use_case.blackjack.bet.BlackjackBetUserDataAccessInterface;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.gaunlet.bet.GaunletBetDataAccessInterface;
 import use_case.gaunlet.guess.GaunletGuessUserDataAccessInterface;
@@ -35,7 +36,8 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         AddFriendUserDataAccessInterface,
         ShopWheelUserDataAccessInterface,
         ShopButtonUserDataAccessInterface,
-        RemoveFriendUserDataAccessInterface {
+        RemoveFriendUserDataAccessInterface,
+        BlackjackBetUserDataAccessInterface {
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";

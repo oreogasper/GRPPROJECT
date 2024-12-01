@@ -559,7 +559,9 @@ public class AppBuilder {
         final BlackjackBetOutputBoundary blackjackBetOutputBoundary = new BlackjackBetPresenter(
                 gameMenuViewModel, blackjackBetViewModel, blackjackGameViewModel, viewManagerModel);
         final BlackjackBetInputBoundary blackjackBetInteractor = new BlackjackBetInteractor(blackjackBetOutputBoundary,
-                cardDeckDataAccessObject, blackjackGame);
+                userDataAccessObject,
+                cardDeckDataAccessObject, blackjackGame,
+                userFactory);
 
         final BlackjackBetController blackjackBetController = new BlackjackBetController(blackjackBetInteractor);
         blackjackBetView.setBlackjackBetController(blackjackBetController);
