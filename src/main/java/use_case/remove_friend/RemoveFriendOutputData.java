@@ -2,7 +2,7 @@ package use_case.remove_friend;
 
 import entity.User;
 /**
- * Output Data for the Add Friend Use Case.
+ * Output Data for the Remove Friend Use Case.
  */
 public class RemoveFriendOutputData {
     private User user;

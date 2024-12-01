@@ -3,7 +3,7 @@ package use_case.remove_friend;
 import org.json.JSONObject;
 
 /**
- * The input data for the Add Friend Use Case.
+ * The input data for the Remove Friend Use Case.
  */
 public class RemoveFriendInputData {
     private final String username;
