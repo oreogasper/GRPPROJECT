@@ -4,21 +4,21 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
+import javax.swing.*;
 
 import entity.AppColors;
 import interface_adapter.shop.ShopController;
 import interface_adapter.shop.ShopState;
 import interface_adapter.shop.ShopViewModel;
 
+import static view.ShopButtonView.getjButton;
+
 /**
  * The View for the shop main menu.
  */
 public class ShopMainView extends JPanel implements PropertyChangeListener {
-    private ShopController shopController;
+    private static final String FONT_NAME = "Serif";
+    private transient ShopController shopController;
     private final JLabel username;
     private final JLabel balance;
 
@@ -26,9 +26,9 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         this.setBackground(AppColors.DARK_GREEN);
 
         final JLabel title = new JLabel(ShopViewModel.TITLE_LABEL);
-        title.setFont(new Font("Serif", Font.BOLD, 30));
+        title.setFont(new Font(FONT_NAME, Font.BOLD, 30));
         title.setForeground(AppColors.YELLOW);
-        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
 
         final JPanel titlePanel = new JPanel();
         titlePanel.setBackground(AppColors.DARK_GREEN);
@@ -49,10 +49,10 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
         // Bottom panel for username and balance
         username = new JLabel("unknown username");
         username.setForeground(AppColors.YELLOW);
-        username.setFont(new Font("Serif", Font.PLAIN, 15));
+        username.setFont(new Font(FONT_NAME, Font.PLAIN, 15));
         balance = new JLabel("unknown balance");
         balance.setForeground(AppColors.YELLOW);
-        balance.setFont(new Font("Serif", Font.PLAIN, 15));
+        balance.setFont(new Font(FONT_NAME, Font.PLAIN, 15));
 
         // Update labels when state changes
         shopViewModel.addPropertyChangeListener(evt -> {
@@ -76,7 +76,7 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
 
         final JPanel rightBottomPanel = new JPanel();
         final JButton back = createStyledButton(ShopViewModel.BACK_BUTTON_LABEL, AppColors.DARK_GREEN);
-        back.setFont(new Font("Serif", Font.BOLD, 15));
+        back.setFont(new Font(FONT_NAME, Font.BOLD, 15));
         back.setPreferredSize(new Dimension(120, 25));
 
         rightBottomPanel.setBackground(AppColors.DARK_GREEN);
@@ -96,12 +96,7 @@ public class ShopMainView extends JPanel implements PropertyChangeListener {
     private JButton createStyledButton(String text, Color bgColor) {
         JButton button = new JButton(text);
         button.setBackground(bgColor);
-        button.setForeground(AppColors.YELLOW);
-        button.setFont(new Font("Serif", Font.BOLD, 24));
-        button.setFocusPainted(false);
-        button.setBorder(new LineBorder(AppColors.YELLOW, 2));
-        button.setPreferredSize(new Dimension(220, 50));
-        return button;
+        return getjButton(button, FONT_NAME);
     }
 
     /**

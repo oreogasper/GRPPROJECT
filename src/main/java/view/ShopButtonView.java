@@ -11,12 +11,13 @@ import entity.AppColors;
 import interface_adapter.shop.button.ShopButtonController;
 import interface_adapter.shop.button.ShopButtonState;
 import interface_adapter.shop.button.ShopButtonViewModel;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * The view class for the Shop button class.
  */
 public class ShopButtonView extends JPanel implements PropertyChangeListener {
-
+    private static final String FONT_NAME = "Serif";
     private transient ShopButtonController shopButtonController;
     private final JLabel username;
     private final JLabel balance;
@@ -26,26 +27,30 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
         this.setBackground(AppColors.DARK_GREEN);
 
         // Add title
-        final JLabel titlePanel = new JLabel(ShopButtonViewModel.TITLE_LABEL);
-        titlePanel.setFont(new Font("Serif", Font.BOLD, 30));
-        titlePanel.setForeground(AppColors.YELLOW);
-        titlePanel.setHorizontalAlignment(JLabel.CENTER);
+        final JLabel title = new JLabel(ShopButtonViewModel.TITLE_LABEL);
+        title.setFont(new Font(FONT_NAME, Font.BOLD, 30));
+        title.setForeground(AppColors.YELLOW);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+
+        final JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(AppColors.DARK_GREEN);
+        titlePanel.add(title);
 
         // Labels
         username = new JLabel("unknown username");
         username.setForeground(AppColors.YELLOW);
-        username.setFont(new Font("Serif", Font.PLAIN, 15));
+        username.setFont(new Font(FONT_NAME, Font.PLAIN, 15));
         balance = new JLabel("unknown balance");
         balance.setForeground(AppColors.YELLOW);
-        balance.setFont(new Font("Serif", Font.PLAIN, 15));
+        balance.setFont(new Font(FONT_NAME, Font.PLAIN, 15));
         clicksMade = new JLabel("Tokens earned this session: 0");
         clicksMade.setForeground(AppColors.YELLOW);
-        clicksMade.setFont(new Font("Serif", Font.PLAIN, 20));
+        clicksMade.setFont(new Font(FONT_NAME, Font.PLAIN, 20));
 
         // Compose center panel
-        final JButton clicker = createStyledButton(ShopButtonViewModel.CLICK_BUTTON_LABEL, AppColors.DARK_GREEN);
+        final JButton clicker = createStyledButton(ShopButtonViewModel.CLICK_BUTTON_LABEL);
         clicker.addActionListener(evt -> shopButtonController.buttonClick(shopButtonViewModel.getState().getClicksMade()));
-        clicker.setFont(new Font("Serif", Font.PLAIN, 30));
+        clicker.setFont(new Font(FONT_NAME, Font.PLAIN, 30));
         clicker.setPreferredSize(new Dimension(80, 80));
 
 // Wrap clicksMade label for consistent alignment
@@ -79,8 +84,8 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
         leftBottomPanel.add(balance);
 
         final JPanel rightBottomPanel = new JPanel();
-        final JButton back = createStyledButton(ShopButtonViewModel.SHOP_BUTTON_LABEL, AppColors.DARK_GREEN);
-        back.setFont(new Font("Serif", Font.BOLD, 15));
+        final JButton back = createStyledButton(ShopButtonViewModel.SHOP_BUTTON_LABEL);
+        back.setFont(new Font(FONT_NAME, Font.BOLD, 15));
         back.setPreferredSize(new Dimension(120, 25));
 
         rightBottomPanel.setBackground(AppColors.DARK_GREEN);
@@ -119,11 +124,16 @@ public class ShopButtonView extends JPanel implements PropertyChangeListener {
         }
     }
 
-    private JButton createStyledButton(String text, Color bgColor) {
+    private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(bgColor);
+        button.setBackground(AppColors.DARK_GREEN);
+        return getjButton(button, FONT_NAME);
+    }
+
+    @NotNull
+    static JButton getjButton(JButton button, String fontName) {
         button.setForeground(AppColors.YELLOW);
-        button.setFont(new Font("Serif", Font.BOLD, 24));
+        button.setFont(new Font(fontName, Font.BOLD, 24));
         button.setFocusPainted(false);
         button.setBorder(new LineBorder(AppColors.YELLOW, 2));
         button.setPreferredSize(new Dimension(220, 50));
