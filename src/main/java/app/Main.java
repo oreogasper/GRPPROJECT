@@ -56,6 +56,10 @@ public class Main {
                                             .addBlackjackGameUseCase()
                                             .addShopUseCase()
                                             .addShopButtonUseCase()
+                                            .addOverUnderBetView()
+                                            .addOverUnderBetUseCase()
+                                            .addOverUnderPlayView()
+                                            .addOverUnderPlayUseCase()
                                             .addShopWheelUseCase()
                                             .addLeaderboardUseCase()
                                             .build();

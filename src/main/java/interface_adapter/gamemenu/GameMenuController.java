@@ -43,7 +43,7 @@ public class GameMenuController {
     /**
      * Executes the "switch to overunder view" Use Case.
      */
-    public void switchToOverUnderView() {
-        userGameMenuUseCaseInteractor.switchToOverUnderView();
+    public void switchToOverUnderBetView() {
+        userGameMenuUseCaseInteractor.switchToOverUnderBetView();
     }
 }

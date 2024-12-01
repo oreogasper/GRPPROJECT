@@ -30,9 +30,8 @@ public class GameMenuInteractor implements GameMenuInputBoundary {
         userPresenter.switchToBlackjackView();
     }
 
-    @Override
-    public void switchToOverUnderView() {
-        userPresenter.switchToOverUnderView();
+    public void switchToOverUnderBetView() {
+        userPresenter.switchToOverUnderBetView();
     }
 }
 

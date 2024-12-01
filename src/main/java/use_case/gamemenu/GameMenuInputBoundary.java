@@ -28,5 +28,5 @@ public interface GameMenuInputBoundary {
     /**
      * Executes the switch to over/under view use case.
      */
-    void switchToOverUnderView();
+    void switchToOverUnderBetView();
 }

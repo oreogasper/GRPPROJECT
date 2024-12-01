@@ -1,15 +1,15 @@
 package entity;
 
-import java.io.File;
+import java.awt.*;
 /**
  * Concrete implementation of a playing card.
  */
 
 public class PlayingCard implements CardAbs {
     private final int rank;
-    private final File card;
+    private final Image card;
 
-    public PlayingCard(File card, int rank) {
+    public PlayingCard(Image card, int rank) {
         this.rank = rank;
         this.card = card;
     }
@@ -24,7 +24,7 @@ public class PlayingCard implements CardAbs {
         return "The rank is: " + rank;
     }
 
-    public File getImage() {
+    public Image getImage() {
         return this.card;
     }
 }
