@@ -30,10 +30,9 @@ public interface OverUnderPlayDataAccessInterface {
      */
     AbstractCard drawCard(String deckId);
 
-
     /**
      * Returns deck id required to access deck.
-     * @return
+     * @return deck id.
      */
     String getDeckID();
 }

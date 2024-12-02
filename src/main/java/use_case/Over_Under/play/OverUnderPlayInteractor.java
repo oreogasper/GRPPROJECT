@@ -2,8 +2,6 @@ package use_case.Over_Under.play;
 
 import entity.*;
 import org.json.JSONObject;
-import use_case.Over_Under.play.OverUnderPlayDataAccessInterface;
-import use_case.Over_Under.play.OverUnderPlayOutputBoundary;
 
 /**
  * The Over/Under Play Interactor.
@@ -29,63 +27,49 @@ public class OverUnderPlayInteractor implements OverUnderPlayInputBoundary {
 
     @Override
     public void execute(OverUnderPlayInputData gameInputData) {
-        // Validate input
         if (gameInputData == null || gameInputData.getUserName() == null) {
             userPresenter.prepareFailView("Invalid input data.");
-            return;
-        }
-        if (!userDataAccessObject.hasDeck()){
+            return;}
+        OverUnderGame overUnderGame = this.game.create();
+        if (!userDataAccessObject.hasDeck()) {
             userDataAccessObject.createNewDeck();
-        }
-        // Users bet
-        final boolean isHigherBet = gameInputData.getIsHigher();
-
-        // Current card, card to be compared to
-        final AbstractCard currentCard = userDataAccessObject.drawCard(userDataAccessObject.getDeckID());
-        final AbstractCard nextCard = userDataAccessObject.drawCard(userDataAccessObject.getDeckID());
-        if (currentCard == null || nextCard == null) {
+            overUnderGame.setDeckId(userDataAccessObject.getDeckID());
+        } else if (!overUnderGame.hasDeck()) {
+            overUnderGame.setDeckId(userDataAccessObject.getDeckID());}
+        if (overUnderGame.getCurrentCard() == null) {
+            AbstractCard currentCard = userDataAccessObject.drawCard(overUnderGame.getDeckId());
+            if (currentCard == null) {
+                userPresenter.prepareFailView("Not enough cards left in the deck.");
+                return;}
+            overUnderGame.setCurrentCard(currentCard);
+        }AbstractCard nextCard = userDataAccessObject.drawCard(overUnderGame.getDeckId());
+        if (nextCard == null) {
             userPresenter.prepareFailView("Not enough cards left in the deck.");
-            return;
-        }
-
-        // Fetch user data
-        final User user = userPlayDataAccessObject.get(gameInputData.getUserName());
+            return;}
+        overUnderGame.setNextCard(nextCard);
+        User user = userPlayDataAccessObject.get(gameInputData.getUserName());
         if (user == null) {
             userPresenter.prepareFailView("User not found.");
-            return;
-        }
-
-        // Check if the user's guess is correct
-        boolean isGuessCorrect = isHigherBet
-                ? nextCard.getRank() > currentCard.getRank()
-                : nextCard.getRank() < currentCard.getRank();
-
-        // Update user's stats
+            return;}
+        boolean isGuessCorrect = overUnderGame.evaluateGuess(gameInputData.getIsHigher());
         JSONObject userJson = user.getInfo();
-        if (!isGuessCorrect) {
-            // Increment wrong guesses if the guess was incorrect
-            int wrongGuesses = userJson.optInt("wrongGuesses", 0);
-            userJson.put("wrongGuesses", wrongGuesses + 1);
+        OverUnderPlayOutputData outputData = new OverUnderPlayOutputData(
+                isGuessCorrect, isGuessCorrect ? "You Win!" : "You Lose!",
+                overUnderGame.getCurrentCardImage(),
+                overUnderGame.getNextCardImage(),
+                false);
+        if (isGuessCorrect) {
+            userJson.put("wins", userJson.optInt("wins", 0) + 1);
+            int newBalance = user.getBalance() + (userPlayDataAccessObject.getBet() * 2);
+            userJson.put("balance", newBalance);
+            userPresenter.prepareSuccessView(outputData);} else {
+            userJson.put("losses", userJson.optInt("losses", 0) + 1);
+            userJson.put("balance", user.getBalance() - userPlayDataAccessObject.getBet());
+            userPresenter.prepareFailView(outputData.getResultMessage());
         }
-
-        // Update games played
-        int totalGames = userJson.optInt("games", 0);
-        userJson.put("games", totalGames + 1);
-
-        // Save updated user data
+        userJson.put("games", userJson.optInt("games", 0) + 1);
         User updatedUser = userFactory.create(user.getName(), user.getPassword(), userJson);
         userPlayDataAccessObject.saveNew(updatedUser, userJson);
-
-        // Notify the presenter with the result
-        OverUnderPlayOutputData outputData = new OverUnderPlayOutputData(isGuessCorrect, "You Lose!" );
-        if (isGuessCorrect) {
-            userPresenter.prepareSuccessView(outputData);
-            userJson.put("losses", user.getLosses() + 1);
-            userJson.put("balance", (userPlayDataAccessObject.getBet() + user.getBalance()) * 10);
-        } else {
-            userPresenter.prepareFailView(outputData.getError());
-            userJson.put("wins", user.getWins() + 1);
-        }
     }
 
     public void switchToGameMenuView() {

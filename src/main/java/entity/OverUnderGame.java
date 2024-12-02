@@ -1,52 +1,92 @@
 package entity;
 
+import java.awt.Image;
+
 public class OverUnderGame implements Game {
-
-    private final int minBet;
-    private final int maxBet;
-    private final String rules;
-    private final String gameType;
-
+    private final String gameName = "Over/Under";
     private AbstractCard currentCard;
     private AbstractCard nextCard;
+    private String deckId;
 
-    public OverUnderGame() {
-        this.minBet = 15;
-        this.maxBet = 500;
-        this.rules = "Guess if the next card will be higher or lower than the current card.";
-        this.gameType = "Over/Under";
-    }
+    public OverUnderGame() {}
 
+    @Override
     public int getMinBet() {
-        return this.minBet;
+        return 0;
     }
 
+    @Override
     public int getMaxBet() {
-        return this.maxBet;
-    }
-
-    public String getGameType() {
-        return this.gameType;
+        return 0;
     }
 
     @Override
     public String getRules() {
-        return rules;
+        return "";
+    }
+
+    @Override
+    public String getGameType() {
+        return gameName;
     }
 
     public AbstractCard getCurrentCard() {
         return currentCard;
     }
 
+    public void setCurrentCard(AbstractCard card) {
+        this.currentCard = card;
+    }
+
     public AbstractCard getNextCard() {
         return nextCard;
     }
 
-    public void setCurrentCard(AbstractCard currentCard) {
-        this.currentCard = currentCard;
+    public void setNextCard(AbstractCard card) {
+        this.nextCard = card;
     }
 
-    public void setNextCard(AbstractCard nextCard) {
-        this.nextCard = nextCard;
+    public String getDeckId() {
+        return deckId;
+    }
+
+    public void setDeckId(String deckId) {
+        this.deckId = deckId;
+    }
+
+    public boolean hasDeck() {
+        return deckId != null;
+    }
+
+    // Evaluates if the guess is correct
+    public boolean evaluateGuess(boolean isHigher) {
+        if (currentCard == null || nextCard == null) {
+            throw new IllegalStateException("Cards are not set!");
+        }
+        int comparison = nextCard.getRank() - currentCard.getRank();
+        return (isHigher && comparison > 0) || (!isHigher && comparison < 0);
+    }
+
+    // Retrieves the image of the current card
+    public Image getCurrentCardImage() {
+        if (currentCard == null) {
+            throw new IllegalStateException("Current card is not set!");
+        }
+        return currentCard.getImage();
+    }
+
+    // Retrieves the image of the next card
+    public Image getNextCardImage() {
+        if (nextCard == null) {
+            throw new IllegalStateException("Next card is not set!");
+        }
+        return nextCard.getImage();
+    }
+
+    // Resets the game state
+    public void resetGame() {
+        currentCard = null;
+        nextCard = null;
+        deckId = null;
     }
 }

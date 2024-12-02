@@ -20,7 +20,7 @@ public interface OverUnderBetOutputBoundary {
     /**
      * Switches to the OverUnder Game View.
      */
-    void switchToOverUnderPlayView();
+    void switchToOverUnderGameView();
 
     /**
      * Switches to the Game Menu View.

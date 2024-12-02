@@ -28,8 +28,8 @@ public class OverUnderPlayState {
     }
 
     // Card-related methods
-    public Image getCurrentCard() {
-        return currentCard.getImage();
+    public AbstractCard getCurrentCard() {
+        return currentCard;
     }
 
     public void setCurrentCard(AbstractCard currentCard) {

@@ -198,7 +198,7 @@ public class AppBuilder {
     private ShopButtonViewModel shopButtonViewModel;
     private ShopWheelView shopWheelView;
     private ShopWheelViewModel shopWheelViewModel;
-    private OverUnderPlayViewModel overUnderPlayViewModel;
+    private final OverUnderPlayViewModel overUnderPlayViewModel = new OverUnderPlayViewModel();
     private OverUnderBetView overUnderBetView;
     private OverUnderPlayView overUnderPlayView;
     private final OverUnderGameFactory overUnderGame = new OverUnderGameFactory();
@@ -211,21 +211,6 @@ public class AppBuilder {
         cardDeckDataAccessObject = new DBCardDeckDataAccessObject(cardFactory);
     }
 
-    public AppBuilder addOverUnderBetView() {
-        OverUnderBetView overUnderBetView = new OverUnderBetView(overUnderBetViewModel);  // Use the shared viewModel
-        this.overUnderBetView = overUnderBetView;
-        cardPanel.add(overUnderBetView, overUnderBetView.getViewName()); // Attach to the UI
-        return this; // Allow method chaining
-    }
-
-    public AppBuilder addOverUnderPlayView() {
-        OverUnderPlayViewModel overUnderPlayViewModel = new OverUnderPlayViewModel();
-        OverUnderPlayView overUnderPlayView = new OverUnderPlayView(overUnderPlayViewModel);
-        OverUnderPlayState overUnderPlayState = new OverUnderPlayState();
-        cardPanel.add(overUnderPlayView, overUnderPlayView.getName());
-        return this;
-    }
-
     public AppBuilder addOverUnderBetUseCase() {
         final OverUnderBetOutputBoundary overUnderBetOutputBoundary = new OverUnderBetPresenter(
                 viewManagerModel, gameMenuViewModel, overUnderBetViewModel, overUnderPlayViewModel);
@@ -236,18 +221,31 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addOverUnderBetView() {
+
+        this.overUnderBetView = new OverUnderBetView(overUnderBetViewModel);
+        cardPanel.add(overUnderBetView, overUnderBetView.getViewName()); // Attach to the UI
+        return this; // Allow method chaining
+    }
+
+    public AppBuilder addOverUnderPlayView() {
+
+        this.overUnderPlayView = new OverUnderPlayView(overUnderPlayViewModel);
+        cardPanel.add(overUnderPlayView, overUnderPlayView.getName());
+        return this;
+    }
+
     public AppBuilder addOverUnderPlayUseCase() {
-        OverUnderPlayViewModel overUnderPlayViewModel = new OverUnderPlayViewModel();
-        OverUnderPlayView overUnderPlayView = new OverUnderPlayView(overUnderPlayViewModel);
+
         final OverUnderPlayOutputBoundary overUnderPlayOutputBoundary = new OverUnderPlayPresenter(
                 viewManagerModel, menuViewModel, overUnderPlayViewModel, gameMenuViewModel);
         final OverUnderPlayInputBoundary overUnderPlayInputBoundary = new OverUnderPlayInteractor(
                 cardDeckDataAccessObject, overUnderPlayOutputBoundary, userFactory, overUnderGame, userDataAccessObject);
         final OverUnderPlayController overUnderPlayController = new OverUnderPlayController(overUnderPlayInputBoundary);
         overUnderPlayView.setOverUnderPlayController(overUnderPlayController);
+
         return this;
     }
-
 
     /**
      * Adds the Welcome View to the application.

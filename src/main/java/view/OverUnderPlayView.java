@@ -1,6 +1,5 @@
 package view;
 
-import interface_adapter.gaunlet.guess.GaunletGuessController;
 import interface_adapter.und_ovr.play.OverUnderPlayController;
 import interface_adapter.und_ovr.play.OverUnderPlayState;
 import interface_adapter.und_ovr.play.OverUnderPlayViewModel;
@@ -15,16 +14,15 @@ import java.beans.PropertyChangeListener;
  */
 public class OverUnderPlayView extends JPanel implements PropertyChangeListener {
     private final OverUnderPlayViewModel overUnderPlayViewModel;
-    private OverUnderPlayController overUnderPlayController;
-    // UI Components
+
     private final JLabel titleLabel;
     private final JLabel currentCardImageLabel;
-    private final JLabel wrongGuessesLabel;
     private final JLabel gameStatusLabel;
     private final JButton higherButton;
     private final JButton lowerButton;
     private final JButton playAgainButton;
     private final JPanel buttonsPanel;
+    private OverUnderPlayController overUnderPlayController;
 
     public OverUnderPlayView(OverUnderPlayViewModel overUnderPlayViewModel) {
         this.overUnderPlayViewModel = overUnderPlayViewModel;
@@ -38,24 +36,19 @@ public class OverUnderPlayView extends JPanel implements PropertyChangeListener 
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
         this.add(titleLabel);
 
-        // Current Card
+        // Current Card Image
         currentCardImageLabel = new JLabel();
         currentCardImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        currentCardImageLabel.setPreferredSize(new Dimension(200, 300));
         this.add(currentCardImageLabel);
-
-        // Wrong Guesses
-        wrongGuessesLabel = new JLabel(OverUnderPlayViewModel.WRONG_GUESSES_LABEL + " 0");
-        wrongGuessesLabel.setAlignmentX(CENTER_ALIGNMENT);
-        this.add(wrongGuessesLabel);
 
         // Game Status
         gameStatusLabel = new JLabel("Make your guess!");
         gameStatusLabel.setAlignmentX(CENTER_ALIGNMENT);
         this.add(gameStatusLabel);
 
-        // Buttons
-        buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new FlowLayout());
+        // Buttons Panel
+        buttonsPanel = new JPanel(new FlowLayout());
 
         higherButton = new JButton(OverUnderPlayViewModel.HIGHER_BUTTON_LABEL);
         lowerButton = new JButton(OverUnderPlayViewModel.LOWER_BUTTON_LABEL);
@@ -69,39 +62,71 @@ public class OverUnderPlayView extends JPanel implements PropertyChangeListener 
         playAgainButton.setAlignmentX(CENTER_ALIGNMENT);
         playAgainButton.setVisible(false);
         this.add(playAgainButton);
+
+        // Button Actions
+        higherButton.addActionListener(e -> handleGuess(true));
+        lowerButton.addActionListener(e -> handleGuess(false));
+        playAgainButton.addActionListener(e -> resetGame());
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        OverUnderPlayState newState = (OverUnderPlayState) evt.getNewValue();
-        setFields(newState);
+    private void handleGuess(boolean isHigher) {
+        OverUnderPlayState state = overUnderPlayViewModel.getState();
+        // Compare currentCard and nextCard
+        boolean correct = (isHigher && state.getNextCard().getRank() > state.getCurrentCard().getRank())
+                || (!isHigher && state.getNextCard().getRank() < state.getCurrentCard().getRank());
+
+        if (correct) {
+            // Update state and UI for a correct guess
+            state.setCurrentCard(state.getNextCard());
+            gameStatusLabel.setText("Correct! Keep going.");
+        } else {
+            // Handle wrong guess
+            state.setWrongGuesses();
+            if (state.getWrongGuesses() >= 3) {
+                state.setGameEnded(true);
+                gameStatusLabel.setText(OverUnderPlayViewModel.GAME_OVER_LABEL);
+            } else {
+                gameStatusLabel.setText("Wrong guess! Try again.");
+            }
+        }
+        updateUIComponents(state);
     }
 
-    private void setFields(OverUnderPlayState state) {
-        // Update current card image
+    private void resetGame() {
+        OverUnderPlayState state = new OverUnderPlayState();
+        overUnderPlayViewModel.setState(state);
+        updateUIComponents(state);
+    }
+
+    private void updateUIComponents(OverUnderPlayState state) {
+        // Update card image
         if (state.getCurrentCard() != null) {
-            ImageIcon cardIcon = new ImageIcon(state.getCurrentCard());
+            ImageIcon cardIcon = new ImageIcon(state.getCurrentCard().getImage().getScaledInstance(200, 300, Image.SCALE_SMOOTH));
             currentCardImageLabel.setIcon(cardIcon);
         } else {
-            currentCardImageLabel.setIcon(null); // Clear image if no card
+            currentCardImageLabel.setIcon(null);
         }
 
-        // Update wrong guesses
-        wrongGuessesLabel.setText(OverUnderPlayViewModel.WRONG_GUESSES_LABEL + " " + state.getWrongGuesses());
-
-        // Update game status and buttons
+        // Update game status and buttons visibility
         if (state.isGameEnded()) {
             gameStatusLabel.setText(OverUnderPlayViewModel.GAME_OVER_LABEL);
             playAgainButton.setVisible(true);
             buttonsPanel.setVisible(false);
         } else {
-            gameStatusLabel.setText("Make your guess!");
+            gameStatusLabel.setText(state.getGuessError() == null ? "Make your guess!" : state.getGuessError());
             playAgainButton.setVisible(false);
             buttonsPanel.setVisible(true);
         }
     }
 
-    public void setOverUnderPlayController(OverUnderPlayController controller) {
-        this.overUnderPlayController = controller;
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("state".equals(evt.getPropertyName())) {
+            OverUnderPlayState newState = (OverUnderPlayState) evt.getNewValue();
+            updateUIComponents(newState);
+        }
+    }
+    public void setOverUnderPlayController(OverUnderPlayController overUnderPlayController) {
+        this.overUnderPlayController = overUnderPlayController;
     }
 }

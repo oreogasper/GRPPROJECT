@@ -1,6 +1,5 @@
 package use_case.blackjack.bet;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import data_access.DBCardDeckDataAccessObject;
@@ -46,7 +45,7 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
     }
 
     private void initializeBlackjackGame() {
-        if (!dbCardDeckDataAccessObject.hasDeck()) {
+        if (dbCardDeckDataAccessObject.hasDeck()) {
             dbCardDeckDataAccessObject.createNewDeck();
         }
         dbCardDeckDataAccessObject.shuffleDeck(dbCardDeckDataAccessObject.getDeckID());

@@ -1,21 +1,25 @@
-package use_case.blackjack.bet;
+package use_case.overunder.bet;
 
 import org.junit.jupiter.api.Test;
+import use_case.Over_Under.bet.*;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
-
-public class BlackjackBetInteractorTest {
+public class OverUnderBetInteractorTest {
 
     @Test
     void successTest() {
-        BlackjackBetInputData inputData = new BlackjackBetInputData(100);
+        // Create the input data, e.g., the amount of bet the user is placing
+        OverUnderBetInputData inputData = new OverUnderBetInputData(50, true);  // 50 is the bet, 'true' for higher guess
 
-        // This creates a successPresenter that tests whether the test case is as we expect.
-        BlackjackBetOutputBoundary successPresenter = new BlackjackBetOutputBoundary() {
+        // Success presenter to handle the output
+        OverUnderBetOutputBoundary successPresenter = new OverUnderBetOutputBoundary() {
             @Override
-            public void prepareSuccessView(BlackjackBetOutputData userBet) {
-                // check that the output data contains the bet of the player.
-                assertEquals(100, userBet.getBet());
+            public void prepareSuccessView(OverUnderBetOutputData resultData) {
+                // Check that the output data contains the expected bet and result
+                assertEquals(50, resultData.getBet());
+                assertTrue(resultData.isGuessHigher()); // Checking if the guess was higher
             }
 
             @Override
@@ -24,19 +28,15 @@ public class BlackjackBetInteractorTest {
             }
 
             @Override
-            public void switchToBlackjackGameView() {
-
+            public void switchToOverUnderGameView() {
+                // Optional: Switch to game view if needed
             }
 
             @Override
             public void switchToGameMenuView() {
-
+                // Optional: Switch to the game menu if needed
             }
         };
 
-        BlackjackBetInputBoundary interactor = new BlackjackBetInteractor(successPresenter);
-        interactor.execute(inputData);
-
-    }
-
-}
+        // Create the interactor and execute the input data
+        OverUnderBetInputBoundary interactor = new OverUnderBetInteractor(successPresen

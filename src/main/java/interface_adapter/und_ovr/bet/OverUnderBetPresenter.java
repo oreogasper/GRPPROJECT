@@ -3,7 +3,6 @@ package interface_adapter.und_ovr.bet;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.und_ovr.play.OverUnderPlayState;
 import interface_adapter.gamemenu.GameMenuViewModel;
-import interface_adapter.und_ovr.play.OverUnderPlayState;
 import interface_adapter.und_ovr.play.OverUnderPlayViewModel;
 import use_case.Over_Under.bet.OverUnderBetOutputData;
 import use_case.Over_Under.bet.OverUnderBetOutputBoundary;
@@ -49,13 +48,12 @@ public class OverUnderBetPresenter implements OverUnderBetOutputBoundary {
     public void prepareFailView(String error) {
         final OverUnderBetState betState = overUnderBetViewModel.getState();
         betState.setBetError(error);
-        betState.setBet(0);
         this.overUnderBetViewModel.setState(betState);
         overUnderBetViewModel.firePropertyChanged();
     }
 
     @Override
-    public void switchToOverUnderPlayView() {
+    public void switchToOverUnderGameView() {
         viewManagerModel.setState(overUnderPlayViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

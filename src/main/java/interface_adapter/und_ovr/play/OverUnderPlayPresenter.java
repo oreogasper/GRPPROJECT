@@ -34,7 +34,7 @@ public class OverUnderPlayPresenter implements OverUnderPlayOutputBoundary {
         final OverUnderPlayState overUnderPlayState = overUnderPlayViewModel.getState();
         final GameMenuState gameMenuState = gameMenuViewModel.getState();
 
-        final boolean gameOutcome = outputData.getGuessResult();
+        final boolean gameOutcome = outputData.isGuessResult();
         final User user = overUnderPlayState.getUser();
         final int rateBonus = 10;
         final int newBal = (user.getBet() + user.getBet() * rateBonus);
@@ -73,7 +73,7 @@ public class OverUnderPlayPresenter implements OverUnderPlayOutputBoundary {
     public void prepareFailView(String error) {
         final OverUnderPlayState overUnderPlayState = overUnderPlayViewModel.getState();
         overUnderPlayState.setGuessError(error);
-        overUnderPlayViewModel.setState(overUnderPlayState);
+        //overUnderPlayViewModel.setState(overUnderPlayState);
         overUnderPlayViewModel.firePropertyChanged();
     }
 

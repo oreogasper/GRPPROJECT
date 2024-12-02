@@ -67,7 +67,7 @@ public class OverUnderBetInteractor implements OverUnderBetInputBoundary {
 
     @Override
     public void switchToOverUnderGameView() {
-        userPresenter.switchToOverUnderPlayView();
+        userPresenter.switchToOverUnderGameView();
     }
 
     @Override

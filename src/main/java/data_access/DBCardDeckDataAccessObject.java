@@ -5,7 +5,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import entity.Card;
 import entity.CardFactory;
 
 import use_case.Over_Under.play.OverUnderPlayDataAccessInterface;
@@ -67,12 +66,12 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
 
     @Override
     public boolean hasDeck() {
-        return currentDeckId != null;
+        return currentDeckId == null;
     }
 
     @Override
     public void shuffleDeck(String deckId) {
-        if (!this.hasDeck()) {
+        if (this.hasDeck()) {
             throw new NullPointerException("No deck initialized");
         }
 
@@ -99,7 +98,7 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
 
     @Override
     public AbstractCard drawCard(String deckId) {
-        if (!this.hasDeck()) {
+        if (this.hasDeck()) {
             throw new NullPointerException("No deck initialized");
         }
 
