@@ -1,25 +1,34 @@
 package use_case.blackjack.game;
 
+import entity.User;
+
 import java.util.List;
 
 /**
  * Input Data for the Blackjack Game Use Case.
  */
 public class BlackjackGameInputData {
-    private List<String> playerCards;
-    private List<String> dealerCards;
+    private String useCaseName;
+    private int bet;
+    private User user;
 
-    public BlackjackGameInputData(List<String> playerCards, List<String> dealerCards) {
-        this.playerCards = playerCards;
-        this.dealerCards = dealerCards;
+    public BlackjackGameInputData(String useCaseName, int bet, User user) {
+        this.useCaseName = useCaseName;
+        this.bet = bet;
+        this.user = user;
 
     }
 
-    public List<String> getPlayerCards() {
-        return playerCards;
+
+    public String getUseCaseName() {
+        return useCaseName;
     }
 
-    public List<String> getDealerCards() {
-        return dealerCards;
+    public int getBet() {
+        return bet;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

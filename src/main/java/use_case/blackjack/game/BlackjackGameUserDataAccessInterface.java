@@ -6,7 +6,7 @@ import org.json.JSONObject;
 /**
  * DAO for the Blackjack Game Use Case.
  */
-public interface BlackjackBetUserDataAccessInterface {
+public interface BlackjackGameUserDataAccessInterface {
     /**
      * Returns the bet of the curren user for the gauntlet game.
      * @return the bet of the current user; null indicates that no one is logged into the application.
