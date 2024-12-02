@@ -11,7 +11,7 @@ public interface BlackjackGameOutputBoundary {
      * Prepares the success view for the Blackjack Bet Use Case.
      * @param outputData the output data
      */
-    void prepareSuccessView(BlackjackBetOutputData outputData);
+    void prepareSuccessView(BlackjackGameOutputData outputData);
 
     /**
      * Prepares the failure view for the Blackjack Bet Use Case.

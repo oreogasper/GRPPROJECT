@@ -7,28 +7,22 @@ import java.util.List;
  * Output Data for the Blackjack Game Use Case.
  */
 public class BlackjackGameOutputData {
+    private String useCase;
+    private int amountWon;
 
-    private List<String> playerCards;
-    private List<String> dealerCards;
-    private final boolean useCaseFailed;
-
-    public BlackjackGameOutputData(List<String> playerCards, List<String> dealerCards, boolean useCaseFailed) {
-        this.playerCards = playerCards;
-        this.dealerCards = dealerCards;
-        this.useCaseFailed = useCaseFailed;
+    public BlackjackGameOutputData(String useCase, int amountWon) {
+        this.useCase = useCase;
+        this.amountWon = amountWon;
 
     }
 
-    public List<String> getPlayerCards() {
-        return playerCards;
+
+    public int getAmountWon() {
+        return amountWon;
     }
 
-    public List<String> getDealerCards() {
-        return dealerCards;
-    }
 
-    public boolean isUseCaseFailed() {
-        return useCaseFailed;
+    public String getUseCase() {
+        return useCase;
     }
-
 }

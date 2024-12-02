@@ -11,11 +11,13 @@ public class BlackjackGameInputData {
     private String useCaseName;
     private int bet;
     private User user;
+    private String gameState;
 
-    public BlackjackGameInputData(String useCaseName, int bet, User user) {
+    public BlackjackGameInputData(String useCaseName, int bet, User user, String gameState) {
         this.useCaseName = useCaseName;
         this.bet = bet;
         this.user = user;
+        this.gameState = gameState;
 
     }
 
@@ -30,5 +32,9 @@ public class BlackjackGameInputData {
 
     public User getUser() {
         return user;
+    }
+
+    public String getGameState() {
+        return gameState;
     }
 }
