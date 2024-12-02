@@ -26,16 +26,13 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
     private final GameMenuViewModel gameMenuViewModel;
     private final ViewManagerModel viewManagerModel;
     private final BlackjackBetViewModel blackjackBetViewModel;
-    private final MenuViewModel menuViewModel;
 
     public BlackjackStandPresenter(SignupViewModel signupViewModel,
                                    BlackjackGameViewModel blackjackGameViewModel,
                                    GameMenuViewModel gameMenuViewModel,
                                    ViewManagerModel viewManagerModel,
-                                   BlackjackBetViewModel blackjackBetViewModel,
-                                    MenuViewModel menuViewModel) {
+                                   BlackjackBetViewModel blackjackBetViewModel,) {
         this.signupViewModel = signupViewModel;
-        this.menuViewModel = menuViewModel;
         this.blackjackGameViewModel = blackjackGameViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
         this.viewManagerModel = viewManagerModel;
@@ -47,15 +44,8 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
         final BlackjackGameState gameState = blackjackGameViewModel.getState();
         gameState.setHideDealerCard(false);
         gameState.setTurnState(outputData.getTurnState());
-        final User user = gameState.getUser();
-
-        System.out.println("before" + user.getBalance());
-        user.updateBalance(outputData.getAmountWon());
-        System.out.println("after" + user.getBalance());
-
         blackjackGameViewModel.setState(gameState);
         blackjackGameViewModel.firePropertyChanged();
-
 
 
         final List<Integer> dealerScores = outputData.getDealerScores();
@@ -69,22 +59,7 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
             blackjackGameViewModel.setState(gameState);
             blackjackGameViewModel.firePropertyChanged();
 
-
         }
-
-        final MenuState menuState = menuViewModel.getState();
-        menuState.setUser(gameState.getUser());
-        System.out.println("Bal in menu" + menuState.getUser().getBalance());
-        this.menuViewModel.setState(menuState);
-        this.menuViewModel.firePropertyChanged();
-
-        // Updates game menu on switch
-        GameMenuState gameMenuState = gameMenuViewModel.getState();
-        gameMenuState.setUser(gameState.getUser());
-        System.out.println("Bal in game menu" + menuState.getUser().getBalance());
-        this.gameMenuViewModel.setState(gameMenuState);
-        gameMenuViewModel.firePropertyChanged();
-
 
     }
 
@@ -107,8 +82,5 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
         viewManagerModel.setState(blackjackBetViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
 
-        final BlackjackGameState gameState = new BlackjackGameState();
-        blackjackGameViewModel.setState(gameState);
-        blackjackGameViewModel.firePropertyChanged();
     }
 }
