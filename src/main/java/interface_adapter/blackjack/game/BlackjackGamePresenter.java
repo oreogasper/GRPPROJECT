@@ -3,6 +3,7 @@ package interface_adapter.blackjack.game;
 
 import entity.User;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.blackjack.bet.BlackjackBetState;
 import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.gamemenu.GameMenuState;
 import interface_adapter.gamemenu.GameMenuViewModel;
@@ -95,6 +96,11 @@ public class BlackjackGamePresenter implements BlackjackGameOutputBoundary {
         gameMenuState.setUser(user);
         this.gameMenuViewModel.setState(gameMenuState);
         gameMenuViewModel.firePropertyChanged();
+
+        BlackjackBetState blackjackBetState = blackjackBetViewModel.getState();
+        blackjackBetState.setUser(user);
+        this.blackjackBetViewModel.setState(blackjackBetState);
+        blackjackBetViewModel.firePropertyChanged();
 
     }
 
