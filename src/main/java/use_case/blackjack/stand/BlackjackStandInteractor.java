@@ -75,7 +75,7 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
         final JSONObject json = user.getInfo();
 
         if (turnState.equals("Win")) {
-            json.put("balance", userDataAccessInterface.getBet() * 2 + user.getBalance());
+            json.put("balance", standInputData.getBet() * 2 + user.getBalance());
             json.put("wins", user.getWins() + 1);
             json.put("games", user.getGames() + 1);
 

@@ -46,6 +46,9 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     private final JLabel betAmountLabel;
 
+//    private final JLabel username;
+//    private final JLabel balance;
+
     private BlackjackHitController hitController;
     private BlackjackStandController standController;
 
@@ -53,6 +56,14 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         this.viewName = blackjackGameViewModel.getViewName();
         this.blackjackGameViewModel = blackjackGameViewModel;
         blackjackGameViewModel.addPropertyChangeListener(this);
+
+//        username = new JLabel("Currently logged in: unknown");
+//        balance = new JLabel("Current balance: 0");
+//
+//        final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
+//        bottomPanel.add(username);
+//        bottomPanel.add(balance);
+
 
         final JLabel title = new JLabel(BlackjackGameViewModel.TITLE_LABEL);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -42,8 +42,9 @@ public class BlackjackBetPresenter implements BlackjackBetOutputBoundary {
         blackjackBetViewModel.firePropertyChanged();
 
         final BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
+        blackjackGameState.setUser(blackjackBetState.getUser());
         blackjackGameState.setBetAmount(String.valueOf(outputData.getBet()));
-//        blackjackGameViewModel.setState(blackjackGameState);
+        blackjackGameViewModel.setState(blackjackGameState);
 //        blackjackGameViewModel.firePropertyChanged();
 
 
