@@ -14,6 +14,9 @@ import use_case.blackjack.bet.BlackjackBetOutputData;
 import use_case.blackjack.game.BlackjackGameOutputBoundary;
 import use_case.blackjack.game.BlackjackGameOutputData;
 
+import java.awt.*;
+import java.util.List;
+
 /**
  * The Presenter for the Blackjack Game Use Case.
  */
@@ -43,10 +46,28 @@ public class BlackjackGamePresenter implements BlackjackGameOutputBoundary {
         if (outputData.getUseCase().equals("Stop")) {
             prepareEndGameView(outputData);
         } else if (outputData.getUseCase().equals("Start")) {
-
+            prepareStartGame(outputData);
         } else if (outputData.getUseCase().equals("Play Again")) {
             preparePlayAgain();
         }
+    }
+
+    private void prepareStartGame(BlackjackGameOutputData outputData) {
+        java.util.List<Image> playerCards = outputData.getInitialPlayerCards();
+        List<Image> dealerCards = outputData.getInitialDealerCards();
+
+        BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
+        blackjackGameState.addPlayerCard(playerCards.get(0));
+        blackjackGameState.addPlayerCard(playerCards.get(1));
+        blackjackGameState.setPlayerScore(String.valueOf(outputData.getInitialPlayerScore()));
+
+        blackjackGameState.addDealerCard(dealerCards.get(0));
+        blackjackGameState.addDealerCard(dealerCards.get(1));
+        blackjackGameState.setDealerScore(String.valueOf(outputData.getInitialDealerScore()));
+        blackjackGameState.setDealerHiddenScore(String.valueOf(outputData.getHiddenDealerScore()));
+
+        blackjackGameViewModel.setState(blackjackGameState);
+        blackjackGameViewModel.firePropertyChanged();
     }
 
     private void preparePlayAgain() {
