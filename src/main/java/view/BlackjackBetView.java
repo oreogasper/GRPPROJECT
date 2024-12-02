@@ -167,8 +167,10 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
         setFields(state);
         if (state.getBetError() != null) {
             JOptionPane.showMessageDialog(this, state.getBetError());
+            state.setBetError(null);
         }
-
+        username.setText("Currently logged in: " + state.getUser().getName());
+        balance.setText("Current balance: " + state.getUser().getBalance());
     }
 
     private void setFields(BlackjackBetState state) {
