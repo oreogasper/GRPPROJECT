@@ -1,12 +1,16 @@
 package view;
 
+import entity.AppColors;
+import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.blackjack.game.BlackjackGameController;
 import interface_adapter.blackjack.game.BlackjackGameState;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
 import interface_adapter.blackjack.game.hit.BlackjackHitController;
 import interface_adapter.blackjack.game.stand.BlackjackStandController;
+import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 
 import javax.swing.*;
+import java.security.PrivateKey;
 import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -40,20 +44,19 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
     private final JButton stand;
     private final JPanel buttons;
 
-    private final JButton playAgain;
+    private final JPanel playAgainPanel;
 
     private final JLabel gameStatusLabel;
 
     private final JLabel betAmountLabel;
 
-//    private final JLabel username;
-//    private final JLabel balance;
 
     private BlackjackGameController blackjackGameController;
 
 
     public BlackjackGameView(BlackjackGameViewModel blackjackGameViewModel) {
         this.viewName = blackjackGameViewModel.getViewName();
+        this.setBackground(AppColors.DARK_RED);
         this.blackjackGameViewModel = blackjackGameViewModel;
         blackjackGameViewModel.addPropertyChangeListener(this);
 
@@ -65,25 +68,35 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 //        bottomPanel.add(balance);
 
 
-        final JLabel title = new JLabel(BlackjackGameViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        final JLabel title = createTitleLabel();
 
-        gameStatusLabel = new JLabel(BlackjackGameViewModel.PLAYER_TURN_LABEL);
-        gameStatusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameStatusLabel = createTurnLabel();
 
+        final JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
+        bottomPanel.setBackground(AppColors.DARK_GREEN);
         betAmountLabel = new JLabel(BlackjackGameViewModel.BET_AMOUNT_LABEL +
                 blackjackGameViewModel.getState().getBetAmount());
         betAmountLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        betAmountLabel.setFont(new Font(BlackjackBetViewModel.FONT_NAME, Font.PLAIN, BlackjackBetViewModel.SUBTITLE_SIZE));
+        betAmountLabel.setForeground(AppColors.YELLOW);
+        bottomPanel.add(betAmountLabel);
+        bottomPanel.setBackground(AppColors.DARK_GREEN);
 
         this.playerCardsLabel = new JLabel(BlackjackGameViewModel.PLAYER_HAND_LABEL);
+        playerCardsLabel.setFont(new Font(BlackjackBetViewModel.FONT_NAME, Font.PLAIN, BlackjackBetViewModel.SUBTITLE_SIZE));
+        playerCardsLabel.setForeground(AppColors.YELLOW);
         this.playerCardsPanel = new JPanel();
         playerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         playerCardsPanel.add(playerCardsLabel);
+        playerCardsPanel.setBackground(AppColors.DARK_GREEN);
 
         this.dealerCardsLabel = new JLabel(BlackjackGameViewModel.DEALER_HAND_LABEL);
+        dealerCardsLabel.setFont(new Font(BlackjackBetViewModel.FONT_NAME, Font.PLAIN, BlackjackBetViewModel.SUBTITLE_SIZE));
+        dealerCardsLabel.setForeground(AppColors.YELLOW);
         this.dealerCardsPanel = new JPanel();
         dealerCardsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         dealerCardsPanel.add(dealerCardsLabel);
+        dealerCardsPanel.setBackground(AppColors.DARK_GREEN);
 
         final BlackjackGameState initialState = blackjackGameViewModel.getState();
         final List<Image> initialPlayerCards = initialState.getPlayerCards();
@@ -102,21 +115,34 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
         final JPanel playerScorePanel = new JPanel();
         this.playerScore = new JLabel(BlackjackGameViewModel.SCORE_LABEL + initialState.getPlayerScore());
-
+        playerScore.setFont(new Font(BlackjackBetViewModel.FONT_NAME, Font.PLAIN, BlackjackBetViewModel.SUBTITLE_SIZE));
+        playerScore.setForeground(AppColors.YELLOW);
         playerScorePanel.add(playerScore);
+        playerScorePanel.setBackground(AppColors.DARK_GREEN);
+        playerScorePanel.setForeground(AppColors.YELLOW);
 
 
         final JPanel dealerScorePanel = new JPanel();
         this.dealerScore = new JLabel(BlackjackGameViewModel.SCORE_LABEL + initialState.getDealerScore());
+        dealerScore.setFont(new Font(BlackjackBetViewModel.FONT_NAME, Font.PLAIN, BlackjackBetViewModel.SUBTITLE_SIZE));
+        dealerScore.setForeground(AppColors.YELLOW);
 
         dealerScorePanel.add(dealerScore);
+        dealerScorePanel.setBackground(AppColors.DARK_GREEN);
+        dealerScorePanel.setForeground(AppColors.YELLOW);
 
         buttons = new JPanel();
-        this.hit = new JButton(BlackjackGameViewModel.HIT_LABEL);
-        this.stand = new JButton(BlackjackGameViewModel.STAND_LABEL);
+        this.hit = createStyledButton(BlackjackGameViewModel.HIT_LABEL, AppColors.DARK_RED);
+        this.stand = createStyledButton(BlackjackGameViewModel.STAND_LABEL, AppColors.DARK_RED);
+        buttons.setBackground(AppColors.DARK_GREEN);
 
-        playAgain = new JButton(BlackjackGameViewModel.PLAY_AGAIN_LABEL);
+
+        final JButton playAgain = createStyledButton(blackjackGameViewModel.PLAY_AGAIN_LABEL, AppColors.YELLOW);
+        playAgain.setBackground(AppColors.DARK_GREEN);
         playAgain.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playAgainPanel = new JPanel();
+        playAgainPanel.setBackground(AppColors.DARK_GREEN);
+        playAgainPanel.add(playAgain);
 
         buttons.add(hit);
         buttons.add(stand);
@@ -178,14 +204,14 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(title);
         this.add(gameStatusLabel);
-        this.add(betAmountLabel);
         this.add(playerCardsPanel);
         this.add(playerScorePanel);
         this.add(dealerCardsPanel);
         this.add(dealerScorePanel);
         this.add(buttons);
-        this.add(playAgain);
-        playAgain.setVisible(false);
+        this.add(playAgainPanel);
+        playAgainPanel.setVisible(false);
+        this.add(bottomPanel);
     }
 
     @Override
@@ -260,28 +286,33 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         switch (state.getTurnState()) {
             case "Lose":
                 gameStatusLabel.setText(BlackjackGameViewModel.LOSE_LABEL);
-                playAgain.setVisible(true);
+                gameStatusLabel.setForeground(AppColors.BRIGHT_RED);
+                playAgainPanel.setVisible(true);
                 buttons.setVisible(false);
                 break;
             case "Win":
                 gameStatusLabel.setText(BlackjackGameViewModel.WIN_LABEL);
-                playAgain.setVisible(true);
+                gameStatusLabel.setForeground(AppColors.BRIGHT_GREEN);
+                playAgainPanel.setVisible(true);
                 buttons.setVisible(false);
                 break;
             case "Draw":
                 gameStatusLabel.setText(BlackjackGameViewModel.DRAW_LABEL);
-                playAgain.setVisible(true);
+                gameStatusLabel.setForeground(AppColors.BRIGHT_BLUE);
+                playAgainPanel.setVisible(true);
                 buttons.setVisible(false);
                 break;
             case "Dealer":
                 gameStatusLabel.setText(BlackjackGameViewModel.DEALER_TURN_LABEL);
+                gameStatusLabel.setForeground(AppColors.YELLOW);
                 buttons.setVisible(false);
-                playAgain.setVisible(false);
+                playAgainPanel.setVisible(false);
                 break;
             default:
                 gameStatusLabel.setText(BlackjackGameViewModel.PLAYER_TURN_LABEL);
+                gameStatusLabel.setForeground(AppColors.YELLOW);
                 buttons.setVisible(true);
-                playAgain.setVisible(false);
+                playAgainPanel.setVisible(false);
                 break;
         }
 
@@ -334,13 +365,42 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
         try {
             final BufferedImage bufferedImage1 = ImageIO.read(new File("images/back-card.png"));
             image = bufferedImage1.getScaledInstance(
-                    (int) Math.round(bufferedImage1.getWidth() * 0.12),
-                    (int) Math.round(bufferedImage1.getHeight() * 0.12), Image.SCALE_SMOOTH);
+                    (int) Math.round(bufferedImage1.getWidth() * 0.13),
+                    (int) Math.round(bufferedImage1.getHeight() * 0.13), Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return image;
 
+    }
+
+    private JLabel createTitleLabel() {
+        final JLabel title = new JLabel(BlackjackGameViewModel.TITLE_LABEL);
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font(BlackjackGameViewModel.FONT_NAME, Font.BOLD, BlackjackGameViewModel.TITLE_SIZE));
+        title.setForeground(AppColors.YELLOW);
+        title.setBackground(AppColors.DARK_RED);
+        return title;
+    }
+
+    private JLabel createTurnLabel() {
+        final JLabel turnLabel = new JLabel(BlackjackGameViewModel.PLAYER_TURN_LABEL);
+        turnLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        turnLabel.setFont(new Font(BlackjackGameViewModel.FONT_NAME, Font.BOLD, BlackjackGameViewModel.MED_TITLE_SIZE));
+        turnLabel.setForeground(AppColors.YELLOW);
+        turnLabel.setBackground(AppColors.DARK_RED);
+        return turnLabel;
+    }
+
+    private JButton createStyledButton(String text, Color bgColor) {
+        final JButton button = new JButton(text);
+        button.setBackground(bgColor);
+        button.setForeground(AppColors.YELLOW);
+        button.setFont(new Font(GaunletBetViewModel.FONT_NAME, Font.BOLD, GaunletBetViewModel.TITLE_SIZE));
+        button.setFocusPainted(false);
+        button.setPreferredSize(new Dimension(GaunletBetViewModel.WIDTH_DIM, GaunletBetViewModel.HEIGHT_DIM));
+        button.setBorder(BorderFactory.createLineBorder(AppColors.YELLOW, 2));
+        return button;
     }
 }
