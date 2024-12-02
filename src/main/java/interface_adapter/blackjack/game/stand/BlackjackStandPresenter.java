@@ -31,7 +31,7 @@ public class BlackjackStandPresenter implements BlackjackStandOutputBoundary {
                                    BlackjackGameViewModel blackjackGameViewModel,
                                    GameMenuViewModel gameMenuViewModel,
                                    ViewManagerModel viewManagerModel,
-                                   BlackjackBetViewModel blackjackBetViewModel,) {
+                                   BlackjackBetViewModel blackjackBetViewModel) {
         this.signupViewModel = signupViewModel;
         this.blackjackGameViewModel = blackjackGameViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
