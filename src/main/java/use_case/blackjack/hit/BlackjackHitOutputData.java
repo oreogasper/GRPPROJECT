@@ -10,20 +10,13 @@ public class BlackjackHitOutputData {
     private final String turnState;
     private final boolean useCaseFailed;
     private final int newHandScore;
-    private final boolean dealerHitUseCase;
 
     public BlackjackHitOutputData(Image cardImage, String turnState,
-                                  int playerScore, boolean useCaseFailed,
-                                  boolean dealerHitUseCase) {
+                                  int playerScore, boolean useCaseFailed) {
         this.cardImage = cardImage;
         this.turnState = turnState;
         this.newHandScore = playerScore;
         this.useCaseFailed = useCaseFailed;
-        this.dealerHitUseCase = dealerHitUseCase;
-    }
-
-    public boolean isdealerHitUseCase() {
-        return dealerHitUseCase;
     }
 
     public int getNewHandScore() {
