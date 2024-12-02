@@ -3,14 +3,9 @@ package view;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
-import interface_adapter.shop.ShopViewModel;
+import entity.AppColors;
 import interface_adapter.shop.wheel.ShopWheelController;
 import interface_adapter.shop.wheel.ShopWheelState;
 import interface_adapter.shop.wheel.ShopWheelViewModel;
@@ -20,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
  * The View for the shop wheel screen.
  */
 public class ShopWheelView extends JPanel {
+    private static final String FONT_NAME = "Serif";
     private transient ShopWheelController wheelController;
     private final JLabel username;
     private final JLabel balance;
@@ -28,17 +24,25 @@ public class ShopWheelView extends JPanel {
 
     public ShopWheelView(ShopWheelViewModel shopWheelViewModel) {
         this.setLayout(new BorderLayout());
+        this.setBackground(AppColors.DARK_GREEN);
 
         // Title
-        final JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         final JLabel title = new JLabel(ShopWheelViewModel.TITLE_LABEL);
+        title.setFont(new Font (FONT_NAME, Font.BOLD, 30));
+        title.setForeground(AppColors.YELLOW);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+
+        final JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(AppColors.DARK_GREEN);
         titlePanel.add(title);
 
         // Add the wheel animation and wheel button to spin panel
         final ShopWheelAnimationPanel animationPanel = new ShopWheelAnimationPanel();
         shopWheelViewModel.setAnimationPanel(animationPanel);
+        animationPanel.setBackground(AppColors.DARK_GREEN);
 
         final JPanel spinPanel = new JPanel(new GridBagLayout());
+        spinPanel.setBackground(AppColors.DARK_GREEN);
         final GridBagConstraints gbc = new GridBagConstraints();
         final int padding = 5;
         gbc.insets = new Insets(padding, padding, padding, padding);
@@ -46,7 +50,11 @@ public class ShopWheelView extends JPanel {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        final JButton spinButton = new JButton("Spin the wheel!");
+        final JButton spinButton = createStyledButton(ShopWheelViewModel.SPIN_LABEL);
+        spinButton.setFont(new Font (FONT_NAME, Font.PLAIN, 15));
+        spinButton.setPreferredSize(new Dimension(120, 25));
+        spinButton.setForeground(AppColors.YELLOW);
+
         spinButton.addActionListener(evt -> {
             final long lastSpin = shopWheelViewModel.getState().getUser().getLastSpin();
             wheelController.spinWheelRequest(lastSpin, shopWheelViewModel);
@@ -59,10 +67,13 @@ public class ShopWheelView extends JPanel {
         spinPanel.add(animationPanel, gbc);
 
         final JPanel rightSpinPanel = new JPanel();
+        rightSpinPanel.setBackground(AppColors.DARK_GREEN);
         rightSpinPanel.setLayout(new BoxLayout(rightSpinPanel, BoxLayout.Y_AXIS));
 
         // Add countdown at the bottom of the spin panel
         countdown = new JLabel("Time until next available spin: 0");
+        countdown.setForeground(AppColors.YELLOW);
+        countdown.setFont(new Font (FONT_NAME, Font.PLAIN, 12));
         countdown.setAlignmentX(Component.CENTER_ALIGNMENT);
         rightSpinPanel.add(countdown);
         rightSpinPanel.add(Box.createVerticalStrut(padding));
@@ -77,7 +88,11 @@ public class ShopWheelView extends JPanel {
 
         // Bottom panel for username and balance
         username = new JLabel("unknown username");
+        username.setForeground(AppColors.YELLOW);
+        username.setFont(new Font(FONT_NAME, Font.PLAIN, 15));
         balance = new JLabel("unknown balance");
+        balance.setForeground(AppColors.YELLOW);
+        balance.setFont(new Font(FONT_NAME, Font.PLAIN, 15));
 
         // Update labels when state changes
         shopWheelViewModel.addPropertyChangeListener(evt -> {
@@ -95,14 +110,16 @@ public class ShopWheelView extends JPanel {
 
         // Bottom info and buttons
         final JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(AppColors.DARK_GREEN);
 
         final JPanel leftBottomPanel = new JPanel();
+        leftBottomPanel.setBackground(AppColors.DARK_GREEN);
         leftBottomPanel.setLayout(new BoxLayout(leftBottomPanel, BoxLayout.Y_AXIS));
         leftBottomPanel.add(username);
         leftBottomPanel.add(balance);
 
         final JPanel rightBottomPanel = getRightBottomPanel(shopWheelViewModel);
-
+        rightBottomPanel.setBackground(AppColors.DARK_GREEN);
         bottomPanel.add(leftBottomPanel, BorderLayout.WEST);
         bottomPanel.add(rightBottomPanel, BorderLayout.EAST);
 
@@ -116,7 +133,7 @@ public class ShopWheelView extends JPanel {
 
     @NotNull
     private JPanel getRightBottomPanel(ShopWheelViewModel shopWheelViewModel) {
-        final JButton back = new JButton(ShopViewModel.BACK_BUTTON_LABEL);
+        final JButton back = createStyledButton(ShopWheelViewModel.SHOP_BUTTON_LABEL);
         back.addActionListener(evt -> {
             wheelController.switchToShopView();
             wheelController.saveData(shopWheelViewModel.getState().getUser().getName(),
@@ -124,6 +141,8 @@ public class ShopWheelView extends JPanel {
                     shopWheelViewModel.getState().getUser().getBalance(),
                     shopWheelViewModel.getState().getUser().getLastSpin());
         });
+        back.setFont(new Font(FONT_NAME, Font.BOLD, 15));
+        back.setPreferredSize(new Dimension(120, 25));
         final JPanel rightBottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightBottomPanel.add(back);
         return rightBottomPanel;
@@ -165,6 +184,17 @@ public class ShopWheelView extends JPanel {
         final long minutes = totalSeconds / timeDivider;
         final long seconds = totalSeconds % timeDivider;
         return String.format("%02d:%02d", minutes, seconds);
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(AppColors.DARK_GREEN);
+        return getjButton(button);
+    }
+
+    @NotNull
+    static JButton getjButton(JButton button) {
+        return ShopButtonView.getjButton(button, FONT_NAME);
     }
 
 }

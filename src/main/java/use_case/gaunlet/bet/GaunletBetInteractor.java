@@ -34,7 +34,8 @@ public class GaunletBetInteractor implements GaunletBetInputBoundary {
             // Handle invalid bet case
             userPresenter.prepareFailView("Invalid bet amount. "
                     + "Please bet a value between 10 tokens and your current balance.");
-        } else {
+        }
+        else {
             // Deduct the bet amount from the user's balance
             final JSONObject json = user.getInfo();
             final int newBalance = userBalance - betAmount;

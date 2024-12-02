@@ -18,18 +18,15 @@ import interface_adapter.blackjack.bet.BlackjackBetViewModel;
 import interface_adapter.blackjack.game.BlackjackGameController;
 import interface_adapter.blackjack.game.BlackjackGamePresenter;
 import interface_adapter.blackjack.game.BlackjackGameViewModel;
-
 import interface_adapter.blackjack.game.hit.BlackjackHitController;
 import interface_adapter.blackjack.game.hit.BlackjackHitPresenter;
 import interface_adapter.blackjack.game.stand.BlackjackStandController;
 import interface_adapter.blackjack.game.stand.BlackjackStandPresenter;
-
 import interface_adapter.leaderboard.LeaderboardController;
 import interface_adapter.leaderboard.LeaderboardPresenter;
 import interface_adapter.leaderboard.LeaderboardViewModel;
 import interface_adapter.change_password.ChangePasswordController;
 import interface_adapter.change_password.ChangePasswordPresenter;
-
 import interface_adapter.gamemenu.GameMenuController;
 import interface_adapter.gamemenu.GameMenuPresenter;
 import interface_adapter.gamemenu.GameMenuViewModel;
@@ -64,10 +61,22 @@ import interface_adapter.signup.SignupViewModel;
 import interface_adapter.statistics.StatisticsController;
 import interface_adapter.statistics.StatisticsPresenter;
 import interface_adapter.statistics.StatisticsViewModel;
-import interface_adapter.und_ovr.OverUnderViewModel;
+import interface_adapter.und_ovr.bet.OverUnderBetController;
+import interface_adapter.und_ovr.bet.OverUnderBetPresenter;
+import interface_adapter.und_ovr.bet.OverUnderBetViewModel;
+import interface_adapter.und_ovr.play.OverUnderPlayController;
+import interface_adapter.und_ovr.play.OverUnderPlayPresenter;
+import interface_adapter.und_ovr.play.OverUnderPlayState;
+import interface_adapter.und_ovr.play.OverUnderPlayViewModel;
 import interface_adapter.welcome.WelcomeController;
 import interface_adapter.welcome.WelcomePresenter;
 import interface_adapter.welcome.WelcomeViewModel;
+import use_case.Over_Under.bet.OverUnderBetInputBoundary;
+import use_case.Over_Under.bet.OverUnderBetInteractor;
+import use_case.Over_Under.bet.OverUnderBetOutputBoundary;
+import use_case.Over_Under.play.OverUnderPlayInputBoundary;
+import use_case.Over_Under.play.OverUnderPlayInteractor;
+import use_case.Over_Under.play.OverUnderPlayOutputBoundary;
 import use_case.add_friend.AddFriendInputBoundary;
 import use_case.add_friend.AddFriendInteractor;
 import use_case.add_friend.AddFriendOutputBoundary;
@@ -186,13 +195,56 @@ public class AppBuilder {
     private ShopButtonViewModel shopButtonViewModel;
     private ShopWheelView shopWheelView;
     private ShopWheelViewModel shopWheelViewModel;
-    private OverUnderViewModel overUnderViewModel;
+    private OverUnderPlayViewModel overUnderPlayViewModel;
+    private OverUnderBetView overUnderBetView;
+    private OverUnderPlayView overUnderPlayView;
+    private final OverUnderGameFactory overUnderGame = new OverUnderGameFactory();
+    private final OverUnderBetViewModel overUnderBetViewModel = new OverUnderBetViewModel();
+
 
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
         userDataAccessObject = new DBUserDataAccessObject(userFactory);
         cardDeckDataAccessObject = new DBCardDeckDataAccessObject(cardFactory);
     }
+
+    public AppBuilder addOverUnderBetView() {
+        OverUnderBetView overUnderBetView = new OverUnderBetView(overUnderBetViewModel);  // Use the shared viewModel
+        this.overUnderBetView = overUnderBetView;
+        cardPanel.add(overUnderBetView, overUnderBetView.getViewName()); // Attach to the UI
+        return this; // Allow method chaining
+    }
+
+    public AppBuilder addOverUnderPlayView() {
+        OverUnderPlayViewModel overUnderPlayViewModel = new OverUnderPlayViewModel();
+        OverUnderPlayView overUnderPlayView = new OverUnderPlayView(overUnderPlayViewModel);
+        OverUnderPlayState overUnderPlayState = new OverUnderPlayState();
+        cardPanel.add(overUnderPlayView, overUnderPlayView.getName());
+        return this;
+    }
+
+    public AppBuilder addOverUnderBetUseCase() {
+        final OverUnderBetOutputBoundary overUnderBetOutputBoundary = new OverUnderBetPresenter(
+                viewManagerModel, gameMenuViewModel, overUnderBetViewModel, overUnderPlayViewModel);
+        final OverUnderBetInputBoundary overUnderBetInputBoundary = new OverUnderBetInteractor(
+                userDataAccessObject, overUnderBetOutputBoundary, userFactory);
+        final OverUnderBetController overUnderBetController = new OverUnderBetController(overUnderBetInputBoundary);
+        overUnderBetView.setOverUnderBetController(overUnderBetController);
+        return this;
+    }
+
+    public AppBuilder addOverUnderPlayUseCase() {
+        OverUnderPlayViewModel overUnderPlayViewModel = new OverUnderPlayViewModel();
+        OverUnderPlayView overUnderPlayView = new OverUnderPlayView(overUnderPlayViewModel);
+        final OverUnderPlayOutputBoundary overUnderPlayOutputBoundary = new OverUnderPlayPresenter(
+                viewManagerModel, menuViewModel, overUnderPlayViewModel, gameMenuViewModel);
+        final OverUnderPlayInputBoundary overUnderPlayInputBoundary = new OverUnderPlayInteractor(
+                cardDeckDataAccessObject, overUnderPlayOutputBoundary, userFactory, overUnderGame, userDataAccessObject);
+        final OverUnderPlayController overUnderPlayController = new OverUnderPlayController(overUnderPlayInputBoundary);
+        overUnderPlayView.setOverUnderPlayController(overUnderPlayController);
+        return this;
+    }
+
 
     /**
      * Adds the Welcome View to the application.
@@ -445,7 +497,7 @@ public class AppBuilder {
     public AppBuilder addGameMenuUseCase() {
         final GameMenuOutputBoundary gameMenuOutputBoundary = new GameMenuPresenter(viewManagerModel,
                 loginViewModel, menuViewModel, gaunletBetViewModel, blackjackBetViewModel,
-                gameMenuViewModel, overUnderViewModel);
+                gameMenuViewModel, overUnderBetViewModel);
         final GameMenuInputBoundary userGameMenuInteractor = new GameMenuInteractor(
                 gameMenuOutputBoundary);
 

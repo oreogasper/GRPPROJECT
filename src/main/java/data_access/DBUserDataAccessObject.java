@@ -12,6 +12,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import use_case.Over_Under.bet.OverUnderBetDataAccessInterface;
+import use_case.Over_Under.play.OverUnderUserPlayDataAccessInterface;
 import use_case.add_friend.AddFriendUserDataAccessInterface;
 import use_case.blackjack.bet.BlackjackBetUserDataAccessInterface;
 import use_case.blackjack.game.BlackjackGameInputBoundary;
@@ -41,6 +43,9 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         RemoveFriendUserDataAccessInterface,
         BlackjackBetUserDataAccessInterface,
         BlackjackGameUserDataAccessInterface {
+        OverUnderUserPlayDataAccessInterface,
+        OverUnderBetDataAccessInterface {
+
     private static final int SUCCESS_CODE = 200;
     private static final String CONTENT_TYPE_LABEL = "Content-Type";
     private static final String CONTENT_TYPE_JSON = "application/json";

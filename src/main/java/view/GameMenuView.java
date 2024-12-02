@@ -57,7 +57,7 @@ public class GameMenuView extends JPanel implements ActionListener, PropertyChan
         final JPanel firstRow = new JPanel(new GridLayout(1, 3, 10, 0));
         addButton(firstRow, GameMenuViewModel.BLACKJACK_BUTTON_LABEL, evt -> gameMenuController.switchToBlackjackView(), RED);
         addButton(firstRow, GameMenuViewModel.GAUNTLET_BUTTON_LABEL, evt -> gameMenuController.switchToGaunletView(), RED);
-        addButton(firstRow, GameMenuViewModel.OVERUNDER_BUTTON_LABEL, evt -> gameMenuController.switchToLoginView(), RED);
+        addButton(firstRow, GameMenuViewModel.OVERUNDER_BUTTON_LABEL, evt -> gameMenuController.switchToOverUnderBetView(), RED);
         tButtons.add(firstRow);
         tButtons.add(Box.createVerticalStrut(10)); // Add spacing between rows
 

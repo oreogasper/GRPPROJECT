@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entity.User;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.add_friend.AddFriendUserDataAccessInterface;
 import use_case.change_password.ChangePasswordUserDataAccessInterface;
 import use_case.login.LoginUserDataAccessInterface;
 import use_case.logout.LogoutUserDataAccessInterface;
+import use_case.remove_friend.RemoveFriendUserDataAccessInterface;
 import use_case.signup.SignupUserDataAccessInterface;
 
 /**
@@ -17,7 +20,9 @@ import use_case.signup.SignupUserDataAccessInterface;
 public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterface,
         LoginUserDataAccessInterface,
         ChangePasswordUserDataAccessInterface,
-        LogoutUserDataAccessInterface {
+        LogoutUserDataAccessInterface,
+        AddFriendUserDataAccessInterface,
+        RemoveFriendUserDataAccessInterface {
 
     private final Map<String, User> users = new HashMap<>();
 
@@ -36,6 +41,18 @@ public class InMemoryUserDataAccessObject implements SignupUserDataAccessInterfa
     @Override
     public void saveNew(User user, JSONObject info) {
 
+    }
+
+    @Override
+    public void addFriend(User user) {
+        JSONObject info = user.getInfo();
+        JSONArray friendsList = info.optJSONArray("friends");
+
+        if (friendsList == null) {
+            friendsList = new JSONArray();
+            info.put("friends", friendsList);
+        }
+        friendsList.put(user.getName());
     }
 
     @Override

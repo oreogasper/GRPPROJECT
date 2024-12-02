@@ -21,7 +21,7 @@ public class Main {
 
         }
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException evt) {
-        evt.printStackTrace();
+            evt.printStackTrace();
         }
         final AppBuilder appBuilder = new AppBuilder();
         final JFrame application = appBuilder
@@ -56,6 +56,10 @@ public class Main {
                                             .addBlackjackGameUseCase()
                                             .addShopUseCase()
                                             .addShopButtonUseCase()
+                                            .addOverUnderBetView()
+                                            .addOverUnderBetUseCase()
+                                            .addOverUnderPlayView()
+                                            .addOverUnderPlayUseCase()
                                             .addShopWheelUseCase()
                                             .addLeaderboardUseCase()
                                             .build();
