@@ -34,5 +34,4 @@ public class BlackjackBetState {
     public void setBetError(String betError) {
         this.betError = betError;
     }
-
 }

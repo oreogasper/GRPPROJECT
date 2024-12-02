@@ -8,7 +8,8 @@ import interface_adapter.gaunlet.bet.GaunletBetViewModel;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.menu.MenuState;
 import interface_adapter.menu.MenuViewModel;
-import interface_adapter.und_ovr.OverUnderViewModel;
+import interface_adapter.und_ovr.bet.OverUnderBetState;
+import interface_adapter.und_ovr.bet.OverUnderBetViewModel;
 import use_case.gamemenu.GameMenuOutputBoundary;
 
 /**
@@ -21,7 +22,7 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
     private final GaunletBetViewModel gaunletBetViewModel;
     private final BlackjackBetViewModel blackjackBetViewModel;
     private final GameMenuViewModel gameMenuViewModel;
-    private final OverUnderViewModel overUnderViewModel;
+    private final OverUnderBetViewModel overUnderBetViewModel;
 
     public GameMenuPresenter(ViewManagerModel viewManagerModel,
                              LoginViewModel loginViewModel,
@@ -29,14 +30,14 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
                              GaunletBetViewModel gaunletBetViewModel,
                              BlackjackBetViewModel blackjackBetViewModel,
                              GameMenuViewModel gameMenuViewModel,
-                             OverUnderViewModel overUnderViewModel) {
+                             OverUnderBetViewModel overUnderViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.loginViewModel = loginViewModel;
         this.menuViewModel = menuViewModel;
         this.gaunletBetViewModel = gaunletBetViewModel;
         this.blackjackBetViewModel = blackjackBetViewModel;
         this.gameMenuViewModel = gameMenuViewModel;
-        this.overUnderViewModel = overUnderViewModel;
+        this.overUnderBetViewModel = overUnderViewModel;
     }
 
     @Override
@@ -89,8 +90,14 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
         viewManagerModel.firePropertyChanged();
     }
 
-    @Override
-    public void switchToOverUnderView() {
+    public void switchToOverUnderBetView() {
+        final OverUnderBetState overUnderBetState = overUnderBetViewModel.getState();  // null pointer here
+        overUnderBetState.setUser(gameMenuViewModel.getState().getUser());
+        this.overUnderBetViewModel.setState(overUnderBetState);
+        this.overUnderBetViewModel.firePropertyChanged();
 
+        viewManagerModel.setState(overUnderBetViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
+        System.out.println("GameMenuPresenter");
     }
 }

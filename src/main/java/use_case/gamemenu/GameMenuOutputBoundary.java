@@ -37,7 +37,7 @@ public interface GameMenuOutputBoundary {
     void switchToBlackjackView();
 
     /**
-     * Switches to the over/under View.
+     * Switches to the over/under bet View.
      */
-    void switchToOverUnderView();
+    void switchToOverUnderBetView();
 }

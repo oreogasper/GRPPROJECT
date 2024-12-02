@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import entity.Card;
 import entity.CardFactory;
 
+import use_case.Over_Under.play.OverUnderPlayDataAccessInterface;
 import use_case.blackjack.hit.BlackjackHitDataAccessInterface;
 
 import okhttp3.OkHttpClient;
@@ -19,10 +20,11 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
 
+
 /**
  * The DAO for the Deck of Cards api.
  */
-public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterface {
+public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterface, OverUnderPlayDataAccessInterface {
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String SUCCESS_CODE_LABEL = "success";
 
@@ -119,12 +121,22 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
                 final JSONObject drawnCard = drawnCards.getJSONObject(0);
                 final String stringValue = drawnCard.getString("value");
                 int value = 0;
-                if (stringValue.equals("ACE")) {
-                    value = 1;
-                } else if (stringValue.equals("KING") || stringValue.equals("QUEEN") || stringValue.equals("JACK")) {
-                    value = 10;
-                } else {
-                    value = Integer.parseInt(stringValue);
+                switch (stringValue) {
+                    case "ACE":
+                        value = 1;
+                        break;
+                    case "JACK":
+                        value = 11;
+                        break;
+                    case "QUEEN":
+                        value = 12;
+                        break;
+                    case "KING":
+                        value = 13;
+                        break;
+                    default:
+                        value = Integer.parseInt(stringValue);
+                        break;
                 }
                 final String suit = drawnCard.getString("suit");
                 final String name = drawnCard.getString("code").substring(0, 1);
@@ -150,22 +162,18 @@ public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterfa
                                 (int) Math.round(bufferedImage.getWidth() * 0.4),
                                 (int) Math.round(bufferedImage.getHeight() * 0.4), Image.SCALE_SMOOTH);
 
-                    }
-                    else {
+                    } else {
                         throw new RuntimeException("Image Loading Failed");
                     }
-                }
-                catch (IOException | JSONException ex) {
+                } catch (IOException | JSONException ex) {
                     throw new RuntimeException(ex);
                 }
 
                 return this.cardFactory.create(value, suit, name, img);
-            }
-            else {
+            } else {
                 throw new RuntimeException("Drawing Card Failed");
             }
-        }
-        catch (IOException | JSONException ex) {
+        } catch (IOException | JSONException ex) {
             throw new RuntimeException(ex);
         }
 

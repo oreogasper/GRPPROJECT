@@ -1,6 +1,6 @@
 package entity;
 
-import java.io.File;
+import java.awt.*;
 
 /**
  * Abstract representation of a Card.
@@ -22,5 +22,5 @@ public interface CardAbs {
      * Returns the card.
      * @return the visual card.
      */
-    File getImage();
+    Image getImage();
 }
