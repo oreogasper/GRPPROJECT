@@ -3,6 +3,7 @@ package view;
 import interface_adapter.blackjack.bet.BlackjackBetController;
 import interface_adapter.blackjack.bet.BlackjackBetState;
 import interface_adapter.blackjack.bet.BlackjackBetViewModel;
+import interface_adapter.blackjack.game.BlackjackGameController;
 import interface_adapter.gaunlet.bet.GaunletBetState;
 
 import javax.swing.*;
@@ -23,9 +24,9 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
 
     private final BlackjackBetViewModel blackjackBetViewModel;
     private BlackjackBetController blackjackBetController;
+    private BlackjackGameController blackjackGameController;
 
     private final JSlider betSlider = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
-    // TODO get rid of the magic numbers 0,100,0 and make it based off the users balance
     private final JTextField betInputField = new JTextField();
 
     private final JButton continueToGame;
@@ -73,6 +74,7 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
                             );
 
                             if (currentState.getBetError() == null) {
+                                blackjackGameController.execute("Start", 0, null, null);
                                 blackjackBetController.switchToBlackjackGameView();
                             }
                         }
@@ -166,4 +168,7 @@ public class BlackjackBetView extends JPanel implements ActionListener, Property
         this.blackjackBetController = blackjackBetController;
     }
 
+    public void setBlackjackGameController(BlackjackGameController blackjackGameController) {
+        this.blackjackGameController = blackjackGameController;
+    }
 }
