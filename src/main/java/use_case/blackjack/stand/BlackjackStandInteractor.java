@@ -70,7 +70,6 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
 
     @Override
     public void switchToBetView() {
-        blackjackGame.resetGame();
         outputBoundary.switchToBetView();
     }
 }

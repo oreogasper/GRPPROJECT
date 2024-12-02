@@ -101,6 +101,7 @@ public class BlackjackGameInteractor implements BlackjackGameInputBoundary{
 
     private void endGame(BlackjackGameInputData blackjackGameInputData) {
         cardAccessInterface.shuffleDeck(cardAccessInterface.getDeckID());
+        blackjackGame.resetGame();
 
         final String turnState = blackjackGameInputData.getGameState();
         final int bet = blackjackGameInputData.getBet();
