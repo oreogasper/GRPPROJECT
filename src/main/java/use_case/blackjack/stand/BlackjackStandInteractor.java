@@ -62,12 +62,26 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
             turnState = "Draw";
         }
 
+        final int amountWon = calculateAmountWon(turnState, blackjackStandInputData);
+
         updateUserStats(turnState, blackjackStandInputData);
 
         BlackjackStandOutputData standOutputData = new BlackjackStandOutputData(turnState,
-                false, dealerScores, dealerCards);
+                false, dealerScores, dealerCards, amountWon);
 
         outputBoundary.prepareSuccessView(standOutputData);
+    }
+
+    private int calculateAmountWon(String turnState, BlackjackStandInputData standInputData) {
+        final User user = userDataAccessInterface.get(standInputData.getUsername());
+        if (turnState.equals("Win")) {
+            return standInputData.getBet();
+
+        } else if (turnState.equals("Lose")) {
+            return -standInputData.getBet();
+        } else {
+            return 0;
+        }
     }
 
     private void updateUserStats(String turnState, BlackjackStandInputData standInputData) {
@@ -95,6 +109,7 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
             final User updatedUser = userFactory.create(user.getName(), user.getPassword(), json);
             userDataAccessInterface.saveNew(updatedUser, json);
         }
+
     }
 
     @Override

@@ -12,14 +12,17 @@ public class BlackjackStandOutputData {
     private final boolean useCaseFailed;
     private final List<Integer> dealerScores;
     private final List<AbstractCard> dealerCards;
+    private final int amountWon;
 
     public BlackjackStandOutputData(String turnState,
                                     boolean useCaseFailed,
-                                    List<Integer> dealerScores, List<AbstractCard> dealerCards) {
+                                    List<Integer> dealerScores, List<AbstractCard> dealerCards,
+                                    int amountWon) {
         this.turnState = turnState;
         this.useCaseFailed = useCaseFailed;
         this.dealerScores = dealerScores;
         this.dealerCards = dealerCards;
+        this.amountWon = amountWon;
     }
 
     public String getTurnState() {
@@ -34,4 +37,7 @@ public class BlackjackStandOutputData {
 
     public List<AbstractCard> getDealerCards() {return dealerCards;}
 
+    public int getAmountWon() {
+        return amountWon;
+    }
 }
