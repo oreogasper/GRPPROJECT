@@ -16,11 +16,12 @@ public class BlackjackBetOutputData {
     private final List<Image> initialDealerCards;
     private final int initialPlayerScore;
     private final int initialDealerScore;
+    private final int hiddenDealerScore;
 
 
     public BlackjackBetOutputData(int bet, boolean useCaseFailed,
                                   boolean initializeGameUseCase, List<Image> initialPlayerCards, List<Image> dealerCards,
-                                  int initialPlayerScore, int initialDealerScore) {
+                                  int initialPlayerScore, int initialDealerScore, int hiddenDealerScore) {
         this.bet = bet;
         this.useCaseFailed = useCaseFailed;
         this.initializeGameUseCase = initializeGameUseCase;
@@ -28,6 +29,7 @@ public class BlackjackBetOutputData {
         this.initialDealerCards = dealerCards;
         this.initialPlayerScore = initialPlayerScore;
         this.initialDealerScore = initialDealerScore;
+        this.hiddenDealerScore = hiddenDealerScore;
     }
 
     public int getBet() {
@@ -47,5 +49,7 @@ public class BlackjackBetOutputData {
     public boolean isUseCaseFailed() {
         return useCaseFailed;
     }
+
+    public int getHiddenDealerScore() {return hiddenDealerScore;}
 
 }

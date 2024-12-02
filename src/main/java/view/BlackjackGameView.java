@@ -31,6 +31,7 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     private final JLabel playerCardsLabel;
     private final JLabel dealerCardsLabel;
+    private final Image hiddenImage = loadCardHiddenImage();
 
     private final JPanel playerCardsPanel;
     private final JPanel dealerCardsPanel;
@@ -177,66 +178,118 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     private void setFields(BlackjackGameState state) {
 
-        if (state.getTurnState().equals("Lose")) {
-            gameStatusLabel.setText(BlackjackGameViewModel.LOSE_LABEL);
-            playAgain.setVisible(true);
-        } else if (state.getTurnState().equals("Dealer")) {
-            gameStatusLabel.setText(BlackjackGameViewModel.DEALER_TURN_LABEL);
-        } else if (state.getTurnState().equals("Win")) {
-            gameStatusLabel.setText(BlackjackGameViewModel.WIN_LABEL);
-            playAgain.setVisible(true);
-        } else if (state.getTurnState().equals("Draw")) {
-            gameStatusLabel.setText(BlackjackGameViewModel.DRAW_LABEL);
-            playAgain.setVisible(true);
-        } else {
-            gameStatusLabel.setText(BlackjackGameViewModel.PLAYER_TURN_LABEL);
-        }
+        updatePlayerHand(state);
 
-        if (!state.getTurnState().equals("Player")) {
-            buttons.setVisible(false);
-        }
+        updateDealerHand(state);
 
-        playerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getPlayerScore());
+        updateAllButtons(state);
 
+        betAmountLabel.setText(BlackjackGameViewModel.BET_AMOUNT_LABEL + state.getBetAmount());
 
-        List<Image> playerCards = state.getPlayerCards();
+    }
 
-        this.playerCardsPanel.removeAll();
-        playerCardsPanel.add(playerCardsLabel);
+    private void updateDealerHand(BlackjackGameState state) {
+        if (state.hideDealerCard()) {
+            dealerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getDealerHiddenScore());
 
-        for (Image img : playerCards) {
-            final ImageIcon imageIcon = new ImageIcon(img);
-            final JLabel card = new JLabel(imageIcon);
-            playerCardsPanel.add(card);
-        }
-
-        playerCardsPanel.revalidate();
-        playerCardsPanel.repaint();
-
-
-        if (state.isFirstTurn()) {
-            buttons.setVisible(true);
-            playAgain.setVisible(false);
-        }
-
-
-        if (!state.getTurnState().equals("Player") || state.isFirstTurn()) {
-            dealerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getDealerScore());
-
-            List<Image> dealerCards = state.getDealerCards();
             this.dealerCardsPanel.removeAll();
             dealerCardsPanel.add(dealerCardsLabel);
+
+            List<Image> dealerCards = state.getDealerCards();
+            final Image revealedCard = dealerCards.get(0);
+
+            final ImageIcon revealedCardIcon = new ImageIcon(revealedCard);
+            final ImageIcon hiddenCardIcon = new ImageIcon(this.hiddenImage);
+
+            final JLabel revealedCardLabel = new JLabel(revealedCardIcon);
+            final JLabel hiddenCardLabel = new JLabel(hiddenCardIcon);
+
+            dealerCardsPanel.add(revealedCardLabel);
+            dealerCardsPanel.add(hiddenCardLabel);
+
+
+        } else {
+            dealerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getDealerScore());
+
+            this.dealerCardsPanel.removeAll();
+            dealerCardsPanel.add(dealerCardsLabel);
+
+            List<Image> dealerCards = state.getDealerCards();
 
             for (Image img : dealerCards) {
                 final ImageIcon imageIcon = new ImageIcon(img);
                 final JLabel card = new JLabel(imageIcon);
                 dealerCardsPanel.add(card);
             }
-            dealerCardsPanel.revalidate();
-            dealerCardsPanel.repaint();
+
         }
 
-        betAmountLabel.setText(blackjackGameViewModel.BET_AMOUNT_LABEL + state.getBetAmount());
+        dealerCardsPanel.revalidate();
+        dealerCardsPanel.repaint();
+
+    }
+
+    private void updateAllButtons(BlackjackGameState state) {
+        switch (state.getTurnState()) {
+            case "Lose":
+                gameStatusLabel.setText(BlackjackGameViewModel.LOSE_LABEL);
+                playAgain.setVisible(true);
+                buttons.setVisible(false);
+                break;
+            case "Win":
+                gameStatusLabel.setText(BlackjackGameViewModel.WIN_LABEL);
+                playAgain.setVisible(true);
+                buttons.setVisible(false);
+                break;
+            case "Draw":
+                gameStatusLabel.setText(BlackjackGameViewModel.DRAW_LABEL);
+                playAgain.setVisible(true);
+                buttons.setVisible(false);
+                break;
+            case "Dealer":
+                gameStatusLabel.setText(BlackjackGameViewModel.DEALER_TURN_LABEL);
+                buttons.setVisible(false);
+                playAgain.setVisible(false);
+                break;
+            default:
+                gameStatusLabel.setText(BlackjackGameViewModel.PLAYER_TURN_LABEL);
+                buttons.setVisible(true);
+                playAgain.setVisible(false);
+                break;
+        }
+
+    }
+
+    private void updatePlayerHand(BlackjackGameState state) {
+        playerScore.setText(BlackjackGameViewModel.SCORE_LABEL + state.getPlayerScore());
+
+        List<Image> playerCards = state.getPlayerCards();
+
+        if (playerCards.isEmpty()) {
+            this.playerCardsPanel.removeAll();
+            playerCardsPanel.add(playerCardsLabel);
+
+            final ImageIcon hiddenCardIcon = new ImageIcon(this.hiddenImage);
+            final JLabel hiddenCardLabel = new JLabel(hiddenCardIcon);
+
+            playerCardsPanel.add(hiddenCardLabel);
+            playerCardsPanel.add(hiddenCardLabel);
+
+        } else {
+            this.playerCardsPanel.removeAll();
+            playerCardsPanel.add(playerCardsLabel);
+
+            for (Image img : playerCards) {
+                final ImageIcon imageIcon = new ImageIcon(img);
+                final JLabel card = new JLabel(imageIcon);
+                playerCardsPanel.add(card);
+            }
+
+        }
+
+        playerCardsPanel.revalidate();
+        playerCardsPanel.repaint();
+
     }
 
     public String getViewName() {
@@ -249,5 +302,21 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
 
     public void setStandController(BlackjackStandController standController) {
         this.standController = standController;
+    }
+
+    private Image loadCardHiddenImage() {
+        Image image = null;
+
+        try {
+            final BufferedImage bufferedImage1 = ImageIO.read(new File("images/back-card.png"));
+            image = bufferedImage1.getScaledInstance(
+                    (int) Math.round(bufferedImage1.getWidth() * 0.12),
+                    (int) Math.round(bufferedImage1.getHeight() * 0.12), Image.SCALE_SMOOTH);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return image;
+
     }
 }

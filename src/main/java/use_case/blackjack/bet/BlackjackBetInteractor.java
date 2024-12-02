@@ -54,8 +54,8 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
 
             // Notify the presenter of success
             final BlackjackBetOutputData blackjackBetOutputData = new BlackjackBetOutputData(betAmount,
-                    false, false, null, null, 0, 0
-                    );
+                    false, false, null, null, 0, 0,
+                    0);
             outputBoundary.prepareSuccessView(blackjackBetOutputData);
         }
 
@@ -72,9 +72,12 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
     @Override
     public void switchToBlackjackGameView() {
         this.initializeBlackjackGame();
+        final List<AbstractCard> dealerCards = blackjackGame.getDealerCards();
+        final int dealerHiddenScore = dealerCards.get(0).getRank();
+
         final BlackjackBetOutputData outputData= new BlackjackBetOutputData(0, false,
                 true, blackjackGame.getPlayerCardImages(), blackjackGame.getDealerCardImages(),
-                blackjackGame.getPlayerScore(), blackjackGame.getDealerScore());
+                blackjackGame.getPlayerScore(), blackjackGame.getDealerScore(), dealerHiddenScore);
 
         outputBoundary.switchToBlackjackGameView(outputData);
     }
