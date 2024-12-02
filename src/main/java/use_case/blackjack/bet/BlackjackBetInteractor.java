@@ -71,15 +71,7 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
 
     @Override
     public void switchToBlackjackGameView() {
-        this.initializeBlackjackGame();
-        final List<AbstractCard> dealerCards = blackjackGame.getDealerCards();
-        final int dealerHiddenScore = dealerCards.get(0).getRank();
-
-        final BlackjackBetOutputData outputData= new BlackjackBetOutputData(0, false,
-                true, blackjackGame.getPlayerCardImages(), blackjackGame.getDealerCardImages(),
-                blackjackGame.getPlayerScore(), blackjackGame.getDealerScore(), dealerHiddenScore);
-
-        outputBoundary.switchToBlackjackGameView(outputData);
+        outputBoundary.switchToBlackjackGameView();
     }
 
 
@@ -88,29 +80,5 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
         outputBoundary.switchToGameMenuView();
     }
 
-    private void initializeBlackjackGame() {
-        if (!dbCardDeckDataAccessObject.hasDeck()) {
-            dbCardDeckDataAccessObject.createNewDeck();
-        }
-        dbCardDeckDataAccessObject.shuffleDeck(dbCardDeckDataAccessObject.getDeckID());
-
-        List<AbstractCard> playerCards = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            playerCards.add(dbCardDeckDataAccessObject.drawCard(dbCardDeckDataAccessObject.getDeckID()));
-        }
-
-        List<AbstractCard> dealerCards = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            dealerCards.add(dbCardDeckDataAccessObject.drawCard(dbCardDeckDataAccessObject.getDeckID()));
-        }
-
-        for (AbstractCard card : playerCards) {
-            blackjackGame.addPlayerCard(card);
-        }
-
-        for (AbstractCard card : dealerCards) {
-            blackjackGame.addDealerCard(card);
-        }
-    }
 
 }

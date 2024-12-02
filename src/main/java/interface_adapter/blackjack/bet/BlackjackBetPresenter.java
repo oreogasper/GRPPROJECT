@@ -47,7 +47,6 @@ public class BlackjackBetPresenter implements BlackjackBetOutputBoundary {
         blackjackGameViewModel.setState(blackjackGameState);
         blackjackGameViewModel.firePropertyChanged();
 
-
     }
 
     @Override
@@ -59,23 +58,7 @@ public class BlackjackBetPresenter implements BlackjackBetOutputBoundary {
     }
 
     @Override
-    public void switchToBlackjackGameView(BlackjackBetOutputData outputData) {
-        List<Image> playerCards = outputData.getInitialPlayerCards();
-        List<Image> dealerCards = outputData.getInitialDealerCards();
-
-        BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
-        blackjackGameState.addPlayerCard(playerCards.get(0));
-        blackjackGameState.addPlayerCard(playerCards.get(1));
-        blackjackGameState.setPlayerScore(String.valueOf(outputData.getInitialPlayerScore()));
-
-        blackjackGameState.addDealerCard(dealerCards.get(0));
-        blackjackGameState.addDealerCard(dealerCards.get(1));
-        blackjackGameState.setDealerScore(String.valueOf(outputData.getInitialDealerScore()));
-        blackjackGameState.setDealerHiddenScore(String.valueOf(outputData.getHiddenDealerScore()));
-
-        blackjackGameViewModel.setState(blackjackGameState);
-        blackjackGameViewModel.firePropertyChanged();
-
+    public void switchToBlackjackGameView() {
         viewManagerModel.setState(blackjackGameViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }

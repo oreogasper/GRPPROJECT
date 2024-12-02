@@ -20,7 +20,7 @@ public interface BlackjackBetOutputBoundary {
     /**
      * Switches to the Blackjack Game View.
      */
-    void switchToBlackjackGameView(BlackjackBetOutputData outputData);
+    void switchToBlackjackGameView();
 
     /**
      * Switches to the Game Menu View.
