@@ -11,15 +11,11 @@ public class BlackjackBetOutputData {
 
     private final int bet;
     private final boolean useCaseFailed;
-    private final boolean initializeGameUseCase;
 
 
-    public BlackjackBetOutputData(int bet, boolean useCaseFailed,
-                                  boolean initializeGameUseCase, List<Image> initialPlayerCards, List<Image> dealerCards,
-                                  int initialPlayerScore, int initialDealerScore, int hiddenDealerScore) {
+    public BlackjackBetOutputData(int bet, boolean useCaseFailed) {
         this.bet = bet;
         this.useCaseFailed = useCaseFailed;
-        this.initializeGameUseCase = initializeGameUseCase;
     }
 
     public int getBet() {

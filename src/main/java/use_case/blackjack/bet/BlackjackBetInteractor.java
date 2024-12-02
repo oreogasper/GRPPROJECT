@@ -18,7 +18,6 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
 
     private final BlackjackBetOutputBoundary outputBoundary;
     private final BlackjackBetUserDataAccessInterface blackjackBetUserDataAccessInterface;
-    private final DBCardDeckDataAccessObject dbCardDeckDataAccessObject;
     private final BlackjackGame blackjackGame;
     private final UserFactory userFactory;
 
@@ -29,7 +28,6 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
                                   UserFactory userFactory) {
         this.outputBoundary = outputBoundary;
         this.blackjackBetUserDataAccessInterface = blackjackBetUserDataAccessInterface;
-        this.dbCardDeckDataAccessObject = dbCardDeckDataAccessObject;
         this.blackjackGame = blackjackGame;
         this.userFactory = userFactory;
     }
@@ -54,8 +52,7 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
 
             // Notify the presenter of success
             final BlackjackBetOutputData blackjackBetOutputData = new BlackjackBetOutputData(betAmount,
-                    false, false, null, null, 0, 0,
-                    0);
+                    false);
             outputBoundary.prepareSuccessView(blackjackBetOutputData);
         }
 

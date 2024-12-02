@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import entity.Card;
 import entity.CardFactory;
 
+import use_case.blackjack.game.BlackjackGameCardDataAccessInterface;
 import use_case.blackjack.hit.BlackjackHitDataAccessInterface;
 
 import okhttp3.OkHttpClient;
@@ -24,7 +25,8 @@ import java.awt.Image;
  * The DAO for the Deck of Cards api.
  */
 public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterface,
-        BlackjackStandCardDeckDataAccessInterface {
+        BlackjackStandCardDeckDataAccessInterface,
+        BlackjackGameCardDataAccessInterface {
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String SUCCESS_CODE_LABEL = "success";
 
