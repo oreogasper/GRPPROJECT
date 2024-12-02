@@ -100,4 +100,8 @@ public class BlackjackGameState {
     public String getDealerHiddenScore() {
         return dealerHiddenScore;
     }
+
+    public void setDealerHiddenScore(String dealerHiddenScore) {
+        this.dealerHiddenScore = dealerHiddenScore;
+    }
 }

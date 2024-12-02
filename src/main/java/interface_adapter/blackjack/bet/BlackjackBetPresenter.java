@@ -70,6 +70,7 @@ public class BlackjackBetPresenter implements BlackjackBetOutputBoundary {
         blackjackGameState.addDealerCard(dealerCards.get(0));
         blackjackGameState.addDealerCard(dealerCards.get(1));
         blackjackGameState.setDealerScore(String.valueOf(outputData.getInitialDealerScore()));
+        blackjackGameState.setDealerHiddenScore(String.valueOf(outputData.getHiddenDealerScore()));
 
         blackjackGameViewModel.setState(blackjackGameState);
         blackjackGameViewModel.firePropertyChanged();

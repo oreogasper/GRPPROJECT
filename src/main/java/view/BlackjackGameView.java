@@ -196,7 +196,11 @@ public class BlackjackGameView extends JPanel implements ActionListener, Propert
             dealerCardsPanel.add(dealerCardsLabel);
 
             List<Image> dealerCards = state.getDealerCards();
-            final Image revealedCard = dealerCards.get(0);
+
+            Image revealedCard = this.hiddenImage;
+            if (!dealerCards.isEmpty()) {
+                revealedCard = dealerCards.get(0);
+            }
 
             final ImageIcon revealedCardIcon = new ImageIcon(revealedCard);
             final ImageIcon hiddenCardIcon = new ImageIcon(this.hiddenImage);
