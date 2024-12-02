@@ -23,7 +23,6 @@ public class BlackjackBetInteractor implements BlackjackBetInputBoundary{
 
     public BlackjackBetInteractor(BlackjackBetOutputBoundary outputBoundary,
                                   BlackjackBetUserDataAccessInterface blackjackBetUserDataAccessInterface,
-                                  DBCardDeckDataAccessObject dbCardDeckDataAccessObject,
                                   BlackjackGame blackjackGame,
                                   UserFactory userFactory) {
         this.outputBoundary = outputBoundary;

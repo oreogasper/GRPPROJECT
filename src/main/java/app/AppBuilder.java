@@ -559,12 +559,23 @@ public class AppBuilder {
         final BlackjackBetOutputBoundary blackjackBetOutputBoundary = new BlackjackBetPresenter(
                 gameMenuViewModel, blackjackBetViewModel, blackjackGameViewModel, viewManagerModel);
         final BlackjackBetInputBoundary blackjackBetInteractor = new BlackjackBetInteractor(blackjackBetOutputBoundary,
-                userDataAccessObject,
-                cardDeckDataAccessObject, blackjackGame,
+                userDataAccessObject, blackjackGame,
                 userFactory);
 
+        final BlackjackGameOutputBoundary blackjackGameOutputBoundary = new BlackjackGamePresenter(
+                signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel, menuViewModel,
+                blackjackBetViewModel
+        );
+
+        final BlackjackGameInputBoundary blackjackGameInteractor = new BlackjackGameInteractor(
+                blackjackGameOutputBoundary, userDataAccessObject, cardDeckDataAccessObject, null,
+                null, userFactory, blackjackGame
+        );
+
         final BlackjackBetController blackjackBetController = new BlackjackBetController(blackjackBetInteractor);
+        final BlackjackGameController blackjackGameController = new BlackjackGameController(blackjackGameInteractor);
         blackjackBetView.setBlackjackBetController(blackjackBetController);
+        blackjackBetView.setBlackjackGameController(blackjackGameController);
         return this;
     }
 
@@ -602,8 +613,20 @@ public class AppBuilder {
 
         final BlackjackHitController hitController = new BlackjackHitController(blackjackHitInputBoundary);
         final BlackjackStandController standController = new BlackjackStandController(blackjackStandInputBoundary);
-        blackjackGameView.setHitController(hitController);
-        blackjackGameView.setStandController(standController);
+
+        final BlackjackGameOutputBoundary blackjackGameOutputBoundary = new BlackjackGamePresenter(
+                signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel, menuViewModel,
+                blackjackBetViewModel
+        );
+
+        final BlackjackGameInputBoundary blackjackGameInteractor = new BlackjackGameInteractor(
+                blackjackGameOutputBoundary, userDataAccessObject, cardDeckDataAccessObject, hitController,
+                standController, userFactory, blackjackGame
+        );
+
+        final BlackjackGameController blackjackGameController = new BlackjackGameController(blackjackGameInteractor);
+
+        blackjackGameView.setBlackjackGameController(blackjackGameController);
         return this;
     }
 

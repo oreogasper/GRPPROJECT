@@ -63,6 +63,7 @@ public class BlackjackGameInteractor implements BlackjackGameInputBoundary{
                 blackjackGame.getPlayerCardImages(), blackjackGame.getDealerCardImages(),
                 blackjackGame.getPlayerScore(), blackjackGame.getDealerScore(), dealerHiddenScore);
 
+        outputBoundary.prepareSuccessView(outputData);
     }
 
     private void initializeBlackjackGame() {
