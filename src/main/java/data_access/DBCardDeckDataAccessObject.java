@@ -13,6 +13,7 @@ import use_case.blackjack.hit.BlackjackHitDataAccessInterface;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import use_case.blackjack.stand.BlackjackStandCardDeckDataAccessInterface;
 
 import java.io.*;
 import javax.imageio.ImageIO;
@@ -22,7 +23,8 @@ import java.awt.Image;
 /**
  * The DAO for the Deck of Cards api.
  */
-public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterface {
+public class DBCardDeckDataAccessObject implements BlackjackHitDataAccessInterface,
+        BlackjackStandCardDeckDataAccessInterface {
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String SUCCESS_CODE_LABEL = "success";
 
