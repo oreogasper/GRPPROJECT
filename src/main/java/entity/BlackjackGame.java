@@ -54,6 +54,8 @@ public class BlackjackGame implements Game{
                 scores.addAll(heavyScores);
 
 
+            } else if (card.getName().equals("K") || card.getName().equals("Q") || card.getName().equals("J")) {
+                scores.replaceAll(n -> n + 10);
             } else {
                 scores.replaceAll(n -> n + card.getRank());
             }
