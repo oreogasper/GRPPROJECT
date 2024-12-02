@@ -42,7 +42,7 @@ public class DBUserDataAccessObject implements SignupUserDataAccessInterface,
         ShopButtonUserDataAccessInterface,
         RemoveFriendUserDataAccessInterface,
         BlackjackBetUserDataAccessInterface,
-        BlackjackGameUserDataAccessInterface {
+        BlackjackGameUserDataAccessInterface,
         OverUnderUserPlayDataAccessInterface,
         OverUnderBetDataAccessInterface {
 
