@@ -1,21 +1,25 @@
 package use_case.blackjack.stand;
 
+import entity.AbstractCard;
+
+import java.util.List;
+
 /**
  * Output Data for the Blackjack Stand Use Case.
  */
 public class BlackjackStandOutputData {
     private final String turnState;
     private final boolean useCaseFailed;
-    private final boolean isEndPlayerTurn;
-    private final int dealerScore;
+    private final List<Integer> dealerScores;
+    private final List<AbstractCard> dealerCards;
 
     public BlackjackStandOutputData(String turnState,
-                                    boolean useCaseFailed, boolean isEndPlayerTurn,
-                                    int dealerScore) {
+                                    boolean useCaseFailed,
+                                    List<Integer> dealerScores, List<AbstractCard> dealerCards) {
         this.turnState = turnState;
         this.useCaseFailed = useCaseFailed;
-        this.isEndPlayerTurn = isEndPlayerTurn;
-        this.dealerScore = dealerScore;
+        this.dealerScores = dealerScores;
+        this.dealerCards = dealerCards;
     }
 
     public String getTurnState() {
@@ -26,8 +30,8 @@ public class BlackjackStandOutputData {
         return useCaseFailed;
     }
 
-    public int getDealerScore() {return dealerScore;}
+    public List<Integer> getDealerScores() {return dealerScores;}
 
-    public boolean isEndPlayerTurn() {return isEndPlayerTurn;}
+    public List<AbstractCard> getDealerCards() {return dealerCards;}
 
 }

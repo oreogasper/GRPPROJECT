@@ -1,18 +1,17 @@
-package use_case.blackjack.bet;
+package use_case.blackjack.game;
 
 import entity.User;
 import org.json.JSONObject;
 
 /**
- * DAO for the Blackjack Bet Use Case.
+ * DAO for the Blackjack Game Use Case.
  */
-public interface BlackjackBetUserDataAccessInterface {
-
+public interface BlackjackGameUserDataAccessInterface {
     /**
-     * Sets the bet amount indicating who is the current user of the application.
-     * @param bet the new current username; null to indicate that no one is currently logged into the application.
+     * Returns the bet of the curren user for the gauntlet game.
+     * @return the bet of the current user; null indicates that no one is logged into the application.
      */
-    void setBet(int bet);
+    int getBet();
 
     /**
      * Saves the user's info.
@@ -22,7 +21,7 @@ public interface BlackjackBetUserDataAccessInterface {
     void saveNew(User user, JSONObject info);
 
     /**
-     * Returns the user associated with that username.
+     * Returns the user with the associated username.
      * @param username the username of the user
      * @return the user associated with that username
      */

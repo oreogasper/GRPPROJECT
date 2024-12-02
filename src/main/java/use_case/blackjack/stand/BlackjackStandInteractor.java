@@ -1,33 +1,45 @@
 package use_case.blackjack.stand;
 
+import entity.AbstractCard;
 import entity.BlackjackGame;
+import entity.User;
+import entity.UserFactory;
+import org.json.JSONObject;
 import use_case.blackjack.hit.BlackjackHitInputBoundary;
 import use_case.blackjack.hit.BlackjackHitInputData;
 import use_case.blackjack.hit.BlackjackHitInteractor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Blackjack Stand Use Case Interactor.
  */
 public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
-    private final BlackjackHitInputBoundary hitInteractor;
     private final BlackjackStandOutputBoundary outputBoundary;
     private final BlackjackGame blackjackGame;
+    private final BlackjackStandCardDeckDataAccessInterface cardDeckDataAccessInterface;
 
-    public BlackjackStandInteractor(BlackjackHitInputBoundary hitInteractor,
-                                    BlackjackStandOutputBoundary outputBoundary,
-                                    BlackjackGame blackjackGame) {
-        this.hitInteractor = hitInteractor;
+    public BlackjackStandInteractor(BlackjackStandOutputBoundary outputBoundary,
+                                    BlackjackGame blackjackGame,
+                                    BlackjackStandCardDeckDataAccessInterface cardDeckDataAccessInterface) {
         this.outputBoundary = outputBoundary;
         this.blackjackGame = blackjackGame;
+        this.cardDeckDataAccessInterface = cardDeckDataAccessInterface;
 
     }
 
     @Override
     public void execute(BlackjackStandInputData blackjackStandInputData) {
+        final String deckId = cardDeckDataAccessInterface.getDeckID();
+        List<Integer> dealerScores = new ArrayList<>();
+        List<AbstractCard> dealerCards = new ArrayList<>();
 
         while (blackjackGame.getDealerScore() < 17) {
-            BlackjackHitInputData hitInputData = new BlackjackHitInputData(true);
-            hitInteractor.execute(hitInputData);
+            final AbstractCard card = cardDeckDataAccessInterface.drawCard(deckId);
+            blackjackGame.addDealerCard(card);
+            dealerCards.add(card);
+            dealerScores.add(blackjackGame.getDealerScore());
 
         }
 
@@ -44,8 +56,9 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
             turnState = "Draw";
         }
 
+
         BlackjackStandOutputData standOutputData = new BlackjackStandOutputData(turnState,
-                false, blackjackStandInputData.isEndPlayerTurn(),blackjackGame.getDealerScore());
+                false, dealerScores, dealerCards);
 
         outputBoundary.prepareSuccessView(standOutputData);
     }
@@ -57,7 +70,6 @@ public class BlackjackStandInteractor implements BlackjackStandInputBoundary {
 
     @Override
     public void switchToBetView() {
-        blackjackGame.resetGame();
         outputBoundary.switchToBetView();
     }
 }

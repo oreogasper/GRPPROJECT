@@ -6,7 +6,7 @@ import java.util.List;
 import java.awt.Image;
 
 public class BlackjackGame implements Game{
-    private final int minBet = 100;
+    private final int minBet = 10;
     private final int maxBet = 1000;
     private final String rules = "";
     private final String gameName = "Blackjack";
@@ -47,13 +47,15 @@ public class BlackjackGame implements Game{
         for (AbstractCard card : cards) {
             if (card.getName().equals("A")) {
                 List<Integer> heavyScores = new ArrayList<>(scores);
-                heavyScores.replaceAll(n -> n + 10);
+                heavyScores.replaceAll(n -> n + 11);
 
                 scores.replaceAll(n -> n + 1);
 
                 scores.addAll(heavyScores);
 
 
+            } else if (card.getName().equals("K") || card.getName().equals("Q") || card.getName().equals("J")) {
+                scores.replaceAll(n -> n + 10);
             } else {
                 scores.replaceAll(n -> n + card.getRank());
             }

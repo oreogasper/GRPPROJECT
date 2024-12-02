@@ -34,39 +34,31 @@ public class BlackjackBetPresenter implements BlackjackBetOutputBoundary {
     }
 
     @Override
-    public void prepareSuccessView(BlackjackBetOutputData response) {
+    public void prepareSuccessView(BlackjackBetOutputData outputData) {
         final BlackjackBetState blackjackBetState = blackjackBetViewModel.getState();
-        blackjackBetState.setBet(response.getBet());
-        this.blackjackBetViewModel.setState(blackjackBetState);
-        this.blackjackBetViewModel.firePropertyChanged();
+        blackjackBetState.setBet("0");
+        blackjackBetState.setBetError(null);
+        blackjackBetViewModel.setState(blackjackBetState);
+        blackjackBetViewModel.firePropertyChanged();
 
-//        this.viewManagerModel.setState(this.blackjackGameViewModel.getViewName());
-//        this.viewManagerModel.firePropertyChanged();
+        final BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
+        blackjackGameState.setUser(blackjackBetState.getUser());
+        blackjackGameState.setBetAmount(String.valueOf(outputData.getBet()));
+        blackjackGameViewModel.setState(blackjackGameState);
+        blackjackGameViewModel.firePropertyChanged();
 
     }
 
     @Override
     public void prepareFailView(String errorMessage) {
-        // TODO
+        final BlackjackBetState betState = blackjackBetViewModel.getState();
+        betState.setBetError(errorMessage);
+        this.blackjackBetViewModel.setState(betState);
+        this.blackjackBetViewModel.firePropertyChanged();
     }
 
     @Override
-    public void switchToBlackjackGameView(BlackjackBetOutputData outputData) {
-        List<Image> playerCards = outputData.getInitialPlayerCards();
-        List<Image> dealerCards = outputData.getInitialDealerCards();
-
-        BlackjackGameState blackjackGameState = blackjackGameViewModel.getState();
-        blackjackGameState.addPlayerCard(playerCards.get(0));
-        blackjackGameState.addPlayerCard(playerCards.get(1));
-        blackjackGameState.setPlayerScore(String.valueOf(outputData.getInitialPlayerScore()));
-
-        blackjackGameState.addDealerCard(dealerCards.get(0));
-        blackjackGameState.addDealerCard(dealerCards.get(1));
-        blackjackGameState.setDealerScore(String.valueOf(outputData.getInitialDealerScore()));
-
-        blackjackGameViewModel.setState(blackjackGameState);
-        blackjackGameViewModel.firePropertyChanged();
-
+    public void switchToBlackjackGameView() {
         viewManagerModel.setState(blackjackGameViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
     }
