@@ -213,9 +213,8 @@ public class AppBuilder {
 
     public AppBuilder addOverUnderBetView() {
         OverUnderBetView overUnderBetView = new OverUnderBetView(overUnderBetViewModel);  // Use the shared viewModel
-
+        this.overUnderBetView = overUnderBetView;
         cardPanel.add(overUnderBetView, overUnderBetView.getViewName()); // Attach to the UI
-
         return this; // Allow method chaining
     }
 

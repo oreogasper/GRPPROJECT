@@ -34,7 +34,7 @@ public class OverUnderBetController {
     /**
      * Executes the over under bet view use case.
      */
-    public void switchToOverUnderView() {
+    public void switchToOverUnderGameView() {
         overUnderBetInputBoundary.switchToOverUnderGameView();
     }
 

@@ -62,31 +62,21 @@ public class OverUnderBetView extends JPanel implements ActionListener, Property
         buttonsPanel.add(backButton);
 
         // Add action listeners to buttons
-        continueToGameButton.addActionListener(e -> handleBetSubmission());
-        backButton.addActionListener(e -> overUnderBetController.switchToGameMenuView());
+        continueToGameButton.addActionListener(
+                evt -> overUnderBetController.switchToOverUnderGameView()
+        );
 
-        // Set up main layout
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                overUnderBetController.switchToGameMenuView();
+            }
+        });
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.add(titleLabel);
         this.add(betPanel);
         this.add(userInfoPanel);
         this.add(buttonsPanel);
-    }
-
-    /**
-     * Handles the submission of the bet and communicates with the controller.
-     */
-    private void handleBetSubmission() {
-        try {
-            int bet = (int) betSpinner.getValue();
-            OverUnderBetState currentState = overUnderBetViewModel.getState();
-            currentState.setBet(bet);
-            overUnderBetViewModel.setState(currentState);
-            overUnderBetController.execute(currentState.getUser().getName(), bet);
-        }
-        catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Invalid bet value. Please try again.");
-        }
     }
 
     @Override
@@ -115,5 +105,9 @@ public class OverUnderBetView extends JPanel implements ActionListener, Property
 
     public void setOverUnderBetController(OverUnderBetController controller) {
         this.overUnderBetController = controller;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
     }
 }

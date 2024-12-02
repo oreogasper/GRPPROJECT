@@ -95,7 +95,9 @@ public class GameMenuPresenter implements GameMenuOutputBoundary {
         overUnderBetState.setUser(gameMenuViewModel.getState().getUser());
         this.overUnderBetViewModel.setState(overUnderBetState);
         this.overUnderBetViewModel.firePropertyChanged();
+
         viewManagerModel.setState(overUnderBetViewModel.getViewName());
         viewManagerModel.firePropertyChanged();
+        System.out.println("GameMenuPresenter");
     }
 }

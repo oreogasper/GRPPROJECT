@@ -45,5 +45,6 @@ public class GameMenuController {
      */
     public void switchToOverUnderBetView() {
         userGameMenuUseCaseInteractor.switchToOverUnderBetView();
+        System.out.println("GameMenuController");
     }
 }

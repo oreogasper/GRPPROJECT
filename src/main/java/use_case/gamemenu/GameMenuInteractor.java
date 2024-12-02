@@ -32,6 +32,8 @@ public class GameMenuInteractor implements GameMenuInputBoundary {
 
     public void switchToOverUnderBetView() {
         userPresenter.switchToOverUnderBetView();
+        System.out.println("GameMenuInteractor");
+
     }
 }
 
