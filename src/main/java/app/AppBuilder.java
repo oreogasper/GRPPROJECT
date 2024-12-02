@@ -597,7 +597,8 @@ public class AppBuilder {
                 signupViewModel, blackjackGameViewModel, gameMenuViewModel, viewManagerModel,
                 blackjackBetViewModel);
         BlackjackStandInputBoundary blackjackStandInputBoundary = new BlackjackStandInteractor(
-                blackjackStandOutputBoundary, blackjackGame, cardDeckDataAccessObject
+                blackjackStandOutputBoundary, blackjackGame, cardDeckDataAccessObject, userDataAccessObject,
+                userFactory
         );
 
         final BlackjackHitController hitController = new BlackjackHitController(blackjackHitInputBoundary);

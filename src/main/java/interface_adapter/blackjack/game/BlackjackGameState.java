@@ -1,5 +1,7 @@
 package interface_adapter.blackjack.game;
 
+import entity.User;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,6 +25,8 @@ public class BlackjackGameState {
     private String turnState;
 
     private String betAmount;
+
+    private User user;
 
     public BlackjackGameState() {
 
@@ -103,5 +107,13 @@ public class BlackjackGameState {
 
     public void setDealerHiddenScore(String dealerHiddenScore) {
         this.dealerHiddenScore = dealerHiddenScore;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

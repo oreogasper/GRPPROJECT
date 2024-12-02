@@ -13,13 +13,13 @@ public class BlackjackStandController {
     /**
      * Executes the Blackjack Stand Use Case.
      */
-    public void execute(String currentTurnState) {
+    public void execute(String currentTurnState, String username, int bet) {
         boolean isEndPlayerTurn = false;
         if (currentTurnState.equals("Player")) {
             isEndPlayerTurn = true;
         }
 
-        final BlackjackStandInputData inputData = new BlackjackStandInputData(isEndPlayerTurn);
+        final BlackjackStandInputData inputData = new BlackjackStandInputData(isEndPlayerTurn, username, bet);
 
         inputBoundary.execute(inputData);
     }
