@@ -51,7 +51,7 @@ on forking and cloning a repository from GitHub and [here](https://blog.jetbrain
 for cloning a project from GitHub in Intellij.
 
 ## 🦮 Usage Guide
-- Please view this tutorial [here]() on navigating through the program.
+- Please view this demo tutorial [here](https://drive.google.com/file/d/1aDt3rjwjTBLKUSqJ4YG2MsE8WH28Ncar/view?usp=sharing) on navigating through the program.
 - If you have further questions, please refer to the feedback section.
 
 ## 📣 Feedback
